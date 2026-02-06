@@ -1,0 +1,141 @@
+# Path: src/velm/archetypes/velm-core/forensic-chronocycle.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE FORENSIC CHRONOCYCLE (V-Ω-TOTALITY-PARADOX-RESOLVER)                    ==
+# =================================================================================
+# @description: The definitive post-mortem instrument. Scries the crash vaults 
+#               and journals to reconstruct the timeline of a failure. 
+#               Automatically identifies Indentation Collapses and Parser Leaks.
+# @category: Intelligence
+# @difficulty: Grand Architect
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ tool_name = "chronocycle"
+$$ crash_vault = ".scaffold/crashes"
+$$ report_path = "FORENSIC_REPORT.md"
+
+# --- II. THE FORENSIC SCRIER (The Coroners Script) ---
+scripts/
+    # [ASCENSION 1]: THE CHRONOS_AUTOPSY ENGINE
+    # This script performs the high-order causal traceback reconstruction.
+    chronocycle_autopsy.py :: """
+    import json
+    import os
+    import re
+    import sys
+    from pathlib import Path
+    from datetime import datetime
+
+    def perform_autopsy(vault_path: Path):
+        print("🔍 [CHRONOCYCLE] Awakening the Forensic Scrier...")
+        
+        # 1. Locate the Latest Paradox
+        if not vault_path.exists():
+            print("❌ ERROR: The Crash Vault is a void. No paradoxes chronicled.")
+            return
+
+        reports = sorted(list(vault_path.glob("crash_*.json")), key=os.path.getmtime, reverse=True)
+        if not reports:
+            print("❌ ERROR: No recent fractures found in the vault.")
+            return
+
+        latest_fracture = reports[0]
+        print(f"🕵️  Gazing into the latest fracture: {latest_fracture.name}")
+
+        try:
+            data = json.loads(latest_fracture.read_text(encoding='utf-8'))
+            
+            # [ASCENSION 2]: THE INDENTATION FLOOR SCANNER
+            # We look specifically for the symptoms of a Parser Leak (WinError 123)
+            error_msg = data.get("error", "")
+            traceback = data.get("traceback", "")
+            
+            report_lines = [
+                "# ⚖️ GNOSTIC FORENSIC REPORT",
+                f"> **Locus of Fracture:** {latest_fracture.name}",
+                f"> **Timestamp:** {datetime.fromtimestamp(data.get('timestamp', 0)).isoformat()}",
+                "",
+                "## I. The Nature of the Paradox",
+                f"```\n{error_msg}\n```",
+                ""
+            ]
+
+            # [ASCENSION 10]: AUTOMATIC CURE GENERATION
+            diagnosis = "UNKNOWN_PARADOX"
+            cure = "Consult the Grand Architect."
+
+            # Case A: The Geometric Schism (Parser Leak)
+            if "WinError 123" in error_msg or "<" in error_msg or ">" in error_msg:
+                diagnosis = "GEOMETRIC_INDENTATION_COLLAPSE"
+                # Try to find the leaked content in the error message
+                match = re.search(r"'(.*?)'", error_msg)
+                leaked_matter = match.group(1) if match else "unknown code"
+                
+                report_lines.append("### 🚩 DIAGNOSIS: THE INDENTATION FLOOR HAS COLLAPSED")
+                report_lines.append(f"The Parser leaked code-matter (`{leaked_matter}`) into the topography.")
+                report_lines.append("This happened because a line of code was aligned with a filename, ending the block prematurely.")
+                
+                cure = f"Go to line {data.get('gnosis', {}).get('line_num', 'unknown')} and indent the code by 4 additional spaces."
+
+            # Case B: Metabolic Exhaustion (OOM)
+            elif "Memory" in error_msg or "RSS" in error_msg:
+                diagnosis = "METABOLIC_EXHAUSTION"
+                report_lines.append("### 🚩 DIAGNOSIS: METABOLIC TAX OVERFLOW")
+                report_lines.append("The Engine attempted to consume more RAM than the host machine permits.")
+                cure = "Reduce the 'token_budget' in settings or increase host memory."
+
+            report_lines.append(f"## II. Prophecy of Redemption\n**Suggested Cure:** {cure}\n")
+            
+            # [ASCENSION 5]: BLACK BOX SIPHONING
+            report_lines.append("## III. Forensic Traceback")
+            report_lines.append(f"```python\n{traceback[-1000:]}\n```") # Capture the most relevant end
+
+            Path("{{ report_path }}").write_text("\n".join(report_lines))
+            print(f"✨ [CHRONOCYCLE] Autopsy complete. Gaze upon [bold green]{{ report_path }}[/bold green]")
+
+        except Exception as e:
+            print(f"💥 Autopsy failed: {e}")
+
+    if __name__ == "__main__":
+        perform_autopsy(Path("{{ crash_vault }}"))
+    """
+
+# --- III. THE KINETIC SYMPHONY (The Resolution Path) ---
+chronocycle.symphony :: """
+# == Symphony of the Chronocycle ==
+# Conducts the Post-Mortem Inquest.
+
+# 1. Initiate Autopsy
+%% proclaim: "Conducting forensic scan of the .scaffold vault..."
+>> python scripts/chronocycle_autopsy.py
+?? succeeds
+
+# 2. Present Revelation
+%% proclaim: "The Oracle has spoken. Opening the Forensic Dossier..."
+# Open the report in the default viewer/editor
+>> code {{ report_path }} || cat {{ report_path }}
+
+%% proclaim: "Adjudication complete. Reality awaits your correction."
+"""
+
+# --- IV. THE UNIVERSAL SUTURE ---
+Makefile += """
+# [Gnostic Suture]: Forensic Chronocycle
+autopsy: ## Resolve the last engine crash/paradox
+	@poetry run velm run chronocycle.symphony
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Forensic Chronocycle manifest in 'scripts/' and 'chronocycle.symphony'."
+    proclaim: "Sovereign Faculty: PARADOX_RESOLUTION enabled."
+    
+    # [ASCENSION 11]: OCULAR PROJECTION
+    # Ensure the crash folder exists so the script doesn't fail on first run
+    >> mkdir -p {{ crash_vault }}
+    
+    proclaim: "To resolve your next fracture, speak: [bold cyan]make autopsy[/bold cyan]"
+
+%% on-heresy
+    proclaim: "Chronocycle inception failed. Ensure the .scaffold directory is writable."

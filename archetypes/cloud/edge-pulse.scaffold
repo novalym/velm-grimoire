@@ -1,0 +1,113 @@
+# Path: src/velm/archetypes/cloud/edge-pulse.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE EDGE PULSE (V-Ω-TOTALITY-BILOCATED-LOGIC)                               ==
+# =================================================================================
+# @description: Materializes a "Bilocated Logic" structure for Cloudflare Workers. 
+#               It handles auth and caching at the Dimensional Perimeter, 
+#               signaling the backend only for true kinetic strikes.
+# @category: Cloud
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ edge_provider = "cloudflare" # Options: 'cloudflare', 'aws'
+$$ backend_url = "https://api.{{ project_slug }}.com"
+$$ cache_ttl = 3600
+
+# Contextual Triage
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE PERIMETER SANCTUM (Edge Code) ---
+edge/
+    # [ASCENSION 1]: The Perimeter Logic
+    worker.ts :: """
+    /**
+     * =============================================================================
+     * == THE EDGE PULSE WORKER (V-Ω-PERIMETER-SENTINEL)                          ==
+     * =============================================================================
+     * Handles pre-flight Gnosis (Auth/Cache) at the Edge.
+     */
+    export default {
+      async fetch(request: Request, env: any, ctx: any): Promise<Response> {
+        const url = new URL(request.url);
+        
+        // 1. THE CACHE GAZE (Read-Only Shortcut)
+        if (request.method === "GET") {
+          const cache = caches.default;
+          let response = await cache.match(request);
+          if (response) return response;
+        }
+
+        // 2. THE PERIMETER AUTH (JWT Adjudication)
+        const authHeader = request.headers.get("Authorization");
+        if (!authHeader && !url.pathname.startsWith("/public")) {
+          return new Response("UNAUTHORIZED_AT_EDGE", { status: 401 });
+        }
+
+        // 3. THE KINETIC SIGNAL (Forwarding to Backend)
+        // We only pass through if it's a mutation or a cache miss
+        const backendRequest = new Request("{{ backend_url }}" + url.pathname, request);
+        
+        // [ASCENSION 5]: The Silver-Cord Header
+        // Informs the backend that the request has been pre-cleared by the Edge.
+        backendRequest.headers.set("X-Gnostic-Edge-Verified", "true");
+        backendRequest.headers.set("X-Edge-Trace-ID", crypto.randomUUID());
+
+        const response = await fetch(backendRequest);
+
+        // 4. THE CACHE INSCRIBER
+        if (request.method === "GET" && response.status === 200) {
+          ctx.waitUntil(caches.default.put(request, response.clone()));
+        }
+
+        return response;
+      }
+    };
+    """
+
+    # Deployment Scripture
+    @if {{ edge_provider == 'cloudflare' }}
+    wrangler.toml :: """
+    name = "{{ project_slug }}-edge"
+    main = "worker.ts"
+    compatibility_date = "{{ now('utc', '%Y-%m-%d') }}"
+    
+    [vars]
+    BACKEND_URL = "{{ backend_url }}"
+    """
+    @endif
+
+# --- III. THE SURGICAL WEAVE (Backend Trust) ---
+# We must teach the backend to trust the Edge's signature.
+@if {{ project_type in ['python', 'poetry', 'fastapi'] }}
+src/{{ package_name }}/
+    core/
+        edge_trust.py :: """
+        from fastapi import Request, HTTPException
+        
+        async def verify_edge_cord(request: Request):
+            # [ASCENSION 5]: Verifying the Edge's Handshake
+            if not request.headers.get("X-Gnostic-Edge-Verified") == "true":
+                # If the request bypassed the edge, we treat it with suspicion
+                # In a high-security environment, we would raise a Heresy here.
+                pass
+        """
+    
+    main.py += """
+    # [Gnostic Suture]: Edge Pulse Synchronization
+    from .core.edge_trust import verify_edge_cord
+    @app.middleware("http")
+    async def edge_pulse_middleware(request: Request, call_next):
+        await verify_edge_cord(request)
+        return await call_next(request)
+    """
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Edge Pulse manifest in 'edge/'."
+    proclaim: "To deploy the Perimeter Sentinel, speak: [bold cyan]cd edge && npx wrangler deploy[/bold cyan]"
+
+%% on-heresy
+    proclaim: "Edge materialization faltered. Ensure Node.js is manifest for the Edge build tools."

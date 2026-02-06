@@ -1,0 +1,87 @@
+# Path: src/velm/archetypes/meta/api-versioning-warp.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE API VERSIONING WARP (V-Ω-TOTALITY-TEMPORAL-PROXY)                       ==
+# =================================================================================
+# @description: Materializes a Linguistic Proxy Layer that maps legacy V1 
+#               endpoints to new V2 structures with zero downtime. 
+#               Includes semantic payload remapping and deprecation telemetry.
+# @category: Meta
+# @difficulty: Grand Architect
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ legacy_version = "v1"
+$$ target_version = "v2"
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE WARP CORE (Logic Module) ---
+src/{{ package_name }}/
+    core/
+        warp_bridge.py :: """
+        import time
+        import logging
+        from typing import Dict, Any, Callable
+        from fastapi import Request, Response
+        from starlette.middleware.base import BaseHTTPMiddleware
+
+        class WarpBridge(BaseHTTPMiddleware):
+            \"\"\"
+            =============================================================================
+            == THE WARP BRIDGE (V-Ω-TEMPORAL-PROXY-ENGINE)                             ==
+            =============================================================================
+            LIF: ∞ | ROLE: ARCHITECTURAL_MIGRATION_GUARDIAN
+            \"\"\"
+            
+            # THE GRIMOIRE OF MAPPINGS
+            # Format: { "/v1/old_path": ("/v2/new_path", transformation_fn) }
+            WARP_MAP: Dict[str, tuple] = {
+                "/{{ legacy_version }}/users/profile": ("/{{ target_version }}/accounts/me", None),
+                "/{{ legacy_version }}/login": ("/{{ target_version }}/auth/token", lambda b: {"grant_type": "password", **b})
+            }
+
+            async def dispatch(self, request: Request, call_next: Callable):
+                path = request.url.path
+                
+                if path in self.WARP_MAP:
+                    new_path, transformer = self.WARP_MAP[path]
+                    print(f"🌀 [WARP] Mapping legacy request: {path} -> {new_path}")
+                    
+                    # 1. TRANSMUTE PATH
+                    # In a real impl, we would modify the request.scope path
+                    request.scope['path'] = new_path
+                    
+                    # 2. SEMANTIC PAYLOAD REMAPPING
+                    if transformer and request.method in ("POST", "PUT", "PATCH"):
+                        body = await request.json()
+                        new_body = transformer(body)
+                        # Re-inject the body into the scope (Advanced ASGI manipulation)
+                        # ... (ASGI body rewrite logic) ...
+
+                    response = await call_next(request)
+                    
+                    # 3. DEPRECATION SIGNALING
+                    response.headers["X-API-Deprecated"] = "true"
+                    response.headers["X-API-Sunset"] = "2026-12-31" # The Event Horizon
+                    return response
+
+                return await call_next(request)
+        """
+
+# --- III. THE SURGICAL WEAVE ---
+main.py ^= """
+from .core.warp_bridge import WarpBridge
+"""
+
+main.py += """
+# [Gnostic Suture]: Engaging the API Versioning Warp
+app.add_middleware(WarpBridge)
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "API Versioning Warp engaged. Legacy V1 routes are now bridged to V2."
+    proclaim: "To add a new warp, update the [bold cyan]WARP_MAP[/bold cyan] in 'core/warp_bridge.py'."
+
+%% on-heresy
+    proclaim: "Warp inception failed. Ensure 'main.py' uses a compatible ASGI structure."

@@ -1,0 +1,126 @@
+# Path: src/velm/archetypes/integrations/worker-swarm.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE WORKER SWARM (V-Ω-TOTALITY-KINETIC-DISTRIBUTION)                        ==
+# =================================================================================
+# @description: Orchestrates a distributed task queue (Celery or BullMQ) with 
+#               Redis sidecars and scale-ready Docker configurations.
+# @category: System
+# @difficulty: Adept
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ redis_host = "redis-vault"
+$$ redis_port = 6379
+$$ swarm_concurrency = 4
+
+# Contextual Triage
+$$ is_python = {{ (project_type in ['python', 'poetry', 'fastapi']) | default(true) }}
+$$ is_node = {{ (project_type in ['node', 'nextjs', 'express']) | default(false) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF SCALE (Infrastructure) ---
+docker-compose.worker.yml :: """
+version: '3.8'
+services:
+  redis-vault:
+    image: redis:7-alpine
+    container_name: {{ project_slug }}_redis_vault
+    networks:
+      - gnostic_mesh
+
+  worker:
+    build: .
+    command: {% if is_python %}celery -A src.{{ package_name }}.worker worker --loglevel=info --concurrency={{ swarm_concurrency }}{% else %}npm run worker{% endif %}
+    env_file: .env
+    depends_on:
+      - redis-vault
+    networks:
+      - gnostic_mesh
+
+networks:
+  gnostic_mesh:
+    external: true
+    name: {{ project_slug }}_gnostic_mesh
+"""
+
+# --- III. THE SURGICAL WEAVE: PYTHON / CELERY ---
+@if {{ is_python }}
+src/{{ package_name }}/
+    worker.py :: """
+    import os
+    from celery import Celery
+
+    # [FACULTY]: The Celery Heartbeat
+    app = Celery(
+        '{{ project_slug }}',
+        broker=os.getenv('REDIS_URL', 'redis://{{ redis_host }}:{{ redis_port }}/0'),
+        backend=os.getenv('REDIS_URL', 'redis://{{ redis_host }}:{{ redis_port }}/0')
+    )
+
+    @app.task(name="{{ project_slug }}.forge_gnosis")
+    def forge_gnosis(data: dict):
+        print(f"Swarm perceiving data: {data}")
+        # Perform high-order transmutation here
+        return {"status": "transmuted", "id": data.get("id")}
+    """
+
+    # Injecting the client into the core logic
+    core/
+        swarm_client.py :: """
+        from ..worker import app as celery_app
+
+        def dispatch_to_swarm(data: dict):
+            return celery_app.send_task("{{ project_slug }}.forge_gnosis", args=[data])
+        """
+
+    # Update dependencies
+    requirements.txt += """
+    celery>=5.3.6
+    redis>=5.0.1
+    """
+@endif
+
+# --- IV. THE SURGICAL WEAVE: NODE / BULLMQ ---
+@if {{ is_node }}
+src/worker/
+    swarm.ts :: """
+    import { Worker, Job } from 'bullmq';
+    import { IORedis } from 'ioredis';
+
+    const connection = new IORedis(process.env.REDIS_URL || 'redis://{{ redis_host }}:{{ redis_port }}');
+
+    const worker = new Worker('{{ project_slug }}_queue', async (job: Job) => {
+      console.log(`Swarm perceiving job ${job.id}:`, job.data);
+      // Perform kinetic transmutation
+      return { status: 'manifested' };
+    }, { connection });
+
+    worker.on('completed', (job) => console.log(`Job ${job.id} resolved.`));
+    """
+
+src/core/
+    swarmClient.ts :: """
+    import { Queue } from 'bullmq';
+    import { IORedis } from 'ioredis';
+
+    const connection = new IORedis(process.env.REDIS_URL || 'redis://{{ redis_host }}:{{ redis_port }}');
+    export const swarmQueue = new Queue('{{ project_slug }}_queue', { connection });
+
+    export const dispatchToSwarm = async (data: any) => {
+      return await swarmQueue.add('forge_gnosis', data);
+    };
+    """
+
+    package.json:
+        dependencies += {
+            "bullmq": "latest",
+            "ioredis": "latest"
+        }
+@endif
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Worker Swarm initialized. Spawning Redis Sentinel..."
+    >> docker network create {{ project_slug }}_gnostic_mesh || true
+    proclaim: "To scale the Swarm to {{ swarm_concurrency }} acolytes, speak: [bold cyan]docker-compose -f docker-compose.worker.yml up -d --scale worker={{ swarm_concurrency }}[/bold cyan]"

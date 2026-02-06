@@ -1,0 +1,139 @@
+# Path: src/velm/archetypes/integrations/gnostic-docs.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE GNOSTIC DOCUMENTATION SUITE (V-Ω-TOTALITY-LIVING-SCRIPTURE)             ==
+# =================================================================================
+# @description: Materializes an 'ark/' sanctum with MkDocs and specialized 
+#               plugins for real-time Mermaid.js architectural scrying.
+# @category: Documentation
+# @difficulty: Adept
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ docs_port = 8001
+$$ theme_color = "#64ffda"
+
+# --- II. THE ARK SANCTUM (Structure) ---
+ark/
+    mkdocs.yml :: """
+    site_name: {{ project_title }} Codex
+    theme:
+      name: material
+      palette:
+        primary: custom
+        accent: custom
+      features:
+        - navigation.tabs
+        - navigation.sections
+        - content.code.copy
+    
+    extra_css:
+      - stylesheets/extra.css
+
+    plugins:
+      - search
+      - mermaid2:
+          arguments:
+            theme: 'dark'
+
+    nav:
+      - Index: index.md
+      - Architecture: architecture.md
+      - Gnostic Graph: graph.md
+    """
+
+    docs/
+        index.md :: """
+        # The Codex of {{ project_title }}
+        
+        > {{ description }}
+
+        This living scripture is synchronized with the project's soul via the **Velm God-Engine**.
+        """
+
+        architecture.md :: """
+        # Architectural Topography
+
+        ## Core Components
+        The following sanctums define the project's reality:
+
+        @if {{ project_type == 'fastapi' }}
+        - **API Layer**: FastAPI Async Routers
+        - **Persistence**: SQLAlchemy ORM
+        @endif
+
+        ## The Gnostic Vow
+        All code within this project must adhere to the laws manifest in `scaffold.scaffold`.
+        """
+
+        # [ASCENSION]: The Placeholder for the Auto-Generated Graph
+        graph.md :: """
+        # The Causal Web
+        
+        Below is the real-time dependency graph of the project, scried by Velm.
+
+        ```mermaid
+        { % include "ark/generated_graph.mmd" % }
+        ```
+        """
+
+    stylesheets/
+        extra.css :: """
+        :root {
+          --md-primary-fg-color: {{ theme_color }};
+          --md-accent-fg-color: {{ theme_color }};
+        }
+        """
+
+# --- III. THE SCRYING ARTISAN ---
+# A specialized script to dump the Velm graph into a Mermaid file for the docs.
+scripts/
+    scry_ark.py :: """
+    import json
+    import subprocess
+    from pathlib import Path
+
+    def materialize_graph():
+        print("Scrying project topology for the Codex...")
+        try:
+            # Command Velm to proclaim the graph in mermaid format
+            result = subprocess.check_output(["velm", "graph", "--format", "mermaid"], text=True)
+            output_path = Path("ark/generated_graph.mmd")
+            output_path.write_text(result)
+            print(f"Graph manifest at {output_path}")
+        except Exception as e:
+            print(f"Failed to scry graph: {e}")
+
+    if __name__ == "__main__":
+        materialize_graph()
+    """
+
+# --- IV. THE UNIFIED DOCS RITE ---
+Makefile += """
+# [Gnostic Suture]: Documentation Rites
+docs-serve: ## Launch the living Codex
+	@poetry run python scripts/scry_ark.py
+	@cd ark && mkdocs serve -a localhost:{{ docs_port }}
+
+docs-build: ## Forge the final static scripture
+	@poetry run python scripts/scry_ark.py
+	@cd ark && mkdocs build
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Gnostic Documentation Suite manifest in 'ark/'."
+    # Install the Scribe's tools
+    {% if is_python %}
+    >> poetry add mkdocs-material mkdocs-mermaid2-plugin --group dev
+    {% else %}
+    >> npm install mkdocs-material --save-dev
+    {% endif %}
+    
+    # Perform the first scry
+    >> python scripts/scry_ark.py
+    
+    proclaim: "To behold the Codex, speak: [bold cyan]make docs-serve[/bold cyan]"
+
+%% on-heresy
+    proclaim: "The Documentation inception failed. Ensure MkDocs is manifest in your environment."

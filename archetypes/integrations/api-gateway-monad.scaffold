@@ -1,0 +1,91 @@
+# Path: src/velm/archetypes/integrations/api-gateway-monad.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE API GATEWAY MONAD (V-Ω-TOTALITY-UNIFIED-INGRESS)                        ==
+# =================================================================================
+# @description: Materializes a Caddy-based reverse proxy to unify sub-projects.
+#               It handles automatic SSL/TLS, load balancing, and maps 
+#               /api and /ui routes to their respective internal vessels.
+# @category: Infrastructure
+# @difficulty: Adept
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ public_domain = "localhost"
+$$ api_vessel = "api"
+$$ ui_vessel = "ui"
+$$ gateway_port = 80
+
+# --- II. THE SCRIPTURE OF INGRESS (Caddyfile) ---
+infra/gateway/
+    Caddyfile :: """
+    {
+        # Gnostic Global Options
+        admin off
+        persist_config off
+    }
+
+    {{ public_domain }} {
+        # [ASCENSION]: Automatic SSL/TLS logic is inherent to Caddy.
+        
+        # Route to the Intelligence/Backend Layer
+        handle_path /api/* {
+            reverse_proxy {{ api_vessel }}:8000
+        }
+
+        # Route to the Ocular/Frontend Layer
+        handle /* {
+            reverse_proxy {{ ui_vessel }}:3000
+        }
+
+        # Enable high-fidelity logging
+        log {
+            output file /var/log/caddy/access.log
+            format json
+        }
+    }
+    """
+
+# --- III. THE ORCHESTRATION OVERLAY ---
+# We forge a dedicated gateway compose file.
+docker-compose.gateway.yml :: """
+version: '3.8'
+services:
+  gateway:
+    image: caddy:2-alpine
+    container_name: {{ project_slug }}_gateway
+    restart: unless-stopped
+    ports:
+      - "{{ gateway_port }}:80"
+      - "443:443"
+    volumes:
+      - ./infra/gateway/Caddyfile:/etc/caddy/Caddyfile
+      - gateway_data:/data
+      - gateway_config:/config
+    networks:
+      - gnostic_mesh
+    depends_on:
+      - {{ api_vessel }}
+      - {{ ui_vessel }}
+
+volumes:
+  gateway_data:
+  gateway_config:
+
+networks:
+  gnostic_mesh:
+    external: true
+    name: {{ project_slug }}_gnostic_mesh
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "API Gateway Monad manifest in 'infra/gateway/'."
+    
+    # Ensure the internal mesh exists
+    >> docker network create {{ project_slug }}_gnostic_mesh || true
+    
+    proclaim: "To unify your vessels at http://{{ public_domain }}, speak: [bold cyan]docker-compose -f docker-compose.gateway.yml up -d[/bold cyan]"
+
+%% on-heresy
+    proclaim: "Gateway materialization faltered. Verify Docker permissions."

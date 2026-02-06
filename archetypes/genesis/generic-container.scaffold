@@ -1,0 +1,291 @@
+# =================================================================================
+# == GNOSTIC ARCHETYPE: UNIVERSAL CELESTIAL VESSEL (V-Ω-TOTALITY)               ==
+# =================================================================================
+# @description: A transcendent, language-agnostic containerization framework. 
+#               Features tri-phase multi-stage builds, non-root security,
+#               health-monitoring, and a kinetic Makefile control plane.
+# @category: Infrastructure
+# @tags: docker, container, devops, universal, deployment, security, orchestration
+# @difficulty: Adept
+# @is_integration: false
+# @dna: use_docker=true, use_makefile=true, use_ci=true
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_name = "celestial-container"
+$$ author = "The Architect"
+$$ port = 8080
+$$ base_image = "debian:bookworm-slim" # The physical substrate
+$$ runtime_user = "scaf_artisan"
+
+# Derived Gnosis
+$$ project_slug = {{ project_name | slug }}
+$$ project_title = {{ project_name | title }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+{{ project_slug }}/
+
+    # [1] THE ABYSSAL FILTERS (Security & Speed)
+    .gitignore:
+        node_modules/
+        __pycache__/
+        .venv/
+        dist/
+        build/
+        *.log
+        .env
+        .DS_Store
+
+    .dockerignore :: """
+    # --- The Abyss Sieve ---
+    # Exclude all artifacts of the Mortal Realm from the Celestial Image
+    **/.git
+    **/.github
+    **/node_modules
+    **/__pycache__
+    **/.venv
+    **/dist
+    **/build
+    .env
+    .dockerignore
+    Dockerfile
+    docker-compose.yml
+    Makefile
+    README.md
+    .vscode
+    .idea
+    """
+
+    # [2] THE ENVIRONMENT DNA
+    .env.example:
+        # == System Identity ==
+        APP_NAME="{{ project_title }}"
+        ENVIRONMENT=development
+        PORT={{ port }}
+        
+        # == Resource Governance ==
+        MEM_LIMIT=512m
+        CPU_LIMIT=0.5
+        
+        # == Gnostic Secrets ==
+        # Bestow your keys here in your local .env
+        SECRET_KEY="void"
+
+    # [3] THE KINETIC CONTROL PLANE (Makefile)
+    # [ASCENSION 8]: Honoring the Single Dollar ($) syntax for internal vars.
+    Makefile:
+        .PHONY: help up down build shell logs prune health
+
+        $SERVICE_NAME = {{ project_slug }}
+        $TAG = latest
+        $COMPOSE = docker-compose
+
+        help: ## Proclaim available container rites
+            @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $1, $2}'
+
+        up: ## Awaken the development reality (detached)
+            @echo "Awakening the Celestial Vessel..."
+            $COMPOSE up --build -d
+
+        down: ## Dissolve the containerized cosmos
+            @echo "Returning the Vessel to the void..."
+            $COMPOSE down
+
+        build: ## Forge the production-grade image
+            @echo "Forging production image: $($SERVICE_NAME):$($TAG)"
+            docker build --target production -t $($SERVICE_NAME):$($TAG) .
+
+        shell: ## Enter the soul of the running service
+            docker exec -it $($SERVICE_NAME) /bin/sh
+
+        logs: ## Gaze upon the chronicles of the container
+            $COMPOSE logs -f
+
+        health: ## Scry the metabolic status
+            docker inspect --format='{{json .State.Health}}' $($SERVICE_NAME)
+
+        prune: ## Cleanse stagnant container matter
+            docker system prune -f
+
+    # [4] THE CELESTIAL ORCHESTRATION (Docker Compose)
+    docker-compose.yml:
+        version: '3.8'
+
+        services:
+          {{ project_slug }}:
+            container_name: {{ project_slug }}
+            build:
+              context: .
+              # [ASCENSION 2]: Selecting the Development state for active work
+              target: development
+            ports:
+              - "{{ port }}:{{ port }}"
+            env_file:
+              - .env.example
+            volumes:
+              # [ASCENSION 8]: Mounting the soul of the source for live-reload
+              - ./src:/app/src
+            restart: unless-stopped
+            healthcheck:
+              # [ASCENSION 4]: Metabolic Health Monitoring
+              test: ["CMD", "curl", "-f", "http://localhost:{{ port }}/health"]
+              interval: 30s
+              timeout: 10s
+              retries: 3
+              start_period: 40s
+            deploy:
+              # [ASCENSION 11]: Resource Quota Enforcement
+              resources:
+                limits:
+                  cpus: '0.50'
+                  memory: 512M
+            networks:
+              - gnostic_mesh
+
+        networks:
+          gnostic_mesh:
+            driver: bridge
+
+    # [5] THE MASTERPIECE SCRIPTURE (Dockerfile)
+    Dockerfile :: """
+    # =================================================================================
+    # == THE UNBREAKABLE VESSEL - A TRI-PHASE GNOSTIC ENGINE                        ==
+    # =================================================================================
+    
+    # --- PHASE I: THE BUILDER (The Forge) ---
+    # This stage is for installation and compilation. 
+    # Its soul is massive, but its Gnosis is pure.
+    FROM {{ base_image }} as builder
+
+    # Set system-level Vows
+    ENV DEBIAN_FRONTEND=noninteractive \
+        PYTHONUNBUFFERED=1 \
+        NODE_ENV=development
+
+    WORKDIR /app
+
+    # Install the basic artisans of the shell
+    RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl ca-certificates git \
+        && rm -rf /var/lib/apt/lists/*
+
+    # [TODO]: Inscribe the Rites of Installation for your language
+    # Example:
+    # COPY package*.json ./
+    # RUN npm install
+
+    # Copy the collective Gnosis of your source code
+    COPY . .
+
+    # [TODO]: Run build/compile command if needed (e.g. npm run build)
+
+    # --- PHASE II: THE DEVELOPMENT REALITY (The Proving Ground) ---
+    # Inherits from the builder, optimized for high-velocity iteration.
+    FROM builder as development
+    
+    ENV SCAFFOLD_REALITY=DEVELOPMENT
+    
+    # [TODO]: Proclaim the command to awaken your development server
+    CMD [ "sh", "-c", "echo 'Development reality manifest. Source mounted. Forge greatness.' && tail -f /dev/null" ]
+
+    # --- PHASE III: THE PRODUCTION REALITY (The Celestial Vessel) ---
+    # A lean, pure vessel containing only the minimum matter required to run.
+    # [ASCENSION 3]: The Ward of Least Privilege.
+    FROM {{ base_image }} as production
+
+    # Consecrate the Artisan User
+    RUN useradd -m -u 1000 {{ runtime_user }}
+    
+    WORKDIR /app
+
+    # [ASCENSION 2]: Surgical extraction of only the production artifacts
+    # [TODO]: Copy from builder (e.g. COPY --from=builder /app/dist ./dist)
+    
+    # Ensure the user can touch the necessary sanctums
+    RUN chown -R {{ runtime_user }}:{{ runtime_user }} /app
+
+    # Expose the sacred port
+    EXPOSE {{ port }}
+
+    # Assume the identity of the Artisan
+    USER {{ runtime_user }}
+
+    # [ASCENSION 11]: Hardening the environment
+    ENV NODE_ENV=production \
+        SCAFFOLD_REALITY=PRODUCTION
+
+    # [TODO]: Replace with your production start command
+    CMD [ "echo", "Production reality manifest. The Great Work begins." ]
+    """
+
+    # [6] THE CELESTIAL GATE (CI/CD)
+    .github/
+        workflows/
+            vessel-integrity.yml :: """
+            name: Ω | Vessel Integrity
+            on: [push, pull_request]
+            jobs:
+              audit:
+                runs-on: ubuntu-latest
+                steps:
+                  - uses: actions/checkout@v4
+                  - name: Verify Docker Geometry
+                    run: docker build --target builder -t builder-test .
+            """
+
+    # [7] THE SOURCE (THE SOUL)
+    src/
+        placeholder.txt :: """
+        This is the sacred sanctum for your application's soul.
+        Replace this scripture with your source code, and inscribe 
+        your language-specific build commands upon the Dockerfile.
+
+        Gnosis is truth.
+        """
+
+    README.md :: """
+    # {{ project_name }} - The Universal Vessel
+
+    Forged by **{{ author }}** via the **VELM God-Engine**.
+    A production-hardened container environment for any creative intent.
+
+    ## 🚀 The Rites of the Vessel
+
+    All orchestration is conducted via the sacred `Makefile`.
+
+    - `make up`: Awakens the development reality (with source mounting).
+    - `make down`: Returns the containerized cosmos to the void.
+    - `make build`: Forges the lean, production-ready vessel.
+    - `make shell`: Enters the soul of the container for forensic scrying.
+    - `make health`: Adjudicates the metabolic status of the vessel.
+
+    ## 🏛️ Adapting to Your Reality
+
+    1. **Choose Base Image**: Edit `Dockerfile` and `$$ base_image` in the blueprint.
+    2. **Inscribe Installation**: Add your dependency commands in the `builder` stage.
+    3. **Define Entrypoint**: Set the `CMD` in the `production` stage.
+    """
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    # 1. Initialize the Chronicle
+    @if {{ use_git }} -> git init
+
+    # 2. Forensic Pre-flight
+    proclaim: "Scanning for Docker Daemon..."
+    @if {{ shell('docker info > /dev/null 2>&1 && echo "yes" || echo "no"') == 'yes' }} 
+        -> proclaim: "Docker Daemon [green]ONLINE[/green]."
+    @else 
+        -> proclaim: "[yellow]WARNING: Docker Daemon not perceived. Container rites will be restricted.[/yellow]"
+
+    # 3. Final Proclamation
+    proclaim: "The Universal Celestial Vessel is manifest in '{{ project_slug }}/'."
+    proclaim: "To begin the Great Work:"
+    proclaim: "  1. [bold cyan]cd {{ project_slug }}[/bold cyan]"
+    proclaim: "  2. [bold cyan]cp .env.example .env[/bold cyan]"
+    proclaim: "  3. [bold cyan]make help[/bold cyan] (View available rites)"
+    proclaim: "  4. [bold cyan]make up[/bold cyan] (Ignite the development vessel)"
+
+%% on-heresy
+    proclaim: "The Vessel forge fractured. Cleaning the ruins..."
+    rm -rf src/ .github/ Makefile Dockerfile docker-compose.yml

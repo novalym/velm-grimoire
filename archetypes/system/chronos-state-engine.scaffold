@@ -1,0 +1,111 @@
+# Path: src/velm/archetypes/system/chronos-state-engine.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE CHRONOS STATE ENGINE (V-Ω-TOTALITY-DETERMINISTIC-LOGIC)                 ==
+# =================================================================================
+# @description: Materializes an immutable Finite State Machine (FSM). 
+#               Turns business logic into a Gnostic Graph, forbidding 
+#               illegal transitions and ensuring absolute workflow integrity.
+# @category: System
+# @difficulty: Adept
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ machine_name = "order_workflow"
+$$ initial_state = "VOID"
+
+# --- II. THE CHRONOS CORE (The State Machine) ---
+src/{{ package_name }}/
+    core/
+        chronos.py :: """
+        from typing import Dict, List, Set, Optional
+        from dataclasses import dataclass
+
+        # [ASCENSION 1]: The Transition Vow
+        @dataclass(frozen=True)
+        class Transition:
+            trigger: str
+            source: str
+            destination: str
+
+        class ChronosMachine:
+            \"\"\"
+            =============================================================================
+            == THE CHRONOS ENGINE (V-Ω-DETERMINISTIC-GAZE)                             ==
+            =============================================================================
+            LIF: ∞ | ROLE: WORKFLOW_ADJUDICATOR
+            \"\"\"
+            def __init__(self, name: str, states: Set[str], transitions: List[Transition], initial: str):
+                self.name = name
+                self.states = states
+                self.transitions = transitions
+                self.current_state = initial
+                self.history = []
+
+            def handle_event(self, event: str) -> bool:
+                \"\"\"Adjudicates an event against the Gnostic Graph.\"\"\"
+                valid_transition = next((t for t in self.transitions if t.trigger == event and t.source == self.current_state), None)
+                
+                if not valid_transition:
+                    print(f"❌ [CHRONOS] Illegal Transition: {self.current_state} --({event})--> ???")
+                    return False
+                
+                print(f"⏳ [CHRONOS] Transitioning: {self.current_state} -> {valid_transition.destination}")
+                self.history.append({"from": self.current_state, "to": valid_transition.destination, "event": event})
+                self.current_state = valid_transition.destination
+                return True
+        """
+
+        # [ASCENSION 4]: The Manifest Logic
+        workflows/
+            {{ machine_name }}.py :: """
+            from ..chronos import ChronosMachine, Transition
+
+            # Define the order lifecycle
+            OrderMachine = ChronosMachine(
+                name="{{ machine_name }}",
+                states={"VOID", "PENDING", "PAID", "SHIPPED", "CANCELLED"},
+                transitions=[
+                    Transition("INITIATE", "VOID", "PENDING"),
+                    Transition("PAY", "PENDING", "PAID"),
+                    Transition("SHIP", "PAID", "SHIPPED"),
+                    Transition("CANCEL", "PENDING", "CANCELLED"),
+                    Transition("CANCEL", "PAID", "CANCELLED"),
+                ],
+                initial="{{ initial_state }}"
+            )
+            """
+
+# --- III. THE OCULAR MIRROR (Visualization) ---
+# Automatically generates a Mermaid diagram of the state machine
+docs/
+    {{ machine_name }}_graph.md :: """
+    # State Machine Graph: {{ machine_name }}
+    
+    ```mermaid
+    stateDiagram-v2
+        [*] --> {{ initial_state }}
+        VOID --> PENDING: INITIATE
+        PENDING --> PAID: PAY
+        PAID --> SHIPPED: SHIP
+        PENDING --> CANCELLED: CANCEL
+        PAID --> CANCELLED: CANCEL
+    ```
+    """
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Chronos State Engine manifest in 'core/chronos.py'."
+    proclaim: "Workflow '{{ machine_name }}' chronicled in 'core/workflows/'."
+    
+    # [ASCENSION 12]: The Finality Vow
+    # We verify the initial transition
+    py:
+        from src.{{ package_name }}.core.workflows.{{ machine_name }} import OrderMachine
+        success = OrderMachine.handle_event("INITIATE")
+        if success: print("✅ Chronos: Initial state transition verified.")
+
+    proclaim: "Deterministic Reality Established."
+
+%% on-heresy
+    proclaim: "Chronos inception failed. Ensure Pydantic is manifest for schema validation."

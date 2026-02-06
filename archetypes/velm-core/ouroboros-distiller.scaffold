@@ -1,0 +1,138 @@
+# Path: src/velm/archetypes/velm-core/ouroboros-distiller.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE OUROBOROS DISTILLER (V-Ω-TOTALITY-REVERSE-GENESIS)                      ==
+# =================================================================================
+# @description: The ultimate instrument of self-evolution. Gazes upon a physical 
+#               directory and transmutes it into a reusable Velm Archetype, 
+#               automatically abstracting names into Gnostic variables.
+# @category: Meta
+# @difficulty: Grand Architect
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ tool_name = "ouroboros"
+$$ local_forge = "~/.scaffold/archetypes"
+
+# --- II. THE LOGIC CORE (The Alchemist Script) ---
+scripts/
+    # [ASCENSION 1]: THE REVERSE-INCEPTION ENGINE
+    # This script performs the high-order semantic scan.
+    ouroboros_alchemy.py :: """
+    import os
+    import sys
+    import re
+    from pathlib import Path
+    import json
+
+    def distill_reality(source_dir: Path, arch_name: str, category: str):
+        print(f"🌀 [OUROBOROS] Gazing upon reality: {source_dir.name}...")
+        
+        # 1. DIVINE THE DNA (Detection of variables to abstract)
+        # We assume the folder name is the current 'project_slug'
+        project_slug = source_dir.name
+        project_title = project_slug.replace('-', ' ').replace('_', ' ').title()
+        
+        # 2. THE ABYSSAL FILTER
+        # We ignore entropy sources
+        ABYSS = {'.git', 'node_modules', '__pycache__', '.venv', 'dist', 'build', '.scaffold'}
+
+        blueprint_lines = [
+            f"# == Gnostic Archetype: {arch_name} ==",
+            f"# @description: Distilled from {project_slug}",
+            f"# @category: {category}",
+            "",
+            f"$$ project_slug = '{{{{ project_name | slug }}}}'",
+            f"$$ package_name = '{{{{ project_slug | snake }}}}'",
+            "",
+            "/{{ project_slug }}/"
+        ]
+
+        # 3. THE RECURSIVE TRANSMUTATION
+        for root, dirs, files in os.walk(source_dir):
+            # Prune the Abyss
+            dirs[:] = [d for d in dirs if d not in ABYSS]
+            
+            for file in files:
+                if file in ABYSS or any(file.endswith(ext) for ext in ['.pyc', '.lock', '.log']):
+                    continue
+                    
+                abs_path = Path(root) / file
+                rel_path = abs_path.relative_to(source_dir)
+                
+                # [ASCENSION 2]: SEMANTIC GENERALIZATION
+                # We read the content and replace the project slug with the variable
+                try:
+                    content = abs_path.read_text(encoding='utf-8')
+                    
+                    # Abstract the Project Name
+                    content = content.replace(project_slug, "{{ project_slug }}")
+                    # Abstract common patterns
+                    content = content.replace(project_title, "{{ project_title }}")
+                    
+                    # [ASCENSION 5]: INDENTATION SHIELDING
+                    # We use the triple-quote block for all content to preserve the soul
+                    blueprint_lines.append(f"    {rel_path.as_posix()} :: \"\"\"")
+                    blueprint_lines.append(content)
+                    blueprint_lines.append("    \"\"\"")
+                    blueprint_lines.append("")
+                    
+                except Exception as e:
+                    print(f"⚠️  Skipping {file} due to perception error: {e}")
+
+        # 4. ENTHRONE IN THE FORGE
+        output_dir = Path("{{ local_forge }}").expanduser()
+        output_dir.mkdir(parents=True, exist_ok=True)
+        dest_file = output_dir / f"{arch_name}.scaffold"
+        
+        dest_file.write_text("\n".join(blueprint_lines), encoding='utf-8')
+        print(f"✨ [OUROBOROS] Archetype '[bold cyan]{arch_name}[/bold cyan]' manifest in {dest_file}")
+
+    if __name__ == "__main__":
+        if len(sys.argv) < 3:
+            print("Usage: python ouroboros_alchemy.py <source_dir> <new_name> <category>")
+            sys.exit(1)
+        distill_reality(Path(sys.argv[1]), sys.argv[2], sys.argv[3])
+    """
+
+# --- III. THE KINETIC SYMPHONY (The Execution Path) ---
+# We materialize a specialized .symphony to orchestrate the distillation.
+ouroboros.symphony :: """
+# == Symphony of the Ouroboros ==
+# Conducts the Reverse-Genesis rite.
+
+# 1. Identify the Target
+%% let target = @ask("Which directory shall we distill?")
+%% let name = @ask("What is the sacred name for this new Archetype?")
+%% let cat = @ask("Which industrial category does it belong to?")
+
+# 2. Conduct the Alchemy
+>> python scripts/ouroboros_alchemy.py {{ target }} {{ name }} {{ cat }}
+?? succeeds
+
+# 3. Final Proclamation
+%% proclaim: "The Ouroboros has consumed the reality. New Archetype manifest."
+%% proclaim: "To use it, speak: [bold cyan]velm init {{ name }}[/bold cyan]"
+"""
+
+# --- IV. THE UNIVERSAL SUTURE ---
+# We bind the Ouroboros to the project's Makefile
+Makefile += """
+# [Gnostic Suture]: Ouroboros Distiller
+distill-archetype: ## Turn a directory into a Velm Archetype
+	@poetry run velm run ouroboros.symphony
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Ouroboros Distiller manifest in 'scripts/' and 'ouroboros.symphony'."
+    proclaim: "Sovereign Faculty: REVERSE_GENESIS enabled."
+    
+    # [ASCENSION 11]: THE TEACH LOOP
+    # We ensure the local forge is in the Engine's search path
+    >> mkdir -p {{ local_forge }}
+    
+    proclaim: "To teach Velm a new trick, speak: [bold cyan]make distill-archetype[/bold cyan]"
+
+%% on-heresy
+    proclaim: "Ouroboric inception failed. Check Python environment and file permissions."

@@ -1,0 +1,128 @@
+# Path: src/velm/archetypes/meta/babel-conduit.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE BABEL CONDUIT (V-Ω-TOTALITY-POLYGLOT-BRIDGE)                           ==
+# =================================================================================
+# @description: Forges a high-speed gRPC bridge between Python and Node.js. 
+#               Materializes Protobuf contracts and creates bi-directional 
+#               clients and servers for zero-latency IPC.
+# @category: Meta
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ bridge_port = 50051
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ proto_name = "reality_bridge"
+
+# --- II. THE SACRED CONTRACT (Protobuf) ---
+proto/
+    {{ proto_name }}.proto :: """
+    syntax = "proto3";
+
+    package {{ package_name }};
+
+    // [ASCENSION 1]: The Universal Request Vessel
+    message GnosticPlea {
+      string trace_id = 1;
+      string intent = 2;
+      string payload_json = 3;
+    }
+
+    // [ASCENSION 2]: The Universal Response Vessel
+    message GnosticRevelation {
+      bool success = 1;
+      string revelation_json = 2;
+      string duration_ms = 3;
+    }
+
+    service GnosticBridge {
+      // The Synchronous Strike
+      rpc ConductRite (GnosticPlea) returns (GnosticRevelation);
+      
+      # [ASCENSION 3]: The Streaming Revelation
+      rpc StreamRite (GnosticPlea) returns (stream GnosticRevelation);
+    }
+    """
+
+# --- III. THE PYTHON SANCTUM (The Logic Host) ---
+src/{{ package_name }}/
+    bridge/
+        server.py :: """
+        import grpc
+        import json
+        import time
+        from concurrent import futures
+        from ..protos import {{ proto_name }}_pb2, {{ proto_name }}_pb2_grpc
+
+        class GnosticServicer({{ proto_name }}_pb2_grpc.GnosticBridgeServicer):
+            def ConductRite(self, request, context):
+                start = time.perf_counter()
+                print(f"🌀 [PY_SERVER] Rite Received: {request.intent} | Trace: {request.trace_id}")
+                
+                # Logic Transmutation placeholder
+                result = {"status": "manifested", "echo": request.intent}
+                
+                return {{ proto_name }}_pb2.GnosticRevelation(
+                    success=True,
+                    revelation_json=json.dumps(result),
+                    duration_ms=f"{(time.perf_counter() - start)*1000:.2f}"
+                )
+
+        def serve():
+            server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+            {{ proto_name }}_pb2_grpc.add_GnosticBridgeServicer_to_server(GnosticServicer(), server)
+            server.add_insecure_port('[::]:{{ bridge_port }}')
+            server.start()
+            print("🐍 [PYTHON] gRPC Logic Host listening on {{ bridge_port }}")
+            server.wait_for_termination()
+        """
+
+# --- IV. THE NODE SANCTUM (The Ocular Client) ---
+node_bridge/
+    client.ts :: """
+    import * as grpc from '@grpc/grpc-js';
+    import * as protoLoader from '@grpc/proto-loader';
+    import { GnosticBridgeClient } from './types/{{ proto_name }}';
+
+    const packageDefinition = protoLoader.loadSync('../proto/{{ proto_name }}.proto');
+    const proto: any = grpc.loadPackageDefinition(packageDefinition).{{ package_name }};
+
+    // [ASCENSION 12]: THE FINALITY VOW
+    export const bridgeClient = new proto.GnosticBridge(
+      'localhost:{{ bridge_port }}',
+      grpc.credentials.createInsecure()
+    );
+
+    export const summonPythonLogic = (intent: string, payload: any): Promise<any> => {
+      return new Promise((resolve, reject) => {
+        bridgeClient.ConductRite({
+          trace_id: `tr-${Date.now()}`,
+          intent,
+          payload_json: JSON.stringify(payload)
+        }, (err: any, response: any) => {
+          if (err) return reject(err);
+          resolve(JSON.parse(response.revelation_json));
+        });
+      });
+    };
+    """
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Babel Conduit manifest. Forging bindings..."
+    
+    # 1. Install Dependencies
+    {% if is_python_backend %}
+    >> poetry add grpcio grpcio-tools
+    {% endif %}
+    >> npm install @grpc/grpc-js @grpc/proto-loader
+
+    # 2. Conduct the Prototypal Transmutation
+    # We forge the Python code from the .proto
+    >> python -m grpc_tools.protoc -I./proto --python_out=./src/{{ package_name }}/protos --grpc_python_out=./src/{{ package_name }}/protos ./proto/{{ proto_name }}.proto
+    
+    proclaim: "Polyglot Bridge Ready on Port {{ bridge_port }}."
+
+%% on-heresy
+    proclaim: "Babel Inception failed. Verify Protoc installation."

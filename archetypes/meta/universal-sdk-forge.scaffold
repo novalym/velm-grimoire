@@ -1,0 +1,136 @@
+# Path: src/velm/archetypes/meta/universal-sdk-forge.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE UNIVERSAL SDK FORGE (V-Ω-TOTALITY-META-INCEPTION)                       ==
+# =================================================================================
+# @description: A Meta-Artisan that scries your Backend routes (FastAPI/Express) 
+#               and forges a separate, fully-typed SDK project in TypeScript 
+#               or Python. Annihilates manual integration labor.
+# @category: Meta
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ sdk_name = "{{ project_slug }}-sdk"
+$$ sdk_language = "typescript" # Options: 'typescript', 'python'
+$$ api_schema_url = "http://localhost:8000/openapi.json"
+
+# Contextual Scrying
+$$ is_python_backend = {{ (project_type in ['python', 'poetry', 'fastapi']) | default(true) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SDK SANCTUM (Structure) ---
+sdk/
+    # [ASCENSION]: The Manifest of the Child Project
+    README.md :: """
+    # {{ sdk_name | upper }}
+    
+    > Auto-generated Gnostic SDK for the {{ project_title }} API.
+    
+    ## Usage
+    This library is forged automatically by the **Velm Universal SDK Forge**.
+    Do not edit the generated sources manually; they are a direct reflection 
+    of the Backend's soul.
+    """
+
+    # [ASCENSION]: TypeScript SDK Configuration
+    @if {{ sdk_language == 'typescript' }}
+    package.json:
+        {
+          "name": "{{ sdk_name }}",
+          "version": "0.1.0",
+          "description": "Auto-generated SDK",
+          "main": "./dist/index.js",
+          "types": "./dist/index.d.ts",
+          "scripts": {
+            "build": "tsc",
+            "prepublishOnly": "npm run build"
+          },
+          "devDependencies": {
+            "typescript": "latest"
+          }
+        }
+    tsconfig.json:
+        {
+          "compilerOptions": {
+            "target": "ESNext",
+            "module": "CommonJS",
+            "declaration": true,
+            "outDir": "./dist",
+            "strict": true,
+            "skipLibCheck": true
+          },
+          "include": ["src"]
+        }
+    @endif
+
+    # [ASCENSION]: Python SDK Configuration
+    @if {{ sdk_language == 'python' }}
+    pyproject.toml:
+        [tool.poetry]
+        name = "{{ sdk_name }}"
+        version = "0.1.0"
+        description = "Auto-generated SDK"
+        authors = ["{{ author }}"]
+        packages = [{include = "{{ sdk_name | snake }}"}]
+
+        [tool.poetry.dependencies]
+        python = "^3.10"
+        httpx = "^0.27.0"
+        pydantic = "^2.6.0"
+    @endif
+
+# --- III. THE FORGE SCRIPTS (The Logic) ---
+scripts/
+    # [THE CURE]: The Containerized Forge
+    # We use a Dockerized OpenAPI Generator so the Architect needs no local Java.
+    forge_sdk.sh :: """
+    #!/bin/bash
+    echo "⚒️  Awakening the Universal SDK Forge..."
+    
+    # 1. Capture the Schema
+    # Attempt to fetch the live schema from the Backend
+    curl -s {{ api_schema_url }} > ./sdk/schema.json
+    
+    if [ ! -s ./sdk/schema.json ]; then
+        echo "❌ ERROR: API Schema is a void. Is the Backend breathing at {{ api_schema_url }}?"
+        exit 1
+    fi
+
+    # 2. Conduct the Materialization Rite
+    # Map 'typescript' -> 'typescript-axios', 'python' -> 'python-pydantic-v2'
+    GEN_LANG="{% if sdk_language == 'typescript' %}typescript-axios{% else %}python-pydantic-v2{% endif %}"
+    
+    docker run --rm \
+      -v ${PWD}:/local openapitools/openapi-generator-cli generate \
+      -i /local/sdk/schema.json \
+      -g $GEN_LANG \
+      -o /local/sdk/src \
+      --additional-properties=projectName={{ sdk_name }}
+      
+    echo "✨ SDK Materialized in 'sdk/src/'"
+    """
+
+# --- IV. THE ROOT SUTURE ---
+# We add the 'make sdk' target to the primary Makefile
+Makefile += """
+# [Gnostic Suture]: Universal SDK Forge
+sdk: ## Re-forge the Client SDK from the live API schema
+	@chmod +x scripts/forge_sdk.sh
+	@./scripts/forge_sdk.sh
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Universal SDK Forge manifest in 'sdk/' and 'scripts/'."
+    
+    # [ASCENSION]: Immediate Dependency Resolution
+    # Ensure the Architect has the generator image ready
+    proclaim: "Summoning the OpenAPI Generator image..."
+    >> docker pull openapitools/openapi-generator-cli:latest
+    
+    proclaim: "SDK Forge Ready."
+    proclaim: "To forge your first client library, ensure the API is running and speak: [bold cyan]make sdk[/bold cyan]"
+
+%% on-heresy
+    proclaim: "Forge inception failed. Ensure 'curl' and 'docker' are manifest in your environment."

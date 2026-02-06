@@ -1,0 +1,107 @@
+# Path: src/velm/archetypes/frontend/mosaic-gateway.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE MOSAIC GATEWAY (V-Ω-TOTALITY-MICRO-FRONTEND-SHELL)                      ==
+# =================================================================================
+# @description: Forges the Sovereign Portal shell. Uses Module Federation to 
+#               unify Dashboard, Settings, and Core vessels into one reality.
+# @category: Frontend
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ shell_port = 3000
+$$ dashboard_url = "http://localhost:3001"
+$$ settings_url = "http://localhost:3002"
+
+# --- II. THE SOVEREIGN SHELL (Form) ---
+shell/
+    package.json:
+        {
+          "name": "{{ project_slug }}-shell",
+          "version": "1.0.0",
+          "scripts": {
+            "dev": "vite",
+            "build": "vite build"
+          },
+          "dependencies": {
+            "react": "^18.2.0",
+            "react-dom": "^18.2.0",
+            "zustand": "latest"
+          },
+          "devDependencies": {
+            "vite": "latest",
+            "@originjs/vite-plugin-federation": "latest"
+          }
+        }
+
+    vite.config.ts :: """
+    import { defineConfig } from 'vite';
+    import react from '@vitejs/plugin-react';
+    import federation from '@originjs/vite-plugin-federation';
+
+    export default defineConfig({
+      plugins: [
+        react(),
+        federation({
+          name: 'shell',
+          remotes: {
+            dashboard: '{{ dashboard_url }}/assets/remoteEntry.js',
+            settings: '{{ settings_url }}/assets/remoteEntry.js',
+          },
+          shared: ['react', 'react-dom', 'zustand']
+        })
+      ],
+      server: { port: {{ shell_port }} }
+    });
+    """
+
+    # [ASCENSION 3]: THE GNOSTIC STATE BRIDGE
+    src/store/
+        bridge.ts :: """
+        import { create } from 'zustand';
+
+        // The Shared Reality State
+        // This store is federated across all Mosaic vessels.
+        interface GnosticState {
+          realityAnchor: string;
+          setAnchor: (val: string) => void;
+        }
+
+        export const useGnosticBridge = create<GnosticState>((set) => ({
+          realityAnchor: 'PRIMORDIAL_VOID',
+          setAnchor: (val) => set({ realityAnchor: val }),
+        }));
+        """
+
+    src/
+        App.tsx :: """
+        import React, { Suspense } from 'react';
+        const Dashboard = React.lazy(() => import('dashboard/App'));
+        const Settings = React.lazy(() => import('settings/App'));
+
+        export default function SovereignShell() {
+          return (
+            <div className="mosaic-portal">
+              <header>Ω | {{ project_title }}</header>
+              <Suspense fallback={<div>Summoning Dashboard...</div>}>
+                <Dashboard />
+              </Suspense>
+            </div>
+          );
+        }
+        """
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Mosaic Gateway manifest in 'shell/'."
+    
+    # [ASCENSION 12]: THE FINALITY VOW
+    # We install the federation plugin immediately
+    >> cd shell && npm install
+    
+    proclaim: "Mosaic shell forged. Ensure remote vessels are breathing before ignition."
+    proclaim: "To ignite the Portal, speak: [bold cyan]cd shell && npm run dev[/bold cyan]"
+
+%% on-heresy
+    proclaim: "Portal materialization failed. Check node_modules and plugin compatibility."

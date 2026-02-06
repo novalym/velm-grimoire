@@ -1,0 +1,129 @@
+# Path: src/velm/archetypes/integrations/polyglot-hyperdrive.scaffold
+# -----------------------------------------------------------------------
+# =================================================================================
+# == THE POLYGLOT HYPER-DRIVE (V-Ω-RUST-ACCELERATION)                            ==
+# =================================================================================
+# @description: Injects a high-performance Rust core into your high-level project.
+#               Configures bindings (PyO3/Neon) and creates the unified build rites.
+# @category: Performance
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ module_name = "hypercore"
+$$ is_python = {{ (project_type in ['python', 'poetry', 'fastapi']) | default(true) }}
+$$ is_node = {{ (project_type in ['node', 'nextjs', 'express']) | default(false) }}
+
+# --- II. THE RUST CORE SANCTUM ---
+native/{{ module_name }}/
+    Cargo.toml :: """
+    [package]
+    name = "{{ module_name }}"
+    version = "0.1.0"
+    edition = "2021"
+
+    [lib]
+    name = "{{ module_name }}"
+    {% if is_python %}crate-type = ["cdylib"]{% endif %}
+
+    [dependencies]
+    {% if is_python %}pyo3 = { version = "0.20", features = ["extension-module"] }{% endif %}
+    {% if is_node %}neon = "1.0"{% endif %}
+    """
+
+    src/lib.rs :: """
+    {% if is_python %}
+    use pyo3::prelude::*;
+
+    #[pyfunction]
+    fn calculate_gnosis(n: u64) -> PyResult<u64> {
+        // High-performance recursive Gnosis calculation
+        Ok((0..n).sum())
+    }
+
+    #[pymodule]
+    fn {{ module_name }}(_py: Python, m: &PyModule) -> PyResult<()> {
+        m.add_function(wrap_pyfunction!(calculate_gnosis, m)?)?;
+        Ok(())
+    }
+    {% endif %}
+
+    {% if is_node %}
+    use neon::prelude::*;
+
+    fn calculate_gnosis(mut cx: FunctionContext) -> JsResult<JsNumber> {
+        let n = cx.argument::<JsNumber>(0)?.value(&mut cx) as u64;
+        let result = (0..n).sum::<u64>();
+        Ok(cx.number(result as f64))
+    }
+
+    #[neon::main]
+    fn main(mut cx: ModuleContext) -> NeonResult<()> {
+        cx.export_function("calculateGnosis", calculate_gnosis)?;
+        Ok(())
+    }
+    {% endif %}
+    """
+
+# --- III. THE UNIFIED BUILD RITES ---
+Makefile += """
+# [Gnostic Suture]: Polyglot Hyper-Drive Rites
+build-native: ## Compile the Rust Hyper-Drive
+	@echo "🦀 Forging the Iron Core..."
+	cd native/{{ module_name }} && cargo build --release
+	{% if is_python %}cp native/{{ module_name }}/target/release/lib{{ module_name }}.so src/{{ package_name }}/{{ module_name }}.so || true{% endif %}
+    {% if is_python and os == 'windows' %}cp native/{{ module_name }}/target/release/{{ module_name }}.dll src/{{ package_name }}/{{ module_name }}.pyd || true{% endif %}
+"""
+
+# --- IV. THE LOGIC BRIDGE ---
+
+# [PATH A]: PYTHON
+@if {{ is_python }}
+src/{{ package_name }}/
+    # We create a wrapper to handle the native import gracefully
+    core/
+        hyperdrive.py :: """
+        try:
+            from .. import {{ module_name }}
+            Logger.info("Hyper-Drive: ENGAGED (Rust Core)")
+        except ImportError:
+            Logger.warn("Hyper-Drive: DISENGAGED (Native module not built)")
+            class {{ module_name }}:
+                @staticmethod
+                def calculate_gnosis(n): return sum(range(n)) # Python Fallback
+
+        def fast_compute(n: int):
+            return {{ module_name }}.calculate_gnosis(n)
+        """
+@endif
+
+# [PATH B]: NODE
+@if {{ is_node }}
+src/core/
+    hyperdrive.ts :: """
+    let native: any;
+    try {
+        native = require('../../native/{{ module_name }}/index.node');
+        console.log("Hyper-Drive: ENGAGED (Rust Core)");
+    } catch (e) {
+        console.warn("Hyper-Drive: DISENGAGED (Native module not built)");
+        native = { calculateGnosis: (n: number) => {
+            let sum = 0;
+            for(let i=0; i<n; i++) sum += i;
+            return sum;
+        }};
+    }
+    export const fastCompute = native.calculateGnosis;
+    """
+@endif
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    # Verify Rust is manifest in the environment
+    >> rustc --version
+    ?? succeeds
+    
+    proclaim: "Polyglot Hyper-Drive initialized. Forge the Iron Core with: [bold cyan]make build-native[/bold cyan]"
+
+%% on-heresy
+    proclaim: "The Hyper-Drive inception failed. Ensure Rust/Cargo is manifest in the PATH."

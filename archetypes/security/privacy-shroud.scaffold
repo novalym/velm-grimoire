@@ -1,0 +1,99 @@
+# Path: src/velm/archetypes/security/privacy-shroud.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE PRIVACY SHROUD (V-Ω-TOTALITY-PII-HARDENING)                            ==
+# =================================================================================
+# @description: Automates PII hardening via Field-Level Encryption and Blind 
+#               Indexing. Data is shrouded at the Database stratum and only 
+#               resurrected for authorized Ocular membranes.
+# @category: Security
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ encryption_algorithm = "AES-256-CFB"
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE CIPHER SANCTUM (Logic Core) ---
+src/{{ package_name }}/
+    core/
+        privacy_sentinel.py :: """
+        import os
+        import hmac
+        import hashlib
+        import base64
+        from cryptography.fernet import Fernet
+        from typing import Optional
+
+        # [THE MASTER KEY]: Summoned from the OS Environment Vault
+        MASTER_SECRET = os.getenv("SCAFFOLD_INTERNAL_KEY", "VOID_SECRET")
+        FERNET_KEY = base64.urlsafe_b64encode(hashlib.sha256(MASTER_SECRET.encode()).digest())
+        cipher = Fernet(FERNET_KEY)
+
+        def shroud_matter(cleartext: str) -> str:
+            \"\"\"Encrypts cleartext soul into a ciphered husk.\"\"\"
+            if not cleartext: return ""
+            return cipher.encrypt(cleartext.encode()).decode()
+
+        def resurrect_truth(ciphered_text: str) -> str:
+            \"\"\"Restores the cleartext soul from the ciphered husk.\"\"\"
+            if not ciphered_text: return ""
+            try:
+                return cipher.decrypt(ciphered_text.encode()).decode()
+            except:
+                return "[UNABLE_TO_RESURRECT_TRUTH]"
+
+        def forge_blind_index(cleartext: str) -> str:
+            \"\"\"
+            [ASCENSION]: Creates a searchable HMAC hash of the data.
+            Allows O(1) database lookups on encrypted fields without decryption.
+            \"\"\"
+            if not cleartext: return ""
+            return hmac.new(MASTER_SECRET.encode(), cleartext.encode(), hashlib.sha256).hexdigest()
+        """
+
+# --- III. THE SURGICAL WEAVE (Model Hardening) ---
+# We inject the Shroud logic into the base model or database layer
+@if {{ database_type == 'postgres' or database_type == 'sqlite' }}
+src/{{ package_name }}/
+    models.py ^= """
+    from .core.privacy_sentinel import shroud_matter, resurrect_truth, forge_blind_index
+    """
+    
+    # Example of how the Architect should use it
+    models.py += """
+    # [Gnostic Suture]: Sample Shrouded Model
+    # Use the @property decorator to handle transparent encryption/decryption
+    class User(Base):
+        __tablename__ = "users"
+        id = Column(Integer, primary_key=True)
+        _email = Column("email", String) # Encrypted on disk
+        email_hash = Column(String, index=True) # Searchable Blind Index
+
+        @property
+        def email(self):
+            return resurrect_truth(self._email)
+
+        @email.setter
+        def email(self, value):
+            self._email = shroud_matter(value)
+            self.email_hash = forge_blind_index(value)
+    """
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Privacy Shroud manifest. Field-level encryption active."
+    
+    # Install cryptographic artisans
+    {% if is_python %}
+    >> poetry add cryptography
+    {% else %}
+    >> npm install crypto-js
+    {% endif %}
+    
+    proclaim: "To shroud a field, use the [bold cyan]shroud_matter[/bold cyan] setter in your models."
+    proclaim: "IMPORTANT: Ensure [bold red]SCAFFOLD_INTERNAL_KEY[/bold red] is set in your .env."
+
+%% on-heresy
+    proclaim: "Shroud inception failed. Ensure the 'cryptography' artisan is manifest."

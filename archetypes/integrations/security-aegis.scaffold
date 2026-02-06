@@ -1,0 +1,146 @@
+# Path: src/velm/archetypes/integrations/security-aegis.scaffold
+# ------------------------------------------------------------------
+# =================================================================================
+# == THE SECURITY AEGIS (V-Ω-TOTALITY-SECURITY-WARD)                            ==
+# =================================================================================
+# @description: Hardens the reality with Redis-backed Rate Limiting, 
+#               strict CORS governance, and Semantic Chaos Wards.
+# @category: Security
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ rate_limit_requests = 100
+$$ rate_limit_window = 60
+$$ allowed_origins = "*"
+
+# Contextual Scrying
+$$ is_python = {{ (project_type in ['python', 'poetry', 'fastapi']) | default(true) }}
+$$ is_node = {{ (project_type in ['node', 'nextjs', 'express']) | default(false) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF MATTER (Infrastructure) ---
+# We ensure a Redis sentinel is present for the Rate Limiter.
+docker-compose.security.yml :: """
+version: '3.8'
+services:
+  security-cache:
+    image: redis:7-alpine
+    container_name: {{ project_slug }}_security_vault
+    networks:
+      - gnostic_mesh
+
+networks:
+  gnostic_mesh:
+    external: true
+    name: {{ project_slug }}_gnostic_mesh
+"""
+
+# --- III. THE SURGICAL WEAVE (Python / FastAPI) ---
+@if {{ is_python }}
+src/{{ package_name }}/
+    core/
+        security_wards.py :: """
+        import re
+        from fastapi import Request, HTTPException
+        from starlette.status import HTTP_403_FORBIDDEN
+        import redis.asyncio as redis
+
+        # [FACULTY 1]: THE CHAOS WARD (Injection Defense)
+        CHAOS_PATTERNS = [
+            r"(\'|--|#|\/\*|\*\/)", # SQL Tokens
+            r"(<script|alert\(|onerror=)", # XSS Signs
+            r"(\$where|\$ne|\$gt|\$lt)", # NoSQL Injection
+            r"(\.\.\/|\.\.\\)" # Path Traversal (The Heresy we just healed!)
+        ]
+
+        async def check_chaos_ward(request: Request):
+            body = await request.body()
+            body_str = body.decode('utf-8', errors='ignore').lower()
+            for pattern in CHAOS_PATTERNS:
+                if re.search(pattern, body_str):
+                    raise HTTPException(status_code=403, detail="SECURITY_AEGIS: MALICIOUS_ENTROPY_DETECTED")
+
+        # [FACULTY 2]: REDIS RATE LIMITER
+        class AegisRateLimiter:
+            def __init__(self):
+                self.r = redis.from_url("redis://security-cache:6379")
+            
+            async def is_rate_limited(self, identifier: str):
+                key = f"aegis:limit:{identifier}"
+                count = await self.r.incr(key)
+                if count == 1:
+                    await self.r.expire(key, {{ rate_limit_window }})
+                return count > {{ rate_limit_requests }}
+        """
+
+    # THE SURGICAL STRIKE: Inject into main.py
+    main.py ^= """
+    from fastapi.middleware.cors import CORSMiddleware
+    from .core.security_wards import check_chaos_ward
+    """
+
+    main.py += """
+    # [Gnostic Suture]: The Security Aegis
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["{{ allowed_origins }}"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    @app.middleware("http")
+    async def security_aegis_middleware(request: Request, call_next):
+        await check_chaos_ward(request)
+        return await call_next(request)
+    """
+
+    requirements.txt += """
+    redis>=5.0.1
+    """
+@endif
+
+# --- IV. THE SURGICAL WEAVE (Node / Express) ---
+@if {{ is_node }}
+src/core/
+    securityWards.ts :: """
+    import { Request, Response, NextFunction } from 'express';
+    import { createClient } from 'redis';
+
+    const CHAOS_PATTERNS = [/<script|alert\(|\$where|\.\.\/|' OR '1'='1/i];
+
+    export const chaosWard = (req: Request, res: Response, next: NextFunction) => {
+      const payload = JSON.stringify(req.body) + JSON.stringify(req.query);
+      if (CHAOS_PATTERNS.some(p => p.test(payload))) {
+        return res.status(403).json({ error: "SECURITY_AEGIS: ENTROPY_DETECTED" });
+      }
+      next();
+    };
+    """
+
+    server.ts ^= """
+    import helmet from 'helmet';
+    import cors from 'cors';
+    import { chaosWard } from './core/securityWards';
+    """
+
+    server.ts += """
+    // [Gnostic Suture]: Aegis Active
+    app.use(helmet());
+    app.use(cors({ origin: '{{ allowed_origins }}' }));
+    app.use(chaosWard);
+    """
+
+    package.json:
+        dependencies += {
+            "helmet": "latest",
+            "cors": "latest",
+            "redis": "latest"
+        }
+@endif
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Security Aegis materializing. Locking the Gate..."
+    >> docker network create {{ project_slug }}_gnostic_mesh || true
+    proclaim: "To shield the reality, speak: [bold cyan]docker-compose -f docker-compose.security.yml up -d[/bold cyan]"

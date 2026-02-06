@@ -1,0 +1,125 @@
+# Path: src/velm/archetypes/infrastructure/elastic-sentry.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE ELASTIC SENTRY (V-Ω-TOTALITY-METABOLIC-RECOVERY)                        ==
+# =================================================================================
+# @description: Telemetry-aware load balancer (Traefik). Automatically spawns 
+#               service clones when 'Metabolic Fever' is detected.
+# @category: Infrastructure
+# @difficulty: Grand Architect
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ max_replicas = 5
+$$ latency_threshold_ms = 500
+$$ sentinel_check_interval = 10
+
+# --- II. THE SENTRY COCKPIT (Traefik Configuration) ---
+infra/sentry/
+    traefik.yml :: """
+    api:
+      dashboard: true
+      insecure: true
+
+    providers:
+      docker:
+        endpoint: "unix:///var/run/docker.sock"
+        exposedByDefault: false
+        network: gnostic_mesh
+
+    entryPoints:
+      web:
+        address: ":80"
+    """
+
+# --- III. THE METABOLIC GOVERNOR (The Healing Logic) ---
+# A python daemon that monitors container vitals and triggers Docker scaling.
+    governor.py :: """
+    import docker
+    import time
+    import requests
+
+    client = docker.from_env()
+    SERVICE_NAME = "{{ project_slug }}_api"
+
+    def monitor_metabolism():
+        print(f"🛡️ [SENTRY] Metabolic Governor active. Threshold: {{ latency_threshold_ms }}ms")
+        while True:
+            try:
+                # [ASCENSION 1]: Scry the Akashic Vitals
+                # We assume the API exposes a /health/vitals endpoint provided by Velm
+                res = requests.get("http://api:8000/health", timeout=2)
+                vitals = res.json().get('vitals', {})
+                latency = vitals.get('latency_ms', 0)
+
+                if latency > {{ latency_threshold_ms }}:
+                    # [ASCENSION 2]: Autonomic Replication (The Strike)
+                    service = client.services.get(SERVICE_NAME)
+                    current_scale = service.attrs['Spec']['Mode']['Replicated']['Replicas']
+                    
+                    if current_scale < {{ max_replicas }}:
+                        new_scale = current_scale + 1
+                        print(f"🔥 [FEVER] Latency {latency}ms detected. Scaling Swarm to {new_scale}...")
+                        service.scale(new_scale)
+                
+                # [ASCENSION 3]: Entropy Cooling (Scale back when stable)
+                elif latency < ({{ latency_threshold_ms }} / 2):
+                    # Logic to scale down...
+                    pass
+
+            except Exception as e:
+                print(f"⚠️ [SENTRY] Scry failed: {e}")
+
+            time.sleep({{ sentinel_check_interval }})
+
+    if __name__ == "__main__":
+        monitor_metabolism()
+    """
+
+# --- IV. THE SURGICAL WEAVE (Infrastructure Overlay) ---
+docker-compose.sentry.yml :: """
+version: '3.8'
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: {{ project_slug }}_sentry
+    command:
+      - "--configfile=/etc/traefik/traefik.yml"
+    ports:
+      - "80:80"
+      - "8080:8080" # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./infra/sentry/traefik.yml:/etc/traefik/traefik.yml
+    networks:
+      - gnostic_mesh
+
+  governor:
+    build:
+      context: ./infra/sentry
+      dockerfile: Dockerfile.governor
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - gnostic_mesh
+    depends_on:
+      - traefik
+
+networks:
+  gnostic_mesh:
+    external: true
+    name: {{ project_slug }}_gnostic_mesh
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Elastic Sentry materializing. Gatekeeper active."
+    >> docker network create {{ project_slug }}_gnostic_mesh || true
+    
+    # Materialize Governor Dockerfile
+    >> echo "FROM python:3.11-slim\nRUN pip install docker requests\nCOPY governor.py .\nCMD ['python', 'governor.py']" > infra/sentry/Dockerfile.governor
+    
+    proclaim: "Sentry Ready. To guard the Singularity, speak: [bold cyan]docker-compose -f docker-compose.sentry.yml up -d[/bold cyan]"
+
+%% on-heresy
+    proclaim: "Sentry inception failed. Ensure the Docker Socket is accessible."

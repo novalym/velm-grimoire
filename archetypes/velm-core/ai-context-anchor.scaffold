@@ -1,0 +1,70 @@
+# Path: src/velm/archetypes/velm-core/ai-context-anchor.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE AI CONTEXT ANCHOR (V-Ω-TOTALITY-NEURAL-ANCHOR)                         ==
+# =================================================================================
+# @description: Injects Gnostic Context scriptures into the '.scaffold/' sanctum.
+#               Ensures the Velm Oracle (RAG) has perfect recall of 
+#               architectural intent and design patterns.
+# @category: Intelligence
+# @difficulty: Adept
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_philosophy = "Clean Architecture / Domain Driven Design"
+
+# --- II. THE CONTEXT SANCTUM (Intelligence) ---
+.scaffold/
+    # [ASCENSION]: The Librarian's Primary Source
+    # This file is given priority 1.0 (Maximum Gravity) in the Vector Cortex.
+    context.md :: """
+    # Project Gnostic Context: {{ project_title }}
+    
+    ## Core Philosophy
+    - **Architecture:** {{ project_philosophy }}
+    - **Intent:** {{ description }}
+    - **Primary Artisan:** {{ author }}
+
+    ## Structural Laws
+    1.  **Immutability:** Rites must be conducted through `velm`.
+    2.  **Sovereignty:** Logic must remain separated from Infrastructure.
+    3.  **Integrity:** `scaffold.lock` is the final authority on reality.
+
+    ## Pattern Grimoire
+    - All API endpoints must reside in `src/{{ package_name }}/api`.
+    - All business logic must be encapsulated in `src/{{ package_name }}/services`.
+    """
+
+    # [ASCENSION]: Vector Indexing Protocol
+    # Tells the 'velm vector' artisan exactly how to weight different files.
+    vector_rules.json :: """
+    {
+      "indexing_strategy": "surgical",
+      "priority_files": [
+        "scaffold.scaffold",
+        ".scaffold/context.md",
+        "README.md"
+      ],
+      "ignore_noise": true,
+      "semantic_weights": {
+        "context.md": 2.0,
+        "api/": 1.5,
+        "services/": 1.5,
+        "tests/": 0.5
+      }
+    }
+    """
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "AI Context Anchor manifest in '.scaffold/'."
+    
+    # [ASCENSION]: Just-In-Time Indexing
+    # Trigger the first semantic scan of the project
+    proclaim: "Summoning the Vector Librarian to index the new context..."
+    >> velm vector index
+    
+    proclaim: "Context Anchored. The Velm Oracle now perceives your architectural intent."
+
+%% on-heresy
+    proclaim: "Anchoring failed. Ensure the '.scaffold' sanctum exists."

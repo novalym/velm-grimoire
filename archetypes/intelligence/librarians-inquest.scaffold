@@ -1,0 +1,135 @@
+# Path: src/velm/archetypes/intelligence/librarians-inquest.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE LIBRARIAN'S INQUEST (V-Ω-TOTALITY-SEMANTIC-SIDECAR)                     ==
+# =================================================================================
+# @description: Injects a complete RAG sidecar. Materializes ChromaDB, forges 
+#               the semantic ingestion pipeline, and weaves the /resonate 
+#               endpoint into your logic layer.
+# @category: Intelligence
+# @difficulty: Master
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ vector_db_port = 8000
+$$ embedding_model = "all-MiniLM-L6-v2" # Local sovereignty default
+$$ collection_name = "{{ project_slug }}_knowledge"
+
+# Contextual Scrying
+$$ is_python = {{ (project_type in ['python', 'poetry', 'fastapi']) | default(true) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE AKASHIC INFRASTRUCTURE (Matter) ---
+infra/intelligence/
+    docker-compose.rag.yml :: """
+    version: '3.8'
+    services:
+      chroma-vault:
+        image: chromadb/chroma:latest
+        container_name: {{ project_slug }}_chroma
+        volumes:
+          - chroma_data:/chroma/data
+        ports:
+          - "{{ vector_db_port }}:8000"
+        networks:
+          - gnostic_mesh
+
+    volumes:
+      chroma_data:
+
+    networks:
+      gnostic_mesh:
+        external: true
+        name: {{ project_slug }}_gnostic_mesh
+    """
+
+# --- III. THE INQUISITOR'S LOGIC (The Pipeline) ---
+scripts/
+    # [ASCENSION 1]: The Semantic Ingestor
+    # This script scries the project and embeds its soul.
+    librarian_ingest.py :: """
+    import chromadb
+    from chromadb.utils import embedding_functions
+    import os
+    from pathlib import Path
+
+    def ignite_ingestion():
+        client = chromadb.HttpClient(host='chroma-vault', port=8000)
+        # [ASCENSION 2]: Local Embedding Sovereignty
+        model = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="{{ embedding_model }}")
+        collection = client.get_or_create_collection(name="{{ collection_name }}", embedding_function=model)
+
+        print("🔍 [LIBRARIAN] Scrying scriptures for the Vector Void...")
+        
+        # [ASCENSION 3]: Gnostic Chunking (AST-Aware Logic)
+        # We target code and documentation
+        for root, _, files in os.walk('src'):
+            for file in files:
+                if file.endswith(('.py', '.ts', '.md', '.scaffold')):
+                    path = Path(root) / file
+                    content = path.read_text(encoding='utf-8')
+                    # [ASCENSION 4]: Merkle-Hash Check (Only embed if changed)
+                    # (Simplified for this version)
+                    collection.add(
+                        documents=[content],
+                        metadatas=[{"path": str(path), "type": "scripture"}],
+                        ids=[str(path)]
+                    )
+        print("✨ [LIBRARIAN] Ingestion complete. Knowledge is manifest.")
+
+    if __name__ == "__main__":
+        ignite_ingestion()
+    """
+
+# --- IV. THE RESONANCE ENDPOINT (The Bridge) ---
+@if {{ is_python }}
+src/{{ package_name }}/
+    api/
+        resonate.py :: """
+        from fastapi import APIRouter, Query
+        import chromadb
+        from ...core.alchemist import get_alchemist
+
+        router = APIRouter()
+        client = chromadb.HttpClient(host='chroma-vault', port=8000)
+        collection = client.get_collection(name="{{ collection_name }}")
+
+        @router.get("/resonate")
+        async def resonate(q: str = Query(..., description="The semantic query")):
+            \"\"\"[ASCENSION 5]: Semantic Resonance Inquest.\"\"\"
+            results = collection.query(query_texts=[q], n_results=5)
+            return {
+                "intent": q,
+                "matches": results['documents'][0],
+                "metadata": results['metadatas'][0],
+                "confidence": results['distances'][0]
+            }
+        """
+
+    # THE SURGICAL WEAVE: Inject into main.py
+    main.py ^= """
+    from .api.resonate import router as resonate_router
+    """
+    main.py += """
+    # [Gnostic Suture]: Weaving the Librarian's Inquest
+    app.include_router(resonate_router)
+    """
+
+    requirements.txt += """
+    chromadb>=0.4.0
+    sentence-transformers>=2.2.2
+    """
+@endif
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Librarian's Inquest manifest. Vector Vault initialized."
+    >> docker network create {{ project_slug }}_gnostic_mesh || true
+    proclaim: "To awaken the Librarian, speak: [bold cyan]docker-compose -f infra/intelligence/docker-compose.rag.yml up -d[/bold cyan]"
+    proclaim: "To feed the Librarian, speak: [bold cyan]make ingest[/bold cyan]"
+
+Makefile += """
+# [Gnostic Suture]: Librarian Rites
+ingest: ## Feed the project soul into the Vector Vault
+	@docker-compose -f infra/intelligence/docker-compose.rag.yml exec chroma-vault python /scripts/librarian_ingest.py
+"""

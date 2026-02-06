@@ -1,0 +1,112 @@
+# Path: src/velm/archetypes/integrations/data-science-appendix.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE DATA SCIENCE APPENDIX (V-Ω-TOTALITY-COGNITIVE-LAB)                      ==
+# =================================================================================
+# @description: Injects a Jupyter Lab environment with persistence mounts.
+#               It sutures your project logic to a high-order analytical 
+#               workbench for Pandas and PyTorch experimentation.
+# @category: Intelligence
+# @difficulty: Adept
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ lab_port = 8888
+$$ use_gpu = false
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE LABORATORY SANCTUM ---
+notebooks/
+    # [ASCENSION]: Seed a template for the first experiment
+    01_initial_perception.ipynb :: """
+    {
+     "cells": [
+      {
+       "cell_type": "markdown",
+       "metadata": {},
+       "source": [
+        "# Initial Gnostic Perception\n",
+        "This notebook is anchored to the `{{ project_title }}` project root."
+       ]
+      },
+      {
+       "cell_type": "code",
+       "execution_count": null,
+       "metadata": {},
+       "outputs": [],
+       "source": [
+        "import sys\n",
+        "sys.path.append('../src')\n",
+        "from {{ package_name }} import config\n",
+        "print(f'Laboratory connected to: {config.settings.APP_NAME}')"
+       ]
+      }
+     ],
+     "metadata": { "kernelspec": { "display_name": "Python 3", "language": "python", "name": "python3" } },
+     "nbformat": 4, "nbformat_minor": 5
+    }
+    """
+
+    Dockerfile.lab :: """
+    FROM python:3.11-slim
+    WORKDIR /lab
+    
+    # Install analytical deities
+    RUN pip install --no-cache-dir jupyterlab pandas matplotlib seaborn scipy
+    
+    # [THE CURE]: Conditional PyTorch Inception
+    {% if use_gpu %}
+    RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+    {% else %}
+    RUN pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+    {% endif %}
+
+    EXPOSE 8888
+    CMD ["jupyter", "lab", "--ip=0.0.0.0", "--no-browser", "--allow-root", "--NotebookApp.token=''"]
+    """
+
+# --- III. THE KINETIC OVERLAY (Compose) ---
+docker-compose.lab.yml :: """
+version: '3.8'
+services:
+  lab:
+    build:
+      context: ./notebooks
+      dockerfile: Dockerfile.lab
+    container_name: {{ project_slug }}_lab
+    ports:
+      - "{{ lab_port }}:8888"
+    volumes:
+      - ./notebooks:/lab/notebooks
+      - ./src:/lab/src  # [THE SUTURE]: Mount the project soul
+      - ./data:/lab/data # [THE MATTER]: Mount the project matter
+    {% if use_gpu %}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    {% endif %}
+    networks:
+      - gnostic_mesh
+
+networks:
+  gnostic_mesh:
+    external: true
+    name: {{ project_slug }}_gnostic_mesh
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Data Science Appendix manifest in 'notebooks/'."
+    
+    # Create a physical data sanctum if missing
+    >> mkdir -p data/
+    
+    proclaim: "To awaken the Laboratory, speak: [bold cyan]docker-compose -f docker-compose.lab.yml up -d[/bold cyan]"
+    proclaim: "Access the workbench at http://localhost:{{ lab_port }}"
+
+%% on-heresy
+    proclaim: "Laboratory inception failed. Verify Docker and GPU drivers (if enabled)."

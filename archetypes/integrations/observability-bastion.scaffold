@@ -1,0 +1,195 @@
+# Path: src/velm/archetypes/integrations/observability-bastion.scaffold
+# ----------------------------------------------------------------------
+# =================================================================================
+# == THE OBSERVABILITY BASTION (V-Ω-TOTALITY-INTEGRATION)                        ==
+# =================================================================================
+# @description: A surgical injection of OpenTelemetry, Prometheus, and Grafana.
+#               It materializes the monitoring stack and weaves instrumentation
+#               directly into the heart of your existing backend.
+# @category: Infrastructure
+# @difficulty: Adept
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL (Variables) ---
+$$ monitor_slug = "observability-bastion"
+$$ prometheus_port = 9090
+$$ grafana_port = 3000
+$$ otel_exporter_port = 4317
+
+# --- Contextual Detection ---
+# The Alchemist divines the existing project DNA
+$$ is_python = {{ (project_type in ['python', 'poetry', 'fastapi']) | default(true) }}
+$$ is_node = {{ (project_type in ['node', 'nextjs', 'express']) | default(false) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF MATTER (Infrastructure) ---
+# We forge the monitoring sanctum within the project.
+infra/monitoring/
+    prometheus/
+        prometheus.yml :: """
+        global:
+          scrape_interval: 15s
+          evaluation_interval: 15s
+
+        scrape_configs:
+          - job_name: 'prometheus'
+            static_configs:
+              - targets: ['localhost:9090']
+
+          - job_name: '{{ project_slug }}'
+            static_configs:
+              - targets: ['api:8000']
+        """
+    
+    grafana/
+        provisioning/
+            datasources/
+                datasource.yml :: """
+                apiVersion: 1
+                datasources:
+                  - name: Prometheus
+                    type: prometheus
+                    access: proxy
+                    url: http://prometheus:9090
+                    isDefault: true
+                """
+            dashboards/
+                dashboard.yml :: """
+                apiVersion: 1
+                providers:
+                  - name: 'Default'
+                    orgId: 1
+                    folder: ''
+                    type: file
+                    disableDeletion: false
+                    editable: true
+                    options:
+                      path: /var/lib/grafana/dashboards
+                """
+        dashboards/
+            # [ASCENSION]: Pre-configured Gnostic Dashboard for FastAPI/Express
+            runtime_vitals.json :: """
+            {
+              "title": "{{ project_title }} Vitals",
+              "panels": [
+                { "title": "Request Latency", "type": "timeseries", "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0} },
+                { "title": "CPU Intensity", "type": "gauge", "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0} }
+              ]
+            }
+            """
+
+# --- III. THE DUAL-COMPOSE OVERLAY ---
+# We materialize a secondary compose file to keep monitoring concerns isolated.
+docker-compose.monitoring.yml :: """
+version: '3.8'
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./infra/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "{{ prometheus_port }}:9090"
+    networks:
+      - gnostic_mesh
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./infra/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./infra/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - "{{ grafana_port }}:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - gnostic_mesh
+
+networks:
+  gnostic_mesh:
+    external: true
+    name: {{ project_slug }}_gnostic_mesh
+"""
+
+# --- IV. THE SURGICAL WEAVE (Code Injection) ---
+
+# [PATH A]: PYTHON / FASTAPI
+@if {{ is_python }}
+src/{{ package_name }}/
+    telemetry.py :: """
+    from opentelemetry import trace
+    from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+    from opentelemetry.sdk.resources import RESOURCE_ATTRIBUTES, Resource
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry.sdk.trace.export import BatchSpanProcessor
+    from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+    def init_telemetry(app, service_name="{{ project_slug }}"):
+        resource = Resource(attributes={
+            RESOURCE_ATTRIBUTES.SERVICE_NAME: service_name
+        })
+        provider = TracerProvider(resource=resource)
+        processor = BatchSpanProcessor(OTLPSpanExporter(endpoint="http://otel-collector:4317"))
+        provider.add_span_processor(processor)
+        trace.set_tracer_provider(provider)
+        FastAPIInstrumentor.instrument_app(app)
+    """
+
+    # THE SURGICAL STRIKE: Inject into main.py
+    main.py += """
+    # [Gnostic Suture]: Weaving Observability
+    from .telemetry import init_telemetry
+    init_telemetry(app)
+    """
+    
+    # Update dependencies
+    requirements.txt += """
+    opentelemetry-api
+    opentelemetry-sdk
+    opentelemetry-instrumentation-fastapi
+    opentelemetry-exporter-otlp
+    """
+@endif
+
+# [PATH B]: NODE / EXPRESS
+@if {{ is_node }}
+src/core/
+    telemetry.ts :: """
+    import { NodeSDK } from '@opentelemetry/sdk-node';
+    import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
+    import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
+    import { ExpressInstrumentation } from '@opentelemetry/instrumentation-express';
+
+    const sdk = new NodeSDK({
+      serviceName: '{{ project_slug }}',
+      traceExporter: new OTLPTraceExporter({ endpoint: 'http://otel-collector:4317' }),
+      instrumentations: [new HttpInstrumentation(), new ExpressInstrumentation()]
+    });
+
+    sdk.start();
+    """
+
+    # THE SURGICAL STRIKE: Inject into the top of the entrypoint
+    server.ts ^= """
+    import './core/telemetry'; // [Gnostic Suture]: Observability Active
+    """
+
+    package.json:
+        # Deep merge into dependencies
+        dependencies += {
+            "@opentelemetry/sdk-node": "latest",
+            "@opentelemetry/exporter-trace-otlp-grpc": "latest",
+            "@opentelemetry/instrumentation-http": "latest",
+            "@opentelemetry/instrumentation-express": "latest"
+        }
+@endif
+
+# --- V. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Observability Bastion manifest. Materializing Mesh Network..."
+    >> docker network create {{ project_slug }}_gnostic_mesh || true
+    
+    # Suggest next action to the Architect
+    proclaim: "To ignite the Bastion, speak: [bold cyan]docker-compose -f docker-compose.monitoring.yml up -d[/bold cyan]"
+
+%% on-heresy
+    proclaim: "The Bastion integration faltered. Verify that 'main.py' or 'server.ts' exists and is formatted correctly."
