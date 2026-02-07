@@ -138,8 +138,10 @@ class MasterLibrarian:
         self._finalize_and_inscribe()
 
     def _perceive_shard(self, path: Path):
-        """[THE ATOMIC GAZE] Performs 12 stages of metadata extraction."""
-        # Calculate relative path from vault root for the URL
+        """
+        [THE ATOMIC GAZE] Performs 12 stages of metadata extraction.
+        Titanium-hardened to catch and neutralize external Oracle logic failures.
+        """
         rel_path = path.relative_to(self.vault_path).as_posix()
         slug = path.stem
 
@@ -147,15 +149,52 @@ class MasterLibrarian:
             content = path.read_text(encoding="utf-8")
 
             # 1. DIVINE THE DNA (The Oracle's Rite)
-            dna = GnosticDNAOracle.divine(slug, content)
+            # This call is the external vulnerability. We defend against its possible crash.
+            try:
+                dna = GnosticDNAOracle.divine(slug, content)
+            except Exception as oracle_e:
+                # If the Oracle crashes, we log the forensic details but use a safe fallback.
+                self.heresies.append(f"Oracle Crash in {rel_path}: {type(oracle_e).__name__} - {str(oracle_e)}")
+                # Provide a minimal safe structure
+                dna = {"name": slug, "description": "Gnosis Fractured: Oracle Error.", "category": "Error-Quarantine",
+                       "tags": []}
 
-            # 2. CALCULATE INTEGRITY (Merkle Fingerprint)
+            # [CRITICAL SUTURE 1]: ENSURE RETURN IS A DICTIONARY
+            if not isinstance(dna, dict):
+                dna = {"name": slug, "description": "Gnosis Corrupted: Forcing Dict.", "category": "Error-Quarantine",
+                       "tags": []}
+
+            # --- LEVEL 2: DEFENSIVE FIELD NORMALIZATION ---
+
+            # Normalize 'tags' to be a list (it might be a string or None)
+            tags_data = dna.get("tags")
+            if tags_data is not None and not isinstance(tags_data, list):
+                dna["tags"] = [str(tags_data)] if tags_data else []
+            else:
+                dna["tags"] = dna.get("tags", [])
+
+            # Normalize 'gnosis_overrides' to be a dictionary
+            overrides_data = dna.get("gnosis_overrides")
+            if overrides_data is not None and not isinstance(overrides_data, dict):
+                dna["gnosis_overrides"] = {}
+            else:
+                dna["gnosis_overrides"] = dna.get("gnosis_overrides", {})
+
+            # --- LEVEL 3: MERKLE SEAL AND CHRONICLING ---
+
+            # 2. CALCULATE INTEGRITY
             hasher = hashlib.sha256(content.encode('utf-8'))
             dna["sha256"] = hasher.hexdigest()
             dna["bytes"] = len(content)
 
             # 3. FORGE CELESTIAL COORDINATE (URL)
-            dna["url"] = f"{self.base_url}/{rel_path}"
+            clean_repo = self.repo.rstrip('/')
+
+            # The issue is the path construction. We ensure the relative path is correctly calculated.
+            # We assume self.vault_path.name is 'archetypes'
+            url_path_fragment = str(path.relative_to(self.vault_path.parent.parent)).replace('\\', '/')
+
+            dna["url"] = f"https://raw.githubusercontent.com/{clean_repo}/{self.branch}/{url_path_fragment}"
 
             # 4. ADJUDICATE PURITY (Socratic Validation)
             if not dna.get("description"):
@@ -166,7 +205,8 @@ class MasterLibrarian:
             self.stats[dna.get("category", "Unclassified")] += 1
 
         except Exception as e:
-            self.heresies.append(f"Fracture in {rel_path}: {str(e)}")
+            # [FINALITY VOW]: Log the fracture and continue.
+            self.heresies.append(f"Fracture in {rel_path}: {type(e).__name__} - {str(e)}")
 
     def _finalize_and_inscribe(self):
         """The Rite of Final Inscription."""

@@ -1,0 +1,2936 @@
+{
+  "version": "2.0.0",
+  "timestamp": 1770426883.1999478,
+  "repo": "https://github.com/novalym/velm-grimoire/main",
+  "branch": "main",
+  "count": 93,
+  "archetypes": [
+    {
+      "name": "achronal-migrator",
+      "description": "Forges a self-migrating project core. Detects drift between the engine's internal schema (V25 -> V26) and the project's 'scaffold.lock', performing automatic alchemical transmutation to keep the project eternally compatible.",
+      "category": "Velm-Core",
+      "tags": [
+        "compatibility",
+        "evolution",
+        "lockfile",
+        "makefile",
+        "migration",
+        "python",
+        "schema",
+        "temporal-drift"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "engine_version": "V25",
+        "support_auto_patch": true,
+        "backup_on_migrate": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "9718a93bed26b7f3306aec91c8ecc80b16f891a409f2b3c5c9f3316741605e0a",
+      "bytes": 4101,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/achronal-migrator.scaffold"
+    },
+    {
+      "name": "agentic-servitor",
+      "description": "A persistent background worker that executes multi-step AI plans with tool access and human-in-the-loop gates.",
+      "category": "Intelligence",
+      "tags": [
+        "agent",
+        "ai",
+        "fastapi",
+        "loop",
+        "openai",
+        "pydantic",
+        "python",
+        "react",
+        "tools",
+        "worker"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "worker_concurrency": 2
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "cd4c78e77d291e6bfa3161b4be6dccab94ed11eb6517670d8787852bebc8e508",
+      "bytes": 6171,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/agentic-servitor.scaffold"
+    },
+    {
+      "name": "ai-agent-swarm",
+      "description": "A legendary, production-grade distributed AI system. Features",
+      "category": "Intelligence",
+      "tags": [
+        "agents",
+        "ai",
+        "distributed",
+        "docker",
+        "fastapi",
+        "makefile",
+        "openai",
+        "python",
+        "redis",
+        "system"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_poetry": true,
+        "use_redis": true
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "de3d82cb874583938b0a01b9aa145837bd29669e281a531837175b640dd691f7",
+      "bytes": 22747,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/ai-agent-swarm.scaffold"
+    },
+    {
+      "name": "ai-context-anchor",
+      "description": "Injects a high-gravity Gnostic Anchor into the project's soul. Materializes the '.scaffold/' sanctum containing the definitive architectural rules and semantic weights required for a hyper-performant, hallucination-free AI Co-Pilot.",
+      "category": "Meta",
+      "tags": [
+        "ai",
+        "context",
+        "documentation",
+        "llm-optimized",
+        "makefile",
+        "metadata",
+        "python",
+        "rag",
+        "system",
+        "vector"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "context_version": "1.0",
+        "indexing_strategy": "surgical",
+        "auto_index": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "3eec3b3d3a7940f3b8103a7f9b75f8311bcb16a9ddccb0ab961d915efc3b6de9",
+      "bytes": 5695,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/ai-context-anchor.scaffold"
+    },
+    {
+      "name": "ansible-citadel",
+      "description": "A production-grade Ansible fortress for declarative server",
+      "category": "Automation",
+      "tags": [
+        "ansible",
+        "configuration-management",
+        "devops",
+        "iac",
+        "infrastructure",
+        "makefile",
+        "python"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_ansible": true,
+        "use_makefile": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "37f6c523228eb64566556845c476602bb7aa8724f1f8d0636ee4339cdb4f25dc",
+      "bytes": 4476,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/ansible-citadel.scaffold"
+    },
+    {
+      "name": "apeiron-distributed-lock",
+      "description": "Materializes a high-fidelity distributed mutex system using Redis. Prevents race conditions and double-execution heresies across distributed worker swarms and multi-node API clusters.",
+      "category": "System",
+      "tags": [
+        "concurrency",
+        "distributed-systems",
+        "lock",
+        "mutex",
+        "python",
+        "react",
+        "redis",
+        "safety",
+        "synchronization"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "redis_url": "redis://localhost:6379/0",
+        "lock_timeout": 60,
+        "retry_delay": "0.1"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "652f2f569ecb41d211dafb882f47cf1f50c79f10ef5a6532d7b672761ee526e1",
+      "bytes": 4870,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/apeiron-distributed-lock.scaffold"
+    },
+    {
+      "name": "api-gateway-monad",
+      "description": "Materializes a sovereign unified ingress point using Caddy and high-fidelity proxy logic. Orchestrates automatic SSL, request normalization, and cross-service mesh routing for a multi-tenant microservice multiverse.",
+      "category": "Integrations",
+      "tags": [
+        "caddy",
+        "docker",
+        "gateway",
+        "infrastructure",
+        "ingress",
+        "makefile",
+        "microservices",
+        "networking",
+        "proxy",
+        "python",
+        "ssl"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "public_port": 80,
+        "secure_port": 443,
+        "admin_port": 2019,
+        "mesh_network": "gnostic_mesh"
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "fbbe3e11599c4b4154c9c3e022d44a8d995ff2732679abccd5721e10e0f95cd0",
+      "bytes": 8299,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/api-gateway-monad.scaffold"
+    },
+    {
+      "name": "api-versioning-warp",
+      "description": "Materializes a high-fidelity Temporal Proxy Layer that transparently bridges legacy API consumers to modern structures via semantic payload remapping, brownouts, and automated sunset protocols.",
+      "category": "Meta",
+      "tags": [
+        "asgi",
+        "fastapi",
+        "maintenance-free",
+        "middleware",
+        "migration",
+        "proxy",
+        "python",
+        "versioning"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "legacy_version": "v1",
+        "target_version": "v2",
+        "brownout_rate": "0.0",
+        "sunset_date": "2026-12-31"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "37d0c0a3d806e273ed8d9d3013cc9249c78a78743bc86627d4993f3483330b6b",
+      "bytes": 11020,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/api-versioning-warp.scaffold"
+    },
+    {
+      "name": "architectural-mri",
+      "description": "Materializes a high-fidelity layer-enforcement engine. Scries the dependency graph to detect \"Layer Leaks\" (e.g. Domain importing API) and Circularities, proclaiming an immediate Heresy if the architectural hierarchy is profaned.",
+      "category": "Velm-Core",
+      "tags": [
+        "architecture",
+        "clean-code",
+        "ddd",
+        "dependencies",
+        "graph",
+        "layers",
+        "linting",
+        "makefile",
+        "python"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "enforce_strict": true,
+        "scan_depth": "infinite",
+        "report_format": "mermaid"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "8c00113958c11564d70b834b89795418c065129445bab4146df5a20e81ec5298",
+      "bytes": 5259,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/architectural-mri.scaffold"
+    },
+    {
+      "name": "astro-advamced",
+      "description": "The ultimate full-stack Content Engine. Features Astro 4, MDX,",
+      "category": "Frontend",
+      "tags": [
+        "astro",
+        "auth",
+        "database",
+        "docker",
+        "drizzle",
+        "fullstack",
+        "makefile",
+        "node",
+        "react",
+        "tailwind",
+        "testing",
+        "typescript"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "project_type": "node",
+        "use_docker": true,
+        "use_typescript": true,
+        "use_db": true
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "4dbcb7f6d2887e5bfaf45c18383021ad1cdfbc85a09a312e2c123aa882c44a40",
+      "bytes": 13169,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/astro-advamced.scaffold"
+    },
+    {
+      "name": "astro-basic",
+      "description": "A high-performance, content-driven static site engine forged with",
+      "category": "Frontend",
+      "tags": [
+        "astro",
+        "frontend",
+        "node",
+        "react",
+        "ssg",
+        "static-site",
+        "tailwind",
+        "typescript",
+        "vue"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "project_type": "node",
+        "use_tailwind": true,
+        "use_typescript": true
+      },
+      "detected_capabilities": [
+        "TypeScript",
+        "Tailwind CSS",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "b11b109db592a20ae28812298bc8452aef1f21c42e83897d6cb4fe99479d03d3",
+      "bytes": 14454,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/astro-basic.scaffold"
+    },
+    {
+      "name": "atomic-component",
+      "description": "The reusable pattern for forging a new, strictly-typed React component.",
+      "category": "Frontend",
+      "tags": [
+        "atomic",
+        "code-generation",
+        "component",
+        "react",
+        "typescript",
+        "ui"
+      ],
+      "difficulty": "Novice",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_typescript": true,
+        "use_react": true,
+        "use_tailwind": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "0c9d0f29401f66450e41dbe4b91d91e47b6ec8d07a18a4e663318dfe636d5e9e",
+      "bytes": 3326,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/atomic-component.scaffold"
+    },
+    {
+      "name": "audit-chronicler",
+      "description": "Forges an immutable forensic ledger for the system. Injects a background-tasked middleware that records every state-changing rite (POST/PUT/DELETE) with user metadata, IP tracing, and a cryptographic HMAC signature per entry.",
+      "category": "Security",
+      "tags": [
+        "audit",
+        "compliance",
+        "fastapi",
+        "forensics",
+        "integrity",
+        "logging",
+        "middleware",
+        "python",
+        "security"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "log_format": "jsonl",
+        "hashing_algorithm": "sha256",
+        "use_background_tasks": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "2e9dbb3105fbd96cf223c52a6896cb75c45e292dabdfcc36caa7ffc401ec857c",
+      "bytes": 6258,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/audit-chronicler.scaffold"
+    },
+    {
+      "name": "auroraless-fortress",
+      "description": "A highly scalable, cost-optimized persistence layer. Forges an",
+      "category": "Infrastructure",
+      "tags": [
+        "aurora",
+        "aws",
+        "persistence",
+        "rds",
+        "serverless",
+        "terraform",
+        "vpc"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_terraform": true,
+        "use_aws": true,
+        "use_serverless": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "c23e988e0d4e0e3535f132503981122c6a9d653b8cc7394f4f9eb488fb90958a",
+      "bytes": 9588,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/auroraless-fortress.scaffold"
+    },
+    {
+      "name": "babel-conduit",
+      "description": "Forges a high-speed, asynchronous gRPC bridge between Python and Node.js. Materializes Protobuf contracts, auto-generates multi-language bindings, and creates resilient, interceptor-warded clients and servers for zero-latency IPC.",
+      "category": "Meta",
+      "tags": [
+        "asynchronous",
+        "grpc",
+        "ipc",
+        "makefile",
+        "nodejs",
+        "polyglot",
+        "protobuf",
+        "python",
+        "typescript"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "bridge_port": 50051,
+        "proto_name": "reality_bridge",
+        "use_reflection": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "296a2468841d6ac68a4b0676b5a59410537635569c4363b34a9ba101bea5897b",
+      "bytes": 13113,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/babel-conduit.scaffold"
+    },
+    {
+      "name": "causal-dependency-oracle",
+      "description": "Injects a high-fidelity runtime reflection engine. Scries the project's own AST to map the internal dependency graph, enabling the AI and system to reason about the impact of logical changes at the micro-level.",
+      "category": "System",
+      "tags": [
+        "ast",
+        "dependencies",
+        "graph",
+        "introspection",
+        "makefile",
+        "metadata",
+        "python",
+        "reflection"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "scan_mode": "lazy",
+        "cache_graph": true,
+        "ignore_external": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "fda7501503483e89e8e6e848303956b57a6b4e70678a9090dd47b450b3754b39",
+      "bytes": 5103,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/causal-dependency-oracle.scaffold"
+    },
+    {
+      "name": "chrome-extension",
+      "description": "A hyper-modular, production-grade Chrome Extension architecture.",
+      "category": "Utility",
+      "tags": [
+        "browser",
+        "extension",
+        "javascript",
+        "makefile",
+        "manifest-v3",
+        "node",
+        "productivity",
+        "react",
+        "tailwind",
+        "typescript",
+        "vite"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "project_type": "node",
+        "use_typescript": true,
+        "use_tailwind": true
+      },
+      "detected_capabilities": [
+        "Vite",
+        "TypeScript",
+        "Make",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "b45c1a54010e38adecc7694898028dc6d5ac67aa8d3a31eedb4838905924bc3a",
+      "bytes": 13257,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/chrome-extension.scaffold"
+    },
+    {
+      "name": "chronos-state-engine",
+      "description": "Materializes an immutable, deterministic Finite State Machine (FSM) infrastructure. Turns volatile business logic into a queryable Gnostic Graph, forbidding illegal transitions and ensuring absolute workflow integrity across distributed sessions.",
+      "category": "System",
+      "tags": [
+        "determinism",
+        "fsm",
+        "graph",
+        "logic",
+        "makefile",
+        "pydantic",
+        "python",
+        "state-machine",
+        "system",
+        "workflow"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "initial_state": "VOID",
+        "machine_name": "prime_workflow",
+        "use_persistence": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "fb41d77202edfbaacace549b940b370c41769772ba6e3fcb6ce6800dc30bcf72",
+      "bytes": 10333,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/chronos-state-engine.scaffold"
+    },
+    {
+      "name": "ci-cd-hardening",
+      "description": "A legendary, production-grade GitHub Actions pipeline matrix.",
+      "category": "Automation",
+      "tags": [
+        "automation",
+        "ci-cd",
+        "github-actions",
+        "oidc",
+        "pypi",
+        "python",
+        "security",
+        "testing"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_github_actions": true,
+        "python_version": "3.12",
+        "target_env": "production"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "046392d69b644a2a7ce092d47589edbc9971bb124ab6bb26ac436c6c6d22507a",
+      "bytes": 6840,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/ci-cd-hardening.scaffold"
+    },
+    {
+      "name": "cli-tool",
+      "description": "The definitive foundation for modern, type-safe, and visually",
+      "category": "Utility",
+      "tags": [
+        "cli",
+        "dev-tools",
+        "makefile",
+        "modular",
+        "poetry",
+        "pydantic",
+        "python",
+        "rich",
+        "tool",
+        "typer"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_poetry": true,
+        "python_version": "3.11",
+        "use_github_actions": true
+      },
+      "detected_capabilities": [
+        "Make",
+        "Poetry"
+      ],
+      "confidence": 0.0,
+      "sha256": "2d73c9553381852a31b3695cd7e0cf0c833688c800fc4d12cd658fc8a6e982ad",
+      "bytes": 10602,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/cli-tool.scaffold"
+    },
+    {
+      "name": "cloudfront-s3-fortress",
+      "description": "The definitive global distribution platform. Forges an S3 bucket",
+      "category": "Infrastructure",
+      "tags": [
+        "aws",
+        "cdn",
+        "cloudfront",
+        "s3",
+        "security",
+        "static-site",
+        "terraform"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_terraform": true,
+        "use_aws": true,
+        "use_s3": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "4a96316e14aa5b3885d4439e45c2af409b3e5b2bcfec2b3668f7a5d137b35f73",
+      "bytes": 7116,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/cloudfront-s3-fortress.scaffold"
+    },
+    {
+      "name": "cognitive-crucible",
+      "description": "A Pytest-integrated evaluation framework for AI. Uses 'LLM-as-a-Judge' to verify relevance, tone, and factual accuracy.",
+      "category": "Intelligence",
+      "tags": [
+        "ai",
+        "ci-cd",
+        "evals",
+        "fastapi",
+        "llm",
+        "openai",
+        "pytest",
+        "python",
+        "quality",
+        "testing"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "judge_model": "gpt-4-turbo"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "5a61f7ea9e3f5b447e6b4abd7d69cb8063244209e596123b8c140faeaca987fa",
+      "bytes": 4899,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/cognitive-crucible.scaffold"
+    },
+    {
+      "name": "data-science-appendix",
+      "description": "Materializes an integrated analytical laboratory. Features a containerized JupyterLab environment with GPU support, automated data hydration pipelines, and a Gnostic Bridge to scry into the project's source code.",
+      "category": "Integrations",
+      "tags": [
+        "ai",
+        "data-science",
+        "docker",
+        "jupyter",
+        "laboratory",
+        "makefile",
+        "ml",
+        "numpy",
+        "pandas",
+        "python",
+        "pytorch",
+        "r",
+        "scikit-learn"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "lab_port": 8888,
+        "use_gpu": false,
+        "environment": "research",
+        "python_version": "3.12"
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "74e980c17af60b49180d9522b26ad2159fb03cdf3e012dcaff7bcbabb0c7ae52",
+      "bytes": 7760,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/data-science-appendix.scaffold"
+    },
+    {
+      "name": "data-science-crucible",
+      "description": "A legendary, production-grade MLOps foundation. Features",
+      "category": "Intelligence",
+      "tags": [
+        "ai",
+        "data-science",
+        "docker",
+        "jupyter",
+        "makefile",
+        "ml",
+        "mlopps",
+        "poetry",
+        "python",
+        "research"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_poetry": true,
+        "use_docker": true,
+        "use_gpu": false
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "a58e8fa918e7ccecbe30f1c180223ff6dc3e85a42cb26773462c78e8ed411411",
+      "bytes": 9624,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/data-science-crucible.scaffold"
+    },
+    {
+      "name": "docker-compose-swarm",
+      "description": "A legendary Docker Compose stack for orchestrating a polyglot",
+      "category": "Automation",
+      "tags": [
+        "database",
+        "devops",
+        "docker",
+        "docker-compose",
+        "fastapi",
+        "makefile",
+        "microservices",
+        "orchestration",
+        "python"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_makefile": true
+      },
+      "detected_capabilities": [
+        "Pip",
+        "Orchestration",
+        "Make",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "1a1ebc209cbdb78b1e9b02890c54a75611b1b35a69e8fa0ce885e557820d570d",
+      "bytes": 4748,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/docker-compose-swarm.scaffold"
+    },
+    {
+      "name": "docs-mkdocs",
+      "description": "A transcendent, high-fidelity documentation engine. Features",
+      "category": "Utility",
+      "tags": [
+        "codex",
+        "documentation",
+        "makefile",
+        "markdown",
+        "material",
+        "mermaid",
+        "mkdocs",
+        "python",
+        "ssg"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "python_version": "3.11",
+        "use_ci": true
+      },
+      "detected_capabilities": [
+        "Pip",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "8d2add913e6a303646fe18adc6e2aaca6aaf2db76e8d3b31c69f356fb974ed45",
+      "bytes": 10272,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/docs-mkdocs.scaffold"
+    },
+    {
+      "name": "edge-pulse",
+      "description": "A legendary Cloudflare Worker for edge-first Gnosis. Features",
+      "category": "Cloud",
+      "tags": [
+        "cache",
+        "cloudflare",
+        "edge",
+        "fastapi",
+        "hmac",
+        "node",
+        "python",
+        "security",
+        "serverless",
+        "typescript",
+        "worker"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_typescript": true,
+        "use_cloudflare_workers": true
+      },
+      "detected_capabilities": [
+        "TypeScript",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "d79443462f0108df6086efb5bf74d4023b34219b785a7fe5614f762dcbca39c0",
+      "bytes": 10664,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/edge-pulse.scaffold"
+    },
+    {
+      "name": "elastic-sentry",
+      "description": "Materializes an autonomous observability and scaling citadel. Integrates Traefik ingress, Prometheus metrics, and Grafana dashboards with a Python-based Autonomic Governor that scales microservices in real-time based on metabolic load.",
+      "category": "Infrastructure",
+      "tags": [
+        "autoscaling",
+        "devops",
+        "docker",
+        "grafana",
+        "health",
+        "makefile",
+        "monitoring",
+        "prometheus",
+        "python",
+        "traefik"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "service_name": "api",
+        "max_replicas": 5,
+        "min_latency_ms": 200,
+        "check_interval": 10
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "49855e80f8c9fa5d475f4c51e5940f41cb45304742adc2da28afdb370df24946",
+      "bytes": 10329,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/infrastructure/elastic-sentry.scaffold"
+    },
+    {
+      "name": "electron-forge",
+      "description": "The definitive cross-platform desktop foundation. Features",
+      "category": "Frontend",
+      "tags": [
+        "desktop",
+        "electron",
+        "forge",
+        "ipc",
+        "javascript",
+        "makefile",
+        "node",
+        "react",
+        "tailwind",
+        "typescript",
+        "vite"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "project_type": "node",
+        "use_typescript": true,
+        "use_tailwind": true
+      },
+      "detected_capabilities": [
+        "Make",
+        "Tailwind CSS",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "bb4bfb2af32728df138b73b8deef1728ac93fb6bcb302e49137e529ecc15fa5d",
+      "bytes": 15633,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/electron-forge.scaffold"
+    },
+    {
+      "name": "environment-sealer",
+      "description": "The definitive Gnostic shield for secret management. Materializes a Pydantic V2 validation core, automated .env generation, and a Leak Sentinel that surgically audits the project for accidental secret disclosure.",
+      "category": "Security",
+      "tags": [
+        "ai",
+        "devops",
+        "docker",
+        "env",
+        "hardening",
+        "makefile",
+        "openai",
+        "pydantic",
+        "python",
+        "secrets",
+        "security",
+        "validation"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_pydantic": true,
+        "strict_mode": true,
+        "default_port": 8000
+      },
+      "detected_capabilities": [
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "d5733b5ea0128e7e90f81cbad953273fefb2fe31fd6ca9369b561e2855bf0f2f",
+      "bytes": 11411,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/infrastructure/environment-sealer.scaffold"
+    },
+    {
+      "name": "event-horizon-ledger",
+      "description": "Materializes an immutable event-sourced ledger. Replaces destructive CRUD with an append-only stream of Gnostic Events, enabling perfect audit trails, state replaying, and temporal debugging.",
+      "category": "System",
+      "tags": [
+        "audit",
+        "causality",
+        "cqrs",
+        "event-sourcing",
+        "immutability",
+        "ledger",
+        "makefile",
+        "python",
+        "time-travel"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "store_type": "jsonl",
+        "auto_flush": true,
+        "use_signing": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "29182c540d127ba37dd9a93dcf0ff110ec4d75b1cdc491469843651a08300091",
+      "bytes": 5373,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/event-horizon-ledger.scaffold"
+    },
+    {
+      "name": "express-api",
+      "description": "A legendary, production-grade Express.js API framework. Features",
+      "category": "Backend",
+      "tags": [
+        "docker",
+        "express",
+        "helmet",
+        "jwt",
+        "makefile",
+        "node",
+        "rest",
+        "typescript",
+        "winston",
+        "zod"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_typescript": true,
+        "node_version": 20
+      },
+      "detected_capabilities": [
+        "NPM",
+        "TypeScript",
+        "Containerization",
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "2166b350eb04f7cec80bb2d0053fa6aa9ef6ad1a462b8a5bf2c1c9ef412a1b91",
+      "bytes": 13667,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/express-api.scaffold"
+    },
+    {
+      "name": "fargate-serverless",
+      "description": "A zero-management, serverless compute layer. Forges an AWS ECS",
+      "category": "Infrastructure",
+      "tags": [
+        "autoscaling",
+        "aws",
+        "compute",
+        "container",
+        "ecs",
+        "fargate",
+        "serverless",
+        "terraform"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_terraform": true,
+        "use_aws": true,
+        "use_ecs": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "5d6d0373226e256a375653799310ac42d1d056354c7bdfd9b2d8832a6c240033",
+      "bytes": 8140,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/fargate-serverless.scaffold"
+    },
+    {
+      "name": "fastapi-service",
+      "description": "The definitive high-performance FastAPI foundation. Features",
+      "category": "Backend",
+      "tags": [
+        "async",
+        "docker",
+        "fastapi",
+        "jwt",
+        "makefile",
+        "postgres",
+        "pydantic",
+        "python",
+        "sqlalchemy"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_poetry": true,
+        "python_version": "3.13",
+        "database_type": "postgres"
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "679aeb919f7f2086e201b78486c735c8158948d0474d0c12714d258a2bbe642a",
+      "bytes": 16251,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/fastapi-service.scaffold"
+    },
+    {
+      "name": "fastapi-sqlalchemy",
+      "description": "A legendary, async-first FastAPI monolith with SQLAlchemy 2.0 ORM,",
+      "category": "Backend",
+      "tags": [
+        "alembic",
+        "database",
+        "docker",
+        "fastapi",
+        "makefile",
+        "postgres",
+        "pydantic",
+        "python",
+        "repository-pattern",
+        "sqlalchemy"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_poetry": true,
+        "python_version": "3.13",
+        "async_db": true
+      },
+      "detected_capabilities": [
+        "Poetry",
+        "Alembic",
+        "Containerization",
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "708c0471470049989c1059f3137ce0911fcd99bedb84ef5d397cd5c3c812191e",
+      "bytes": 16420,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/fastapi-sqlalchemy.scaffold"
+    },
+    {
+      "name": "forensic-chronocycle",
+      "description": "Materializes an advanced post-mortem analysis engine. Scries 'scaffold.lock' and crash reports to identify causal loops and indentation floor collapses, proclaiming the precise 'Cure' for engine paradoxes.",
+      "category": "System",
+      "tags": [
+        "automated-resolution",
+        "debugging",
+        "diagnostics",
+        "forensics",
+        "lockfile",
+        "logs",
+        "makefile",
+        "python"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "vault_path": ".scaffold/crashes",
+        "report_format": "markdown",
+        "auto_open": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "365d85ecc368c552a43bd6d2bbe066d58b0c89782990bdf9a6762b9210c54000",
+      "bytes": 5805,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/forensic-chronocycle.scaffold"
+    },
+    {
+      "name": "fullstack-monorepo",
+      "description": "The definitive polyglot foundation. Orchestrates a FastAPI",
+      "category": "System",
+      "tags": [
+        "docker",
+        "fastapi",
+        "makefile",
+        "monorepo",
+        "node",
+        "orchestration",
+        "python",
+        "react",
+        "typescript",
+        "vite"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_poetry": true,
+        "use_typescript": true,
+        "node_version": 20
+      },
+      "detected_capabilities": [
+        "Poetry",
+        "Vite",
+        "NPM",
+        "Containerization",
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "dd7947a638e590b4eddf4a03321f5bb60529595a778a8f951bff2217fd29c206",
+      "bytes": 15004,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/fullstack-monorepo.scaffold"
+    },
+    {
+      "name": "generic",
+      "description": "The definitive, language-agnostic foundation for any high-status",
+      "category": "System",
+      "tags": [
+        "architecture",
+        "boilerplate",
+        "foundation",
+        "governance",
+        "makefile",
+        "python",
+        "system",
+        "universal"
+      ],
+      "difficulty": "Novice",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_git": true,
+        "include_docs": true,
+        "license_type": "MIT"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "3e678e2ea21bb1d1a1a09af864e8ec0914fea6d561bb14090a52d4e7dd205a6f",
+      "bytes": 6241,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/generic.scaffold"
+    },
+    {
+      "name": "generic-container",
+      "description": "A transcendent, language-agnostic containerization framework.",
+      "category": "Infrastructure",
+      "tags": [
+        "container",
+        "deployment",
+        "devops",
+        "docker",
+        "makefile",
+        "orchestration",
+        "security",
+        "universal"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_makefile": true,
+        "use_ci": true
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "60daa1c64ab13251181ddbd0ff62ce84a5ab8b41e59a67017e69f78ad1e514e6",
+      "bytes": 10015,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/generic-container.scaffold"
+    },
+    {
+      "name": "generic-script",
+      "description": "A transcendent, self-contained Python automation engine.",
+      "category": "Utility",
+      "tags": [
+        "atomic",
+        "automation",
+        "cli",
+        "forensic",
+        "monad",
+        "python",
+        "rich",
+        "tool"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "python_version": "3.10",
+        "use_rich": true,
+        "atomic_unit": true
+      },
+      "detected_capabilities": [
+        "Pip"
+      ],
+      "confidence": 0.0,
+      "sha256": "c1b06d154b2441a400c9e0d26270667859c6cbba36b511f0fb2349cfee213057",
+      "bytes": 9603,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/generic-script.scaffold"
+    },
+    {
+      "name": "gnostic-adoptive-scribe",
+      "description": "The definitive legacy migration engine. Scries any unmanaged directory and transmutes it into a structured .scaffold blueprint, automatically identifying and replacing hardcoded strings with alchemical variables (project_slug, package_name).",
+      "category": "Velm-Core",
+      "tags": [
+        "adoption",
+        "automation",
+        "blueprint-forge",
+        "legacy",
+        "makefile",
+        "migration",
+        "python",
+        "reverse-engineering"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "scan_mode": "aggressive",
+        "auto_abstract": true,
+        "output_format": "scaffold"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "68c18dc9100a017b8295b36f981e8b4b139016998d9f9e87f414c317a824839a",
+      "bytes": 6139,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/gnostic-adoptive-scribe.scaffold"
+    },
+    {
+      "name": "gnostic-docs",
+      "description": "Materializes a self-synchronizing documentation citadel using MkDocs Material. Features automated Mermaid.js graph generation via 'velm graph', high-status custom CSS, and a zero-latency CI/CD publishing pipeline.",
+      "category": "Integrations",
+      "tags": [
+        "automated",
+        "devops",
+        "documentation",
+        "makefile",
+        "markdown",
+        "mermaid",
+        "mkdocs",
+        "python",
+        "static-site"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "docs_port": 8001,
+        "theme": "material",
+        "features": "navigation.tabs",
+        "publish_to": "gh-pages"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "b68343b1a42baa99c0fb7e9da2e35d689f1afa5293c155dc3f2fb08361339069",
+      "bytes": 11392,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/gnostic-docs.scaffold"
+    },
+    {
+      "name": "gnostic-library",
+      "description": "The definitive Python library foundation. Forges a production-grade",
+      "category": "Backend",
+      "tags": [
+        "ci-cd",
+        "library",
+        "makefile",
+        "mkdocs",
+        "mypy",
+        "poetry",
+        "pypi",
+        "python",
+        "ruff",
+        "testing"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_poetry": true,
+        "python_version": "3.11",
+        "use_ci": true
+      },
+      "detected_capabilities": [
+        "Make",
+        "Poetry"
+      ],
+      "confidence": 0.0,
+      "sha256": "2012cd6b6dd2f5d7d696731c4f52c14e82d68b914f443c4b3524578b4fb2e82b",
+      "bytes": 9812,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/gnostic-library.scaffold"
+    },
+    {
+      "name": "gnostic-spine-middleware",
+      "description": "Materializes the high-speed nervous system of the application. Injects a multi-layered middleware spine for tracing (Trace-ID propagation), metabolic profiling, and recursive secret masking (The Veil).",
+      "category": "System",
+      "tags": [
+        "fastapi",
+        "middleware",
+        "monitoring",
+        "performance",
+        "privacy",
+        "python",
+        "security",
+        "telemetry",
+        "tracing"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_tracing": true,
+        "veil_secrets": true,
+        "performance_tomography": "active"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "72e40cd14407de8c3df2f2f315e1c93b1d102f35171b831cef3034b2fe333bd2",
+      "bytes": 3974,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/gnostic-spine-middleware.scaffold"
+    },
+    {
+      "name": "gnostic-symphony",
+      "description": "A transcendent automation hub for cross-project orchestration.",
+      "category": "Automation",
+      "tags": [
+        "automation",
+        "ci-cd",
+        "devops",
+        "docker",
+        "makefile",
+        "orchestration",
+        "symphony"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_makefile": true,
+        "use_symphony": true
+      },
+      "detected_capabilities": [
+        "Make",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "7989204e6e61e4464f1904cbf9f04d9d1eb5f5c60f62193df34c37f2441c4d21",
+      "bytes": 8158,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/gnostic-symphony.scaffold"
+    },
+    {
+      "name": "gnostic-telemetry-beacon",
+      "description": "Materializes an autonomous background heartbeat that scries hardware vitals (CPU, RAM, I/O) and broadcasts them to the Reactive Hub. Provides the high-fidelity telemetry stream required for the Ocular HUD.",
+      "category": "System",
+      "tags": [
+        "background-task",
+        "heartbeat",
+        "makefile",
+        "metrics",
+        "monitoring",
+        "psutil",
+        "python",
+        "react",
+        "system",
+        "telemetry"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "interval_seconds": 5,
+        "use_psutil": true,
+        "broadcast_to": "gnostic_synapse"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "6a355d4983918137781ea37030a026f5a7acdb627d327ed5be9876e02fa7fcf2",
+      "bytes": 4863,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/gnostic-telemetry-beacon.scaffold"
+    },
+    {
+      "name": "gnostic-tui-cockpit",
+      "description": "Materializes a high-status Terminal User Interface (TUI) dashboard. Connects to the Reactive Hub to project real-time system metrics, active rites, and distributed logs into a beautiful, ASCII-optimized cockpit.",
+      "category": "System",
+      "tags": [
+        "async",
+        "dashboard",
+        "makefile",
+        "monitoring",
+        "python",
+        "react",
+        "terminal",
+        "textual",
+        "tui",
+        "visualization"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "library": "textual",
+        "use_ws": true,
+        "default_theme": "obsidian"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "93f250ccaa1da30a94455970a0fe075c71c96391226719a3e657a8738209a474",
+      "bytes": 4680,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/gnostic-tui-cockpit.scaffold"
+    },
+    {
+      "name": "go-cli",
+      "description": "A legendary, production-grade Go CLI foundation. Features",
+      "category": "Utility",
+      "tags": [
+        "cli",
+        "cobra",
+        "docker",
+        "go",
+        "golang",
+        "makefile",
+        "static-binary",
+        "system",
+        "viper"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "project_type": "go",
+        "use_docker": true,
+        "use_makefile": true
+      },
+      "detected_capabilities": [
+        "Go Modules",
+        "Make",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "c686b70030df9d4c848b1d04a310f5e78ef279c6b3e43196c4aa274e44c3ddf3",
+      "bytes": 7545,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/go-cli.scaffold"
+    },
+    {
+      "name": "graphene-api",
+      "description": "A transcendent, async-first GraphQL API. Features Strawberry",
+      "category": "Backend",
+      "tags": [
+        "api",
+        "async",
+        "docker",
+        "fastapi",
+        "graphql",
+        "makefile",
+        "pydantic",
+        "python",
+        "strawberry"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "python_version": "3.11",
+        "use_docker": true,
+        "use_poetry": true,
+        "async_logic": true
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "cd008747dc8fce4d2d5c3ad53e8518d37c26d7442a6de5d2bdacdfd6a964923b",
+      "bytes": 10983,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/graphene-api.scaffold"
+    },
+    {
+      "name": "grpc-microservice",
+      "description": "A transcendent, async-native gRPC microservice. Features",
+      "category": "Backend",
+      "tags": [
+        "async",
+        "docker",
+        "grpc",
+        "makefile",
+        "microservice",
+        "performance",
+        "poetry",
+        "protobuf",
+        "python"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "python_version": "3.11",
+        "use_docker": true,
+        "use_poetry": true,
+        "grpc_port": 50051
+      },
+      "detected_capabilities": [
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "9fb879a0bea3e7f9cea5da0712cf58b4f2eba05fe9b12bd40b533ad645490749",
+      "bytes": 13739,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/grpc-microservice.scaffold"
+    },
+    {
+      "name": "lambda-swarm-cdk",
+      "description": "A scalable Serverless Compute Fortress. Defines a multi-function",
+      "category": "Infrastructure",
+      "tags": [
+        "api-gateway",
+        "aws",
+        "cdk",
+        "event-driven",
+        "lambda",
+        "node",
+        "s3",
+        "serverless",
+        "typescript"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_typescript": true,
+        "use_aws": true,
+        "use_cdk": true,
+        "node_version": 20
+      },
+      "detected_capabilities": [
+        "TypeScript",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "8cb76d009f55078c051c26f0dd741badfe710bccb2515469d634c5cc30352af8",
+      "bytes": 9591,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/lambda-swarm-cdk.scaffold"
+    },
+    {
+      "name": "langchain-nexus",
+      "description": "A transcendent agentic platform. Features LCEL chain composition,",
+      "category": "Intelligence",
+      "tags": [
+        "agents",
+        "ai",
+        "chromadb",
+        "database",
+        "docker",
+        "fastapi",
+        "intelligence",
+        "langchain",
+        "makefile",
+        "openai",
+        "python",
+        "rag"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_docker": true,
+        "use_poetry": true,
+        "python_version": "3.11",
+        "use_rag": true
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "557082156751c24a416d29711db90128fb174b357fd76f986edf1ac2b29c0a9f",
+      "bytes": 16216,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/langchain-nexus.scaffold"
+    },
+    {
+      "name": "lazarus-lifecycle-guardian",
+      "description": "Materializes a sovereign process-lifecycle manager. Intercepts OS termination signals (SIGINT, SIGTERM) to ensure the application \"unravels\" cleanly, closing database connections, flushing logs, and finalizing transactions before dissolution.",
+      "category": "System",
+      "tags": [
+        "devops",
+        "graceful-shutdown",
+        "lifecycle",
+        "python",
+        "reliability",
+        "signal-handling",
+        "system"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "shutdown_timeout": 30,
+        "trap_signals": "SIGINT",
+        "allow_force_exit": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "9f6c4a849e8e1d68aab6f257dbb2edc4f0386fe99101ed26730304fc7dfe88d1",
+      "bytes": 4736,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/lazarus-lifecycle-guardian.scaffold"
+    },
+    {
+      "name": "lazarus-resurrector",
+      "description": "Materializes an autonomic self-healing sentinel. Monitors the application's heartbeat and metabolic vitals, automatically triggering localized re-inception or process-level restarts to ensure 99.9999% Gnostic Availability.",
+      "category": "System",
+      "tags": [
+        "devops",
+        "lifecycle",
+        "liveness",
+        "monitoring",
+        "python",
+        "resilience",
+        "self-healing",
+        "uptime"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "check_interval": 30,
+        "max_retries": 5,
+        "health_url": "http://localhost:8000/health"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "6565103ab6213094d9b454d0e4eb0f9979cd45e005bd187ceda0a78744b5b3dc",
+      "bytes": 5281,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/lazarus-resurrector.scaffold"
+    },
+    {
+      "name": "librarians-inquest",
+      "description": "Materializes an advanced, self-healing RAG (Retrieval-Augmented Generation) infrastructure. Features incremental vector indexing, AST-aware code chunking, and a high-performance semantic search gateway.",
+      "category": "Intelligence",
+      "tags": [
+        "ai",
+        "chromadb",
+        "database",
+        "docker",
+        "embeddings",
+        "fastapi",
+        "knowledge-base",
+        "makefile",
+        "openai",
+        "python",
+        "rag",
+        "semantic-search",
+        "vector-db"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "vector_db_port": 8000,
+        "embedding_model": "text-embedding-3-small",
+        "use_incremental": true
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "fc6e7f67a6189c896f6a92fc911b968b5277d671bd1a7949d07ea5a5e68fc05f",
+      "bytes": 11664,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/librarians-inquest.scaffold"
+    },
+    {
+      "name": "localstack-emissary",
+      "description": "Materializes a hermetic AWS simulation environment using LocalStack. Features automated resource provisioning (S3, DynamoDB, SQS), a Pydantic V2 Cloud Factory for seamless local/remote switching, and a dedicated health-vigil sentinel.",
+      "category": "Infrastructure",
+      "tags": [
+        "aws",
+        "cloud",
+        "devops",
+        "docker",
+        "dynamodb",
+        "lambda",
+        "localstack",
+        "makefile",
+        "python",
+        "s3",
+        "sandbox"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "localstack_version": "latest",
+        "use_docker": true,
+        "services": "s3"
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "18231b857ea30359aebbdf6b6f6dbe26eea6385084ae79451ac45e03d2beec50",
+      "bytes": 11076,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/infrastructure/localstack-emissary.scaffold"
+    },
+    {
+      "name": "logic-trace-alchemist",
+      "description": "Materializes a transparent logic-tracing system. Injects metadata headers into every generated file (in Dev mode) that chronicles the exact @if/@else conditions and alchemical variables used to forge that specific file. Annihilates \"Why was this created?\" confusion.",
+      "category": "Velm-Core",
+      "tags": [
+        "debugging",
+        "development-mode",
+        "jinja",
+        "logic",
+        "metadata",
+        "python",
+        "tracing",
+        "transparency"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "trace_header": true,
+        "dev_only": true,
+        "inject_git_hash": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "d4467276d6a9e60641cf344fbcabccfaaa5dca14f17dde88c24c99d7e93b59e1",
+      "bytes": 3341,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/logic-trace-alchemist.scaffold"
+    },
+    {
+      "name": "metabolic-profiler",
+      "description": "Injects a high-fidelity performance tomography engine. Measures the metabolic tax (latency, memory flux, I/O wait) of any rite or function, generating interactive flamegraphs and identifying cognitive bottlenecks in the logic layer.",
+      "category": "Velm-Core",
+      "tags": [
+        "benchmarks",
+        "flamegraph",
+        "makefile",
+        "metabolic-tax",
+        "optimization",
+        "performance",
+        "profiling",
+        "python"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "profiler_type": "deterministic",
+        "output_dir": "artifacts/metabolism",
+        "use_viz": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "0c07a25939175a8a180965eeaf1a1916ca054bfbf629ce63ac91b2f2dd8d452d",
+      "bytes": 5458,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/metabolic-profiler.scaffold"
+    },
+    {
+      "name": "metabolic-reaper-daemon",
+      "description": "Materializes an autonomic resource reclamation daemon. Scries the project for \"Gnostic Decay\"\u2014identifying unused Docker volumes, stagnant cache shards, and orphaned temporary files. Reclaims matter to protect system metabolism.",
+      "category": "System",
+      "tags": [
+        "automation",
+        "cleanup",
+        "docker",
+        "forensics",
+        "garbage-collection",
+        "maintenance",
+        "makefile",
+        "python"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "entropy_threshold_days": 7,
+        "auto_reap": false,
+        "watch_docker": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "a0ba830da6fb7928b6d9f42198cff2130c836db1d026da8d3f10e71d73a1cf33",
+      "bytes": 5153,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/metabolic-reaper-daemon.scaffold"
+    },
+    {
+      "name": "mirror-test-oracle",
+      "description": "Awakens the Inquisitor's Eye to perform an AST-driven Inquest of your codebase. Forges a parallel \"Shadow Twin\" test suite using Property-Based Testing to identify unhandled edge cases through high-velocity entropy bombardment.",
+      "category": "Meta",
+      "tags": [
+        "ast",
+        "forensics",
+        "fuzzing",
+        "hypothesis",
+        "makefile",
+        "property-based",
+        "python",
+        "quality",
+        "testing"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "test_permutations": 1000,
+        "target_dir": "src",
+        "auto_generate": true
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "e8bf46619d1e8708891b216878be5f26d7b47e7c1d57fd38298e4498ad91239e",
+      "bytes": 7632,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/mirror-test-oracle.scaffold"
+    },
+    {
+      "name": "mockingbird-simulacrum",
+      "description": "The ultimate prototyping artisan. Scries Pydantic models and API contracts to automatically forge high-fidelity mock data generators. Enables the Frontend to breathe before the Backend is even manifest.",
+      "category": "Velm-Core",
+      "tags": [
+        "data-generation",
+        "faker",
+        "frontend-sync",
+        "makefile",
+        "mocking",
+        "prototyping",
+        "pydantic",
+        "python",
+        "testing"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_faker": true,
+        "mock_depth": 2,
+        "output_format": "json"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "375083c5224c86a2d9bf4bcef922bb01fac09d263a42d353a99c1de3de1adba0",
+      "bytes": 4385,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/mockingbird-simulacrum.scaffold"
+    },
+    {
+      "name": "monorepo-citadel",
+      "description": "Materializes a sovereign polyglot multiverse. Orchestrates Next.js, FastAPI, and shared internal libraries using Turborepo and Poetry. Features unified CI/CD, cross-service Docker networking, and a central Gnostic conductor.",
+      "category": "Genesis",
+      "tags": [
+        "docker",
+        "fastapi",
+        "makefile",
+        "microservices",
+        "monorepo",
+        "nextjs",
+        "node",
+        "pnpm",
+        "poetry",
+        "python",
+        "react",
+        "turborepo",
+        "typescript"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_turbo": true,
+        "use_poetry": true,
+        "api_port": 8000,
+        "web_port": 3000,
+        "db_type": "postgres"
+      },
+      "detected_capabilities": [
+        "Poetry",
+        "NPM",
+        "Containerization",
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "b0e673d83d29769734eb2cade678c92b3a1016137ff45b6036fe23ae67ae1da1",
+      "bytes": 11991,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/monorepo-citadel.scaffold"
+    },
+    {
+      "name": "mosaic-gateway",
+      "description": "The definitive Micro-Frontend Sovereign Shell. Uses Module",
+      "category": "Frontend",
+      "tags": [
+        "micro-frontend",
+        "module-federation",
+        "node",
+        "react",
+        "typescript",
+        "ui",
+        "vite",
+        "zustand"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_typescript": true,
+        "node_version": 20,
+        "use_react": true
+      },
+      "detected_capabilities": [
+        "Vite",
+        "TypeScript",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "a8be0847fca2229a8d2cd62bea82b6bfc08b201072dda7598637e5c4b7de0230",
+      "bytes": 8745,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/mosaic-gateway.scaffold"
+    },
+    {
+      "name": "multi-tenant-warden",
+      "description": "Materializes a sovereign multi-tenant isolation layer. Uses thread-safe context variables to enforce data silos, dynamic database routing, and tenant-aware logging across the entire execution stack.",
+      "category": "System",
+      "tags": [
+        "contextvars",
+        "database",
+        "fastapi",
+        "isolation",
+        "middleware",
+        "multi-tenancy",
+        "python",
+        "saas",
+        "security"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "tenant_header": "X-Tenant-ID",
+        "use_schema_isolation": true,
+        "fallback_tenant": "public"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "c34b1e6c158ef5045029140461071ff6b46189c8d4af9dadbadafed83f0427b4",
+      "bytes": 5873,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/multi-tenant-warden.scaffold"
+    },
+    {
+      "name": "neural-gateway",
+      "description": "Materializes a high-performance, unified AI proxy layer. Features provider-agnostic routing, Redis-backed semantic caching to save 80% on repeat queries, cost-tracking telemetry, and a version-controlled Jinja2 prompt registry.",
+      "category": "Intelligence",
+      "tags": [
+        "ai",
+        "ai-ops",
+        "anthropic",
+        "caching",
+        "docker",
+        "fastapi",
+        "groq",
+        "litellm",
+        "llm",
+        "openai",
+        "proxy",
+        "pydantic",
+        "python",
+        "redis"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "gateway_port": 8080,
+        "primary_model": "gpt-4o",
+        "cache_enabled": true,
+        "provider": "openai"
+      },
+      "detected_capabilities": [
+        "Orchestration"
+      ],
+      "confidence": 0.0,
+      "sha256": "e4ea66dc38d0d187e71bcbab4f4527582271e1c4620d329152ffd63f751f615c",
+      "bytes": 10186,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/neural-gateway.scaffold"
+    },
+    {
+      "name": "new-artisan",
+      "description": "The supreme meta-artisan for expanding the God-Engine's kinetic limbs. It performs surgical sutures across the request registry and lazy grimoire, materializing a production-ready, HUD-aware artisan skeleton with automated test mirroring.",
+      "category": "Meta",
+      "tags": [
+        "artisan",
+        "codegen",
+        "core",
+        "extensibility",
+        "makefile",
+        "meta",
+        "plugin",
+        "python"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "artisan_type": "sync",
+        "auto_register": true,
+        "author": "The_Architect"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "9cda0534c74186a6f2a18f32ae9b052055913e7f056e2f16ed8c1a8b59479bce",
+      "bytes": 7021,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/new-artisan.scaffold"
+    },
+    {
+      "name": "nextjs-fortress",
+      "description": "Materializes a high-fidelity, production-hardened Ocular Membrane using Next.js 15, TypeScript, and Tailwind CSS v4. Features Atomic UI components, Zod-validated data streams, and a multi-stage Standalone Docker vessel.",
+      "category": "Frontend",
+      "tags": [
+        "ci",
+        "docker",
+        "lucide",
+        "makefile",
+        "nextjs",
+        "node",
+        "react",
+        "shadcn-pattern",
+        "tailwind",
+        "typescript",
+        "zod"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "next_version": 15,
+        "react_version": 19,
+        "output_mode": "standalone",
+        "runtime": "node"
+      },
+      "detected_capabilities": [
+        "GitHub Actions",
+        "NPM",
+        "Next.js",
+        "TypeScript",
+        "Containerization",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "4c5e6e14e35ffd717d7e8e7682bc8ff23f55215beb38f35a0f8e8f2cad3b5ebb",
+      "bytes": 16930,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/nextjs-fortress.scaffold"
+    },
+    {
+      "name": "node",
+      "description": "Materializes a high-performance, ESM-native Node.js/TypeScript sanctuary. Engineered for sub-millisecond dev cycles using Biome, Vitest, and a modular architecture that enforces a clean separation between Intent and infrastructure.",
+      "category": "Genesis",
+      "tags": [
+        "backend",
+        "biome",
+        "ci",
+        "docker",
+        "esm",
+        "framework-agnostic",
+        "makefile",
+        "node",
+        "typescript",
+        "vitest"
+      ],
+      "difficulty": "Novice",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "node_version": 20,
+        "package_manager": "npm",
+        "use_typescript": true,
+        "strict_mode": true
+      },
+      "detected_capabilities": [
+        "GitHub Actions",
+        "NPM",
+        "TypeScript",
+        "Containerization",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "703b8cb592b12d3e063d4b52f1e1983592d6b6319a49a3fb951348ddfaf32012",
+      "bytes": 13319,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/node.scaffold"
+    },
+    {
+      "name": "node-basic",
+      "description": "Materializes a high-performance, ESM-native Node.js/TypeScript foundation. Engineered for sub-millisecond dev cycles using Biome, Vitest, and a modular architecture that enforces a clean separation between Intent and infrastructure.",
+      "category": "Genesis",
+      "tags": [
+        "backend",
+        "biome",
+        "docker",
+        "esm",
+        "foundation",
+        "makefile",
+        "modular",
+        "node",
+        "typescript",
+        "vitest"
+      ],
+      "difficulty": "Novice",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "node_version": 20,
+        "package_manager": "npm",
+        "use_typescript": true,
+        "use_biome": true
+      },
+      "detected_capabilities": [
+        "TypeScript",
+        "Make",
+        "NPM",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "12d1215f0b539d11c2c301fb72da1be0f40a3b51cf269e0108a5a467aaf8e489",
+      "bytes": 12211,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/node-basic.scaffold"
+    },
+    {
+      "name": "observability-bastion",
+      "description": "Materializes a sovereign observability fortress using OpenTelemetry. Orchestrates OTel Collectors, Prometheus metrics, Jaeger tracing, and Loki logs into a unified metabolic HUD for distributed system forensics.",
+      "category": "Infrastructure",
+      "tags": [
+        "docker",
+        "fastapi",
+        "grafana",
+        "jaeger",
+        "logs",
+        "loki",
+        "makefile",
+        "monitoring",
+        "node",
+        "opentelemetry",
+        "otel",
+        "prometheus",
+        "python",
+        "tracing",
+        "typescript"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "collector_grpc_port": 4317,
+        "prometheus_port": 9090,
+        "grafana_port": 3000,
+        "jaeger_port": 16686
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "95cbd301f44cdb20d540b4aa35ff071e5bae2c32ef42d91f478cfc41459aee5d",
+      "bytes": 13079,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/observability-bastion.scaffold"
+    },
+    {
+      "name": "ouroboros-distiller",
+      "description": "The supreme self-perception engine. Transmutes an entire physical directory into a reusable Gnostic Archetype (.scaffold), performing semantic abstraction of project names, package paths, and variable injection automatically.",
+      "category": "Meta",
+      "tags": [
+        "archetypes",
+        "automation",
+        "distillation",
+        "makefile",
+        "meta",
+        "python",
+        "reflection",
+        "reverse-engineering"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "local_forge": "~/.scaffold/archetypes",
+        "strategy": "semantic_abstraction"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "eccb159ce2d6109ab9ccfb1c88db350cc487fd16fb3ae33be4a28fa44a33c62c",
+      "bytes": 6915,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/ouroboros-distiller.scaffold"
+    },
+    {
+      "name": "poetry-basic",
+      "description": "The definitive, legendary Python foundation. Materializes a production-hardened environment with Poetry orchestration, Pydantic V2 settings, high-fidelity linting (Ruff/Mypy/Bandit), and a multi-stage, non-root Docker vessel.",
+      "category": "Backend",
+      "tags": [
+        "automation",
+        "ci",
+        "cli",
+        "docker",
+        "makefile",
+        "poetry",
+        "pydantic",
+        "pytest",
+        "python",
+        "ruff",
+        "security"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_poetry": true,
+        "python_version": "3.12",
+        "use_docker": true,
+        "use_ci": true,
+        "strict_types": true
+      },
+      "detected_capabilities": [
+        "Make",
+        "GitHub Actions",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "f212a3d1b153318e422e17daec8f56c722bdd5fcf61c8f63acabbd9092667e2d",
+      "bytes": 13061,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/poetry-basic.scaffold"
+    },
+    {
+      "name": "polyglot-hyperdrive",
+      "description": "Materializes an extreme-performance native bridge. Forges a Rust-based core compiled to native binaries, bound to Python via PyO3 and Node.js via Neon. Features automated build pipelines and a pure-language fallback circuit.",
+      "category": "Integrations",
+      "tags": [
+        "fastapi",
+        "ffi",
+        "makefile",
+        "native",
+        "neon",
+        "node",
+        "optimization",
+        "performance",
+        "pyo3",
+        "python",
+        "react",
+        "rust",
+        "typescript"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "module_name": "hypercore",
+        "crate_type": "cdylib",
+        "use_fallback": true,
+        "rust_edition": 2021
+      },
+      "detected_capabilities": [
+        "Make",
+        "Cargo"
+      ],
+      "confidence": 0.0,
+      "sha256": "3b0fb02836196a55a98f8cdeb4790432d63aa57f45fb3d96a0fb880d60813385",
+      "bytes": 8568,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/polyglot-hyperdrive.scaffold"
+    },
+    {
+      "name": "privacy-shroud",
+      "description": "Materializes an advanced PII hardening stratum. Features multi-key rotational encryption (Fernet), deterministic Blind Indexing for searchable ciphertext, and high-status SQLAlchemy TypeDecorators for transparent ORM security.",
+      "category": "Security",
+      "tags": [
+        "cryptography",
+        "encryption",
+        "gdpr",
+        "hardening",
+        "pii",
+        "python",
+        "security",
+        "sqlalchemy",
+        "vault"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "algorithm": "AES-256-GCM",
+        "use_rotation": true,
+        "blind_indexing": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "4cfb9048d61c0f044abf9819ed322fa686e6b3c506a23dd7faf74cc62e0790c7",
+      "bytes": 7696,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/privacy-shroud.scaffold"
+    },
+    {
+      "name": "python-basic",
+      "description": "The definitive production-grade Python foundation. Materializes a sovereign environment with Poetry orchestration, Pydantic V2 settings, high-fidelity linting (Ruff/Mypy), and a multi-stage Docker fortress.",
+      "category": "Genesis",
+      "tags": [
+        "backend",
+        "ci",
+        "docker",
+        "foundation",
+        "makefile",
+        "poetry",
+        "pydantic",
+        "pytest",
+        "python",
+        "ruff"
+      ],
+      "difficulty": "Novice",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_poetry": true,
+        "python_version": "3.12",
+        "use_docker": true,
+        "use_ci": true,
+        "strict_types": true
+      },
+      "detected_capabilities": [
+        "Make",
+        "GitHub Actions",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "c2cdde0d83330b625bf6f4de955ba8f363c399a96ac686c4219842d7fa68804d",
+      "bytes": 13303,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/python-basic.scaffold"
+    },
+    {
+      "name": "python-cli",
+      "description": "Materializes a professional, high-performance CLI application using Typer and Rich. Features a modular subcommand architecture, Pydantic V2 configuration, high-fidelity forensics, and an automated release pipeline.",
+      "category": "Genesis",
+      "tags": [
+        "automation",
+        "cli",
+        "docker",
+        "makefile",
+        "poetry",
+        "pydantic",
+        "python",
+        "rich",
+        "subcommands",
+        "typer"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_poetry": true,
+        "python_version": "3.12",
+        "use_docker": true,
+        "use_rich": true
+      },
+      "detected_capabilities": [
+        "Make",
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "d93ea1fbd66a9e1faa047d23db3b801ae25e3772656bb005bf12bc49012dd721",
+      "bytes": 13223,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/python-cli.scaffold"
+    },
+    {
+      "name": "python-universal",
+      "description": "The ultimate polymorphic Python foundation. Dynamically transmutes between Poetry and Pip/Venv denominations while enforcing a production-hardened structure with Pydantic V2, Ruff, and a multi-stage Docker fortress.",
+      "category": "Genesis",
+      "tags": [
+        "ci",
+        "docker",
+        "makefile",
+        "pip",
+        "poetry",
+        "polymorphic",
+        "pydantic",
+        "python",
+        "ruff",
+        "universal",
+        "venv"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "python_version": "3.12",
+        "use_poetry": true,
+        "use_docker": true,
+        "use_vscode": true
+      },
+      "detected_capabilities": [
+        "Pip",
+        "GitHub Actions",
+        "Poetry",
+        "Containerization",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "7a3ef9f093ef87f436020dd1780dd8ee1b20e3ca81eb8f39bb9d102e9b044830",
+      "bytes": 17109,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/python-universal.scaffold"
+    },
+    {
+      "name": "quantum-pulse-sync",
+      "description": "Materializes a high-availability distributed coordination layer. Implements Leader Election and Multi-Node Heartbeats via Redis to ensure only one \"Oracle Prime\" conducts writes in a distributed multiverse.",
+      "category": "System",
+      "tags": [
+        "consensus",
+        "distributed-systems",
+        "heartbeat",
+        "leader-election",
+        "python",
+        "react",
+        "redis",
+        "synchronization"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "redis_db": 2,
+        "lease_duration": 10,
+        "check_interval": 2,
+        "auto_failover": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "e423443384f509fe2ecf45b2dedb21db13f288cca1e1005e7d4aeec868c409ec",
+      "bytes": 5388,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/quantum-pulse-sync.scaffold"
+    },
+    {
+      "name": "query-hook-forge",
+      "description": "The canonical pattern for forging a new, self-caching, type-safe",
+      "category": "Frontend",
+      "tags": [
+        "api",
+        "caching",
+        "data-fetching",
+        "hooks",
+        "react",
+        "typescript",
+        "validation"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_typescript": true,
+        "use_react": true,
+        "use_zod": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "cdbaa6ab72f20a57feaf7a2ea5cf2dd6244ffaeab8da638256e8a2d2cbc94159",
+      "bytes": 4916,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/query-hook-forge.scaffold"
+    },
+    {
+      "name": "rbac-citadel",
+      "description": "Materializes a declarative Role-Based Access Control (RBAC) engine. Decouples permissions from logic via a YAML-based Policy Scripture and provides high-performance FastAPI middleware for perimeter adjudication.",
+      "category": "Security",
+      "tags": [
+        "authorization",
+        "fastapi",
+        "middleware",
+        "permissions",
+        "policy",
+        "python",
+        "rbac",
+        "security"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "policy_format": "yaml",
+        "use_middleware": true,
+        "default_role": "guest"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "48e3ce3ba63aa2233d12b427bdbfbed514ffa620a51ebe776fb49a7d7a633b3a",
+      "bytes": 5991,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/rbac-citadel.scaffold"
+    },
+    {
+      "name": "react-vite",
+      "description": "Materializes a professional, high-performance React 19 Ocular Membrane. Features Vite 6 orchestration, Tailwind v4 styling, Zustand state synchronization, Biome purification, and a multi-stage Nginx production vessel.",
+      "category": "Frontend",
+      "tags": [
+        "biome",
+        "docker",
+        "makefile",
+        "node",
+        "react",
+        "tailwind-v4",
+        "typescript",
+        "vite",
+        "vitest",
+        "zod",
+        "zustand"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "react_version": 19,
+        "vite_version": 6,
+        "use_tailwind": "v4",
+        "package_manager": "npm"
+      },
+      "detected_capabilities": [
+        "Vite",
+        "NPM",
+        "TypeScript",
+        "Containerization",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "9dcc5ab9bd536a2ebbec7e4fc2b3d4183ea23966a53145affe6a58f619152d87",
+      "bytes": 15890,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/react-vite.scaffold"
+    },
+    {
+      "name": "reactive-hub",
+      "description": "Materializes a high-velocity, bi-directional event bus using Socket.io and Redis Pub/Sub. Enables real-time state synchronization (<10ms) between the Pythonic Mind and Ocular UI Membranes across a microservice mesh.",
+      "category": "System",
+      "tags": [
+        "async",
+        "docker",
+        "event-bus",
+        "fastapi",
+        "node",
+        "pubsub",
+        "python",
+        "react",
+        "real-time",
+        "redis",
+        "socketio",
+        "typescript",
+        "websocket"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "redis_url": "redis://localhost:6379/0",
+        "namespace": "/gnosis",
+        "mount_path": "/ws"
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "5e413cbe56fae152136e4f4832fc6b2d74bdbab89bce29d48b9aba6d3a6c8cd2",
+      "bytes": 7198,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/reactive-hub.scaffold"
+    },
+    {
+      "name": "resilient-mesh-guard",
+      "description": "Materializes an advanced inter-service resilience layer. Features Circuit Breaking (Netflix Hystrix pattern), Exponential Backoff, and Bulkhead Isolation to prevent cascading failures in microservice environments.",
+      "category": "System",
+      "tags": [
+        "backoff",
+        "circuit-breaker",
+        "microservices",
+        "python",
+        "reliability",
+        "resilience",
+        "retry",
+        "stability"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "failure_threshold": 5,
+        "reset_timeout": 30,
+        "strategy": "exponential_backoff"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "23fe70a5e3b5c3905266cb347b1e1979838a6818dee279067fa480247ac9109d",
+      "bytes": 5370,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/resilient-mesh-guard.scaffold"
+    },
+    {
+      "name": "rust-lib",
+      "description": "The definitive high-performance Rust foundation. Materializes a production-grade library and binary ecosystem featuring Cargo orchestration, advanced error handling (Anyhow/Thiserror), Clippy-wards, and multi-platform CI.",
+      "category": "Backend",
+      "tags": [
+        "cargo",
+        "ci",
+        "docker",
+        "ffi",
+        "iron-core",
+        "makefile",
+        "native",
+        "performance",
+        "rust",
+        "safety",
+        "wasm",
+        "zero-cost"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_clippy": true,
+        "use_docker": true,
+        "ffi_support": true,
+        "wasm_support": true
+      },
+      "detected_capabilities": [
+        "GitHub Actions",
+        "Make",
+        "Cargo",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "13f223e176fba6b6b2395a331079a45f0d96a0dbb9acf1504d72bd368bf44f3b",
+      "bytes": 13059,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/rust-lib.scaffold"
+    },
+    {
+      "name": "security-aegis",
+      "description": "Materializes an active intrusion detection and prevention system (IDPS). Features Redis-backed distributed rate limiting, regex-based WAF signatures for SQLi/XSS/Traversal defense, and automated IP banishing (The Void).",
+      "category": "Security",
+      "tags": [
+        "ai",
+        "devops",
+        "docker",
+        "fastapi",
+        "firewall",
+        "hardening",
+        "idps",
+        "makefile",
+        "node",
+        "openai",
+        "python",
+        "rate-limiting",
+        "redis",
+        "security",
+        "typescript",
+        "waf"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "redis_url": "redis://security-vault:6379/0",
+        "rate_limit_burst": 50,
+        "ban_duration": 3600
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "Make",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "f471cd7a604f30ccfd5ddc4cd9081f981143be2ffa03c5c81a5a385a32b07cad",
+      "bytes": 12670,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/security-aegis.scaffold"
+    },
+    {
+      "name": "sentinel-of-consecration",
+      "description": "An environmental inquisitor that scries the host machine for missing artisans (Docker, Poetry, Node, etc.). It automatically forges OS-specific 'consecrate_machine' scripts to heal the environment and ensure Titanium-Ready status.",
+      "category": "Meta",
+      "tags": [
+        "audit",
+        "devops",
+        "environment",
+        "hardening",
+        "installation",
+        "makefile",
+        "provisioning",
+        "python",
+        "security"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "auto_scan": true,
+        "support_os": "windows"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "11cd19c2309fc886841eb90b5b5b461ec43ab08db8afc8f753b988830cbf75b4",
+      "bytes": 6338,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/sentinel-of-consecration.scaffold"
+    },
+    {
+      "name": "serverless-synapse",
+      "description": "Materializes an advanced, event-driven Serverless architecture on AWS. Features Lambda Powertools for tracing, IAM least-privilege per function, X-Ray integration, and a production-grade OIDC-based deployment pipeline.",
+      "category": "Genesis",
+      "tags": [
+        "api-gateway",
+        "aws",
+        "ci",
+        "cloud",
+        "event-driven",
+        "lambda",
+        "makefile",
+        "pydantic",
+        "python",
+        "serverless",
+        "x-ray"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "aws_region": "us-east-1",
+        "runtime": "python3.12",
+        "memory": 512,
+        "observability": "xray"
+      },
+      "detected_capabilities": [
+        "Make",
+        "GitHub Actions",
+        "Poetry"
+      ],
+      "confidence": 0.0,
+      "sha256": "803055ea07fafd84896d256e69124690288a494b5ad25372d8a50963252cf42e",
+      "bytes": 12078,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/serverless-synapse.scaffold"
+    },
+    {
+      "name": "terraform-fortress",
+      "description": "A legendary Terraform foundation for immutable AWS infrastructure.",
+      "category": "Automation",
+      "tags": [
+        "aws",
+        "cloud",
+        "devops",
+        "dynamodb",
+        "iac",
+        "s3",
+        "terraform"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_terraform": true,
+        "use_aws": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "b38e0804911aefd085b580c179c905336c5d9ceb4e2f75104cb1e1a4226e3eff",
+      "bytes": 4196,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/terraform-fortress.scaffold"
+    },
+    {
+      "name": "threat-sentinel",
+      "description": "Materializes an active Intrusion Detection and Prevention System. Scans ingress traffic for SQLi, XSS, and Path Traversal signatures using a compiled Grimoire of Malice. Automatically banishes hostile IPs to a Redis-backed Void.",
+      "category": "Security",
+      "tags": [
+        "docker",
+        "fastapi",
+        "firewall",
+        "ids",
+        "intrusion-prevention",
+        "proactive",
+        "python",
+        "redis",
+        "security",
+        "waf"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "redis_url": "redis://localhost:6379/0",
+        "ban_duration": 86400,
+        "risk_threshold": 3
+      },
+      "detected_capabilities": [
+        "Orchestration"
+      ],
+      "confidence": 0.0,
+      "sha256": "bc8a97f55b64d4247c3eca197799124ded8520711b16af420a13b7f06bc9e689",
+      "bytes": 8887,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/threat-sentinel.scaffold"
+    },
+    {
+      "name": "universal-sdk-forge",
+      "description": "A Meta-Artisan that scries your Backend architecture, extracts the OpenAPI soul, and materializes a separate, fully-typed, multi-language SDK project. It features an automated regeneration pipeline, version-drift protection, and CI/CD publishing scripts for NPM and PyPI.",
+      "category": "Meta",
+      "tags": [
+        "automation",
+        "axios",
+        "cicd",
+        "codegen",
+        "makefile",
+        "node",
+        "openapi",
+        "pydantic",
+        "python",
+        "sdk",
+        "typescript"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "sdk_version": "0.1.0",
+        "api_schema_url": "http://localhost:8000/openapi.json",
+        "target_languages": "typescript"
+      },
+      "detected_capabilities": [
+        "TypeScript",
+        "Make",
+        "Poetry",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "b7b260e3a25d941251f1643c4122f84442dd13e1f94c4477217a51a24d6046a9",
+      "bytes": 8514,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/universal-sdk-forge.scaffold"
+    },
+    {
+      "name": "vault-guardian",
+      "description": "Materializes a high-security secret provider interface. Bridges your application to professional vaults (HashiCorp Vault / AWS Secrets Manager) while providing an encrypted local fallback for development. Enforces strict schema validation for all injected Gnosis.",
+      "category": "Security",
+      "tags": [
+        "aws",
+        "hashicorp",
+        "infrastructure",
+        "pydantic",
+        "python",
+        "secrets",
+        "vault",
+        "zero-trust"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "provider": "aws",
+        "use_local_mock": true,
+        "vault_addr": "http://vault:8200"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "4d9d61ca69a205616255c579ae47cdff26faa81f6444bb5b3a3e6cddbd562fcc",
+      "bytes": 5665,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/vault-guardian.scaffold"
+    },
+    {
+      "name": "worker-swarm",
+      "description": "A transcendent distributed task engine. Orchestrates a",
+      "category": "System",
+      "tags": [
+        "bullmq",
+        "celery",
+        "distributed-systems",
+        "docker",
+        "fastapi",
+        "node",
+        "python",
+        "redis",
+        "scale",
+        "typescript",
+        "worker"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "use_redis": true,
+        "use_docker": true,
+        "swarm_concurrency": 4
+      },
+      "detected_capabilities": [
+        "Orchestration",
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "57d4735367d69255d024c6316f714f1fa8e5fcc055d205fa64dd77e098d87e1e",
+      "bytes": 9805,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/worker-swarm.scaffold"
+    },
+    {
+      "name": "zustand-conduit",
+      "description": "The canonical pattern for forging a new, persistent Zustand state",
+      "category": "Frontend",
+      "tags": [
+        "modular",
+        "persistence",
+        "react",
+        "state-management",
+        "store",
+        "typescript",
+        "zustand"
+      ],
+      "difficulty": "Adept",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "use_typescript": true,
+        "use_react": true,
+        "use_zustand": true
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "f744eb97f2365e97c6241c0223a9e54ad262fc8982ed48505b69c3cd0b17e1fc",
+      "bytes": 6141,
+      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/zustand-conduit.scaffold"
+    }
+  ]
+}
