@@ -1,99 +1,182 @@
-# Path: src/velm/archetypes/security/privacy-shroud.scaffold
-# ----------------------------------------------------------------------
 # =================================================================================
-# == THE PRIVACY SHROUD (V-Ω-TOTALITY-PII-HARDENING)                            ==
+# == GNOSTIC ARCHETYPE: PRIVACY SHROUD (V-Ω-TOTALITY)                            ==
 # =================================================================================
-# @description: Automates PII hardening via Field-Level Encryption and Blind 
-#               Indexing. Data is shrouded at the Database stratum and only 
-#               resurrected for authorized Ocular membranes.
+# @description: Materializes an advanced PII hardening stratum. Features multi-key rotational encryption (Fernet), deterministic Blind Indexing for searchable ciphertext, and high-status SQLAlchemy TypeDecorators for transparent ORM security.
 # @category: Security
-# @difficulty: Master
+# @tags: cryptography, pii, gdpr, hardening, sqlalchemy, encryption, security, vault
+# @difficulty: Grand Architect
+# @is_integration: true
+# @dna: algorithm=AES-256-GCM, use_rotation=true, blind_indexing=true
 # =================================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ encryption_algorithm = "AES-256-CFB"
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE CIPHER SANCTUM (Logic Core) ---
 src/{{ package_name }}/
     core/
-        privacy_sentinel.py :: """
-        import os
-        import hmac
-        import hashlib
-        import base64
-        from cryptography.fernet import Fernet
-        from typing import Optional
+        security/
+            __init__.py :: "from .shroud import shroud_matter, resurrect_truth, forge_blind_index"
+            
+            # [1] THE CRYPTOGRAPHIC CONSCIENCE
+            # Defines the laws of rotation and key management.
+            config.py :: """
+            from pydantic_settings import BaseSettings, SettingsConfigDict
+            from typing import List, Optional
+            
+            class ShroudSettings(BaseSettings):
+                \"\"\"
+                =============================================================================
+                == THE SHROUD SETTINGS (V-Ω-KEYRING)                                      ==
+                =============================================================================
+                \"\"\"
+                # A list of base64-encoded Fernet keys.
+                # The first key (Index 0) is the Active Inscriber.
+                # Subsequent keys are Legacy Resurrectors (for rotation).
+                SCAFFOLD_ENCRYPTION_KEYS: List[str]
+                
+                # A high-entropy salt for deterministic hashing (Searching Encrypted Data).
+                SCAFFOLD_BLIND_INDEX_PEPPER: str
 
-        # [THE MASTER KEY]: Summoned from the OS Environment Vault
-        MASTER_SECRET = os.getenv("SCAFFOLD_INTERNAL_KEY", "VOID_SECRET")
-        FERNET_KEY = base64.urlsafe_b64encode(hashlib.sha256(MASTER_SECRET.encode()).digest())
-        cipher = Fernet(FERNET_KEY)
+                model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-        def shroud_matter(cleartext: str) -> str:
-            \"\"\"Encrypts cleartext soul into a ciphered husk.\"\"\"
-            if not cleartext: return ""
-            return cipher.encrypt(cleartext.encode()).decode()
+            security_config = ShroudSettings()
+            """
 
-        def resurrect_truth(ciphered_text: str) -> str:
-            \"\"\"Restores the cleartext soul from the ciphered husk.\"\"\"
-            if not ciphered_text: return ""
-            try:
-                return cipher.decrypt(ciphered_text.encode()).decode()
-            except:
-                return "[UNABLE_TO_RESURRECT_TRUTH]"
+            # [2] THE SHROUD ENGINE (Logic)
+            shroud.py :: """
+            import hmac
+            import hashlib
+            import base64
+            import logging
+            from typing import Union, Optional
+            from cryptography.fernet import Fernet, MultiFernet
+            from .config import security_config
 
-        def forge_blind_index(cleartext: str) -> str:
-            \"\"\"
-            [ASCENSION]: Creates a searchable HMAC hash of the data.
-            Allows O(1) database lookups on encrypted fields without decryption.
-            \"\"\"
-            if not cleartext: return ""
-            return hmac.new(MASTER_SECRET.encode(), cleartext.encode(), hashlib.sha256).hexdigest()
-        """
+            Logger = logging.getLogger("Security:Shroud")
 
-# --- III. THE SURGICAL WEAVE (Model Hardening) ---
-# We inject the Shroud logic into the base model or database layer
-@if {{ database_type == 'postgres' or database_type == 'sqlite' }}
-src/{{ package_name }}/
-    models.py ^= """
-    from .core.privacy_sentinel import shroud_matter, resurrect_truth, forge_blind_index
+            # Initialize the Rotational Keyring
+            # MultiFernet automatically tries keys in order for decryption
+            _fernets = [Fernet(k.encode()) for k in security_config.SCAFFOLD_ENCRYPTION_KEYS]
+            _vault = MultiFernet(_fernets)
+
+            def shroud_matter(cleartext: Union[str, bytes]) -> str:
+                \"\"\"
+                Encrypts a cleartext soul into a ciphered husk.
+                Uses the current primary key.
+                \"\"\"
+                if not cleartext: return ""
+                data = cleartext.encode() if isinstance(cleartext, str) else cleartext
+                return _vault.encrypt(data).decode()
+
+            def resurrect_truth(ciphered_text: str) -> str:
+                \"\"\"
+                Restores the cleartext soul from the ciphered husk.
+                Supports seamless key rotation.
+                \"\"\"
+                if not ciphered_text: return ""
+                try:
+                    return _vault.decrypt(ciphered_text.encode()).decode()
+                except Exception as e:
+                    Logger.error(f"Resurrection Failure: Truth is lost or key is profane. {e}")
+                    return "[REDACTED_VOID]"
+
+            def forge_blind_index(cleartext: str) -> str:
+                \"\"\"
+                [ASCENSION]: The Deterministic Shadow.
+                Forges a searchable HMAC-SHA256 hash. Allows O(1) lookups
+                on encrypted data without revealing the cleartext.
+                \"\"\"
+                if not cleartext: return ""
+                key = security_config.SCAFFOLD_BLIND_INDEX_PEPPER.encode()
+                msg = str(cleartext).strip().lower().encode()
+                return hmac.new(key, msg, hashlib.sha256).hexdigest()
+            """
+
+            # [3] THE ORM SUTURE (SQLAlchemy Integration)
+            types.py :: """
+            from sqlalchemy import String, TypeDecorator
+            from .shroud import shroud_matter, resurrect_truth
+
+            class ShroudedString(TypeDecorator):
+                \"\"\"
+                A Gnostic TypeDecorator for SQLAlchemy.
+                Automatically shrouds data on Ingress and resurrects on Egress.
+                \"\"\"
+                impl = String
+                cache_ok = True
+
+                def process_bind_param(self, value, dialect):
+                    if value is None: return None
+                    return shroud_matter(value)
+
+                def process_result_value(self, value, dialect):
+                    if value is None: return None
+                    return resurrect_truth(value)
+            """
+
+# --- III. THE KINETIC LIMBS (Utilities) ---
+scripts/security/
+    # [ASCENSION]: The Key Forge
+    # Generates the initial entropy for the .env file.
+    keygen.py :: """
+    from cryptography.fernet import Fernet
+    import secrets
+
+    def forge_entropy():
+        print("=========================================================")
+        print("== GNOSTIC KEY FORGE                                   ==")
+        print("=========================================================")
+        print(f"SCAFFOLD_ENCRYPTION_KEYS=['{Fernet.generate_key().decode()}']")
+        print(f"SCAFFOLD_BLIND_INDEX_PEPPER='{secrets.token_urlsafe(32)}'")
+        print("=========================================================")
+
+    if __name__ == "__main__":
+        forge_entropy()
     """
-    
-    # Example of how the Architect should use it
-    models.py += """
-    # [Gnostic Suture]: Sample Shrouded Model
-    # Use the @property decorator to handle transparent encryption/decryption
-    class User(Base):
-        __tablename__ = "users"
-        id = Column(Integer, primary_key=True)
-        _email = Column("email", String) # Encrypted on disk
-        email_hash = Column(String, index=True) # Searchable Blind Index
 
-        @property
-        def email(self):
-            return resurrect_truth(self._email)
+# --- IV. THE SURGICAL WEAVE ---
+@if {{ is_python }}
+    # Update Dependencies
+    pyproject.toml += """
+    cryptography = "^42.0.0"
+    pydantic-settings = "^2.2.0"
+    """
 
-        @email.setter
-        def email(self, value):
-            self._email = shroud_matter(value)
-            self.email_hash = forge_blind_index(value)
+    # Inject Example into Models
+    src/{{ package_name }}/models.py ^= """
+    from .core.security.types import ShroudedString
+    from .core.security.shroud import forge_blind_index
+    """
+
+    src/{{ package_name }}/models.py += """
+    # [Gnostic Suture]: Shrouded Entity Example
+    # class SecretUser(Base):
+    #     __tablename__ = "secret_users"
+    #     id = Column(Integer, primary_key=True)
+    #     
+    #     # Matter is encrypted at rest, transparent in code
+    #     email = Column(ShroudedString(255))
+    #
+    #     # Shadow Index for O(1) searches (Searchable Encryption)
+    #     email_index = Column(String(64), index=True)
     """
 @endif
 
-# --- IV. THE MAESTRO'S WILL ---
+# --- V. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "Privacy Shroud manifest. Field-level encryption active."
+    proclaim: "The [bold cyan]Privacy Shroud[/bold cyan] is manifest."
     
-    # Install cryptographic artisans
-    {% if is_python %}
-    >> poetry add cryptography
-    {% else %}
-    >> npm install crypto-js
-    {% endif %}
+    # 1. Forge Entropy
+    proclaim: "Forging initial cryptographic entropy..."
+    >> python scripts/security/keygen.py
     
-    proclaim: "To shroud a field, use the [bold cyan]shroud_matter[/bold cyan] setter in your models."
-    proclaim: "IMPORTANT: Ensure [bold red]SCAFFOLD_INTERNAL_KEY[/bold red] is set in your .env."
+    # 2. Guidance
+    proclaim: "[bold yellow]ACTION REQUIRED:[/bold yellow]"
+    proclaim: "1. Inscribe the keys above into your [bold].env[/bold] file."
+    proclaim: "2. Use [bold]ShroudedString[/bold] in your SQLAlchemy models."
+    proclaim: "3. Use [bold]forge_blind_index(val)[/bold] to populate search columns."
 
 %% on-heresy
-    proclaim: "Shroud inception failed. Ensure the 'cryptography' artisan is manifest."
+    proclaim: "[bold red]Shroud Inception Fractured.[/bold red] Cleaning shards..."
+    rm -rf src/{{ package_name }}/core/security/

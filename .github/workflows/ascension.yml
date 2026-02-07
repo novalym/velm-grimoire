@@ -1,0 +1,110 @@
+# Path: .github/workflows/ascension.yml
+# ------------------------------------
+# =================================================================================
+# == Ω | THE CELESTIAL ASCENSION SYMPHONY (V-Ω-TOTALITY-V200)                    ==
+# =================================================================================
+# LIF: ∞ | ROLE: ARCHITECTURAL_CONSISTENCY_SENTINEL | RANK: OMEGA_SOVEREIGN
+# AUTH_CODE: Ω_ASCENSION_2026_TOTALITY_FINALIS
+# =================================================================================
+
+name: Ω | Celestial Ascension & Gnostic Adjudication
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'archetypes/**.scaffold'
+      - 'scripts/**.py'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual invocation by the Architect
+
+# [ASCENSION 1]: THREAD ISOLATION
+# Ensures that simultaneous pushes do not result in a fragmented index.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  id-token: write # For future OIDC-gated celestial deployments
+
+jobs:
+  adjudicate_and_ascend:
+    name: The Rite of Ascension
+    runs-on: ubuntu-latest
+    
+    steps:
+      # --- I. THE MATERIALIZATION ---
+      - name: 📥 Summoning Local Matter
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for the Librarian's Achronal Gaze
+
+      - name: 🐍 Consecrating Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Summoning Gnostic Artisans
+        run: |
+          python -m pip install --upgrade pip
+          pip install rich pydantic jinja2
+
+      # --- II. THE INQUEST (LINTING) ---
+      # [ASCENSION 4]: PRE-FLIGHT HERESY CHECK
+      # Verifies that every shard follows the Law of the Header before indexing.
+      - name: 🔍 Conducting Gnostic Inquest
+        run: |
+          echo "Performing forensic scan for header purity..."
+          for file in archetypes/*.scaffold; do
+            if ! grep -q "@description:" "$file"; then
+              echo "::error file=$file::Heresy Detected: Missing @description header."
+              exit 1
+            fi
+            if ! grep -q "@category:" "$file"; then
+              echo "::error file=$file::Heresy Detected: Missing @category header."
+              exit 1
+            fi
+          done
+          echo "All shards are Gnostically compliant."
+
+      # --- III. THE TRANSFORMATION ---
+      # [ASCENSION 7]: THE MASTER CENSUS
+      # Rebuilds the index with high-fidelity Merkle fingerprints.
+      - name: 🌀 Materializing Celestial Index
+        run: |
+          python scripts/rebuild_index.py \
+            --repo ${{ github.repository }} \
+            --branch main \
+            --vault archetypes \
+            --output index.json
+
+      # --- IV. THE CHRONICLE INSCRIPTION ---
+      # [ASCENSION 12]: THE FINALITY VOW
+      # Commits the changes back to the Grimoire.
+      - name: 📜 Inscribing the New Reality
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          git config --global user.name "Celestial-Scribe"
+          git config --global user.email "scribe@novalym.systems"
+          
+          # Check for drift
+          if git diff --exit-code index.json; then
+            echo "Lattice is already in harmony. No inscription required."
+          else
+            git add index.json
+            git commit -m "chore(atlas): transfigure celestial index [v${{ github.run_number }}] [skip ci]"
+            git push origin main
+            echo "✨ The Grimoire has ascended."
+          fi
+
+      # --- V. THE OCULAR RESONANCE ---
+      # [ASCENSION 9]: Signal the Dev Site to refresh its cache.
+      - name: 📡 Broadcasting Resonance
+        if: success() && github.event_name == 'push'
+        run: |
+          echo "Broadcasting success to the Gnostic Mesh..."
+          # Future: Trigger repository_dispatch to the velm-dev-site repo
+          # curl -X POST -H "Authorization: Bearer ${{ secrets.GNOSTIC_PAT }}" ...
