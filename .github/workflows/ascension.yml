@@ -29,6 +29,10 @@ permissions:
   contents: write
   id-token: write # For future OIDC-gated celestial deployments
 
+env:
+  PYTHONUNBUFFERED: "1"
+  FORCE_COLOR: "1"
+
 jobs:
   adjudicate_and_ascend:
     name: The Rite of Ascension
@@ -41,6 +45,17 @@ jobs:
         with:
           fetch-depth: 0 # Required for the Librarian's Achronal Gaze
 
+      # [THE CURE]: PRE-EMPTIVE MANIFEST FORGE
+      # This step ensures the cache has a file to hash, preventing the 'No file matched' heresy.
+      - name: ⚒️  Forging Pip Manifest
+        run: |
+          if [ ! -f requirements.txt ]; then
+            echo "rich>=13.7.0" > requirements.txt
+            echo "pydantic>=2.6.0" >> requirements.txt
+            echo "jinja2>=3.1.0" >> requirements.txt
+            echo "✨ Manifest forged in memory."
+          fi
+
       - name: 🐍 Consecrating Python Environment
         uses: actions/setup-python@v5
         with:
@@ -50,7 +65,7 @@ jobs:
       - name: 📦 Summoning Gnostic Artisans
         run: |
           python -m pip install --upgrade pip
-          pip install rich pydantic jinja2
+          pip install -r requirements.txt
 
       # --- II. THE INQUEST (LINTING) ---
       # [ASCENSION 4]: PRE-FLIGHT HERESY CHECK
@@ -58,17 +73,27 @@ jobs:
       - name: 🔍 Conducting Gnostic Inquest
         run: |
           echo "Performing forensic scan for header purity..."
-          for file in archetypes/*.scaffold; do
+          ERROR_COUNT=0
+          for file in archetypes/**/*.scaffold; do
+            echo "Checking $file..."
             if ! grep -q "@description:" "$file"; then
-              echo "::error file=$file::Heresy Detected: Missing @description header."
-              exit 1
+              echo "::error file=$file,line=1::Heresy Detected: Missing @description header."
+              ERROR_COUNT=$((ERROR_COUNT+1))
             fi
             if ! grep -q "@category:" "$file"; then
-              echo "::error file=$file::Heresy Detected: Missing @category header."
-              exit 1
+              echo "::error file=$file,line=1::Heresy Detected: Missing @category header."
+              ERROR_COUNT=$((ERROR_COUNT+1))
+            fi
+            if ! grep -q "@dna:" "$file"; then
+              echo "::warning file=$file,line=1::Gnostic Suggestion: Missing @dna header for overrides."
             fi
           done
-          echo "All shards are Gnostically compliant."
+          
+          if [ $ERROR_COUNT -ne 0 ]; then
+            echo "💥 Inquest found $ERROR_COUNT fatal heresies. Ascension halted."
+            exit 1
+          fi
+          echo "✅ All shards are Gnostically compliant."
 
       # --- III. THE TRANSFORMATION ---
       # [ASCENSION 7]: THE MASTER CENSUS
@@ -101,10 +126,9 @@ jobs:
           fi
 
       # --- V. THE OCULAR RESONANCE ---
-      # [ASCENSION 9]: Signal the Dev Site to refresh its cache.
+      # [ASCENSION 9]: Signal completion to the Gnostic Mesh.
       - name: 📡 Broadcasting Resonance
         if: success() && github.event_name == 'push'
         run: |
           echo "Broadcasting success to the Gnostic Mesh..."
-          # Future: Trigger repository_dispatch to the velm-dev-site repo
-          # curl -X POST -H "Authorization: Bearer ${{ secrets.GNOSTIC_PAT }}" ...
+          echo "Ω TOTALITY ACHIEVED."
