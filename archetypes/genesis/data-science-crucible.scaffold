@@ -10,7 +10,7 @@
 # @is_integration: false
 # @dna: use_poetry=true, use_docker=true, use_gpu=false
 # =================================================================================
-#
+##
 # --- I. THE ALTAR OF VARIABLES ---
 $$ project_name = "intelligence-crucible"
 $$ author = "The Architect"
