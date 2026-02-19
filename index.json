@@ -1,48 +1,79 @@
 {
   "version": "2.0.0",
-  "timestamp": 1770426883.1999478,
-  "repo": "https://github.com/novalym/velm-grimoire/main",
+  "timestamp": 1771495264.9236157,
+  "repo": "novalym/velm-grimoire",
   "branch": "main",
-  "count": 93,
+  "count": 111,
   "archetypes": [
     {
       "name": "achronal-migrator",
-      "description": "Forges a self-migrating project core. Detects drift between the engine's internal schema (V25 -> V26) and the project's 'scaffold.lock', performing automatic alchemical transmutation to keep the project eternally compatible.",
-      "category": "Velm-Core",
+      "description": "Injects a high-gravity Gnostic Anchor into the project's soul. Materializes the '.scaffold/' sanctum containing the definitive architectural rules and semantic weights required for a hyper-performant, hallucination-free AI Co-Pilot.",
+      "category": "Meta",
       "tags": [
-        "compatibility",
-        "evolution",
-        "lockfile",
+        "ai",
+        "context",
+        "documentation",
+        "llm-optimized",
         "makefile",
-        "migration",
+        "metadata",
         "python",
-        "schema",
-        "temporal-drift"
+        "rag",
+        "system",
+        "vector"
       ],
-      "difficulty": "Master",
+      "difficulty": "Adept",
       "is_integration": true,
       "gnosis_overrides": {
-        "engine_version": "V25",
-        "support_auto_patch": true,
-        "backup_on_migrate": true
+        "context_version": "1.0",
+        "indexing_strategy": "surgical",
+        "auto_index": true
       },
       "detected_capabilities": [
         "Make"
       ],
       "confidence": 0.0,
-      "sha256": "9718a93bed26b7f3306aec91c8ecc80b16f891a409f2b3c5c9f3316741605e0a",
-      "bytes": 4101,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/achronal-migrator.scaffold"
+      "sha256": "9df40fe336a4c8f1135aa94b890ff7778c047e19d02a5d486ee5fdd2775f7489",
+      "bytes": 5979,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/achronal-migrator.scaffold"
+    },
+    {
+      "name": "aether-mesh-node",
+      "description": "A high-performance polyglot bridge combining Rust (Iron Core) and",
+      "category": "System",
+      "tags": [
+        "bridge",
+        "demo",
+        "distributed",
+        "ffi",
+        "high-performance",
+        "python",
+        "rust",
+        "system"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "performance_tier": "omega",
+        "bridge_type": "ffi",
+        "auto_compile": true
+      },
+      "detected_capabilities": [
+        "Poetry",
+        "Cargo"
+      ],
+      "confidence": 0.0,
+      "sha256": "4247718516c8d7a878b90de95872bf1305a94d72e6330f693f9b3012d5e6a429",
+      "bytes": 6050,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/aether-mesh-node.scaffold"
     },
     {
       "name": "agentic-servitor",
-      "description": "A persistent background worker that executes multi-step AI plans with tool access and human-in-the-loop gates.",
+      "description": "A transcendental autonomous worker. Executes multi-step AI plans",
       "category": "Intelligence",
       "tags": [
         "agent",
         "ai",
-        "fastapi",
-        "loop",
+        "autonomous",
         "openai",
         "pydantic",
         "python",
@@ -53,17 +84,20 @@
       "difficulty": "Grand Architect",
       "is_integration": true,
       "gnosis_overrides": {
+        "project_type": "python",
         "worker_concurrency": 2
       },
-      "detected_capabilities": [],
+      "detected_capabilities": [
+        "Poetry"
+      ],
       "confidence": 0.0,
-      "sha256": "cd4c78e77d291e6bfa3161b4be6dccab94ed11eb6517670d8787852bebc8e508",
-      "bytes": 6171,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/agentic-servitor.scaffold"
+      "sha256": "cbf30d9c19f3380356235d1e07a359cf75d48e55a4df1f381a0528a0deb5cc10",
+      "bytes": 3829,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/intelligence/agentic-servitor.scaffold"
     },
     {
       "name": "ai-agent-swarm",
-      "description": "A legendary, production-grade distributed AI system. Features",
+      "description": "A transcendental, production-grade distributed AI orchestration",
       "category": "Intelligence",
       "tags": [
         "agents",
@@ -72,28 +106,29 @@
         "docker",
         "fastapi",
         "makefile",
+        "microservices",
         "openai",
         "python",
-        "redis",
-        "system"
+        "redis"
       ],
       "difficulty": "Grand Architect",
       "is_integration": true,
       "gnosis_overrides": {
         "use_docker": true,
         "use_poetry": true,
-        "use_redis": true
+        "use_redis": true,
+        "scale_workers": 2
       },
       "detected_capabilities": [
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Poetry",
         "Containerization"
       ],
       "confidence": 0.0,
-      "sha256": "de3d82cb874583938b0a01b9aa145837bd29669e281a531837175b640dd691f7",
-      "bytes": 22747,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/ai-agent-swarm.scaffold"
+      "sha256": "99c1892beb1bc55197fe380d6b95236206a591ec2490369c61291f941e4c417a",
+      "bytes": 21617,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/ai-agent-swarm.scaffold"
     },
     {
       "name": "ai-context-anchor",
@@ -124,7 +159,7 @@
       "confidence": 0.0,
       "sha256": "3eec3b3d3a7940f3b8103a7f9b75f8311bcb16a9ddccb0ab961d915efc3b6de9",
       "bytes": 5695,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/ai-context-anchor.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/ai-context-anchor.scaffold"
     },
     {
       "name": "ansible-citadel",
@@ -151,7 +186,7 @@
       "confidence": 0.0,
       "sha256": "37f6c523228eb64566556845c476602bb7aa8724f1f8d0636ee4339cdb4f25dc",
       "bytes": 4476,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/ansible-citadel.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/automation/ansible-citadel.scaffold"
     },
     {
       "name": "apeiron-distributed-lock",
@@ -179,7 +214,7 @@
       "confidence": 0.0,
       "sha256": "652f2f569ecb41d211dafb882f47cf1f50c79f10ef5a6532d7b672761ee526e1",
       "bytes": 4870,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/apeiron-distributed-lock.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/apeiron-distributed-lock.scaffold"
     },
     {
       "name": "api-gateway-monad",
@@ -213,7 +248,7 @@
       "confidence": 0.0,
       "sha256": "fbbe3e11599c4b4154c9c3e022d44a8d995ff2732679abccd5721e10e0f95cd0",
       "bytes": 8299,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/api-gateway-monad.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/integrations/api-gateway-monad.scaffold"
     },
     {
       "name": "api-versioning-warp",
@@ -241,7 +276,7 @@
       "confidence": 0.0,
       "sha256": "37d0c0a3d806e273ed8d9d3013cc9249c78a78743bc86627d4993f3483330b6b",
       "bytes": 11020,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/api-versioning-warp.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/meta/api-versioning-warp.scaffold"
     },
     {
       "name": "architectural-mri",
@@ -271,7 +306,7 @@
       "confidence": 0.0,
       "sha256": "8c00113958c11564d70b834b89795418c065129445bab4146df5a20e81ec5298",
       "bytes": 5259,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/architectural-mri.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/architectural-mri.scaffold"
     },
     {
       "name": "astro-advamced",
@@ -300,14 +335,50 @@
         "use_db": true
       },
       "detected_capabilities": [
+        "NPM",
         "Orchestration",
-        "Make",
-        "NPM"
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "4dbcb7f6d2887e5bfaf45c18383021ad1cdfbc85a09a312e2c123aa882c44a40",
       "bytes": 13169,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/astro-advamced.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/astro-advamced.scaffold"
+    },
+    {
+      "name": "astro-advanced",
+      "description": "The ultimate full-stack Content Engine. Features Astro 4, MDX,",
+      "category": "Frontend",
+      "tags": [
+        "astro",
+        "auth",
+        "database",
+        "docker",
+        "drizzle",
+        "fullstack",
+        "makefile",
+        "node",
+        "react",
+        "tailwind",
+        "testing",
+        "typescript"
+      ],
+      "difficulty": "Master",
+      "is_integration": false,
+      "gnosis_overrides": {
+        "project_type": "node",
+        "use_docker": true,
+        "use_typescript": true,
+        "use_db": true
+      },
+      "detected_capabilities": [
+        "NPM",
+        "Orchestration",
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "4dbcb7f6d2887e5bfaf45c18383021ad1cdfbc85a09a312e2c123aa882c44a40",
+      "bytes": 13169,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/astro-advanced.scaffold"
     },
     {
       "name": "astro-basic",
@@ -332,14 +403,14 @@
         "use_typescript": true
       },
       "detected_capabilities": [
-        "TypeScript",
+        "NPM",
         "Tailwind CSS",
-        "NPM"
+        "TypeScript"
       ],
       "confidence": 0.0,
-      "sha256": "b11b109db592a20ae28812298bc8452aef1f21c42e83897d6cb4fe99479d03d3",
-      "bytes": 14454,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/astro-basic.scaffold"
+      "sha256": "a0614507fc2809ccbccfb0b87e063d59f0a681cee8cb472745f28cb84258cf0d",
+      "bytes": 14449,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/astro-basic.scaffold"
     },
     {
       "name": "atomic-component",
@@ -364,7 +435,7 @@
       "confidence": 0.0,
       "sha256": "0c9d0f29401f66450e41dbe4b91d91e47b6ec8d07a18a4e663318dfe636d5e9e",
       "bytes": 3326,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/atomic-component.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/frontend/atomic-component.scaffold"
     },
     {
       "name": "audit-chronicler",
@@ -392,7 +463,7 @@
       "confidence": 0.0,
       "sha256": "2e9dbb3105fbd96cf223c52a6896cb75c45e292dabdfcc36caa7ffc401ec857c",
       "bytes": 6258,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/audit-chronicler.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/security/audit-chronicler.scaffold"
     },
     {
       "name": "auroraless-fortress",
@@ -418,7 +489,7 @@
       "confidence": 0.0,
       "sha256": "c23e988e0d4e0e3535f132503981122c6a9d653b8cc7394f4f9eb488fb90958a",
       "bytes": 9588,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/auroraless-fortress.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/cloud/auroraless-fortress.scaffold"
     },
     {
       "name": "babel-conduit",
@@ -448,7 +519,7 @@
       "confidence": 0.0,
       "sha256": "296a2468841d6ac68a4b0676b5a59410537635569c4363b34a9ba101bea5897b",
       "bytes": 13113,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/babel-conduit.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/meta/babel-conduit.scaffold"
     },
     {
       "name": "causal-dependency-oracle",
@@ -477,7 +548,7 @@
       "confidence": 0.0,
       "sha256": "fda7501503483e89e8e6e848303956b57a6b4e70678a9090dd47b450b3754b39",
       "bytes": 5103,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/causal-dependency-oracle.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/causal-dependency-oracle.scaffold"
     },
     {
       "name": "chrome-extension",
@@ -504,15 +575,37 @@
         "use_tailwind": true
       },
       "detected_capabilities": [
+        "NPM",
         "Vite",
         "TypeScript",
-        "Make",
-        "NPM"
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "b45c1a54010e38adecc7694898028dc6d5ac67aa8d3a31eedb4838905924bc3a",
       "bytes": 13257,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/chrome-extension.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/chrome-extension.scaffold"
+    },
+    {
+      "name": "chronicle-scribe",
+      "description": "Injects deep forensic logging and automated history tracking.",
+      "category": "Governance",
+      "tags": [
+        "audit",
+        "forensics",
+        "git",
+        "history",
+        "logging",
+        "python",
+        "traceability"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {},
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "54754392088cfc884aabdb08a67c839d9dde0ce1b27b4cae07a0212ee60d8f50",
+      "bytes": 2681,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/traits/chronicle-scribe.scaffold"
     },
     {
       "name": "chronos-state-engine",
@@ -543,7 +636,7 @@
       "confidence": 0.0,
       "sha256": "fb41d77202edfbaacace549b940b370c41769772ba6e3fcb6ce6800dc30bcf72",
       "bytes": 10333,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/chronos-state-engine.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/chronos-state-engine.scaffold"
     },
     {
       "name": "ci-cd-hardening",
@@ -570,7 +663,7 @@
       "confidence": 0.0,
       "sha256": "046392d69b644a2a7ce092d47589edbc9971bb124ab6bb26ac436c6c6d22507a",
       "bytes": 6840,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/ci-cd-hardening.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/automation/ci-cd-hardening.scaffold"
     },
     {
       "name": "cli-tool",
@@ -596,13 +689,13 @@
         "use_github_actions": true
       },
       "detected_capabilities": [
-        "Make",
-        "Poetry"
+        "Poetry",
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "2d73c9553381852a31b3695cd7e0cf0c833688c800fc4d12cd658fc8a6e982ad",
       "bytes": 10602,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/cli-tool.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/cli-tool.scaffold"
     },
     {
       "name": "cloudfront-s3-fortress",
@@ -628,7 +721,7 @@
       "confidence": 0.0,
       "sha256": "4a96316e14aa5b3885d4439e45c2af409b3e5b2bcfec2b3668f7a5d137b35f73",
       "bytes": 7116,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/cloudfront-s3-fortress.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/cloud/cloudfront-s3-fortress.scaffold"
     },
     {
       "name": "cognitive-crucible",
@@ -655,7 +748,7 @@
       "confidence": 0.0,
       "sha256": "5a61f7ea9e3f5b447e6b4abd7d69cb8063244209e596123b8c140faeaca987fa",
       "bytes": 4899,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/cognitive-crucible.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/intelligence/cognitive-crucible.scaffold"
     },
     {
       "name": "data-science-appendix",
@@ -685,14 +778,14 @@
         "python_version": "3.12"
       },
       "detected_capabilities": [
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "74e980c17af60b49180d9522b26ad2159fb03cdf3e012dcaff7bcbabb0c7ae52",
       "bytes": 7760,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/data-science-appendix.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/integrations/data-science-appendix.scaffold"
     },
     {
       "name": "data-science-crucible",
@@ -718,15 +811,15 @@
         "use_gpu": false
       },
       "detected_capabilities": [
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Poetry",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "a58e8fa918e7ccecbe30f1c180223ff6dc3e85a42cb26773462c78e8ed411411",
       "bytes": 9624,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/data-science-crucible.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/data-science-crucible.scaffold"
     },
     {
       "name": "docker-compose-swarm",
@@ -751,14 +844,14 @@
       },
       "detected_capabilities": [
         "Pip",
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "1a1ebc209cbdb78b1e9b02890c54a75611b1b35a69e8fa0ce885e557820d570d",
       "bytes": 4748,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/docker-compose-swarm.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/automation/docker-compose-swarm.scaffold"
     },
     {
       "name": "docs-mkdocs",
@@ -788,7 +881,7 @@
       "confidence": 0.0,
       "sha256": "8d2add913e6a303646fe18adc6e2aaca6aaf2db76e8d3b31c69f356fb974ed45",
       "bytes": 10272,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/docs-mkdocs.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/docs-mkdocs.scaffold"
     },
     {
       "name": "edge-pulse",
@@ -814,13 +907,13 @@
         "use_cloudflare_workers": true
       },
       "detected_capabilities": [
-        "TypeScript",
-        "NPM"
+        "NPM",
+        "TypeScript"
       ],
       "confidence": 0.0,
-      "sha256": "d79443462f0108df6086efb5bf74d4023b34219b785a7fe5614f762dcbca39c0",
-      "bytes": 10664,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/edge-pulse.scaffold"
+      "sha256": "43e5b87494bc8fed479e916d163ddc592a7d8cd604a08ee8161c19a0bcb2d299",
+      "bytes": 10661,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/cloud/edge-pulse.scaffold"
     },
     {
       "name": "elastic-sentry",
@@ -847,14 +940,14 @@
         "check_interval": 10
       },
       "detected_capabilities": [
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "49855e80f8c9fa5d475f4c51e5940f41cb45304742adc2da28afdb370df24946",
       "bytes": 10329,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/infrastructure/elastic-sentry.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/infrastructure/elastic-sentry.scaffold"
     },
     {
       "name": "electron-forge",
@@ -881,14 +974,14 @@
         "use_tailwind": true
       },
       "detected_capabilities": [
-        "Make",
+        "NPM",
         "Tailwind CSS",
-        "NPM"
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "bb4bfb2af32728df138b73b8deef1728ac93fb6bcb302e49137e529ecc15fa5d",
       "bytes": 15633,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/electron-forge.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/electron-forge.scaffold"
     },
     {
       "name": "environment-sealer",
@@ -923,7 +1016,7 @@
       "confidence": 0.0,
       "sha256": "d5733b5ea0128e7e90f81cbad953273fefb2fe31fd6ca9369b561e2855bf0f2f",
       "bytes": 11411,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/infrastructure/environment-sealer.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/infrastructure/environment-sealer.scaffold"
     },
     {
       "name": "event-horizon-ledger",
@@ -953,7 +1046,7 @@
       "confidence": 0.0,
       "sha256": "29182c540d127ba37dd9a93dcf0ff110ec4d75b1cdc491469843651a08300091",
       "bytes": 5373,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/event-horizon-ledger.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/event-horizon-ledger.scaffold"
     },
     {
       "name": "express-api",
@@ -979,16 +1072,16 @@
         "node_version": 20
       },
       "detected_capabilities": [
-        "NPM",
-        "TypeScript",
         "Containerization",
+        "NPM",
         "Orchestration",
+        "TypeScript",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "2166b350eb04f7cec80bb2d0053fa6aa9ef6ad1a462b8a5bf2c1c9ef412a1b91",
       "bytes": 13667,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/express-api.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/express-api.scaffold"
     },
     {
       "name": "fargate-serverless",
@@ -1015,24 +1108,24 @@
       "confidence": 0.0,
       "sha256": "5d6d0373226e256a375653799310ac42d1d056354c7bdfd9b2d8832a6c240033",
       "bytes": 8140,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/fargate-serverless.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/cloud/fargate-serverless.scaffold"
     },
     {
       "name": "fastapi-service",
-      "description": "The definitive high-performance FastAPI foundation. Features",
+      "description": "The definitive high-performance, modular FastAPI foundation.",
       "category": "Backend",
       "tags": [
-        "async",
+        "ddd",
         "docker",
         "fastapi",
         "jwt",
         "makefile",
         "postgres",
-        "pydantic",
+        "production",
         "python",
         "sqlalchemy"
       ],
-      "difficulty": "Master",
+      "difficulty": "Grand Architect",
       "is_integration": false,
       "gnosis_overrides": {
         "use_docker": true,
@@ -1041,15 +1134,13 @@
         "database_type": "postgres"
       },
       "detected_capabilities": [
-        "Orchestration",
-        "Make",
         "Poetry",
-        "Containerization"
+        "Make"
       ],
       "confidence": 0.0,
-      "sha256": "679aeb919f7f2086e201b78486c735c8158948d0474d0c12714d258a2bbe642a",
-      "bytes": 16251,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/fastapi-service.scaffold"
+      "sha256": "e61509cadeb4fa68033c4646a3c9cb807bed3d9d42637b7507570f1d64e77d27",
+      "bytes": 17374,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/fastapi-service.scaffold"
     },
     {
       "name": "fastapi-sqlalchemy",
@@ -1076,16 +1167,16 @@
         "async_db": true
       },
       "detected_capabilities": [
-        "Poetry",
         "Alembic",
         "Containerization",
         "Orchestration",
+        "Poetry",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "708c0471470049989c1059f3137ce0911fcd99bedb84ef5d397cd5c3c812191e",
       "bytes": 16420,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/fastapi-sqlalchemy.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/fastapi-sqlalchemy.scaffold"
     },
     {
       "name": "forensic-chronocycle",
@@ -1114,7 +1205,7 @@
       "confidence": 0.0,
       "sha256": "365d85ecc368c552a43bd6d2bbe066d58b0c89782990bdf9a6762b9210c54000",
       "bytes": 5805,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/forensic-chronocycle.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/forensic-chronocycle.scaffold"
     },
     {
       "name": "fullstack-monorepo",
@@ -1141,17 +1232,17 @@
         "node_version": 20
       },
       "detected_capabilities": [
-        "Poetry",
         "Vite",
-        "NPM",
         "Containerization",
+        "NPM",
         "Orchestration",
+        "Poetry",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "dd7947a638e590b4eddf4a03321f5bb60529595a778a8f951bff2217fd29c206",
       "bytes": 15004,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/fullstack-monorepo.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/fullstack-monorepo.scaffold"
     },
     {
       "name": "generic",
@@ -1180,7 +1271,7 @@
       "confidence": 0.0,
       "sha256": "3e678e2ea21bb1d1a1a09af864e8ec0914fea6d561bb14090a52d4e7dd205a6f",
       "bytes": 6241,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/generic.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/generic.scaffold"
     },
     {
       "name": "generic-container",
@@ -1204,14 +1295,14 @@
         "use_ci": true
       },
       "detected_capabilities": [
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "60daa1c64ab13251181ddbd0ff62ce84a5ab8b41e59a67017e69f78ad1e514e6",
       "bytes": 10015,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/generic-container.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/generic-container.scaffold"
     },
     {
       "name": "generic-script",
@@ -1240,7 +1331,7 @@
       "confidence": 0.0,
       "sha256": "c1b06d154b2441a400c9e0d26270667859c6cbba36b511f0fb2349cfee213057",
       "bytes": 9603,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/generic-script.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/generic-script.scaffold"
     },
     {
       "name": "gnostic-adoptive-scribe",
@@ -1269,7 +1360,33 @@
       "confidence": 0.0,
       "sha256": "68c18dc9100a017b8295b36f981e8b4b139016998d9f9e87f414c317a824839a",
       "bytes": 6139,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/gnostic-adoptive-scribe.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/gnostic-adoptive-scribe.scaffold"
+    },
+    {
+      "name": "gnostic-citadel",
+      "description": "A self-mutating security fortress. It scries incoming traffic for",
+      "category": "Security",
+      "tags": [
+        "adaptive-firewall",
+        "demo",
+        "python",
+        "security",
+        "self-mutation",
+        "system",
+        "zero-trust"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "defense_tier": "omega",
+        "mutation_strategy": "aggressive",
+        "vault": "isolated"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "1a8e56a99613947684d04561579346f92d33e85803ab4273f9b51d868bfaf365",
+      "bytes": 6805,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/gnostic-citadel.scaffold"
     },
     {
       "name": "gnostic-docs",
@@ -1300,7 +1417,36 @@
       "confidence": 0.0,
       "sha256": "b68343b1a42baa99c0fb7e9da2e35d689f1afa5293c155dc3f2fb08361339069",
       "bytes": 11392,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/gnostic-docs.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/integrations/gnostic-docs.scaffold"
+    },
+    {
+      "name": "gnostic-holodeck",
+      "description": "A high-fidelity simulation sanctum. It materializes an isolated environment with mock data, network shims, and stress-test symphonies to verify architectural resilience.",
+      "category": "Simulation",
+      "tags": [
+        "demo",
+        "isolated-reality",
+        "mock",
+        "python",
+        "simulation",
+        "stress-test",
+        "system",
+        "testing"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "simulation_tier": "omega",
+        "entropy_injection": "aggressive",
+        "isolation": "wasm-jail"
+      },
+      "detected_capabilities": [
+        "Poetry"
+      ],
+      "confidence": 0.0,
+      "sha256": "6a09b073c97bd33427d43980ee389e51fbc39ca86fd04fa662ce9df109425804",
+      "bytes": 6631,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/gnostic-holodeck.scaffold"
     },
     {
       "name": "gnostic-library",
@@ -1326,13 +1472,13 @@
         "use_ci": true
       },
       "detected_capabilities": [
-        "Make",
-        "Poetry"
+        "Poetry",
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "2012cd6b6dd2f5d7d696731c4f52c14e82d68b914f443c4b3524578b4fb2e82b",
       "bytes": 9812,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/gnostic-library.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/gnostic-library.scaffold"
     },
     {
       "name": "gnostic-spine-middleware",
@@ -1360,7 +1506,7 @@
       "confidence": 0.0,
       "sha256": "72e40cd14407de8c3df2f2f315e1c93b1d102f35171b831cef3034b2fe333bd2",
       "bytes": 3974,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/gnostic-spine-middleware.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/gnostic-spine-middleware.scaffold"
     },
     {
       "name": "gnostic-symphony",
@@ -1389,7 +1535,7 @@
       "confidence": 0.0,
       "sha256": "7989204e6e61e4464f1904cbf9f04d9d1eb5f5c60f62193df34c37f2441c4d21",
       "bytes": 8158,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/gnostic-symphony.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/gnostic-symphony.scaffold"
     },
     {
       "name": "gnostic-telemetry-beacon",
@@ -1420,7 +1566,7 @@
       "confidence": 0.0,
       "sha256": "6a355d4983918137781ea37030a026f5a7acdb627d327ed5be9876e02fa7fcf2",
       "bytes": 4863,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/gnostic-telemetry-beacon.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/gnostic-telemetry-beacon.scaffold"
     },
     {
       "name": "gnostic-tui-cockpit",
@@ -1451,7 +1597,7 @@
       "confidence": 0.0,
       "sha256": "93f250ccaa1da30a94455970a0fe075c71c96391226719a3e657a8738209a474",
       "bytes": 4680,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/gnostic-tui-cockpit.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/gnostic-tui-cockpit.scaffold"
     },
     {
       "name": "go-cli",
@@ -1483,7 +1629,7 @@
       "confidence": 0.0,
       "sha256": "c686b70030df9d4c848b1d04a310f5e78ef279c6b3e43196c4aa274e44c3ddf3",
       "bytes": 7545,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/go-cli.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/go-cli.scaffold"
     },
     {
       "name": "graphene-api",
@@ -1509,15 +1655,15 @@
         "async_logic": true
       },
       "detected_capabilities": [
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Poetry",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "cd008747dc8fce4d2d5c3ad53e8518d37c26d7442a6de5d2bdacdfd6a964923b",
       "bytes": 10983,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/graphene-api.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/graphene-api.scaffold"
     },
     {
       "name": "grpc-microservice",
@@ -1550,7 +1696,59 @@
       "confidence": 0.0,
       "sha256": "9fb879a0bea3e7f9cea5da0712cf58b4f2eba05fe9b12bd40b533ad645490749",
       "bytes": 13739,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/grpc-microservice.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/grpc-microservice.scaffold"
+    },
+    {
+      "name": "identity-ward",
+      "description": "Injects a multi-layered security phalanx. Implements PII shrouding,",
+      "category": "Security",
+      "tags": [
+        "auth",
+        "encryption",
+        "jwt",
+        "python",
+        "rbac",
+        "security",
+        "sentinel"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {},
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "02d724663db858ae9b9d20368e450e7a0448f517d1c8d2df37340c2d381f76a9",
+      "bytes": 2976,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/traits/identity-ward.scaffold"
+    },
+    {
+      "name": "kinetic-devops-agent",
+      "description": "A sovereign, self-bootstrapping automation agent. It materializes",
+      "category": "Automation",
+      "tags": [
+        "ci-cd",
+        "demo",
+        "devops",
+        "docker",
+        "python",
+        "resilience",
+        "self-bootstrapping",
+        "system"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "bootstrap_strategy": "force-pure",
+        "log_depth": "forensic",
+        "isolation": "venv"
+      },
+      "detected_capabilities": [
+        "Poetry",
+        "Containerization"
+      ],
+      "confidence": 0.0,
+      "sha256": "13aff209be6dc31def9b0466782aec0fffb82e3470dbb9d89847fe5a1993b56d",
+      "bytes": 8012,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/kinetic-devops-agent.scaffold"
     },
     {
       "name": "lambda-swarm-cdk",
@@ -1576,13 +1774,13 @@
         "node_version": 20
       },
       "detected_capabilities": [
-        "TypeScript",
-        "NPM"
+        "NPM",
+        "TypeScript"
       ],
       "confidence": 0.0,
       "sha256": "8cb76d009f55078c051c26f0dd741badfe710bccb2515469d634c5cc30352af8",
       "bytes": 9591,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/cloud/lambda-swarm-cdk.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/cloud/lambda-swarm-cdk.scaffold"
     },
     {
       "name": "langchain-nexus",
@@ -1611,15 +1809,15 @@
         "use_rag": true
       },
       "detected_capabilities": [
-        "Orchestration",
         "Make",
+        "Orchestration",
         "Poetry",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "557082156751c24a416d29711db90128fb174b357fd76f986edf1ac2b29c0a9f",
       "bytes": 16216,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/langchain-nexus.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/langchain-nexus.scaffold"
     },
     {
       "name": "lazarus-lifecycle-guardian",
@@ -1645,7 +1843,31 @@
       "confidence": 0.0,
       "sha256": "9f6c4a849e8e1d68aab6f257dbb2edc4f0386fe99101ed26730304fc7dfe88d1",
       "bytes": 4736,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/lazarus-lifecycle-guardian.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/lazarus-lifecycle-guardian.scaffold"
+    },
+    {
+      "name": "lazarus-nexus",
+      "description": "A self-healing, event-driven resilience hub. It demonstrates",
+      "category": "System",
+      "tags": [
+        "advanced-automation",
+        "demo",
+        "python",
+        "resilience",
+        "self-healing",
+        "system"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "recovery_strategy": "recursive",
+        "log_depth": "forensic"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "75b6cddee444b6466e9f0b0f5bce4719a981b29c976de47e7d00c74327b3ba73",
+      "bytes": 5814,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/lazarus-nexus.scaffold"
     },
     {
       "name": "lazarus-resurrector",
@@ -1672,7 +1894,7 @@
       "confidence": 0.0,
       "sha256": "6565103ab6213094d9b454d0e4eb0f9979cd45e005bd187ceda0a78744b5b3dc",
       "bytes": 5281,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/lazarus-resurrector.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/lazarus-resurrector.scaffold"
     },
     {
       "name": "librarians-inquest",
@@ -1707,7 +1929,7 @@
       "confidence": 0.0,
       "sha256": "fc6e7f67a6189c896f6a92fc911b968b5277d671bd1a7949d07ea5a5e68fc05f",
       "bytes": 11664,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/librarians-inquest.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/intelligence/librarians-inquest.scaffold"
     },
     {
       "name": "localstack-emissary",
@@ -1740,7 +1962,7 @@
       "confidence": 0.0,
       "sha256": "18231b857ea30359aebbdf6b6f6dbe26eea6385084ae79451ac45e03d2beec50",
       "bytes": 11076,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/infrastructure/localstack-emissary.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/infrastructure/localstack-emissary.scaffold"
     },
     {
       "name": "logic-trace-alchemist",
@@ -1767,7 +1989,7 @@
       "confidence": 0.0,
       "sha256": "d4467276d6a9e60641cf344fbcabccfaaa5dca14f17dde88c24c99d7e93b59e1",
       "bytes": 3341,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/logic-trace-alchemist.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/logic-trace-alchemist.scaffold"
     },
     {
       "name": "metabolic-profiler",
@@ -1796,7 +2018,7 @@
       "confidence": 0.0,
       "sha256": "0c07a25939175a8a180965eeaf1a1916ca054bfbf629ce63ac91b2f2dd8d452d",
       "bytes": 5458,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/metabolic-profiler.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/metabolic-profiler.scaffold"
     },
     {
       "name": "metabolic-reaper-daemon",
@@ -1825,7 +2047,29 @@
       "confidence": 0.0,
       "sha256": "a0ba830da6fb7928b6d9f42198cff2130c836db1d026da8d3f10e71d73a1cf33",
       "bytes": 5153,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/metabolic-reaper-daemon.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/metabolic-reaper-daemon.scaffold"
+    },
+    {
+      "name": "metabolic-sentinel",
+      "description": "Injects real-time vitality monitoring. Scries CPU/RAM pressure",
+      "category": "Monitoring",
+      "tags": [
+        "health",
+        "homeostasis",
+        "metrics",
+        "performance",
+        "python",
+        "telemetry",
+        "watchdog"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {},
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "f66f04d30c8472439cd1b02df2182682e80bbf4a1550e27b306fd609ff5d55ef",
+      "bytes": 2642,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/traits/metabolic-sentinel.scaffold"
     },
     {
       "name": "mirror-test-oracle",
@@ -1855,7 +2099,7 @@
       "confidence": 0.0,
       "sha256": "e8bf46619d1e8708891b216878be5f26d7b47e7c1d57fd38298e4498ad91239e",
       "bytes": 7632,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/mirror-test-oracle.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/meta/mirror-test-oracle.scaffold"
     },
     {
       "name": "mockingbird-simulacrum",
@@ -1885,7 +2129,7 @@
       "confidence": 0.0,
       "sha256": "375083c5224c86a2d9bf4bcef922bb01fac09d263a42d353a99c1de3de1adba0",
       "bytes": 4385,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/mockingbird-simulacrum.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/mockingbird-simulacrum.scaffold"
     },
     {
       "name": "monorepo-citadel",
@@ -1916,16 +2160,16 @@
         "db_type": "postgres"
       },
       "detected_capabilities": [
-        "Poetry",
-        "NPM",
         "Containerization",
+        "NPM",
         "Orchestration",
+        "Poetry",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "b0e673d83d29769734eb2cade678c92b3a1016137ff45b6036fe23ae67ae1da1",
       "bytes": 11991,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/monorepo-citadel.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/monorepo-citadel.scaffold"
     },
     {
       "name": "mosaic-gateway",
@@ -1949,14 +2193,14 @@
         "use_react": true
       },
       "detected_capabilities": [
+        "NPM",
         "Vite",
-        "TypeScript",
-        "NPM"
+        "TypeScript"
       ],
       "confidence": 0.0,
       "sha256": "a8be0847fca2229a8d2cd62bea82b6bfc08b201072dda7598637e5c4b7de0230",
       "bytes": 8745,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/mosaic-gateway.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/frontend/mosaic-gateway.scaffold"
     },
     {
       "name": "multi-tenant-warden",
@@ -1984,7 +2228,7 @@
       "confidence": 0.0,
       "sha256": "c34b1e6c158ef5045029140461071ff6b46189c8d4af9dadbadafed83f0427b4",
       "bytes": 5873,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/multi-tenant-warden.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/multi-tenant-warden.scaffold"
     },
     {
       "name": "neural-gateway",
@@ -2020,7 +2264,57 @@
       "confidence": 0.0,
       "sha256": "e4ea66dc38d0d187e71bcbab4f4527582271e1c4620d329152ffd63f751f615c",
       "bytes": 10186,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/intelligence/neural-gateway.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/intelligence/neural-gateway.scaffold"
+    },
+    {
+      "name": "neural-sovereign",
+      "description": "A recursive, self-aware RAG system. Upon manifestation, it",
+      "category": "Intelligence",
+      "tags": [
+        "ai",
+        "fastapi",
+        "python",
+        "rag",
+        "recursive-reasoning",
+        "self-aware",
+        "vector-vault"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "intelligence_tier": "omega",
+        "self_indexing": true,
+        "vault_type": "chroma"
+      },
+      "detected_capabilities": [
+        "Poetry"
+      ],
+      "confidence": 0.0,
+      "sha256": "92fc547cbb5c858e1f5ad349b08026c7e1543e1abb4cd5d3789476b97ef5bf4b",
+      "bytes": 7540,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/neural-sovereign.scaffold"
+    },
+    {
+      "name": "neural-synapse",
+      "description": "Materializes an AI-optimized context layer. Injects a background",
+      "category": "Intelligence",
+      "tags": [
+        "ai",
+        "context",
+        "documentation",
+        "llm-optimized",
+        "metadata",
+        "python",
+        "rag"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {},
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "c876c8e612291eaec552f54b4b3ab6cee05cdcfc252e35ca774cb212238d3798",
+      "bytes": 2923,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/traits/neural-synapse.scaffold"
     },
     {
       "name": "new-artisan",
@@ -2049,7 +2343,7 @@
       "confidence": 0.0,
       "sha256": "9cda0534c74186a6f2a18f32ae9b052055913e7f056e2f16ed8c1a8b59479bce",
       "bytes": 7021,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/new-artisan.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/meta/new-artisan.scaffold"
     },
     {
       "name": "nextjs-fortress",
@@ -2077,17 +2371,17 @@
         "runtime": "node"
       },
       "detected_capabilities": [
-        "GitHub Actions",
-        "NPM",
-        "Next.js",
-        "TypeScript",
         "Containerization",
+        "Next.js",
+        "NPM",
+        "GitHub Actions",
+        "TypeScript",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "4c5e6e14e35ffd717d7e8e7682bc8ff23f55215beb38f35a0f8e8f2cad3b5ebb",
       "bytes": 16930,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/nextjs-fortress.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/nextjs-fortress.scaffold"
     },
     {
       "name": "node",
@@ -2114,16 +2408,16 @@
         "strict_mode": true
       },
       "detected_capabilities": [
-        "GitHub Actions",
-        "NPM",
-        "TypeScript",
         "Containerization",
+        "NPM",
+        "GitHub Actions",
+        "TypeScript",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "703b8cb592b12d3e063d4b52f1e1983592d6b6319a49a3fb951348ddfaf32012",
       "bytes": 13319,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/node.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/node.scaffold"
     },
     {
       "name": "node-basic",
@@ -2150,15 +2444,15 @@
         "use_biome": true
       },
       "detected_capabilities": [
-        "TypeScript",
-        "Make",
         "NPM",
+        "Make",
+        "TypeScript",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "12d1215f0b539d11c2c301fb72da1be0f40a3b51cf269e0108a5a467aaf8e489",
       "bytes": 12211,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/node-basic.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/node-basic.scaffold"
     },
     {
       "name": "observability-bastion",
@@ -2190,14 +2484,46 @@
         "jaeger_port": 16686
       },
       "detected_capabilities": [
+        "NPM",
         "Orchestration",
-        "Make",
-        "NPM"
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "95cbd301f44cdb20d540b4aa35ff071e5bae2c32ef42d91f478cfc41459aee5d",
       "bytes": 13079,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/observability-bastion.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/integrations/observability-bastion.scaffold"
+    },
+    {
+      "name": "ocular-membrane",
+      "description": "The ultimate multimodal UI engine. Materializes a high-status",
+      "category": "Ocular",
+      "tags": [
+        "atomic-design",
+        "frontend",
+        "multimodal",
+        "nextjs",
+        "node",
+        "python",
+        "react",
+        "reflection",
+        "typescript",
+        "ui",
+        "vision"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "vision_tier": "omega",
+        "reflection_sync": "enabled",
+        "design_system": "obsidian"
+      },
+      "detected_capabilities": [
+        "NPM"
+      ],
+      "confidence": 0.0,
+      "sha256": "d184bc2cafb94d234a5ef1b9cda6221d0e6198cbcd8f0607a15bad044dfab8ce",
+      "bytes": 9888,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/ocular-membrane.scaffold"
     },
     {
       "name": "ouroboros-distiller",
@@ -2225,7 +2551,116 @@
       "confidence": 0.0,
       "sha256": "eccb159ce2d6109ab9ccfb1c88db350cc487fd16fb3ae33be4a28fa44a33c62c",
       "bytes": 6915,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/ouroboros-distiller.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/ouroboros-distiller.scaffold"
+    },
+    {
+      "name": "ouroboros-guardian",
+      "description": "Enforces absolute architectural discipline. Injects Git hooks",
+      "category": "Integrity",
+      "tags": [
+        "automation",
+        "enforcer",
+        "git",
+        "hooks",
+        "quality-gate",
+        "verify"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {},
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "92c2e02f0d293a8b99b8a711804370095455d1227732ca9bb93222ee2429158c",
+      "bytes": 2339,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/traits/ouroboros-guardian.scaffold"
+    },
+    {
+      "name": "ovh-cloud-suture",
+      "description": "A high-gravity integration trait. Surgically injects OVH Public",
+      "category": "Integration",
+      "tags": [
+        "automation",
+        "cloud",
+        "deployment",
+        "fiscal-aware",
+        "infrastructure",
+        "ovh",
+        "python",
+        "suture"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "substrate": "ovh",
+        "handshake": "interactive",
+        "telemetry": "luminous"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "cb7ff8b6dc325546e2e7169fd74b8c779b895bc53c6e9793c6648892e0989374",
+      "bytes": 5623,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/ovh/ovh-cloud-suture.scaffold"
+    },
+    {
+      "name": "ovh-sovereign-ai-foundry",
+      "description": "The ultimate Sovereign AI Node. Materializes a private LLM gateway",
+      "category": "Intelligence",
+      "tags": [
+        "ai",
+        "docker-gpu",
+        "gpu",
+        "llm",
+        "makefile",
+        "openai",
+        "ovh",
+        "pii-warden",
+        "private-cloud",
+        "python",
+        "sovereignty"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "substrate": "ovh-gpu",
+        "model_tier": "llama3-8b",
+        "privacy_level": "absolute"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "7a0db87666a25a3a4bec1f0a1a3e48e640189fb115c625f98835e4e10c997ffd",
+      "bytes": 5597,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/ovh/ovh-sovereign-ai-foundry.scaffold"
+    },
+    {
+      "name": "ovh-sovereign-vessel",
+      "description": "The ultimate infrastructure node for OVH Public Cloud. Features",
+      "category": "Infrastructure",
+      "tags": [
+        "automation",
+        "cloud",
+        "infrastructure-as-code",
+        "makefile",
+        "ovh",
+        "python",
+        "sovereign",
+        "vm"
+      ],
+      "difficulty": "Master",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "substrate": "ovh",
+        "auth_mode": "interactive",
+        "isolation": "hardened"
+      },
+      "detected_capabilities": [
+        "Make"
+      ],
+      "confidence": 0.0,
+      "sha256": "ce5bc13df34fc3bee9c486ebbc3b83b2354fdeac59b8526c040f7ac0d039cf9d",
+      "bytes": 6494,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/ovh-sovereign-vessel.scaffold"
     },
     {
       "name": "poetry-basic",
@@ -2254,15 +2689,15 @@
         "strict_types": true
       },
       "detected_capabilities": [
-        "Make",
         "GitHub Actions",
+        "Make",
         "Poetry",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "f212a3d1b153318e422e17daec8f56c722bdd5fcf61c8f63acabbd9092667e2d",
       "bytes": 13061,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/poetry-basic.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/poetry-basic.scaffold"
     },
     {
       "name": "polyglot-hyperdrive",
@@ -2298,7 +2733,7 @@
       "confidence": 0.0,
       "sha256": "3b0fb02836196a55a98f8cdeb4790432d63aa57f45fb3d96a0fb880d60813385",
       "bytes": 8568,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/polyglot-hyperdrive.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/integrations/polyglot-hyperdrive.scaffold"
     },
     {
       "name": "privacy-shroud",
@@ -2326,7 +2761,31 @@
       "confidence": 0.0,
       "sha256": "4cfb9048d61c0f044abf9819ed322fa686e6b3c506a23dd7faf74cc62e0790c7",
       "bytes": 7696,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/privacy-shroud.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/security/privacy-shroud.scaffold"
+    },
+    {
+      "name": "progenitor",
+      "description": "A self-healing, event-driven resilience hub. It demonstrates",
+      "category": "System",
+      "tags": [
+        "advanced-automation",
+        "demo",
+        "python",
+        "resilience",
+        "self-healing",
+        "system"
+      ],
+      "difficulty": "Adept",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "recovery_strategy": "recursive",
+        "log_depth": "forensic"
+      },
+      "detected_capabilities": [],
+      "confidence": 0.0,
+      "sha256": "75b6cddee444b6466e9f0b0f5bce4719a981b29c976de47e7d00c74327b3ba73",
+      "bytes": 5814,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/progenitor.scaffold"
     },
     {
       "name": "python-basic",
@@ -2354,15 +2813,15 @@
         "strict_types": true
       },
       "detected_capabilities": [
-        "Make",
         "GitHub Actions",
+        "Make",
         "Poetry",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "c2cdde0d83330b625bf6f4de955ba8f363c399a96ac686c4219842d7fa68804d",
       "bytes": 13303,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/python-basic.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/python-basic.scaffold"
     },
     {
       "name": "python-cli",
@@ -2396,7 +2855,7 @@
       "confidence": 0.0,
       "sha256": "d93ea1fbd66a9e1faa047d23db3b801ae25e3772656bb005bf12bc49012dd721",
       "bytes": 13223,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/python-cli.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/python-cli.scaffold"
     },
     {
       "name": "python-universal",
@@ -2424,16 +2883,16 @@
         "use_vscode": true
       },
       "detected_capabilities": [
-        "Pip",
         "GitHub Actions",
-        "Poetry",
         "Containerization",
+        "Pip",
+        "Poetry",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "7a3ef9f093ef87f436020dd1780dd8ee1b20e3ca81eb8f39bb9d102e9b044830",
       "bytes": 17109,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/python-universal.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/python-universal.scaffold"
     },
     {
       "name": "quantum-pulse-sync",
@@ -2461,7 +2920,7 @@
       "confidence": 0.0,
       "sha256": "e423443384f509fe2ecf45b2dedb21db13f288cca1e1005e7d4aeec868c409ec",
       "bytes": 5388,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/quantum-pulse-sync.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/quantum-pulse-sync.scaffold"
     },
     {
       "name": "query-hook-forge",
@@ -2487,7 +2946,7 @@
       "confidence": 0.0,
       "sha256": "cdbaa6ab72f20a57feaf7a2ea5cf2dd6244ffaeab8da638256e8a2d2cbc94159",
       "bytes": 4916,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/query-hook-forge.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/frontend/query-hook-forge.scaffold"
     },
     {
       "name": "rbac-citadel",
@@ -2514,7 +2973,7 @@
       "confidence": 0.0,
       "sha256": "48e3ce3ba63aa2233d12b427bdbfbed514ffa620a51ebe776fb49a7d7a633b3a",
       "bytes": 5991,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/rbac-citadel.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/security/rbac-citadel.scaffold"
     },
     {
       "name": "react-vite",
@@ -2543,15 +3002,15 @@
       },
       "detected_capabilities": [
         "Vite",
+        "Containerization",
         "NPM",
         "TypeScript",
-        "Containerization",
         "Make"
       ],
       "confidence": 0.0,
       "sha256": "9dcc5ab9bd536a2ebbec7e4fc2b3d4183ea23966a53145affe6a58f619152d87",
       "bytes": 15890,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/react-vite.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/react-vite.scaffold"
     },
     {
       "name": "reactive-hub",
@@ -2580,13 +3039,13 @@
         "mount_path": "/ws"
       },
       "detected_capabilities": [
-        "Orchestration",
-        "NPM"
+        "NPM",
+        "Orchestration"
       ],
       "confidence": 0.0,
       "sha256": "5e413cbe56fae152136e4f4832fc6b2d74bdbab89bce29d48b9aba6d3a6c8cd2",
       "bytes": 7198,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/reactive-hub.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/reactive-hub.scaffold"
     },
     {
       "name": "resilient-mesh-guard",
@@ -2613,7 +3072,7 @@
       "confidence": 0.0,
       "sha256": "23fe70a5e3b5c3905266cb347b1e1979838a6818dee279067fa480247ac9109d",
       "bytes": 5370,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/system/resilient-mesh-guard.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/system/resilient-mesh-guard.scaffold"
     },
     {
       "name": "rust-lib",
@@ -2642,15 +3101,15 @@
         "wasm_support": true
       },
       "detected_capabilities": [
-        "GitHub Actions",
-        "Make",
         "Cargo",
+        "Make",
+        "GitHub Actions",
         "Containerization"
       ],
       "confidence": 0.0,
       "sha256": "13f223e176fba6b6b2395a331079a45f0d96a0dbb9acf1504d72bd368bf44f3b",
       "bytes": 13059,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/rust-lib.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/rust-lib.scaffold"
     },
     {
       "name": "security-aegis",
@@ -2682,14 +3141,14 @@
         "ban_duration": 3600
       },
       "detected_capabilities": [
+        "NPM",
         "Orchestration",
-        "Make",
-        "NPM"
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "f471cd7a604f30ccfd5ddc4cd9081f981143be2ffa03c5c81a5a385a32b07cad",
       "bytes": 12670,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/security-aegis.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/integrations/security-aegis.scaffold"
     },
     {
       "name": "sentinel-of-consecration",
@@ -2718,7 +3177,7 @@
       "confidence": 0.0,
       "sha256": "11cd19c2309fc886841eb90b5b5b461ec43ab08db8afc8f753b988830cbf75b4",
       "bytes": 6338,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/velm-core/sentinel-of-consecration.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/velm-core/sentinel-of-consecration.scaffold"
     },
     {
       "name": "serverless-synapse",
@@ -2746,14 +3205,42 @@
         "observability": "xray"
       },
       "detected_capabilities": [
-        "Make",
         "GitHub Actions",
-        "Poetry"
+        "Poetry",
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "803055ea07fafd84896d256e69124690288a494b5ad25372d8a50963252cf42e",
       "bytes": 12078,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/genesis/serverless-synapse.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/genesis/serverless-synapse.scaffold"
+    },
+    {
+      "name": "substrate-arbitrator",
+      "description": "An economically-aware autonomous node. It scries the cost of its own",
+      "category": "Economy",
+      "tags": [
+        "automation",
+        "cloud-arbitrage",
+        "demo",
+        "infrastructure",
+        "python",
+        "self-migration",
+        "system"
+      ],
+      "difficulty": "Grand Architect",
+      "is_integration": true,
+      "gnosis_overrides": {
+        "fiscal_strategy": "aggressive",
+        "migration_threshold": "0.15",
+        "multi_cloud": "enabled"
+      },
+      "detected_capabilities": [
+        "Poetry"
+      ],
+      "confidence": 0.0,
+      "sha256": "5190484be8ae17cbfec8f797166895e34a3196c70f7f5620dca8b84eb8234c75",
+      "bytes": 7492,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/demos/substrate-arbitrator.scaffold"
     },
     {
       "name": "terraform-fortress",
@@ -2778,7 +3265,7 @@
       "confidence": 0.0,
       "sha256": "b38e0804911aefd085b580c179c905336c5d9ceb4e2f75104cb1e1a4226e3eff",
       "bytes": 4196,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/automation/terraform-fortress.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/automation/terraform-fortress.scaffold"
     },
     {
       "name": "threat-sentinel",
@@ -2809,7 +3296,7 @@
       "confidence": 0.0,
       "sha256": "bc8a97f55b64d4247c3eca197799124ded8520711b16af420a13b7f06bc9e689",
       "bytes": 8887,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/threat-sentinel.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/security/threat-sentinel.scaffold"
     },
     {
       "name": "universal-sdk-forge",
@@ -2836,15 +3323,15 @@
         "target_languages": "typescript"
       },
       "detected_capabilities": [
-        "TypeScript",
-        "Make",
+        "NPM",
         "Poetry",
-        "NPM"
+        "TypeScript",
+        "Make"
       ],
       "confidence": 0.0,
       "sha256": "b7b260e3a25d941251f1643c4122f84442dd13e1f94c4477217a51a24d6046a9",
       "bytes": 8514,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/meta/universal-sdk-forge.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/meta/universal-sdk-forge.scaffold"
     },
     {
       "name": "vault-guardian",
@@ -2871,7 +3358,7 @@
       "confidence": 0.0,
       "sha256": "4d9d61ca69a205616255c579ae47cdff26faa81f6444bb5b3a3e6cddbd562fcc",
       "bytes": 5665,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/security/vault-guardian.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/security/vault-guardian.scaffold"
     },
     {
       "name": "worker-swarm",
@@ -2898,13 +3385,13 @@
         "swarm_concurrency": 4
       },
       "detected_capabilities": [
-        "Orchestration",
-        "NPM"
+        "NPM",
+        "Orchestration"
       ],
       "confidence": 0.0,
       "sha256": "57d4735367d69255d024c6316f714f1fa8e5fcc055d205fa64dd77e098d87e1e",
       "bytes": 9805,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/integrations/worker-swarm.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/integrations/worker-swarm.scaffold"
     },
     {
       "name": "zustand-conduit",
@@ -2930,7 +3417,7 @@
       "confidence": 0.0,
       "sha256": "f744eb97f2365e97c6241c0223a9e54ad262fc8982ed48505b69c3cd0b17e1fc",
       "bytes": 6141,
-      "url": "https://raw.githubusercontent.com/https://github.com/novalym/velm-grimoire/main/main/velm-grimoire/archetypes/frontend/zustand-conduit.scaffold"
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/velm-grimoire/archetypes/frontend/zustand-conduit.scaffold"
     }
   ]
 }
