@@ -1,0 +1,128 @@
+# ==============================================================================
+# == GNOSTIC SHARD: FASTAPI-FORTRESS (V-Ω-TOTALITY-V3.0)                      ==
+# ==============================================================================
+# @description: The definitive FastAPI entrypoint. Materializes the high-status 
+#               API Heart, including Lifespan management, global exception 
+#               heresy handlers, and the primary OMNI-DISPATCH router.
+# @category: API / Framework
+# @vibe: fastapi, asgi, uvicorn, rest-api, heart, mind, web-framework
+# @provides: [web-framework, fastapi, api-heart, asgi-substrate]
+# @requires: [python-core, pydantic-settings]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ api_title = {{ api_title | default(project_name + " API") }}
+
+# --- II. THE SCRIPTURE OF FORM (The Heart) ---
+
+src/{{ package_name }}/
+    # [ASCENSION 1]: The Primary Entrypoint
+    main.py :: """
+import time
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Request, status
+from fastapi.responses import JSONResponse
+from loguru import logger
+
+# [STRATUM: CONFIG]
+from .core.config import settings
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    \"\"\"
+    =============================================================================
+    == THE LIFESPAN VIGIL (V-Ω-TOTALITY)
+    =============================================================================
+    Orchestrates the Awakening and Dissolution of the application mind.
+    \"\"\"
+    logger.info("🚀 {{ api_title }} Awakening...")
+    # Suture: Initialize DB Pools / Neural Links here
+    yield
+    logger.info("🌑 {{ api_title }} Dissolving reality...")
+    # Suture: Graceful shutdown of kinetic connections
+
+app = FastAPI(
+    title="{{ api_title }}",
+    version="1.0.0-Ω",
+    lifespan=lifespan,
+    docs_url="/docs" if settings.DEBUG else None,
+    redoc_url="/redoc" if settings.DEBUG else None
+)
+
+# [ASCENSION 2]: THE METABOLIC TOMOGRAPHY
+@app.middleware("http")
+async def metabolic_telemetry_middleware(request: Request, call_next):
+    start_time = time.perf_counter()
+    response = await call_next(request)
+    process_time = (time.perf_counter() - start_time) * 1000
+    response.headers["X-Metabolic-Tax-MS"] = f"{process_time:.3f}"
+    return response
+
+# [ASCENSION 3]: THE GNOSTIC APERTURE (HEALTH)
+@app.get("/health", tags=["Vitality"])
+async def health_check():
+    \"\"\"Adjudicates the physical and logical resonance of the node.\"\"\"
+    return {
+        "status": "RESONANT",
+        "timestamp": time.time(),
+        "version": app.version
+    }
+
+# [ASCENSION 4]: THE REDEMPTION GATE (ERROR HANDLING)
+@app.exception_handler(Exception)
+async def universal_heresy_handler(request: Request, exc: Exception):
+    logger.error(f"UNHANDLED_PARADOX: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content={
+            "success": False, 
+            "error": "INTERNAL_FRACTURE", 
+            "message": str(exc) if settings.DEBUG else "A temporal paradox has occurred."
+        }
+    )
+
+# [THE MASTER SUTURE]: Direct Dispatch for Shard Wiring
+# Shards will use @scaffold:router to inject their logic here.
+# from .api.v1.router import api_router
+# app.include_router(api_router, prefix="/api/v1")
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+
+# [ASCENSION 5]: Dependency Inception
+pyproject.toml += """
+fastapi = "^0.109.0"
+uvicorn = {extras = ["standard"], version = "^0.27.0"}
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]FastAPI Fortress[/] is manifest."
+    proclaim: "Heart Locus: [white]src/{{ package_name }}/main.py[/]"
+    
+    # 1. Add Launch Command to Makefile
+    # [ASCENSION 9]: Global Conductor Suture
+    @if {{ not file_exists('Makefile') }}
+        >> touch Makefile
+    @endif
+    
+    Makefile += """
+# --- KINETIC RITES ---
+dev: ## ignite the local development server with auto-reload
+	@poetry run uvicorn src.{{ package_name }}.main:app --reload --port {{ default_port | default(8000) }}
+
+start: ## conduct the production strike
+	@poetry run uvicorn src.{{ package_name }}.main:app --host 0.0.0.0 --port {{ default_port | default(8000) }}
+"""
+
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (API Boilerplate -> 0)[/]"
+    proclaim: "[bold green]✅ The Heart is beating.[/bold green]"
+    proclaim: "To ignite the server, speak: [bold cyan]make dev[/bold cyan]"
+
+%% on-heresy
+    proclaim: "[bold red]API materialization fractured.[/bold red]"

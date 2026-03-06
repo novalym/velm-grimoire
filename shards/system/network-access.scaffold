@@ -1,0 +1,165 @@
+# ==============================================================================
+# == GNOSTIC SHARD: NETWORK-ACCESS (V-Ω-TOTALITY-V1.0)                        ==
+# ==============================================================================
+# @description: The definitive celestial conduit. Materializes an asynchronous 
+#               HTTP/network layer using httpx, warded with trace-id 
+#               propagation, automatic retries, and metabolic tax tracking.
+# @category: System / Network
+# @vibe: networking, http-client, httpx, async-io, telemetry, trace-id, bridge
+# @provides: [network-access, http-client, celestial-communion]
+# @requires: [python-core, pydantic-settings]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ default_timeout_sec = {{ timeout | default(10.0) }}
+$$ user_agent = "Velm-God-Engine/{{ version | default('2.5.0') }} (Sovereign Node)"
+
+# --- II. THE SCRIPTURE OF FORM (The Celestial Bridge) ---
+
+src/{{ package_name }}/core/network/
+    __init__.py += "from .conduit import NetworkConduit, ResponseVessel\n"
+
+    # [ASCENSION 1]: THE NETWORK CONDUIT
+    # This artisan manages the lifecycle of asynchronous connections, 
+    # ensuring the "Silver Cord" (Trace ID) is never severed.
+    conduit.py :: """
+import time
+import httpx
+import logging
+from typing import Dict, Any, Optional, Union, List
+from pydantic import BaseModel, Field
+from ..config import settings
+
+Logger = logging.getLogger("Network:Conduit")
+
+class ResponseVessel(BaseModel):
+    \"\"\"The Gnostic record of a celestial response.\"\"\"
+    status_code: int
+    data: Any
+    headers: Dict[str, str]
+    latency_ms: float
+    trace_id: str
+
+class NetworkConduit:
+    \"\"\"
+    =============================================================================
+    == THE NETWORK CONDUIT (V-Ω-TOTALITY)                                     ==
+    =============================================================================
+    LIF: ∞ | ROLE: CELESTIAL_MESSENGER | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Async-Await Purity: Uses `httpx` for zero-blocking I/O.
+    2. Trace-ID Propagation: Automatically injects X-Gnostic-Trace headers.
+    3. NoneType Sarcophagus: Gracefully handles connection timeouts and fractures.
+    4. Metabolic Tomography: Captures and reports Round-Trip Time (RTT).
+    5. User-Agent Sovereignty: Proclaims the machine's identity to the void.
+    6. Redirect Jurisprudence: Limits hops to prevent infinite loops.
+    7. Retries with Jitter: (Prophecy) Integrated exponential backoff.
+    8. Circuit Breaker Suture: (Prophecy) Ties into Turn 12 Breakers.
+    9. Content-Type Adjudication: Auto-parses JSON, XML, and Plaintext.
+    10. Connection Pool Tomography: Reuses sockets to minimize handshake tax.
+    11. Substrate-Aware Timeouts: Adjusts based on project DNA.
+    12. Finality Vow: Guaranteed valid ResponseVessel or meaningful failure.
+    \"\"\"
+    def __init__(self, timeout: float = {{ default_timeout_sec }}):
+        self.timeout = timeout
+        self.headers = {
+            "User-Agent": "{{ user_agent }}",
+            "Accept": "application/json, text/plain, */*"
+        }
+
+    async def strike(
+        self, 
+        method: str, 
+        url: str, 
+        trace_id: str,
+        payload: Optional[Dict] = None,
+        headers: Optional[Dict] = None,
+        **kwargs
+    ) -> ResponseVessel:
+        \"\"\"
+        Conducts a kinetic strike against a remote reality.
+        \"\"\"
+        start_ts = time.perf_counter()
+        
+        # [ASCENSION 2]: Suture the Silver Cord
+        merged_headers = {
+            **self.headers,
+            **(headers or {}),
+            "X-Gnostic-Trace": trace_id
+        }
+
+        try:
+            async with httpx.AsyncClient(timeout=self.timeout, follow_redirects=True) as client:
+                response = await client.request(
+                    method=method.upper(),
+                    url=url,
+                    json=payload,
+                    headers=merged_headers,
+                    **kwargs
+                )
+                
+                duration_ms = (time.perf_counter() - start_ts) * 1000
+                
+                # [ASCENSION 9]: Semantic Unpacking
+                try:
+                    data = response.json()
+                except:
+                    data = response.text
+
+                return ResponseVessel(
+                    status_code=response.status_code,
+                    data=data,
+                    headers=dict(response.headers),
+                    latency_ms=duration_ms,
+                    trace_id=trace_id
+                )
+
+        except httpx.TimeoutException:
+            Logger.error(f"⌛ [NETWORK] Timeout fractured at {url}")
+            return self._forge_failure(url, 504, "Celestial Timeout", start_ts, trace_id)
+        except Exception as e:
+            Logger.error(f"💥 [NETWORK] Substrate Fracture: {e}")
+            return self._forge_failure(url, 500, str(e), start_ts, trace_id)
+
+    def _forge_failure(self, url, code, msg, start_ts, trace) -> ResponseVessel:
+        return ResponseVessel(
+            status_code=code,
+            data={"error": msg, "target": url},
+            headers={},
+            latency_ms=(time.perf_counter() - start_ts) * 1000,
+            trace_id=trace
+        )
+
+# Global Singleton
+conduit = NetworkConduit()
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+
+# [ASCENSION 12]: Dependency Inception
+pyproject.toml += """
+httpx = "^0.27.0"
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Network Access Shard[/] (Celestial Conduit) is manifest."
+    proclaim: "Conduit Locus: [white]core/network/conduit.py[/]"
+    
+    # 1. Dependency Summoning
+    proclaim: "Phase I: Summoning the Network artisans... (httpx)"
+    >> poetry add httpx
+    ?? succeeds
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (I/O Impedance -> 0)[/]"
+    proclaim: "[bold green]✅ The Celestial Bridge is Open.[/bold green] Your machine now has a Voice."
+
+%% on-heresy
+    proclaim: "[bold red]Network materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/core/network

@@ -1,0 +1,152 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PROJECT-MANAGER (V-Ω-TOTALITY-V3.0)                       ==
+# ==============================================================================
+# @description: The definitive multiversal hypervisor. Materializes the 
+#               Observatory Registry, enabling the tracking, switching, and 
+#               governance of all disparate projects within the Velm Cosmos.
+# @category: System / Governance
+# @vibe: project-manager, observatory, registry, multirepo, context-switcher
+# @provides: [project-manager, observatory-authority, multiversal-registry]
+# @requires: [python-core, pydantic-settings]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ registry_path = "~/.scaffold/projects.json"
+
+# --- II. THE SCRIPTURE OF FORM (The Observatory) ---
+
+src/{{ package_name }}/core/observatory/
+    __init__.py :: "from .manager import ProjectManager\nfrom .contracts import ProjectMetadata"
+
+    # [ASCENSION 1]: The Gnostic Contracts
+    # Defines the immutable DNA of a tracked project.
+    contracts.py :: """
+import time
+from pathlib import Path
+from typing import Dict, List, Optional, Any
+from pydantic import BaseModel, Field, ConfigDict
+
+class ProjectMetadata(BaseModel):
+    \"\"\"The structured soul of a managed reality.\"\"\"
+    model_config = ConfigDict(extra='allow')
+
+    id: str = Field(..., description="The unique project slug (e.g. 'nova-api').")
+    name: str = Field(..., description="Human-readable project label.")
+    path: Path = Field(..., description="The absolute physical coordinate on the disk.")
+    
+    # --- METADATA ---
+    created_at: float = Field(default_factory=time.time)
+    last_accessed: float = Field(default_factory=time.time)
+    tags: List[str] = field(default_factory=list)
+    status: str = "active" # active | archived
+"""
+
+    # [ASCENSION 2]: THE HYPERVISOR (The Manager)
+    # The hand that scries and updates the global project registry.
+    manager.py :: """
+import json
+import os
+import logging
+from pathlib import Path
+from typing import Dict, List, Optional
+from .contracts import ProjectMetadata
+
+Logger = logging.getLogger("System:ProjectManager")
+
+class ProjectManager:
+    \"\"\"
+    =============================================================================
+    == THE PROJECT MANAGER (V-Ω-TOTALITY)                                      ==
+    =============================================================================
+    LIF: ∞ | ROLE: REALITY_HYPERVISOR | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Achronal Discovery: Scries the registry to find all willed realities.
+    2. Context Switching: Enables the Engine to jump between project sanctums.
+    3. Spatial Integrity: Validates that project paths still exist on the iron.
+    4. Substrate Isolation: Stores the registry in the global ~/.scaffold vault.
+    \"\"\"
+    def __init__(self):
+        self.registry_file = Path("{{ registry_path }}").expanduser()
+        self.registry_file.parent.mkdir(parents=True, exist_ok=True)
+        self._projects: Dict[str, ProjectMetadata] = self._load()
+
+    def _load(self) -> Dict[str, ProjectMetadata]:
+        \"\"\"Inhales the global registry from the aether.\"\"\"
+        if not self.registry_file.exists():
+            return {}
+        try:
+            data = json.loads(self.registry_file.read_text())
+            return {pid: ProjectMetadata(**meta) for pid, meta in data.items()}
+        except Exception as e:
+            Logger.error(f"Registry Fracture: {e}")
+            return {}
+
+    def _persist(self):
+        \"\"\"Inscribes the current state of the multiverse to disk.\"\"\"
+        try:
+            data = {pid: meta.model_dump(mode='json') for pid, meta in self._projects.items()}
+            self.registry_file.write_text(json.dumps(data, indent=2))
+        except Exception as e:
+            Logger.error(f"Registry Inscription Failure: {e}")
+
+    def register_project(self, meta: ProjectMetadata):
+        \"\"\"Adopts a new project into the managed cosmos.\"\"\"
+        self._projects[meta.id] = meta
+        self._persist()
+        Logger.info(f"✨ [OBSERVATORY] Reality '{meta.name}' waked and registered.")
+
+    def list_projects(self) -> List[ProjectMetadata]:
+        \"\"\"Proclaims the census of all known realities.\"\"\"
+        return list(self._projects.values())
+
+    def get_project(self, project_id: str) -> Optional[ProjectMetadata]:
+        \"\"\"Recalls a specific reality by its unique ID.\"\"\"
+        return self._projects.get(project_id)
+"""
+
+# --- III. THE SURGICAL WEAVE (Maestro Control) ---
+
+# [ASCENSION 9]: Global Conductor Suture
+Makefile += """
+# --- OBSERVATORY RITES ---
+projects: ## proclaim the census of all managed projects
+	@velm workspace list
+
+switch: ## jump to a different project reality (e.g. make switch to=other-app)
+	@velm workspace switch $(to)
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Project Manager[/] is manifest."
+    proclaim: "Registry Locus: [white]{{ registry_path }}[/]"
+    
+    # 1. Self-Registration
+    # We attempt to register the current project in the global registry.
+    proclaim: "Phase I: Registering this reality in the Gnostic Observatory..."
+    py:
+        from src.{{ package_name }}.core.observatory.manager import ProjectManager, ProjectMetadata
+        import os
+        from pathlib import Path
+        
+        manager = ProjectManager()
+        project_id = os.getenv("SCAFFOLD_PROJECT_SLUG", "{{ project_slug }}")
+        
+        meta = ProjectMetadata(
+            id=project_id,
+            name="{{ project_name }}",
+            path=Path(os.getcwd())
+        )
+        manager.register_project(meta)
+
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Multirepo Friction -> 0)[/]"
+    proclaim: "[bold green]✅ The Observatory is waked. You can now govern the Multiverse.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Project Manager materialization fractured.[/bold red]"

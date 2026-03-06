@@ -1,0 +1,112 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PYTHON-CORE (V-Ω-TOTALITY-V3.0)                           ==
+# ==============================================================================
+# @description: The primordial Python substrate. Materializes the build system 
+#               (Poetry), the core directory topography, and the foundational 
+#               Gnostic DNA for all Python-based microservices.
+# @category: System / Substrate
+# @vibe: python, poetry, src-layout, pep621, fundamental, substrate, base
+# @provides: [python-core, logic-substrate, web-framework-base, pydantic-v2]
+# @requires: [python-binary]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("resonant-core") }}
+$$ author = {{ author | default("The Architect") }}
+$$ python_version = {{ python_v | default("3.11") }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Base Topography) ---
+
+# [ASCENSION 1]: The Build System (Poetry/PEP-621)
+pyproject.toml :: """
+[tool.poetry]
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "A warded reality manifest by the VELM God-Engine."
+authors = ["{{ author }}"]
+packages = [{include = "{{ package_name }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^{{ python_version }}"
+pydantic = "^2.6.0"
+loguru = "^0.7.0"
+rich = "^13.7.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+ruff = "^0.3.0"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+"""
+
+# [ASCENSION 2]: The Root Sanctums
+src/{{ package_name }}/
+    __init__.py :: """
+\"\"\"
+=============================================================================
+== {{ project_slug | upper }} (V-Ω-TOTALITY)
+=============================================================================
+Auto-consecrated by the Velm God-Engine.
+\"\"\"
+__version__ = "0.1.0"
+"""
+    
+    # [ASCENSION 3]: Fundamental Gnostic Constants
+    constants.py :: """
+import os
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
+ENVIRONMENT = os.getenv("SCAFFOLD_ENV", "development")
+"""
+
+# [ASCENSION 4]: The Universal Ignore Sieve
+.gitignore :: """
+# == The Abyss (Python) ==
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+dist/
+build/
+*.egg-info/
+.env
+"""
+
+# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Python Core Substrate[/] is manifest."
+    proclaim: "Package: [white]src/{{ package_name }}/[/]"
+    
+    # 1. Initialize the Chronicle
+    @if {{ not dir_exists('.git') }} -> >> git init
+    
+    # 2. Summon the dependencies
+    proclaim: "Phase I: Summoning build-system artisans (Poetry)..."
+    @if {{ not file_exists('poetry.lock') }}
+        >> poetry lock
+    @endif
+    
+    # 3. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]INFINITY (Foundation Established)[/]"
+    proclaim: "[bold green]✅ The Base Substrate is RESONANT.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Substrate materialization fractured.[/bold red]"
+    # Rollback is handled by the Transactional Kernel

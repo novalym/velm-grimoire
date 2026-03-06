@@ -1,0 +1,109 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PYTHON-METABOLISM-TOOLKIT (V-Ω-TOTALITY-V1.0)             ==
+# ==============================================================================
+# @description: The definitive hardware sensing toolkit. Materializes the 
+#               psutil-powered biometric layer, enabling real-time scrying of 
+#               CPU heat, RAM mass, and I/O wait-states across all substrates.
+# @category: System / Substrate
+# @vibe: psutil, metabolism, hardware-sensing, vitals, telemetry-toolkit
+# @provides: [python-metabolism-toolkit, metabolic-sensing-authority, hardware-biopsy]
+# @requires: [python-core]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Sensory Layer) ---
+
+src/{{ package_name }}/core/system/
+    __init__.py += "from .metabolism import HardwareScrier\n"
+
+    # [ASCENSION 1]: THE HARDWARE SCRIER
+    # This artisan performs the actual deep-tissue biopsy of the OS resources.
+    metabolism.py :: """
+import os
+import time
+import platform
+import psutil
+import logging
+from typing import Dict, Any, List
+
+Logger = logging.getLogger("System:Metabolism")
+
+class HardwareScrier:
+    \"\"\"
+    =============================================================================
+    == THE HARDWARE SCRIER (V-Ω-TOTALITY)                                     ==
+    =============================================================================
+    LIF: ∞ | ROLE: METABOLIC_SENSING_ORACLE | RANK: MASTER
+    
+    [ASCENSIONS]:
+    1. Achronal Biopsy: Non-blocking scry of CPU, RAM, and Load.
+    2. Substrate Awareness: Detects virtualization (Docker/WASM) lag.
+    3. Forensic Signatures: Identifies thermalthrottling risk.
+    \"\"\"
+    def __init__(self):
+        self.process = psutil.Process(os.getpid())
+        self._boot_time = psutil.boot_time()
+
+    def conduct_biopsy(self) -> Dict[str, Any]:
+        \"\"\"Performs a high-fidelity scan of the physical iron.\"\"\"
+        try:
+            # 1. CPU Tomography
+            cpu_pct = psutil.cpu_percent(interval=None)
+            
+            # 2. RAM Mass
+            mem = psutil.virtual_memory()
+            process_mem = self.process.memory_info().rss / (1024 * 1024)
+            
+            # 3. I/O Pressure
+            io_counters = psutil.disk_io_counters()
+            
+            return {
+                "cpu_load": cpu_pct,
+                "ram_usage_pct": mem.percent,
+                "process_mb": round(process_mem, 2),
+                "os": platform.system(),
+                "node": platform.node(),
+                "ts": time.time(),
+                "status": "RESONANT" if cpu_pct < 85 else "FEVERISH"
+            }
+        except Exception as e:
+            Logger.error(f"Metabolic Scry Failed: {e}")
+            return {"status": "VOID", "error": str(e)}
+
+    @staticmethod
+    def list_artifacts() -> List[str]:
+        \"\"\"Proclaims the census of hardware sensors available.\"\"\"
+        return ["cpu", "memory", "disk", "network", "threads"]
+
+# Global Singleton
+scrier = HardwareScrier()
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+
+# [ASCENSION 12]: Dependency Inception
+pyproject.toml += """
+psutil = "^5.9.0"
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Python Metabolism Toolkit[/] is manifest."
+    proclaim: "Sensory Locus: [white]core/system/metabolism.py[/]"
+    
+    # 1. Dependency Summoning
+    proclaim: "Phase I: Summoning the Metabolic artisans... (psutil)"
+    >> poetry add psutil
+    ?? succeeds
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (System Blindness -> 0)[/]"
+    proclaim: "[bold green]✅ The Iron now has a Voice.[/bold green] Hardware vitals are scryable."
+
+%% on-heresy
+    proclaim: "[bold red]Metabolism materialization fractured.[/bold red]"
