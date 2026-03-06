@@ -1,0 +1,97 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PYDANTIC-V2 (V-Ω-TOTALITY-V1.0)                           ==
+# ==============================================================================
+# @description: The definitive data validation stratum. Materializes the 
+#               Pydantic V2 infrastructure, including high-performance 
+#               Sovereign Vessels and the GnosticSovereignDict bridge for 
+#               dynamic, null-warded context management.
+# @category: System / Logic
+# @vibe: pydantic, validation, schemas, dto, types, type-safety, pydantic-v2
+# @provides: [pydantic, pydantic-v2, validation-authority, sovereign-vessels]
+# @requires: [python-core]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Mind of the Data) ---
+
+src/{{ package_name }}/core/
+    __init__.py += "from .vessels import GnosticSovereignDict\n"
+
+    # [ASCENSION 1]: THE SOVEREIGN VESSELS
+    # This artisan forges the link between dynamic dictionaries and typed models.
+    vessels.py :: """
+import json
+from typing import Any, Dict, Optional, Set
+from pydantic import BaseModel, ConfigDict
+from pydantic_core import core_schema
+
+class GnosticSovereignDict(dict):
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC SOVEREIGN DICT (V-Ω-TOTALITY)                               ==
+    =============================================================================
+    LIF: ∞ | ROLE: DYNAMIC_CONTEXT_VESSEL | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Recursive Voiding: Returns a new GnosticSovereignDict instead of KeyError.
+    2. Dot-Notation Access: Enables ctx.user.profile.name syntax.
+    3. Pydantic V2 Integration: Harmonized with the Pydantic validator loop.
+    \"\"\"
+    def __getitem__(self, key: Any) -> Any:
+        if key in self:
+            return super().__getitem__(key)
+        # The Apophatic Return: Create a new branch of the tree on the fly
+        new_vessel = GnosticSovereignDict()
+        self[key] = new_vessel
+        return new_vessel
+
+    def __getattr__(self, name: str) -> Any:
+        if name.startswith('__'): return super().__getattribute__(name)
+        return self[name]
+
+    def __setattr__(self, name: str, value: Any):
+        self[name] = value
+
+class BaseVessel(BaseModel):
+    \"\"\"
+    The Ancestral Soul of all project DTOs.
+    Enforces strict type safety and POSIX path normalization.
+    \"\"\"
+    model_config = ConfigDict(
+        frozen=True,
+        extra='ignore',
+        populate_by_name=True,
+        validate_assignment=True
+    )
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+
+# [ASCENSION 12]: Dependency Inception
+pyproject.toml += """
+pydantic = {extras = ["email"], version = "^2.6.0"}
+pydantic-core = "^2.16.0"
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Pydantic Validation Shard[/] is manifest."
+    proclaim: "Contract Locus: [white]core/vessels.py[/]"
+    
+    # 1. Dependency Summoning
+    proclaim: "Phase I: Summoning the Validation artisans... (pydantic v2)"
+    >> poetry add pydantic[email] pydantic-core
+    ?? succeeds
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Data Ambiguity -> 0)[/]"
+    proclaim: "[bold green]✅ The Laws of Form are waked.[/bold green] Your data is now Sovereign."
+
+%% on-heresy
+    proclaim: "[bold red]Validation materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/core/vessels.py

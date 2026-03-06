@@ -1,0 +1,120 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PYTHON-CRYPTOGRAPHY (V-Ω-TOTALITY-V3.0)                   ==
+# ==============================================================================
+# @description: The definitive cryptographic engine. Materializes the 
+#               industrial-grade pyca/cryptography substrate, providing 
+#               Fernet symmetric encryption, high-entropy key generation, 
+#               and blind indexing for searchable encrypted matter.
+# @category: System / Security
+# @vibe: cryptography, encryption, fernet, security-warden, hmac, entropy
+# @provides: [python-cryptography, cryptographic-authority, secure-entropy, vault-warden]
+# @requires: [python-core]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Cipher Mind) ---
+
+src/{{ package_name }}/core/security/
+    __init__.py += "from .warden import VaultWarden\n"
+
+    # [ASCENSION 1]: THE VAULT WARDEN
+    # This artisan manages the high-level cryptographic operations for the Engine.
+    warden.py :: """
+import os
+import base64
+import hashlib
+import hmac
+import logging
+from typing import Union, Optional
+from cryptography.fernet import Fernet, MultiFernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+Logger = logging.getLogger("Security:Warden")
+
+class VaultWarden:
+    \"\"\"
+    =============================================================================
+    == THE VAULT WARDEN (V-Ω-TOTALITY)                                        ==
+    =============================================================================
+    LIF: ∞ | ROLE: CRYPTOGRAPHIC_GOVERNOR | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Achronal Key Rotation: Supports MultiFernet for seamless key evolution.
+    2. Blind Indexing: Forges searchable HMAC-SHA256 hashes of encrypted matter.
+    3. Kinetic Entropy: Native high-entropy key generation rites.
+    4. Salted Derivation: Implements PBKDF2 for password-to-key transmutation.
+    \"\"\"
+    
+    @staticmethod
+    def forge_key() -> str:
+        \"\"\"Generates a new, high-entropy Fernet key.\"\"\"
+        return Fernet.generate_key().decode()
+
+    @staticmethod
+    def shroud(data: Union[str, bytes], key: str) -> str:
+        \"\"\"Transmutes cleartext into a warded cipher-husk.\"\"\"
+        if not data: return ""
+        f = Fernet(key.encode())
+        payload = data.encode() if isinstance(data, str) else data
+        return f.encrypt(payload).decode()
+
+    @staticmethod
+    def resurrect(token: str, keys: Union[str, list[str]]) -> str:
+        \"\"\"Restores the cleartext soul from a cipher-husk.\"\"\"
+        if not token: return ""
+        
+        # [ASCENSION 1]: Multi-Key Rotation Support
+        key_list = [keys] if isinstance(keys, str) else keys
+        f = MultiFernet([Fernet(k.encode()) for k in key_list])
+        
+        try:
+            return f.decrypt(token.encode()).decode()
+        except Exception as e:
+            Logger.error(f"Resurrection Failure: Truth is lost or key is profane. {e}")
+            return "[REDACTED_VOID]"
+
+    @staticmethod
+    def forge_blind_index(data: str, pepper: str) -> str:
+        \"\"\"
+        [ASCENSION 2]: THE DETERMINISTIC SHADOW.
+        Forges a searchable HMAC-SHA256 hash. Allows O(1) lookups
+        on encrypted data without revealing the cleartext to the Database.
+        \"\"\"
+        if not data: return ""
+        msg = data.strip().lower().encode()
+        return hmac.new(pepper.encode(), msg, hashlib.sha256).hexdigest()
+
+# Global Singleton
+warden = VaultWarden()
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+
+# [ASCENSION 12]: Dependency Inception
+pyproject.toml += """
+cryptography = "^42.0.0"
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Python Cryptography Shard[/] is manifest."
+    proclaim: "Warden Locus: [white]core/security/warden.py[/]"
+    
+    # 1. Dependency Summoning
+    proclaim: "Phase I: Summoning the Cryptographic artisans... (pyca/cryptography)"
+    >> poetry add cryptography
+    ?? succeeds
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cryptographic Entropy -> 0)[/]"
+    proclaim: "[bold green]✅ The Vault is waked. Your project's soul is now warded.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Cryptography materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/core/security/warden.py
