@@ -70,7 +70,7 @@ jobs:
           python -m pip install --upgrade pip
           
           # Install the Velm Engine for the GnosticDNAOracle
-          pip install velm-cli
+          pip install velm
           
           # Summon the Vector Artisans (for pre-computing SCAF-Hub embeddings)
           pip install sentence-transformers onnxruntime rich pydantic
