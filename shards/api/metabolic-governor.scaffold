@@ -1,0 +1,120 @@
+# ==============================================================================
+# == GNOSTIC SHARD: METABOLIC GOVERNOR (V-Ω-TOTALITY-V3.0)                    ==
+# ==============================================================================
+# @description: An Adaptive Throttling Governor based on real-time system vitals. 
+#               Utilizes an asynchronous background cache to measure CPU heat 
+#               without adding latency to requests. Returns 429s under high load.
+# @category: API / Resilience
+# @vibe: fastapi, metabolism, rate-limiting, autonomous-safety, throttling
+# @provides: [autonomic-throttling, overload-protection, zero-latency-health]
+# @requires: [fastapi, psutil]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ cpu_threshold = {{ cpu_threshold | default(90.0) }} # Banish requests if CPU > 90%
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/middleware/
+    __init__.py += "from .governor import MetabolicGovernorMiddleware, start_metabolic_sensor\n"
+    
+    governor.py :: """
+import asyncio
+import psutil
+import logging
+from fastapi import Request, Response, status
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import JSONResponse
+
+Logger = logging.getLogger("API:MetabolicGovernor")
+
+# [STRATUM: SHARED MEMORY]
+# Thread-safe, globally accessible state
+_METABOLIC_STATE = {
+    "cpu_load": 0.0,
+    "is_feverish": False
+}
+
+# @scaffold:lifecycle(event="startup")
+async def start_metabolic_sensor():
+    \"\"\"
+    [ASCENSION 1]: The Background Sensor.
+    Reads the physical iron in the background to ensure 0ms latency for the API.
+    \"\"\"
+    async def _sensor_loop():
+        Logger.info("🌡️ [METABOLISM] Autonomic Governor Sensor Ignited.")
+        while True:
+            try:
+                # Read CPU over a 1 second non-blocking interval
+                cpu = psutil.cpu_percent(interval=None)
+                _METABOLIC_STATE["cpu_load"] = cpu
+                
+                # [ASCENSION 2]: Hysteresis to prevent flapping
+                if cpu >= {{ cpu_threshold }}:
+                    if not _METABOLIC_STATE["is_feverish"]:
+                        Logger.critical(f"🔥 [METABOLISM] FEVER DETECTED ({cpu}%). Engaging API Throttles.")
+                        _METABOLIC_STATE["is_feverish"] = True
+                elif cpu < ({{ cpu_threshold }} - 10.0): # Cool down threshold
+                    if _METABOLIC_STATE["is_feverish"]:
+                        Logger.success(f"❄️ [METABOLISM] Fever Broken ({cpu}%). Throttles released.")
+                        _METABOLIC_STATE["is_feverish"] = False
+                        
+            except Exception as e:
+                pass
+            await asyncio.sleep(2.0)
+            
+    asyncio.create_task(_sensor_loop())
+
+
+# @scaffold:middleware(priority=1)
+class MetabolicGovernorMiddleware(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE METABOLIC GOVERNOR (V-Ω-TOTALITY)                                   ==
+    =============================================================================
+    LIF: ∞ | ROLE: THERMODYNAMIC_SHIELD | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Zero-Latency Execution: Scries the background cache (O(1) lookup).
+    2. Adaptive Backpressure: Issues HTTP 429 with 'Retry-After' headers to 
+       calm aggressive clients.
+    3. Health Exemption: Allows '/health' to pass even during fevers.
+    \"\"\"
+    async def dispatch(self, request: Request, call_next) -> Response:
+        
+        # [ASCENSION 3]: Exemption for the Heartbeat
+        if request.url.path.endswith("/health"):
+            return await call_next(request)
+
+        # --- MOVEMENT I: ADJUDICATION ---
+        if _METABOLIC_STATE["is_feverish"]:
+            # [ASCENSION 2]: The Adaptive Reject
+            return JSONResponse(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                content={
+                    "error": "METABOLIC_FEVER",
+                    "detail": "System Fever: The Sanctum is currently under extreme metabolic pressure."
+                },
+                headers={"Retry-After": "5"} # Advise client to wait 5 seconds
+            )
+        
+        # --- MOVEMENT II: KINETIC FLOW ---
+        response = await call_next(request)
+        return response
+"""
+
+# --- III. THE SURGICAL WEAVE ---
+@if {{ is_python | lower == "true" }}
+    pyproject.toml += """
+psutil = "^5.9.0"
+"""
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Metabolic Governor[/] is manifest."
+    proclaim: "Threshold: [bold red]CPU > {{ cpu_threshold }}%[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (OOM Crashes -> 0)[/]"

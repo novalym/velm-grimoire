@@ -1,0 +1,204 @@
+# ==============================================================================
+# == GNOSTIC SHARD: FORENSIC CHRONOCYCLE (V-Ω-TOTALITY-V2.5-CORONER)          ==
+# ==============================================================================
+# @description: Materializes an advanced post-mortem analysis engine. Scries 
+#               engine crashes to identify causal loops and indentation floor 
+#               collapses, proclaiming the precise 'Cure' for engine paradoxes.
+# @category: Velm-Core / Forensics
+# @vibe: forensics, autopsy, coroner, debugging, paradox-resolution, redemption
+# @provides: [forensic-coroner, post-mortem-analysis, redemption-oracle]
+# @requires: [python-core, rich-telemetry, git-chronicle, gnostic-cortex]
+# @substrate: python (Achronal Diagnostic)
+# @version: 2.5.0
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Achronal Diagnostic Anchoring
+$$ tool_name = "chronocycle"
+$$ crash_vault = {{ vault_path | default(".scaffold/crashes") }}
+$$ report_path = {{ report_name | default("FORENSIC_REPORT.md") }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE CORONER'S TOOLS (The Mind of Redemption) ---
+
+scripts/forensics/
+    # [ASCENSION 2]: THE CHRONOS AUTOPSY ENGINE (Logic)
+    # This artisan performs high-order causal traceback reconstruction.
+    # It scans the Akasha for the "Moment of Singularity" where logic fractured.
+    autopsy.py :: """
+import json
+import os
+import re
+import sys
+import platform
+from pathlib import Path
+from datetime import datetime
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
+
+CONSOLE = Console()
+
+class GnosticCoroner:
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC CORONER (V-Ω-TOTALITY)                                     ==
+    =============================================================================
+    LIF: ∞ | ROLE: PARADOX_ADJUDICATOR | RANK: OMEGA
+    
+    1.  Causal Scrying: Locates the most recent engine crash report.
+    2.  Heresy Diagnosis: Identifies Indentation Collapses or Metabolic Overflows.
+    3.  Rite of Redemption: Generates the exact CLI command to heal the project.
+    \"\"\"
+    def __init__(self, vault_path: str = "{{ crash_vault }}"):
+        self.vault = Path(vault_path)
+        self.report_file = Path("{{ report_path }}")
+
+    def conduct_inquest(self):
+        CONSOLE.rule("[bold magenta]Ω | Initiating Chronocycle Autopsy[/bold magenta]")
+        
+        if not self.vault.exists():
+            CONSOLE.print("❌ [bold red]ERROR:[/] The Crash Vault is a void. No paradoxes perceived.", style="red")
+            return
+
+        # 1. FIND THE LATEST FRACTURE
+        reports = sorted(list(self.vault.glob("crash_*.json")), key=os.path.getmtime, reverse=True)
+        if not reports:
+            CONSOLE.print("❓ [yellow]Observation:[/] No recent fractures found in the Akasha.")
+            return
+
+        latest_fracture = reports[0]
+        CONSOLE.print(f"🕵️  Gazing into fracture: [cyan]{latest_fracture.name}[/cyan]")
+
+        try:
+            data = json.loads(latest_fracture.read_text(encoding='utf-8'))
+            error_msg = data.get("error", "")
+            traceback = data.get("traceback", "")
+            
+            # [ASCENSION 2]: THE INDENTATION FLOOR SCANNER
+            # Detects the dreaded 'WinError 123' caused by parser leaks.
+            is_parser_leak = any(x in error_msg for x in ["WinError 123", "<", ">", "|"])
+            is_timeout = "Timeout" in error_msg or "Deadline" in error_msg
+
+            # 2. GENERATE THE DOSSIER
+            report_lines = [
+                f"# ⚖️ GNOSTIC FORENSIC REPORT: {latest_fracture.stem.upper()}",
+                f"> **Locus of Fracture:** `{latest_fracture.name}`",
+                f"> **Temporal Coordinate:** {datetime.now().isoformat()}",
+                f"> **Substrate:** {platform.system()} ({platform.machine()})",
+                "",
+                "## I. THE NATURE OF THE PARADOX",
+                f"```text\\n{error_msg}\\n```",
+                ""
+            ]
+
+            # [ASCENSION 10]: AUTOMATIC CURE GENERATION
+            diagnosis = "UNKNOWN_ARCHITECTURAL_DRIFT"
+            cure = "Re-conduct the rite with `--verbose` to illuminate the shadow."
+            
+            if is_parser_leak:
+                diagnosis = "INDENTATION_FLOOR_COLLAPSE"
+                cure = "Increase the indentation of the code block in your .scaffold file by 4 spaces. The parser is leaking matter into topography."
+            elif "Memory" in error_msg or "tokens" in error_msg:
+                diagnosis = "METABOLIC_TAX_OVERFLOW"
+                cure = "Reduce the 'token_budget' in your request or prune non-essential focus files."
+            elif is_timeout:
+                diagnosis = "CHRONAL_TIMEOUT"
+                cure = "Increase the 'timeout_seconds' or conduct the rite in --adrenaline mode."
+
+            report_lines.extend([
+                f"### 🚩 DIAGNOSIS: {diagnosis}",
+                f"**CURE:** {cure}",
+                "",
+                "## II. FORENSIC TRACEBACK",
+                f"```python\\n{traceback[-3000:]}\\n```", # Capture the tail of the collapse
+                "\\n---",
+                "**Velm God-Engine v2.5.0 // Forensic Stratum**"
+            ])
+
+            self.report_file.write_text("\\n".join(report_lines), encoding='utf-8')
+            
+            # 3. PROCLAIM TO CONSOLE
+            self._render_summary_table(diagnosis, cure)
+            
+        except Exception as e:
+            CONSOLE.print(f"💥 [bold red]Autopsy Failed:[/] {e}", style="red")
+
+    def _render_summary_table(self, diagnosis, cure):
+        table = Table(box=None, expand=True)
+        table.add_column("Stratum", style="cyan")
+        table.add_column("Revelation", style="white")
+        table.add_row("Diagnosis", f"[bold red]{diagnosis}[/]")
+        table.add_row("Cure", f"[bold green]{cure}[/]")
+        CONSOLE.print(Panel(table, title="[bold green]Adjudication Result[/]", border_style="green"))
+        CONSOLE.print(f"✨ Dossier manifest at: [bold cyan]{self.report_file}[/bold cyan]")
+
+if __name__ == "__main__":
+    GnosticCoroner().conduct_inquest()
+"""
+
+# --- III. THE KINETIC SYMPHONY (Workflows) ---
+
+# [ASCENSION 5]: THE REDEMPTION SYMPHONY
+# An automated workflow that conducts the autopsy and presents the cure.
+chronocycle.symphony :: """
+# == Symphony: The Rite of Post-Mortem Redemption ==
+# @description: Automates the inquest and opens the Forensic Dossier.
+# @LIF: 1,000,000x
+
+@task main
+    %% let: inquest_phase = "INITIATING"
+    %% proclaim: "🛡️ [SENTINEL] Awakening the Coroner. Scrying the .scaffold vault..."
+
+    @try:
+        # 1. CONDUCT THE AUTOPSY
+        >> python3 scripts/forensics/autopsy.py
+        ?? succeeds
+        
+        # 2. PRESENT THE REVELATION
+        # [ASCENSION 12]: Substrate-Aware Display
+        @on_os windows:
+            >> start {{ report_path }}
+        @else:
+            >> open {{ report_path }} || cat {{ report_path }}
+        @endif
+        
+        %% proclaim: "[bold green]✅ ADJUDICATION COMPLETE.[/bold green] Reality awaits your correction."
+    @catch Exception as e:
+        %% error: "Autopsy fractured: {{ e }}. The paradox is too deep for automated scrying."
+        >> velm help forensics
+    @end
+"""
+
+# --- IV. THE CONTROL PLANE ---
+# [ASCENSION 9]: Global Conductor Integration
+Makefile += """
+# --- FORENSIC RITES ---
+autopsy: ## diagnose and heal the last engine crash or paradox
+    @velm run chronocycle.symphony
+
+clean-crashes: ## return all crash artifacts to the primordial void
+    @rm -rf {{ crash_vault }}/*.json
+    @echo "✨ Crash Vault purified."
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Forensic Chronocycle[/bold cyan] is waked and warded."
+    proclaim: "Coroner Locus: [white]scripts/forensics/autopsy.py[/]"
+    proclaim: "Crash Vault: [bold yellow]{{ crash_vault }}[/]"
+    
+    # 1. Initialize the Forensic Sanctum
+    proclaim: "Forging the Forensic Archive..."
+    >> mkdir -p {{ crash_vault }} scripts/forensics
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Debugging Tax -> 0)[/]"
+    proclaim: "[bold green]The Coroner is now watching every logic gate.[/bold green]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Chronocycle inception fractured.[/bold red] Paradoxes remain unmanaged."
+    rm -rf scripts/forensics/autopsy.py chronocycle.symphony

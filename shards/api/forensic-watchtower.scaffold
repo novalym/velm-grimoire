@@ -1,0 +1,115 @@
+# ==============================================================================
+# == GNOSTIC SHARD: FORENSIC WATCHTOWER (V-Ω-TOTALITY-V3.0)                   ==
+# ==============================================================================
+# @description: A zero-latency Forensic Logging middleware. Injects Trace IDs 
+#               and utilizes Background Tasks to perform comprehensive request/response 
+#               auditing without increasing user-facing latency.
+# @category: API / Observability
+# @vibe: forensics, audit-log, tracing, zero-latency, security
+# @provides: [forensic-audit-trail, trace-id-propagation]
+# @requires: [fastapi, python-core]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ log_channel = "forensics"
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/middleware/
+    __init__.py += "from .watchtower import ForensicAuditMiddleware\n"
+    
+    watchtower.py :: """
+import time
+import uuid
+import json
+import logging
+from typing import Dict, Any, Callable
+from fastapi import Request, Response, Header, Depends
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.background import BackgroundTask
+
+# Dedicated output stream for machine-readable JSON logs
+WatchtowerLogger = logging.getLogger("{{ log_channel }}")
+WatchtowerLogger.setLevel(logging.INFO)
+
+# @scaffold:dependency(name="forensic_context")
+async def get_forensic_context(
+    x_gnostic_trace: str = Header(None),
+    request: Request = None
+) -> Dict[str, Any]:
+    \"\"\"
+    [NEURAL_MESH]: The FastAPIStrategy scries this dependency 
+    and righteously sutures it into route injections.
+    \"\"\"
+    return {
+        "trace_id": x_gnostic_trace or getattr(request.state, "trace_id", "tr-void"),
+        "client_ip": request.client.host if request and request.client else "unknown",
+        "epoch": time.time()
+    }
+
+# @scaffold:middleware(priority=5)
+class ForensicAuditMiddleware(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE FORENSIC WATCHTOWER (V-Ω-TOTALITY)                                  ==
+    =============================================================================
+    LIF: ∞ | ROLE: OMNISCIENT_RECORDER | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Zero-Latency Execution: I/O (Logging) happens in BackgroundTasks.
+    2. Trace Suture: Generates a UUIDv4 trace if the client didn't provide one.
+    3. Payload Peeking: Safely clones the request body without destroying the stream.
+    4. PII Redaction: (Prophecy) Calls out to a PII scrubber before logging.
+    \"\"\"
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        start_time = time.perf_counter()
+        
+        # [ASCENSION 2]: The Silver Cord
+        trace_id = request.headers.get("X-Gnostic-Trace", f"tr-{uuid.uuid4().hex[:8]}")
+        request.state.trace_id = trace_id
+
+        # [ASCENSION 3]: The Peeking Rite
+        body_bytes = b""
+        if request.method in ["POST", "PUT", "PATCH"]:
+            body_bytes = await request.body()
+            # Resurrect the stream for FastAPI to consume
+            async def receive(): return {"type": "http.request", "body": body_bytes}
+            request._receive = receive
+
+        # --- THE KINETIC STRIKE ---
+        response = await call_next(request)
+        
+        process_time_ms = (time.perf_counter() - start_time) * 1000
+
+        # [ASCENSION 1]: Background Inscription
+        log_payload = {
+            "trace_id": trace_id,
+            "method": request.method,
+            "path": request.url.path,
+            "status": response.status_code,
+            "latency_ms": round(process_time_ms, 2),
+            "client_ip": request.client.host if request.client else "void",
+            # Truncate body to prevent log flooding
+            "body_snippet": body_bytes.decode('utf-8', errors='ignore')[:500] 
+        }
+        
+        response.headers["X-Gnostic-Trace"] = trace_id
+        
+        # Attach the Background Task to the Response
+        response.background = BackgroundTask(self._inscribe, log_payload)
+
+        return response
+
+    def _inscribe(self, payload: dict):
+        \"\"\"Writes the pure JSON soul to the forensic stream.\"\"\"
+        # [PII SCRUBBER SUTURE GOES HERE]
+        WatchtowerLogger.info(json.dumps(payload))
+"""
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Forensic Watchtower[/] is manifest."
+    proclaim: "Capability: [bold green]ZERO-LATENCY JSON LOGGING[/]"

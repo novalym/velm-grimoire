@@ -1,26 +1,28 @@
 # Path: .github/workflows/ascension.yml
 # ------------------------------------
 # =================================================================================
-# == Ω | THE CELESTIAL ASCENSION SYMPHONY (V-Ω-TOTALITY-V300)                    ==
+# == Ω | THE CELESTIAL ASCENSION SYMPHONY (V-Ω-TOTALITY-V500-VECTOR-EMBEDDED)    ==
 # =================================================================================
 # LIF: ∞ | ROLE: ARCHITECTURAL_CONSISTENCY_SENTINEL | RANK: OMEGA_SOVEREIGN
-# AUTH_CODE: Ω_ASCENSION_2026_TOTALITY_FINALIS_ULTIMA
+# AUTH_CODE: Ω_ASCENSION_2026_VECTOR_FINALIS_ULTIMA
 # =================================================================================
 
-name: Ω | Celestial Ascension & Gnostic Adjudication
+name: Ω | Celestial Ascension & Vector Adjudication
 
 on:
   push:
     branches: [ main ]
     paths:
       - 'archetypes/**.scaffold'
+      - 'shards/**.scaffold'
+      - 'atoms/**.py'
       - 'scripts/**.py'
   pull_request:
     branches: [ main ]
   workflow_dispatch: # Allows manual invocation by the Architect
 
 # [ASCENSION 1]: THREAD ISOLATION
-# Ensures that simultaneous pushes do not result in a fragmented index.
+# Ensures that simultaneous pushes do not result in a fragmented index or race conditions.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -32,12 +34,12 @@ permissions:
 env:
   PYTHONUNBUFFERED: "1"
   FORCE_COLOR: "1"
-  # [THE CURE]: Explicitly define the Repository DNA for the Librarian
+  #[THE CURE]: Explicitly define the Repository DNA for the Librarian
   REPO_NAME: ${{ github.repository }}
 
 jobs:
   adjudicate_and_ascend:
-    name: The Rite of Ascension
+    name: The Rite of Vector Ascension
     runs-on: ubuntu-latest
     
     steps:
@@ -47,82 +49,93 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: ⚒️  Forging Pip Manifest
-        run: |
-          if [ ! -f requirements.txt ]; then
-            echo "rich>=13.7.0" > requirements.txt
-            echo "pydantic>=2.6.0" >> requirements.txt
-            echo "jinja2>=3.1.0" >> requirements.txt
-            echo "✨ Manifest forged in memory."
-          fi
-
       - name: 🐍 Consecrating Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: 📦 Summoning Gnostic Artisans
+      # [ASCENSION 2]: THE HUGGINGFACE CACHE SUTURE
+      # Caches the Sentence Transformer model to eliminate the 80MB download tax on every run.
+      - name: 🧠 Caching the Neural Weights
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/huggingface
+          key: ${{ runner.os }}-hf-minilm-l6-v2
+          restore-keys: |
+            ${{ runner.os }}-hf-
+
+      - name: 📦 Summoning Gnostic Artisans & Vector Engines
         run: |
           python -m pip install --upgrade pip
-          # [THE CURE]: Install the Velm Mind so the Librarian is OMNISCIENT
-          # We install velm to provide the GnosticDNAOracle to the scripts.
-          pip install velm
-          pip install -r requirements.txt
+          
+          # Install the Velm Engine for the GnosticDNAOracle
+          pip install velm-cli
+          
+          # Summon the Vector Artisans (for pre-computing SCAF-Hub embeddings)
+          pip install sentence-transformers onnxruntime rich pydantic
 
-      # --- II. THE INQUEST (LINTING) ---
-      # [ASCENSION 4]: PRE-FLIGHT HERESY CHECK
-      - name: 🔍 Conducting Gnostic Inquest
+      # --- II. THE INQUEST (THE 7-PILLAR LINTING) ---
+      # [ASCENSION 4]: PRE-FLIGHT HERESY CHECK (THE 7 PILLARS)
+      - name: 🔍 Conducting 7-Pillar Gnostic Inquest
         run: |
-          echo "Performing forensic scan for header purity..."
+          echo "Performing forensic scan for the 7-Pillar Gnostic Header..."
           ERROR_COUNT=0
-          # Use find to handle nested directories in the archetypes vault
-          for file in $(find archetypes -name "*.scaffold"); do
-            echo "Scrying $file..."
-            if ! grep -q "@description:" "$file"; then
-              echo "::error file=$file,line=1::Heresy Detected: Missing @description header."
-              ERROR_COUNT=$((ERROR_COUNT+1))
-            fi
-            if ! grep -q "@category:" "$file"; then
-              echo "::error file=$file,line=1::Heresy Detected: Missing @category header."
-              ERROR_COUNT=$((ERROR_COUNT+1))
-            fi
+          
+          # Scry both Archetypes and Shards
+          for file in $(find archetypes shards -name "*.scaffold"); do
+            echo "Scrying Soul: $file..."
+            
+            # The 7 Sacred Laws of the Header
+            for pillar in "@description:" "@category:" "@vibe:" "@provides:" "@requires:" "@substrate:" "@version:"; do
+              if ! grep -qi "$pillar" "$file"; then
+                echo "::error file=$file,line=1::Heresy Detected: Missing $pillar in header."
+                ERROR_COUNT=$((ERROR_COUNT+1))
+              fi
+            done
           done
           
           if [ $ERROR_COUNT -ne 0 ]; then
-            echo "💥 Inquest found $ERROR_COUNT fatal heresies. Ascension halted."
+            echo "💥 Inquest found $ERROR_COUNT fatal heresies. The Trinity is incomplete. Ascension halted."
             exit 1
           fi
-          echo "✅ All shards are Gnostically compliant."
+          echo "✅ All Shards and Archetypes adhere to the 7-Pillar Taxonomy."
 
-      # --- III. THE TRANSFORMATION ---
-      # [ASCENSION 7]: THE MASTER CENSUS
-      - name: 🌀 Materializing Celestial Index
+      # --- III. THE TRANSFORMATION (VECTOR EMBEDDING) ---
+      #[ASCENSION 7]: THE MASTER CENSUS & EMBEDDING
+      - name: 🌀 Materializing Embedded Celestial Index
         run: |
-          # [THE CURE]: We pass only the owner/repo, not the full URL
+          echo "Summoning the Rebuild Script to forge registry/index.json..."
+          
+          # Ensure the registry sanctum exists
+          mkdir -p registry
+          
+          # The script now processes archetypes, shards, and atoms, and calculates vectors.
           python scripts/rebuild_index.py \
             --repo ${{ github.repository }} \
             --branch main \
-            --vault archetypes \
-            --output index.json
+            --archetypes archetypes \
+            --shards shards \
+            --atoms atoms \
+            --output registry/index.json
 
       # --- IV. THE CHRONICLE INSCRIPTION ---
       # [ASCENSION 12]: THE FINALITY VOW
-      - name: 📜 Inscribing the New Reality
+      - name: 📜 Inscribing the Vector Reality
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config --global user.name "Celestial-Scribe"
           git config --global user.email "scribe@novalym.systems"
           
           # [THE CURE]: The Gaze of Total Awareness (scries untracked files)
-          if [ -z "$(git status --porcelain index.json)" ]; then
-            echo "Lattice is already in harmony. No inscription required."
+          if [ -z "$(git status --porcelain registry/index.json)" ]; then
+            echo "Lattice is already in harmony. Vectors are unchanged."
           else
-            echo "Gnostic Drift detected in index.json. Inscribing..."
-            git add index.json
-            git commit -m "chore(atlas): transfigure celestial index [v${{ github.run_number }}] [skip ci]"
+            echo "Gnostic Drift detected in registry/index.json. Inscribing Vectors..."
+            git add registry/index.json
+            git commit -m "chore(atlas): transfigure embedded celestial index [v${{ github.run_number }}] [skip ci]"
             git push origin main
-            echo "✨ The Grimoire has ascended."
+            echo "✨ The Grimoire has ascended with Mathematical Purity."
           fi
 
       # --- V. THE OCULAR RESONANCE ---
@@ -130,4 +143,4 @@ jobs:
         if: success() && github.event_name == 'push'
         run: |
           echo "Broadcasting success to the Gnostic Mesh..."
-          echo "Ω TOTALITY ACHIEVED."
+          echo "Ω TOTALITY ACHIEVED. THE VECTORS ARE ALIGNED."

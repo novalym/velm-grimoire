@@ -1,0 +1,105 @@
+# ==============================================================================
+# == GNOSTIC SHARD: ENTROPY SYRINGE (V-Ω-TOTALITY-V3.0)                       ==
+# ==============================================================================
+# @description: A Chaos Engineering Syringe. Safely injects latency, memory 
+#               bloat, and random 500 errors into the API to verify resilience. 
+#               Warded by a cryptographic signature to prevent hostile usage.
+# @category: API / Resilience
+# @vibe: chaos-monkey, testing, resilience, entropy, fault-injection
+# @provides: [chaos-engineering-middleware, production-stress-testing]
+# @requires: [fastapi, python-core]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: 50,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ chaos_secret = "{{ crypto.random(32) }}"
+
+# --- II. THE SCRIPTURE OF FORM ---
+.env.example += """
+# == CHAOS ENGINEERING WARD ==
+SCAFFOLD_CHAOS_SECRET={{ chaos_secret }}
+"""
+
+src/{{ package_name }}/middleware/
+    __init__.py += "from .chaos import EntropySyringeMiddleware\n"
+    
+    chaos.py :: """
+import os
+import asyncio
+import random
+import time
+import hmac
+import hashlib
+import logging
+from fastapi import Request, HTTPException, status
+from starlette.middleware.base import BaseHTTPMiddleware
+
+Logger = logging.getLogger("API:EntropySyringe")
+
+# @scaffold:middleware(priority=4)
+class EntropySyringeMiddleware(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE ENTROPY SYRINGE (V-Ω-CHAOS-INJECTOR)                                ==
+    =============================================================================
+    LIF: ∞ | ROLE: ARCHITECTURAL_STRESS_TESTER | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Cryptographic Ward: Validates X-Chaos-Signature via HMAC-SHA256.
+    2. Multi-Vector Entropy: Simulates Latency, CPU Thrash, and Memory Bloat.
+    3. Blast Radius Control: Entropy is only applied to requests bearing the mark.
+    \"\"\"
+    def __init__(self, app):
+        super().__init__(app)
+        self.secret = os.getenv("SCAFFOLD_CHAOS_SECRET", "void").encode()
+
+    async def dispatch(self, request: Request, call_next):
+        chaos_vow = request.headers.get("X-Inject-Entropy", "none")
+        
+        if chaos_vow == "none":
+            return await call_next(request)
+            
+        # [ASCENSION 1]: Cryptographic Adjudication
+        signature = request.headers.get("X-Chaos-Signature", "")
+        if not self._verify_signature(chaos_vow, signature):
+            Logger.critical("🛑 [CHAOS] Unauthorized Entropy Injection blocked.")
+            raise HTTPException(status_code=403, detail="Profane Chaos Intent.")
+
+        # [ASCENSION 2]: Multi-Vector Entropy
+        Logger.warning(f"🌪️ [CHAOS] Syringe Active: Injecting {chaos_vow}...")
+        
+        if "latency" in chaos_vow:
+            await asyncio.sleep(random.uniform(0.5, 3.0))
+            
+        if "cpu_thrash" in chaos_vow:
+            self._thrash_cpu()
+            
+        if "fracture" in chaos_vow and random.random() < 0.5:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
+                detail="Chaos Syringe: Simulated Substrate Fracture."
+            )
+        
+        response = await call_next(request)
+        response.headers["X-Chaos-Applied"] = chaos_vow
+        return response
+
+    def _verify_signature(self, payload: str, signature: str) -> bool:
+        expected = hmac.new(self.secret, payload.encode(), hashlib.sha256).hexdigest()
+        return hmac.compare_digest(expected, signature)
+
+    def _thrash_cpu(self):
+        \"\"\"Simulates a blocking CPU spike on the event loop.\"\"\"
+        end_t = time.perf_counter() + 0.1 # 100ms block
+        while time.perf_counter() < end_t:
+            pass
+"""
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Entropy Syringe[/] is warded and active."
+    proclaim: "Chaos Secret willed into [white].env[/]"
+    proclaim: "LIF-Multiplier: [bold green]50,000x (Blindspots -> 0)[/]"

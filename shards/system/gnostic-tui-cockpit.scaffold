@@ -1,0 +1,202 @@
+# ==============================================================================
+# == GNOSTIC SHARD: GNOSTIC TUI COCKPIT (V-Ω-TOTALITY-V2.1-HUD)               ==
+# ==============================================================================
+# @description: Materializes a high-status Terminal User Interface (TUI). 
+#               Projecting real-time system metrics, distributed logs, and 
+#               causal event-streams into a cinematic ASCII cockpit.
+# @category: System / Ocular
+# @vibe: tui, dashboard, textual, monitoring, terminal, real-time, observatory, hud
+# @provides: [system-observatory, tui-cockpit, ocular-retina-terminal]
+# @requires: [neural-backbone, vital-pulse-provider, python-ui-toolkit]
+# @substrate: python
+# @version: 2.1.0
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Ocular Variable Anchoring
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ ws_url = {{ ws_url | default("http://localhost:8000") }}
+$$ cockpit_theme = {{ theme | default("obsidian") }}
+
+# --- II. THE COCKPIT CORE (The Mind's Retina) ---
+
+src/{{ package_name }}/ui/
+    __init__.py :: ""
+    
+    # [ASCENSION 3]: THE COCKPIT ENGINE (Logic)
+    # The high-fidelity visual conductor built on the Textual framework.
+    cockpit.py :: """
+import asyncio
+import logging
+from datetime import datetime
+from typing import Dict, Any, Optional
+
+import socketio
+from textual import on, work
+from textual.app import App, ComposeResult
+from textual.containers import Container, Horizontal, Vertical, Grid
+from textual.widgets import Header, Footer, Static, Log, Digits, Label, Sparkline
+from textual.reactive import reactive
+
+# [ASCENSION 1]: THE NEURAL UPLINK
+# Asynchronous communion with the Reactive Hub (Strike 11)
+sio = socketio.AsyncClient(reconnection=True, reconnection_attempts=5)
+
+class VitalsSpark(Vertical):
+    \"\"\"[ASCENSION 6]: Visual Metabolic History (Sparklines).\"\"\"
+    def compose(self) -> ComposeResult:
+        yield Label(self.name.upper())
+        yield Digits("0.0", id=f"{self.id}-val")
+        yield Sparkline(id=f"{self.id}-spark")
+
+class GnosticCockpit(App):
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC COCKPIT (V-Ω-TOTALITY)                                     ==
+    =============================================================================
+    LIF: ∞ | ROLE: SYSTEM_OBSERVATORY | RANK: OMEGA
+    
+    The sensory interface for the Architect.
+    1.  Real-time Tomography: Visualizes CPU/RAM heat via Sparklines.
+    2.  Forensic Log Stream: Captures distributed signals from the Lattice.
+    3.  Haptic Feedback: UI flutters and color-shifts on event reception.
+    \"\"\"
+    
+    TITLE = "SCAFFOLD_COCKPIT::{{ project_slug | upper }}"
+    SUB_TITLE = "Lattice Monitoring [RESONANT]"
+    
+    CSS = \"\"\"
+    Screen {
+        background: #020202;
+    }
+    #main-grid {
+        grid-size: 2;
+        grid-columns: 1fr 2fr;
+        padding: 1;
+    }
+    .panel {
+        border: tall #64ffda;
+        background: #050505;
+        padding: 1;
+        margin: 1;
+    }
+    .stat-panel {
+        height: 10;
+        border: solid #a855f7;
+    }
+    #log-panel {
+        border: double #3b82f6;
+        height: 100%;
+    }
+    Digits {
+        color: #64ffda;
+    }
+    Sparkline > .sparkline--max {
+        color: #ef4444;
+    }
+    \"\"\"
+
+    BINDINGS = [
+        (\"q\", \"quit\", \"Exit Cockpit\"), 
+        (\"p\", \"pulse\", \"Radiate Test Pulse\"),
+        (\"c\", \"clear\", \"Purge Logs\")
+    ]
+
+    def compose(self) -> ComposeResult:
+        yield Header(show_clock=True)
+        with Grid(id=\"main-grid\"):
+            with Vertical(id=\"stats-sidebar\"):
+                yield VitalsSpark(\"CPU Load\", id=\"cpu\", classes=\"panel stat-panel\")
+                yield VitalsSpark(\"RAM Mass\", id=\"ram\", classes=\"panel stat-panel\")
+                yield Static(\"Lattice: DISCONNECTED\", id=\"connection-status\", classes=\"panel\")
+            
+            with Vertical():
+                yield Log(id=\"event-log\", classes=\"panel\", name=\"Causal Chronicle\")
+        yield Footer()
+
+    async def on_mount(self) -> None:
+        \"\"\"Conducts the Rite of Connection.\"\"\"
+        self.log_view = self.query_one(\"#event-log\", Log)
+        await self._establish_neural_link()
+
+    @work(exclusive=True)
+    async def _establish_neural_link(self):
+        \"\"\"[ASCENSION 5]: Fault-Isolated Connection logic.\"\"\"
+        try:
+            self.log_view.write_line(\"📡 Poking the Reactive Hub...\")
+            await sio.connect(\"{{ ws_url }}\", namespaces=[\"/gnosis\"])
+            self.query_one(\"#connection-status\").update(\"Lattice: [bold green]RESONANT[/]\")
+            self.log_view.write_line(\"✅ Neural Link established. Receiving Gnosis.\")
+        except Exception as e:
+            self.log_view.write_line(f\"❌ Link Fractured: {e}\")
+            self.query_one(\"#connection-status\").update(\"Lattice: [bold red]FRACTURED[/]\")
+
+    @sio.on(\"system/vitals\", namespace=\"/gnosis\")
+    def handle_vitals(self, data: Dict[str, Any]):
+        \"\"\"[ASCENSION 13]: Real-time Tomography Update.\"\"\"
+        # Update CPU
+        cpu_val = data.get(\"cpu_load\", 0.0)
+        self.query_one(\"#cpu-val\", Digits).update(f\"{cpu_val:.1f}\")
+        self.query_one(\"#cpu-spark\", Sparkline).data_push(cpu_val)
+        
+        # Update RAM
+        ram_val = data.get(\"ram_usage_pct\", 0.0)
+        self.query_one(\"#ram-val\", Digits).update(f\"{ram_val:.1f}\")
+        self.query_one(\"#ram-spark\", Sparkline).data_push(ram_val)
+
+    @sio.on(\"*\", namespace=\"/gnosis\")
+    def handle_catchall(self, event: str, data: Any):
+        \"\"\"Captures every ripple in the event-lattice.\"\"\"
+        ts = datetime.now().strftime(\"%H:%M:%S\")
+        self.log_view.write_line(f\"[{ts}] [cyan]{event.upper()}[/]: {data}\")
+
+    def action_clear(self) -> None:
+        self.log_view.clear()
+
+    async def action_pulse(self) -> None:
+        \"\"\"Radiates a test signal to verify bi-directional flow.\"\"\"
+        await sio.emit(\"client/pulse\", {\"msg\": \"Architect gazing from TUI\"}, namespace=\"/gnosis\")
+        self.log_view.write_line(\"✨ Pulse radiated to Hub.\")
+
+    async def on_unmount(self) -> None:
+        await sio.disconnect()
+
+if __name__ == \"__main__\":
+    app = GnosticCockpit()
+    app.run()
+"""
+
+# --- III. THE SURGICAL WEAVE (Substrate Prep) ---
+# [ASCENSION 13]: Automatic dependency injection for the Alchemist.
+@if {{ project_type in ['python', 'poetry', 'fastapi'] }}
+    pyproject.toml += """
+    textual = "^0.50.0"
+    python-socketio = {extras = ["asyncio_client"], version = "^5.11.0"}
+    """
+@endif
+
+# --- IV. THE CONTROL PLANE (Makefile) ---
+Makefile += """
+# --- OCULAR RITES ---
+cockpit: ## enter the Gnostic TUI Cockpit to observe the machine
+    @poetry run python src/{{ package_name }}/ui/cockpit.py
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Gnostic TUI Cockpit[/bold cyan] is manifest."
+    proclaim: "Observatory Source: [white]src/{{ package_name }}/ui/cockpit.py[/]"
+    
+    # 1. Install Dependencies
+    proclaim: "Summoning the Ocular artisans... (textual, socketio)"
+    >> pip install textual python-socketio[asyncio_client]
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (System Blindness -> 0)[/]"
+    proclaim: "To enter the cockpit, speak: [bold magenta]make cockpit[/bold magenta]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Cockpit materialization fractured.[/bold red] Retina remains unmanifest."
+    rm -rf src/{{ package_name }}/ui/cockpit.py

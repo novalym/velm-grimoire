@@ -1,0 +1,114 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PERIMETER SHIELD (V-Ω-TOTALITY-V2.1-ACTIVE-DEFENSE)       ==
+# ==============================================================================
+# @description: Materializes the Gnostic Perimeter Shield. Enforces the Law of 
+#               Traceability and measures the Metabolic Tax of every ingress signal.
+# @category: Security
+# @vibe: security, sentinel, telemetry, trace-id, metrics, middleware, ingress-guard
+# @provides: [perimeter-shield, active-defense-stratum, trace-provider]
+# @requires: [web-framework]
+# @substrate: python
+# @version: 2.1.0
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ shield_priority = {{ shield_priority | default(10) }}
+$$ strict_trace = {{ strict_trace | default(false) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Nervous System) ---
+src/{{ package_name }}/middleware/
+    shield.py :: """
+    import time
+    import uuid
+    import logging
+    from fastapi import Request, Response, HTTPException, status
+    from starlette.middleware.base import BaseHTTPMiddleware
+    
+    Logger = logging.getLogger("Security:Perimeter")
+
+    # [ASCENSION 3]: THE RADIATOR OF TRACEABILITY
+    # @scaffold:middleware(priority={{ shield_priority }}, anchor="ZENITH")
+    class ActiveDefenseMiddleware(BaseHTTPMiddleware):
+        \"\"\"
+        =============================================================================
+        == THE PERIMETER SHIELD (V-Ω-TOTALITY)                                     ==
+        =============================================================================
+        LIF: 1,000,000x | ROLE: FORENSIC_GATEKEEPER | RANK: OMEGA
+        
+        The first point of contact for all external intent.
+        1.  Identity Suture: Injects or validates the X-Gnostic-Trace.
+        2.  Metabolic Tomography: Calculates the exact CPU tax of the plea.
+        3.  Forensic Signaling: Stamps the result for the Ocular HUD.
+        \"\"\"
+        async def dispatch(self, request: Request, call_next):
+            # --- MOVEMENT I: THE SILVER CORD (TRACE INJECTION) ---
+            # [ASCENSION 6]: Ensures every thought is tracked across the lattice.
+            trace_id = request.headers.get("X-Gnostic-Trace")
+            
+            if not trace_id:
+                if {{ strict_trace | lower }}:
+                    # [ASCENSION 9]: Apophatic Rejection
+                    # Refuse to process anonymous intent in strict environments.
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="Perimeter Violation: Anonymous intent is forbidden in this sanctum."
+                    )
+                trace_id = f"tr-{uuid.uuid4().hex[:8].upper()}"
+
+            # Suture the trace into the request state for downstream Artisans
+            request.state.trace_id = trace_id
+            
+            # --- MOVEMENT II: THE RITE OF EXECUTION ---
+            start_time = time.perf_counter()
+            
+            try:
+                response = await call_next(request)
+            except Exception as e:
+                # [ASCENSION 13]: Forensic Crash Capture
+                Logger.error(f"[{trace_id}] Ingress Fracture: {e}")
+                raise e
+            
+            # --- MOVEMENT III: METABOLIC FINALITY ---
+            # Calculate the "Metabolic Tax" (Latency)
+            process_time = (time.perf_counter() - start_time) * 1000
+            
+            # [ASCENSION 5]: THE VEIL OF TRUTH (RESPONSE HEADERS)
+            # We proclaim the trace and the tax back to the Ocular Eye.
+            response.headers["X-Gnostic-Trace"] = trace_id
+            response.headers["X-Metabolic-Tax-MS"] = f"{process_time:.3f}"
+            
+            # HUD Multicast (Logic for the Ocular Interface)
+            if process_time > 500:
+                # Signal a "Heavy Matter" warning if the tax is high
+                response.headers["X-Gnostic-Warning"] = "HEAVY_METABOLISM"
+                
+            return response
+
+    # =========================================================================
+    # == THE NEURAL SUTURE ENTRYPOINT                                        ==
+    # =========================================================================
+    # @scaffold:wire
+    def wire_perimeter_shield(app):
+        \"\"\"
+        [AUTONOMIC SUTURE]: Injects the Perimeter Shield into the FastAPI body.
+        The FastAPIStrategy righteously places this near the Zenith of the stack.
+        \"\"\"
+        app.add_middleware(ActiveDefenseMiddleware)
+        Logger.info(f"🛡️  Perimeter Shield active. Priority: {{ shield_priority }}")
+    """
+
+# --- III. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Perimeter Shield[/bold cyan] has been waked."
+    proclaim: "Forensic Locus: [white]core/middleware/shield.py[/]"
+    proclaim: "Trace Policy: [bold]{{'STRICT' if strict_trace else 'PERMISSIVE'}}[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Total Forensic Visibility)[/]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Perimeter materialization fractured.[/bold red] Blind spots detected."
+    rm -rf src/{{ package_name }}/middleware/shield.py

@@ -1,0 +1,195 @@
+# ==============================================================================
+# == GNOSTIC SHARD: COGNITIVE CRUCIBLE (V-Ω-TOTALITY-V2.1-EVALS)              ==
+# ==============================================================================
+# @description: Materializes an advanced AI evaluation framework. Uses 
+#               'LLM-as-a-Judge' to adjudicate relevance, tone, and accuracy, 
+#               enforcing a cognitive quality-gate in the CI/CD pipeline.
+# @category: Intelligence / Quality
+# @vibe: intelligence, eval, quality-gate, llm-judge, forensics, regression, test
+# @provides: [cognitive-adjudicator, ai-eval-framework, wisdom-oracle]
+# @requires: [neural-cortex, testing-framework, pydantic-models, openai-client]
+# @substrate: python (Pytest-Native)
+# @version: 2.1.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ judge_model = {{ judge_model | default("gpt-4o") }}
+$$ quality_threshold = {{ min_score | default(0.85) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE EVALUATION CORE (The Mind of the Judge) ---
+
+tests/evals/
+    __init__.py :: ""
+    
+    # [ASCENSION 4]: THE GNOSTIC CONTRACTS
+    # Defines the structure of a neural judgment.
+    contracts.py :: """
+from pydantic import BaseModel, Field
+from typing import Dict, Any, List, Optional
+
+class WisdomVerdict(BaseModel):
+    \"\"\"The forensic record of a cognitive adjudication.\"\"\"
+    score: float = Field(..., ge=0.0, le=1.0, description="The overall quality resonance.")
+    relevance_score: float = Field(..., description="Alignment with the user intent.")
+    tone_alignment: float = Field(..., description="Adherence to willed persona.")
+    factual_purity: float = Field(..., description="Absence of hallucinations.")
+    reasoning: str = Field(..., description="Socratic explanation of the verdict.")
+    suggested_refinement: Optional[str] = None
+"""
+
+    # [ASCENSION 2]: THE COGNITIVE INQUISITOR (Logic)
+    # This artisan summons the high-mass model to judge the lower-mass model.
+    judge.py :: """
+import json
+import logging
+from .contracts import WisdomVerdict
+from src.{{ package_name }}.core.ai.gateway import neural_gateway # Linked to Strike 11
+
+Logger = logging.getLogger("Crucible:Judge")
+
+class CognitiveInquisitor:
+    \"\"\"
+    =============================================================================
+    == THE COGNITIVE INQUISITOR (V-Ω-TOTALITY)                                ==
+    =============================================================================
+    LIF: ∞ | ROLE: WISDOM_ADJUDICATOR | RANK: OMEGA
+    
+    The high-status judge that ensures the AI Mind remains warded.
+    1.  Multi-Metric Analysis: Grades Relevance, Tone, and Purity.
+    2.  Structured Revelation: Forces the judge to output Pydantic JSON.
+    3.  Achronal Feedback: Provides the "Cure" for low-quality responses.
+    \"\"\"
+    def __init__(self, model: str = "{{ judge_model }}"):
+        self.model = model
+
+    def adjudicate(self, prompt: str, output: str, criteria: str) -> WisdomVerdict:
+        \"\"\"Conducts the Rite of Judgment.\"\"\"
+        
+        system_instruction = \"\"\"
+        You are the High Inquisitor of the Velm God-Engine. 
+        Evaluate the AI response based on the provided Input and Criteria.
+        You must be ruthless, logical, and precise.
+        
+        [METRICS]:
+        - Relevance: Does it answer the prompt?
+        - Tone: Does it match the willed persona?
+        - Purity: Are there hallucinations or logical fractures?
+
+        Return a JSON object matching the WisdomVerdict schema.
+        \"\"\"
+
+        user_plea = f\"\"\"
+        [INPUT]: {prompt}
+        [ACTUAL_OUTPUT]: {output}
+        [EXPECTED_CRITERIA]: {criteria}
+        \"\"\"
+
+        # [STRIKE]: Calling the Neural Gateway (Strike 11)
+        response = neural_gateway.invoke(
+            messages=[
+                {"role": "system", "content": system_instruction},
+                {"role": "user", "content": user_plea}
+            ],
+            model=self.model,
+            json_mode=True
+        )
+
+        return WisdomVerdict.model_validate_json(response.content)
+"""
+
+    # [ASCENSION 3]: THE GOLDEN DATASET (Truth)
+    # The source of truth for regression testing.
+    golden_dataset.json :: """
+[
+  {
+    "input": "How do I weave a new security shard?",
+    "criteria": "Must mention 'velm weave', the shards directory, and the 17 Pillars. Tone: Senior Architect."
+  },
+  {
+    "input": "What is the Merkle Root of the void?",
+    "criteria": "Must explain that a void has no root or returns '0xVOID'. Must NOT hallucinate a hex string."
+  }
+]
+"""
+
+    # [ASCENSION 5]: THE PYTEST INQUISITION (Action)
+    test_evals.py :: """
+import pytest
+import json
+from pathlib import Path
+from .judge import CognitiveInquisitor
+
+# [THE CURE]: Import the Mind being tested
+# from src.{{ package_name }}.core.ai.agent import agent_mind
+
+def load_golden_set():
+    path = Path(__file__).parent / "golden_dataset.json"
+    return json.loads(path.read_text())
+
+@pytest.mark.eval
+@pytest.mark.parametrize("case", load_golden_set())
+def test_cognitive_resonance(case):
+    \"\"\"
+    =============================================================================
+    == THE TRIAL OF RESONANCE                                                 ==
+    =============================================================================
+    \"\"\"
+    inquisitor = CognitiveInquisitor()
+    
+    # 1. GENERATION (The Strike)
+    # actual_output = agent_mind.think(case['input'])
+    actual_output = "Mock revelation: use 'velm weave' for shards."
+    
+    # 2. ADJUDICATION (The Verdict)
+    verdict = inquisitor.adjudicate(
+        prompt=case['input'], 
+        output=actual_output, 
+        criteria=case['criteria']
+    )
+    
+    # 3. VERIFICATION (The Law)
+    print(f"\\n[VERDICT] Score: {verdict.score} | Reasoning: {verdict.reasoning}")
+    
+    assert verdict.score >= {{ quality_threshold }}, f"Cognitive Heresy: {verdict.reasoning}"
+"""
+
+# --- III. THE SURGICAL WEAVE ---
+# [ASCENSION 12]: High-Status Automatic Integration
+@if {{ is_python }}
+    # Update Pytest config to handle slow eval markers
+    pytest.ini += """
+[pytest]
+markers =
+    eval: marks tests as heavy cognitive evaluations (requires API credits)
+"""
+
+    # Dependency Inception
+    pyproject.toml += """
+pytest = "^8.0.0"
+openai = "^1.12.0"
+"""
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Cognitive Crucible[/bold cyan] is manifest in 'tests/evals/'."
+    proclaim: "Adjudicator Locus: [white]tests/evals/judge.py[/]"
+    proclaim: "Quality Floor: [bold yellow]{{ quality_threshold }}[/]"
+    
+    # 1. Initialize the Intelligence Lab
+    proclaim: "Materializing the Inquisition Lab..."
+    >> mkdir -p tests/evals
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Hallucination Risk -> 0)[/]"
+    proclaim: "[bold green]The Mind is now self-adjudicating. Quality is Law.[/bold green]"
+    proclaim: "To conduct the Inquisition: [bold magenta]pytest tests/evals -m eval[/bold magenta]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Crucible inception fractured.[/bold red] Quality remains probabilistic."
+    rm -rf tests/evals

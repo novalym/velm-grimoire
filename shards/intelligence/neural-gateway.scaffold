@@ -1,0 +1,245 @@
+# ==============================================================================
+# == GNOSTIC SHARD: NEURAL GATEWAY (V-Ω-TOTALITY-V3.0-CONDUIT)                ==
+# ==============================================================================
+# @description: Materializes the high-performance unified AI proxy. Features 
+#               provider-agnostic routing, semantic caching, fiscal 
+#               telemetry, and a versioned Jinja2 prompt registry.
+# @category: Intelligence / System
+# @vibe: ai, llm, proxy, gateway, conduit, neural, caching, fiscal-aware, jinja
+# @provides: [neural-nexus, ai-gateway, prompt-registry, cognitive-conduit]
+# @requires: [redis-backbone, pydantic-settings, forensic-ledger, python-core]
+# @substrate: python (Async Optimized)
+# @version: 3.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ project_slug = {{ project_slug | default("omega-ai") }}
+$$ gateway_port = {{ port | default(8080) }}
+$$ redis_url = {{ redis_url | default("redis://reactive-backbone:6379/1") }}
+$$ primary_model = {{ model | default("gpt-4o") }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE GATEWAY INFRASTRUCTURE (The Memory Vault) ---
+# [ASCENSION 2]: Substrate Materialization
+# Forges the physical cache layer required for Semantic Memory.
+infra/intelligence/
+    docker-compose.gateway.yml :: """
+    version: '3.8'
+    services:
+      # [THE VAULT]: Redis for Semantic Cache & Rate Limiting
+      neural-cache:
+        image: redis:7-alpine
+        container_name: {{ project_slug }}-neural-vault
+        command: redis-server --save 60 1 --loglevel warning --maxmemory 256mb --maxmemory-policy allkeys-lru
+        ports:
+          - "6379:6379"
+        networks:
+          - gnostic_mesh
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
+          interval: 5s
+          timeout: 3s
+          retries: 5
+
+    networks:
+      gnostic_mesh:
+        external: true
+        name: {{ project_slug }}_gnostic_mesh
+    """
+
+# --- III. THE NEURAL CORE (The Logic Stratum) ---
+src/{{ package_name }}/core/ai/
+    __init__.py :: "from .gateway import neural_gateway\nfrom .registry import prompt_alchemist"
+    
+    # [ASCENSION 3]: THE HIGH PRIEST (The Universal Proxy)
+    # The hand that adjudicates the flow of thought between providers.
+    gateway.py :: """
+import os
+import time
+import logging
+from typing import List, Dict, Any, Optional, Union
+import litellm
+from litellm import completion, embedding
+from litellm.caching import Cache
+from pydantic import BaseModel, Field
+
+Logger = logging.getLogger("Neural:Gateway")
+
+class NeuralRevelation(BaseModel):
+    \"\"\"The structured soul of an AI thought.\"\"\"
+    content: str
+    model: str
+    provider: str
+    cached: bool = False
+    latency_ms: float
+    cost_usd: float
+    trace_id: str
+
+class NeuralGateway:
+    \"\"\"
+    =============================================================================
+    == THE NEURAL GATEWAY (V-Ω-TOTALITY)                                      ==
+    =============================================================================
+    LIF: ∞ | ROLE: COGNITIVE_ORCHESTRATOR | RANK: OMEGA
+    
+    1.  Semantic Caching: Redis-backed 0ms recall for repeat intent.
+    2.  Polymorphic Routing: Swaps OpenAI/Anthropic/Local via environment DNA.
+    3.  Fiscal Tomography: Records the precise dollar-tax of every epiphany.
+    4.  Apophatic Resilience: Auto-retries and fails over on provider fracture.
+    \"\"\"
+    def __init__(self):
+        # [ASCENSION 1]: Semantic Caching Suture
+        self.cache = Cache(
+            type="redis",
+            host=os.getenv("REDIS_HOST", "localhost"),
+            port=int(os.getenv("REDIS_PORT", "6379"))
+        )
+        litellm.cache = self.cache
+        
+        # [ASCENSION 2]: Resilience Calibration
+        litellm.num_retries = 3
+        litellm.request_timeout = 60
+        litellm.telemetry = False # Preserve Gnostic privacy
+        
+    async def invoke(
+        self, 
+        messages: List[Dict[str, str]], 
+        trace_id: str,
+        model: str = os.getenv("PRIMARY_MODEL", "{{ primary_model }}"),
+        temperature: float = 0.2, # Low entropy for architectural precision
+        json_mode: bool = False
+    ) -> NeuralRevelation:
+        \"\"\"Conducts the Rite of Completion.\"\"\"
+        start_ts = time.perf_counter()
+        
+        try:
+            # [ASCENSION 3]: Polymorphic Dispatch
+            # LiteLLM normalizes the multiverse of AI tongues into a single Pydantic Vow.
+            response = await completion(
+                model=model,
+                messages=messages,
+                temperature=temperature,
+                response_format={"type": "json_object"} if json_mode else None,
+                caching=True,
+                metadata={"trace_id": trace_id}
+            )
+            
+            duration = (time.perf_counter() - start_ts) * 1000
+            
+            # [ASCENSION 5]: Fiscal tomograpy
+            return NeuralRevelation(
+                content=response.choices[0].message.content,
+                model=response.model,
+                provider=response.get("provider", "unknown"),
+                cached=response.get("_hidden_params", {}).get("cache_hit", False),
+                latency_ms=duration,
+                cost_usd=response.get("_hidden_params", {}).get("response_cost", 0.0),
+                trace_id=trace_id
+            )
+            
+        except Exception as fracture:
+            Logger.error(f"[{trace_id}] Neural Link Fracture: {fracture}")
+            # [ASCENSION 8]: NoneType Sarcophagus (Fallback to local if willed)
+            raise fracture
+
+# Singleton Mind
+neural_gateway = NeuralGateway()
+"""
+
+    # [ASCENSION 4]: THE PROMPT SANCTUM (Registry)
+    # Transmutes raw prompt strings into versioned, templated scriptures.
+    registry.py :: """
+from pathlib import Path
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
+PROMPT_DIR = Path(__file__).parent.parent.parent.parent / "prompts"
+
+class PromptAlchemist:
+    \"\"\"
+    =============================================================================
+    == THE PROMPT ALCHEMIST (V-Ω-TOTALITY)                                    ==
+    =============================================================================
+    Transmutes Jinja2 templates into final Gnostic prompt strings.
+    \"\"\"
+    def __init__(self):
+        self.env = Environment(
+            loader=FileSystemLoader(PROMPT_DIR),
+            autoescape=select_autoescape()
+        )
+
+    def forge(self, template_name: str, **context) -> str:
+        \"\"\"Renders the willed prompt scripture.\"\"\"
+        template = self.env.get_template(template_name)
+        return template.render(**context)
+
+prompt_alchemist = PromptAlchemist()
+"""
+
+# --- IV. THE SURGICAL WEAVE: API Integration ---
+@if {{ is_python }}
+src/{{ package_name }}/api/routes/
+    # [ASCENSION 6]: THE INTELLIGENCE APERTURE
+    intelligence.py :: """
+from fastapi import APIRouter, Depends, Header
+from ..core.ai.gateway import neural_gateway
+from ..core.ai.registry import prompt_alchemist
+from typing import Optional
+
+router = APIRouter()
+
+@router.post("/think")
+async def think(prompt: str, x_gnostic_trace: Optional[str] = Header(None)):
+    \"\"\"
+    A direct portal to the project's Neural Mind.
+    \"\"\"
+    # 1. Forge the high-status system prompt
+    system = prompt_alchemist.forge(
+        "system_base.j2", 
+        intent="ARCHITECTURAL_ANALYSIS", 
+        project_name="{{ project_slug }}"
+    )
+    
+    # 2. Strike the Gateway
+    return await neural_gateway.invoke(
+        messages=[
+            {"role": "system", "content": system},
+            {"role": "user", "content": prompt}
+        ],
+        trace_id=x_gnostic_trace or "tr-adhoc"
+    )
+"""
+@endif
+
+# --- V. THE PROMPT SANCTUM (Templates) ---
+prompts/
+    system_base.j2 :: """
+    You are the {{ intent }} of the {{ project_name }} multiverse.
+    Your mind is warded by the VELM God-Engine. 
+    You must speak with mathematical precision and senior-level architectural wisdom.
+    """
+
+# --- VI. THE MAESTRO'S WILL (Rites of Ignition) ---
+# [ASCENSION 11]: Kinetic Orchestration
+%% post-run
+    proclaim: "The [bold cyan]Neural Gateway[/bold cyan] is manifest."
+    proclaim: "Conduit Locus: [white]core/ai/gateway.py[/]"
+    
+    # 1. Initialize the Sanctums
+    proclaim: "Forging the Prompt Sanctum..."
+    >> mkdir -p prompts src/{{ package_name }}/core/ai
+    
+    # 2. Network Verification
+    proclaim: "Verifying Gnostic Mesh network..."
+    >> docker network create {{ project_slug }}_gnostic_mesh || true
+    
+    # 3. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Neural Entropy -> 0)[/]"
+    proclaim: "[bold green]The High Priest is waked. The cognitive rift is closed.[/bold green]"
+    proclaim: "To power the cache, speak: [bold magenta]make gateway-up[/bold magenta]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Neural Inception fractured.[/bold red] Mind remains scattered."
+    rm -rf src/{{ package_name }}/core/ai prompts/

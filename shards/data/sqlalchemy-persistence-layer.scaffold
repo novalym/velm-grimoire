@@ -1,0 +1,61 @@
+# ==============================================================================
+# == GNOSTIC SHARD: SQLALCHEMY PERSISTENCE (V-Ω-TOTALITY-V2.1)                ==
+# ==============================================================================
+# @description: Materializes a sovereign persistence layer using SQLAlchemy 2.0. 
+#               Provides the 'Base' declarative mind and a warded User model.
+# @category: Persistence
+# @vibe: database, orm, sqlalchemy, postgres, pydantic, schema, repository
+# @provides: [database-orm, user-persistence, sql-master]
+# @requires: [pydantic-settings, python-core]
+# @substrate: python
+# @version: 2.1.0
+# @LIF: 10,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ table_name = {{ table_name | default("users") }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+
+src/{{ package_name }}/models/
+    # [1] THE DECLARATIVE SOUL
+    base.py :: """
+    from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+    from sqlalchemy.ext.asyncio import AsyncAttrs
+    
+    class Base(AsyncAttrs, DeclarativeBase):
+        \"\"\"
+        The Axis Mundi of the Data Stratum. 
+        All persistent entities must inherit from this Mind.
+        \"\"\"
+        pass
+    """
+
+    # [2] THE USER SHARD
+    user.py :: """
+    from uuid import UUID, uuid4
+    from sqlalchemy import String
+    from sqlalchemy.orm import Mapped, mapped_column
+    from .base import Base
+
+    class User(Base):
+        \"\"\"
+        [SCHEMA_EVOLUTION]: The SQLAlchemyEvolutionStrategy scries this 
+        Base inheritance and righteously sutures it to the Metadata Hub.
+        \"\"\"
+        __tablename__ = "{{ table_name }}"
+
+        id: Mapped[UUID] = mapped_column(primary_key=True, default=uuid4)
+        username: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+        email: Mapped[str] = mapped_column(String(255), unique=True)
+        is_active: Mapped[bool] = mapped_column(default=True)
+
+        def __repr__(self) -> str:
+            return f"<User(username={self.username})>"
+    """
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "Persistence Stratum waked in 'src/{{ package_name }}/models/'."
+    proclaim: "The [bold cyan]SQLAlchemyEvolutionStrategy[/bold cyan] is now scrying for drift."

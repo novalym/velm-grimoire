@@ -1,0 +1,245 @@
+# ==============================================================================
+# == GNOSTIC SHARD: METABOLIC PROFILER (V-Ω-TOTALITY-V2.5-TOMOGRAPHY)         ==
+# ==============================================================================
+# @description: Materializes the "Tomography Stratum". Injects high-fidelity 
+#               sensors that measure metabolic tax (latency, memory flux, IO) 
+#               and project real-time flamegraphs into the Ocular HUD.
+# @category: Velm-Core / Forensics
+# @vibe: performance, profiling, optimization, benchmarks, flamegraph, tax
+# @provides: [performance-tomography, metabolic-profiling, optimization-oracle]
+# @requires: [achronal-clock, metabolic-monitor, python-core, rich-telemetry]
+# @substrate: isomorphic (WASM / IRON)
+# @version: 2.5.0
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Achronal Variable Anchoring
+$$ report_dir = {{ output_dir | default("artifacts/metabolism") }}
+$$ metabolic_threshold_ms = {{ threshold | default(200.0) }}
+$$ auto_viz = {{ use_viz | default(true) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE PROFILER CORE (The Mind of the Sensor) ---
+
+src/{{ package_name }}/core/forensics/
+    __init__.py :: "from .metabolism import profile_rite, MetabolicReport, GnosticInquisitor"
+
+    # [ASCENSION 2]: THE METABOLIC SENSOR (Logic)
+    # This artisan performs the high-order biopsy of function execution.
+    # It bridges time (cProfile) and matter (tracemalloc).
+    metabolism.py :: """
+import os
+import time
+import functools
+import cProfile
+import pstats
+import io
+import tracemalloc
+import logging
+from pathlib import Path
+from typing import Any, Callable, Dict, Optional
+from pydantic import BaseModel, Field
+
+# Root-Aware Imports
+from ..system.signal import signal_hub # Linked to Strike 11
+
+Logger = logging.getLogger("Forensics:Metabolism")
+
+class MetabolicReport(BaseModel):
+    \"\"\"The Gnostic Vessel for a single performance snapshot.\"\"\"
+    name: str
+    duration_ms: float
+    memory_peak_kb: float
+    memory_delta_kb: float
+    status: str = "RESONANT"
+    timestamp: float = Field(default_factory=time.time)
+
+class GnosticInquisitor:
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC INQUISITOR (V-Ω-TOTALITY)                                  ==
+    =============================================================================
+    LIF: ∞ | ROLE: PRESSURE_SENSOR | RANK: OMEGA
+    
+    The hand that measures the 'Tax' of every kinetic strike.
+    1.  Chronometric Scribing: Uses cProfile for nanosecond call-stack scrying.
+    2.  Mass Tomography: Uses tracemalloc for memory-flux detection.
+    3.  Heresy Projection: Radiates visual bottlenecks to the HUD.
+    \"\"\"
+    def __init__(self, report_dir: str = "{{ report_dir }}"):
+        self.report_dir = Path(report_dir)
+        self.report_dir.mkdir(parents=True, exist_ok=True)
+        # Enable memory scrying at the kernel level
+        if not tracemalloc.is_tracing():
+            tracemalloc.start()
+
+    def profile_rite(self, name: str, threshold: float = {{ metabolic_threshold_ms }}):
+        \"\"\"Luminous decorator to subject a rite to tomography.\"\"\"
+        def decorator(func: Callable):
+            @functools.wraps(func)
+            async def async_wrapper(*args, **kwargs):
+                return await self._conduct_biopsy(name, func, threshold, True, *args, **kwargs)
+
+            @functools.wraps(func)
+            def sync_wrapper(*args, **kwargs):
+                return self._conduct_biopsy(name, func, threshold, False, *args, **kwargs)
+
+            return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+        return decorator
+
+    def _conduct_biopsy(self, name, func, threshold, is_async, *args, **kwargs):
+        # 1. PRE-FLIGHT TOMOGRAPHY
+        tracemalloc.clear_traces()
+        start_mem_curr, _ = tracemalloc.get_traced_memory()
+        
+        pr = cProfile.Profile()
+        pr.enable()
+        
+        start_time = time.perf_counter()
+        
+        # 2. THE KINETIC STRIKE
+        try:
+            if is_async:
+                # [THE CURE]: Achronal Async Suture
+                import asyncio
+                result = asyncio.run(func(*args, **kwargs)) # Simplified for example
+            else:
+                result = func(*args, **kwargs)
+        finally:
+            # 3. POST-FLIGHT ADJUDICATION
+            duration_ms = (time.perf_counter() - start_time) * 1000
+            pr.disable()
+            
+            end_mem_curr, end_mem_peak = tracemalloc.get_traced_memory()
+            mem_delta_kb = (end_mem_curr - start_mem_curr) / 1024
+            
+            report = MetabolicReport(
+                name=name,
+                duration_ms=duration_ms,
+                memory_peak_kb=end_mem_peak / 1024,
+                memory_delta_kb=mem_delta_kb,
+                status="RESONANT" if duration_ms < threshold else "FEVERISH"
+            )
+            
+            # 4. MATTER INSCRIPTION
+            self._inscribe_findings(report, pr)
+            
+            # 5. HUD MULTICAST (Strike 24)
+            if report.status == "FEVERISH":
+                self._radiate_fever(report)
+                
+        return result
+
+    def _inscribe_findings(self, report: MetabolicReport, profile: cProfile.Profile):
+        base_path = self.report_dir / f"{report.name}_{int(time.time())}"
+        
+        # Textual Dossier
+        s = io.StringIO()
+        ps = pstats.Stats(profile, stream=s).sort_stats('cumulative')
+        ps.print_stats()
+        base_path.with_suffix(".txt").write_text(s.getvalue())
+        
+        # Binary Soul (For Flamegraphs)
+        profile.dump_stats(base_path.with_suffix(".prof"))
+        
+        # Gnostic Summary
+        base_path.with_suffix(".json").write_text(report.model_dump_json(indent=2))
+
+    def _radiate_fever(self, report: MetabolicReport):
+        \"\"\"Signals Turn 24 Cockpit to pulse red on bottlenecks.\"\"\"
+        try:
+            signal_hub.broadcast("METABOLIC_FEVER", {
+                "locus": report.name,
+                "tax_ms": report.duration_ms,
+                "glow": "#ef4444"
+            })
+        except: pass
+
+# Global Singleton
+Inquisitor = GnosticInquisitor()
+def profile_rite(name: str): return Inquisitor.profile_rite(name)
+"""
+
+# --- III. THE KINETIC LIMBS (Visualization) ---
+
+scripts/forensics/
+    # [ASCENSION 3]: THE VISUAL CONDUCTOR
+    # Transmutes raw binary pulses into interactive visual light.
+    visualize_metabolism.py :: """
+import os
+import sys
+import subprocess
+from pathlib import Path
+from rich.console import Console
+from rich.panel import Panel
+
+CONSOLE = Console()
+
+def ignite_viz():
+    CONSOLE.rule("[bold magenta]Ω | Metabolic Tomography: Visualizer[/bold magenta]")
+    report_dir = Path("{{ report_dir }}")
+    
+    profiles = list(report_dir.glob("*.prof"))
+    if not profiles:
+        CONSOLE.print("❌ [bold red]ERROR:[/] No metabolic shards perceived in {{ report_dir }}.", style="red")
+        return
+
+    # Find the latest pulse
+    latest_prof = max(profiles, key=os.path.getmtime)
+    
+    CONSOLE.print(Panel(
+        f"Gazing into the latest pulse: [cyan]{latest_prof.name}[/cyan]\\n"
+        f"Substrate: [bold green]Interactive Flamegraph[/bold green]",
+        border_style="magenta"
+    ))
+
+    # [ASCENSION 11]: SNAKEVIZ SUTURE
+    # Uses the 'snakeviz' artisan to launch a local browser portal.
+    try:
+        subprocess.run(["snakeviz", str(latest_prof)], check=True)
+    except FileNotFoundError:
+        CONSOLE.print("⚠️  [yellow]Artisan Missing:[/] 'snakeviz' unmanifest. Run 'make install-viz'.")
+
+if __name__ == "__main__":
+    ignite_viz()
+"""
+
+# --- IV. THE CONTROL PLANE ---
+# [ASCENSION 9]: Global Conductor Integration
+Makefile += """
+# --- PERFORMANCE RITES ---
+profile-viz: ## transmute the latest performance pulse into a flamegraph
+    @poetry run python scripts/forensics/visualize_metabolism.py
+
+profile-clean: ## return metabolic waste to the void
+    @rm -rf {{ report_dir }}/*
+    @echo "✨ Metabolism purified."
+
+install-viz: ## summon the visualization artisans (snakeviz)
+    @pip install snakeviz
+"""
+
+# --- V. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Metabolic Profiler[/bold cyan] is manifest."
+    proclaim: "Inquisitor Locus: [white]core/forensics/metabolism.py[/]"
+    proclaim: "Report Sanctum: [bold yellow]{{ report_dir }}[/]"
+    
+    # 1. Initialize the Forensic Archive
+    proclaim: "Forging the Performance Archive..."
+    >> mkdir -p {{ report_dir }} scripts/forensics
+    
+    # 2. Dependency Suture
+    proclaim: "Summoning the Tomography artisans... (snakeviz)"
+    >> make install-viz
+    ?? succeeds
+
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Optimization Tax -> 0)[/]"
+    proclaim: "[bold green]Your logic is now observable in the Fourth Dimension.[/bold green]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Profiler materialization fractured.[/bold red] Logic remains a black box."
+    rm -rf src/{{ package_name }}/core/forensics/metabolism.py

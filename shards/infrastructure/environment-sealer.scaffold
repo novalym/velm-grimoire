@@ -1,0 +1,227 @@
+# ==============================================================================
+# == GNOSTIC SHARD: ENVIRONMENT SEALER (V-Ω-TOTALITY-V2.5-CONSCIENCE)         ==
+# ==============================================================================
+# @description: Materializes the Gnostic Veil for secrets. Forges a Pydantic 
+#               V2 Conscience, a Leak Sentinel, and an Entropy Key-Forge to 
+#               ensure absolute separation of Code and Secrets.
+# @category: Security / Jurisprudence
+# @vibe: security, secrets, env, pydantic, validation, hardening, gnostic-veil
+# @provides: [secret-management-authority, environment-conscience, pii-warden]
+# @requires: [python-core, pydantic-settings, maestro-control]
+# @substrate: python (Achronal)
+# @version: 2.5.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: The Vows of Security
+$$ project_name = "secret-keeper"
+$$ author = "{{ author | default('The Architect') }}"
+$$ default_port = 8000
+
+# [THE ALCHEMY]: Case Normalization
+$$ project_slug = {{ project_name | slug }}
+$$ package_name = {{ project_name | snake }}
+
+# --- II. THE SCRIPTURE OF FORM (The Security Citadel) ---
+
+# [ASCENSION 2]: THE KERNEL CONFIGURATION
+# Wards the `.env` file from ever touching the Gnostic Chronicle (Git).
+.gitignore :: """
+# == The Abyss (Warded by the Gnostic Veil) ==
+__pycache__/
+.venv/
+.env
+.env.*
+!.env.example
+
+# Forensic & Metabolic Shards
+*.log
+crash.log
+.pytest_cache/
+
+# IDE Matter
+.vscode/
+.idea/
+"""
+
+# [ASCENSION 3]: THE BLUEPRINT OF GNOSIS
+# The public-facing scripture that proclaims the required secrets.
+.env.example :: """
+# =============================================================================
+# == GNOSTIC SECRETS MANIFEST: {{ project_name | upper }}
+# =============================================================================
+# This file defines the required DNA for the application.
+# Copy to .env and inscribe the true values.
+
+# --- System Vitals ---
+ENVIRONMENT=development
+LOG_LEVEL=INFO
+PORT={{ default_port }}
+
+# --- Persistence Stratum ---
+DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/{{ package_name }}
+
+# --- Neural Link (AI) ---
+OPENAI_API_KEY=sk-placeholder
+
+# --- Gnostic Integrity (Security) ---
+# Forge high-entropy keys via 'make secrets'
+SECRET_KEY=
+JWT_ALGORITHM=HS256
+"""
+
+# [ASCENSION 4]: THE PYTHONIC FOUNDRY
+pyproject.toml :: """
+[tool.poetry]
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "A warded environment manifest by VELM."
+authors = ["{{ author }}"]
+packages = [{include = "{{ package_name }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.6.0"
+pydantic-settings = "^2.1.0"
+python-dotenv = "^1.0.1"
+rich = "^13.7.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+ruff = "^0.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+"""
+
+# [ASCENSION 5]: THE MAESTRO CONTROL PLANE
+# Provides the kinetic rites for managing the secret strata.
+Makefile :: """
+.PHONY: help install secrets verify clean
+
+# Gnostic Variables
+$PY = poetry run python
+
+help: ## proclaim the rites of the Gnostic Veil
+    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+install: ## consecrate the local sanctum and dependencies
+    @poetry install
+
+secrets: ## forge new high-entropy secrets in the .env vault
+    @echo "⚒️  Transmuting entropy into secrets..."
+    $($PY) scripts/security/forge_keys.py
+
+verify: ## adjudicate the current .env against the Gnostic Conscience
+    @echo "🔍 Validating environment DNA..."
+    $($PY) -m {{ package_name }}.core.config
+
+clean: ## return ephemeral artifacts to the void
+    rm -rf .venv __pycache__ .pytest_cache
+"""
+
+# [ASCENSION 6]: THE SOURCE CODE (The Conscience & The Hand)
+src/{{ package_name }}/
+    core/
+        config.py :: """
+import logging
+from pydantic import Field, ValidationError, SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from rich.console import Console
+from rich.panel import Panel
+
+console = Console()
+
+class Settings(BaseSettings):
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC CONSCIENCE (V-Ω-TOTALITY)                                   ==
+    =============================================================================
+    Enforces the Law of the Environment. If a secret is unmanifest, reality 
+    collapses to prevent profane execution.
+    \"\"\"
+    ENVIRONMENT: str = Field("development", pattern="^(development|production|staging)$")
+    SECRET_KEY: SecretStr
+    DATABASE_URL: str
+    OPENAI_API_KEY: SecretStr
+    
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True
+    )
+
+def scry_settings() -> Settings:
+    try:
+        return Settings()
+    except ValidationError as e:
+        console.print(Panel(f"[bold red]ENVIRONMENTAL HERESY DETECTED[/]\\n\\n{e}", title="[bold red]FATAL_FRACTURE[/]", border_style="red"))
+        import sys; sys.exit(1)
+
+settings = scry_settings()
+"""
+
+scripts/security/
+    forge_keys.py :: """
+    import secrets
+    from pathlib import Path
+    
+    def forge():
+        env_path = Path(".env")
+        if not env_path.exists():
+            Path(".env.example").read_text()
+            env_path.write_text(Path(".env.example").read_text())
+        
+        content = env_path.read_text()
+        if "SECRET_KEY=" in content and not content.endswith("SECRET_KEY="):
+             print("⚠️  SECRET_KEY already manifest.")
+        else:
+             new_key = secrets.token_urlsafe(32)
+             new_content = content.replace("SECRET_KEY=", f"SECRET_KEY={new_key}")
+             env_path.write_text(new_content)
+             print("✨ SECRET_KEY forged.")
+    
+    if __name__ == "__main__": forge()
+    """
+
+    # [ASCENSION 7]: THE LEAK SENTINEL
+    leak_sentinel.py :: """
+    import sys
+    from pathlib import Path
+
+    def audit():
+        gitignore = Path(".gitignore")
+        if not gitignore.exists() or ".env" not in gitignore.read_text():
+            print("::error ::CRITICAL SECURITY FRACTURE: .env is not in .gitignore!")
+            sys.exit(1)
+        print("✅ [SENTINEL] .env is shielded by .gitignore.")
+
+    if __name__ == "__main__": audit()
+    """
+
+# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Environment Sealer[/bold cyan] is manifest."
+    proclaim: "Gnostic Conscience: [white]core/config.py[/]"
+    
+    # 1. Materialize .env
+    proclaim: "Materializing the local Vault (.env)..."
+    >> cp .env.example .env
+    
+    # 2. Security Audit
+    proclaim: "Conducting Leak Sentinel Inquest..."
+    >> python scripts/security/leak_sentinel.py
+    ?? succeeds
+
+    # 3. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]INFINITY (Accidental Secret Leak -> 0)[/]"
+    proclaim: "[bold green]✅ The Gnostic Veil is Active.[/bold green]"
+    proclaim: "To finalize security: [bold cyan]make secrets[/bold cyan] and inscribe the other Gnosis in [bold].env[/bold]."
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Sealer Inception Fractured.[/bold red] Secrets remain vulnerable."
+    rm -rf .env scripts/security/

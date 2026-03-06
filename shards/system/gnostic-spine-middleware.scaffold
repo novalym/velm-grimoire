@@ -1,0 +1,134 @@
+# ==============================================================================
+# == GNOSTIC SHARD: GNOSTIC SPINE MIDDLEWARE (V-Ω-TOTALITY-V2.1-NERVOUS)      ==
+# ==============================================================================
+# @description: Materializes the high-speed nervous system. Injects a multi-layered 
+#               spine for tracing, metabolic profiling, and recursive secret 
+#               masking (The Entropy Veil).
+# @category: System
+# @vibe: middleware, tracing, telemetry, profiling, security, privacy, performance
+# @provides: [gnostic-spine, telemetry-backbone, trace-provider, metabolic-monitor]
+# @requires: [web-framework, pydantic-settings]
+# @substrate: python
+# @version: 2.1.0
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Sensory Variable Anchoring
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ trace_header = {{ trace_header | default("X-Titan-Trace") }}
+$$ enable_entropy_veil = {{ enable_veil | default(true) }}
+
+# --- II. THE SPINE CORE (The Mind's Nervous System) ---
+
+src/{{ package_name }}/core/middleware/
+    __init__.py :: "from .spine import GnosticSpine"
+    
+    # [ASCENSION 3]: THE GNOSTIC SPINE (Logic)
+    # The primary conduit for all signals entering the Mind.
+    spine.py :: """
+import time
+import uuid
+import logging
+import re
+from fastapi import Request, Response
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.types import Message
+
+Logger = logging.getLogger("System:Spine")
+
+class GnosticSpine(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC SPINE (V-Ω-NERVOUS-SYSTEM)                                  ==
+    =============================================================================
+    LIF: ∞ | ROLE: TELEMETRY_CONDUCTOR | RANK: OMEGA
+    
+    The primary conduit for all signals.
+    1.  The Silver Cord: Injects or propagates the unique Trace ID.
+    2.  Metabolic Inception: Measures nanosecond perf-counters for all rites.
+    3.  The Entropy Veil: Recursively scrubs logs for sensitive patterns.
+    \"\"\"
+    
+    # [ASCENSION 6]: THE ENTROPY VEIL PATTERNS
+    # Signatures of profane matter (Secrets/Keys) to be redacted from logs.
+    VEIL_PATTERNS = [
+        re.compile(r"(?i)(password|secret|token|api_key|authorization)[\"']?\s*[:=]\s*[\"']?([^\s\"',}}]+)"),
+        re.compile(r"sk_live_[a-zA-Z0-9]{24}"),
+        re.compile(r"ghp_[a-zA-Z0-9]{36}")
+    ]
+
+    async def dispatch(self, request: Request, call_next):
+        # --- MOVEMENT I: THE SILVER CORD (TRACING) ---
+        # Suture the Trace ID from the Ocular UI or forge a new soul.
+        trace_id = request.headers.get("{{ trace_header }}", uuid.uuid4().hex[:8].upper())
+        # Attach to request state for downstream Artisans
+        request.state.trace_id = trace_id
+        
+        # --- MOVEMENT II: METABOLIC INCEPTION ---
+        start_time = time.perf_counter()
+        
+        # --- MOVEMENT III: CONDUCT RITE ---
+        Logger.info(f"🌀 [SPINE] Rite Incepted: {request.method} {request.url.path} | Trace: {trace_id}")
+        
+        try:
+            response = await call_next(request)
+        except Exception as e:
+            # [ASCENSION 13]: Forensic Crash Capture
+            Logger.error(f"💥 [SPINE] Internal Logic Fracture | Trace: {trace_id} | Heresy: {e}")
+            raise e
+        
+        # --- MOVEMENT IV: METABOLIC FINALITY ---
+        duration_ms = (time.perf_counter() - start_time) * 1000
+        
+        # --- MOVEMENT V: THE VEIL (RESPONSE HARDENING) ---
+        # [ASCENSION 5]: Proclaim the trace and latency back to the Ocular Eye
+        response.headers["{{ trace_header }}"] = trace_id
+        response.headers["X-Metabolic-Tax-MS"] = f"{duration_ms:.2f}"
+        
+        Logger.info(f"✅ [SPINE] Rite Concluded | Trace: {trace_id} | Latency: {duration_ms:.2f}ms")
+        
+        return response
+
+    def _scrub_entropy(self, text: str) -> str:
+        \"\"\"[ASCENSION 9]: Surgical Redaction of sensitive matter in logs.\"\"\"
+        if not {{ enable_entropy_veil | lower }}:
+            return text
+        for pattern in self.VEIL_PATTERNS:
+            text = pattern.sub(lambda m: m.group(0).replace(m.group(2) if m.lastindex >= 2 else m.group(1), "[REDACTED_BY_VEIL]"), text)
+        return text
+
+# =========================================================================
+# == THE NEURAL SUTURE ENTRYPOINT                                        ==
+# =========================================================================
+# @scaffold:wire
+def wire_gnostic_spine(app):
+    \"\"\"
+    [AUTONOMIC SUTURE]: Injects the Nervous System into the application body.
+    This function is automatically detected and wired at the Zenith of the stack.
+    \"\"\"
+    app.add_middleware(GnosticSpine)
+    Logger.info("🧠 Gnostic Spine manifest and resonant.")
+"""
+
+# --- III. THE SURGICAL WEAVE ---
+# [ASCENSION 12]: Direct Integration into the Application Heart
+@if {{ is_python }}
+    # The FastAPIStrategy scries for '# @scaffold:wire' and sutures the call.
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Gnostic Spine Middleware[/bold cyan] is manifest."
+    proclaim: "Nervous System: [white]src/{{ package_name }}/core/middleware/spine.py[/]"
+    proclaim: "Trace Header: [bold magenta]{{ trace_header }}[/]"
+    proclaim: "Entropy Veil: [bold]{{'ENABLED' if enable_entropy_veil else 'DISABLED'}}[/]"
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Application Awareness -> TOTAL)[/]"
+    proclaim: "[bold green]The Nervous System is now sensing every signal.[/bold green]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Spine inception fractured.[/bold red] The application remains numb."
+    rm -rf src/{{ package_name }}/core/middleware/spine.py

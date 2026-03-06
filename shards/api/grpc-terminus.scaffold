@@ -1,0 +1,112 @@
+# ==============================================================================
+# == GNOSTIC SHARD: GRPC TERMINUS (V-Ω-TOTALITY-V3.0)                         ==
+# ==============================================================================
+# @description: An Iron Protocol Terminus for high-speed binary inter-process 
+#               communion. Sutures a gRPC server directly into the host's 
+#               lifecycle, complete with Reflection and ThreadPool Governance.
+# @category: API / Protocol
+# @vibe: grpc, protobuf, high-performance, binary, rpc, microservices, iron-core
+# @provides: [grpc-server, binary-communion, schema-reflection]
+# @requires: [python-core, lifecycle-manager]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ grpc_port = {{ grpc_port | default(50051) }}
+$$ max_workers = {{ max_workers | default(10) }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/api/rpc/
+    __init__.py :: "from .terminus import ignite_iron_protocol, dissolve_iron_protocol\n"
+
+    terminus.py :: """
+import grpc
+from concurrent import futures
+import logging
+from typing import Any
+from grpc_reflection.v1alpha import reflection
+
+Logger = logging.getLogger("API:IronProtocol")
+
+class IronTerminus:
+    \"\"\"
+    =============================================================================
+    == THE IRON TERMINUS (V-Ω-TOTALITY)                                        ==
+    =============================================================================
+    LIF: ∞ | ROLE: BINARY_COMMUNION_ENGINE | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. ThreadPool Governance: Bounds the metabolic tax of concurrent RPC calls.
+    2. Gnostic Reflection: Enables external clients (grpcurl/Postman) to scry the schemas dynamically.
+    3. Graceful Dissolution: Ensures active RPC streams drain safely during shutdown.
+    4. Interceptor Ready: Scaffolding prepared for Trace-ID and Auth injection.
+    \"\"\"
+    def __init__(self, port: int = {{ grpc_port }}, workers: int = {{ max_workers }}):
+        self.port = port
+        self.server = grpc.server(
+            futures.ThreadPoolExecutor(max_workers=workers),
+            # [ASCENSION 4]: Suture Interceptors Here
+            interceptors=() 
+        )
+        self._services = []
+
+    def bind_service(self, add_func, servicer):
+        \"\"\"Registers a willed Protobuf service to the Terminus.\"\"\"
+        add_func(servicer, self.server)
+        # Extract the service name for the Reflection engine
+        service_name = servicer.__class__.__name__.replace('Servicer', '')
+        self._services.append(service_name)
+
+    def awaken(self):
+        \"\"\"Ignites the binary listener.\"\"\"
+        # [ASCENSION 2]: Enable Server Reflection
+        if self._services:
+            SERVICE_NAMES = (
+                reflection.SERVICE_NAME,
+            ) # Extend with actual PB2 service names
+            reflection.enable_server_reflection(SERVICE_NAMES, self.server)
+            
+        self.server.add_insecure_port(f'[::]:{self.port}')
+        self.server.start()
+        Logger.info(f"⚡ [gRPC] Terminus resonant. Listening for Iron Communion on port {self.port}")
+
+    def dissolve(self, grace_period: int = 5):
+        \"\"\"[ASCENSION 3]: Graceful drain of active connections.\"\"\"
+        Logger.info(f"🌑 [gRPC] Dissolving Terminus. Allowing {grace_period}s for streams to close...")
+        self.server.stop(grace_period)
+
+# Global Singleton for the Mind
+terminus_node = IronTerminus()
+
+# @scaffold:lifecycle(event="startup")
+async def ignite_iron_protocol():
+    \"\"\"
+    [ASYNC_CORE]: The Conductor will automatically perceive this 
+    startup hook and ignite the gRPC server.
+    \"\"\"
+    # Example Suture:
+    # from .pb2_grpc import add_MyServiceServicer_to_server
+    # terminus_node.bind_service(add_MyServiceServicer_to_server, MyServiceLogic())
+    terminus_node.awaken()
+
+# @scaffold:lifecycle(event="shutdown")
+async def dissolve_iron_protocol():
+    terminus_node.dissolve()
+"""
+
+# --- III. THE SURGICAL WEAVE ---
+@if {{ is_python | lower == "true" }}
+    pyproject.toml += """
+grpcio = "^1.62.0"
+grpcio-reflection = "^1.62.0"
+"""
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Iron Protocol Terminus[/] is manifest."
+    proclaim: "Port: [bold yellow]{{ grpc_port }}[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Serialization Overhead -> 0)[/]"

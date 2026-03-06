@@ -1,0 +1,100 @@
+# ==============================================================================
+# == GNOSTIC SHARD: TRACE RADIATOR (V-Ω-TOTALITY-V3.0)                        ==
+# ==============================================================================
+# @description: A Gnostic Trace Radiator for distributed OpenTelemetry observability. 
+#               Forges a non-blocking gRPC exporter that streams architectural 
+#               spans to the Panopticon (Jaeger/OTel Collector).
+# @category: API / Observability
+# @vibe: telemetry, tracing, opentelemetry, async-core, observability, jaeger
+# @provides: [distributed-tracing, opentelemetry-exporter]
+# @requires: [fastapi, python-core]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ otel_service_name = {{ project_slug | default("omega-node") }} + "-radiator"
+$$ otel_endpoint = {{ otlp_endpoint | default("http://otel-collector:4317") }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/api/telemetry/
+    __init__.py += "from .radiator import ignite_trace_radiator, flush_trace_radiator\n"
+
+    radiator.py :: """
+import os
+import logging
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.sdk.resources import Resource, SERVICE_NAME
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+
+Logger = logging.getLogger("API:TraceRadiator")
+
+# @scaffold:lifecycle(event="startup")
+async def ignite_trace_radiator(app=None):
+    \"\"\"
+    =============================================================================
+    == THE TRACE RADIATOR (V-Ω-TOTALITY)                                       ==
+    =============================================================================
+    LIF: ∞ | ROLE: METABOLIC_EXPORTER | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Batch Processing: Uses BatchSpanProcessor to ensure 0ms latency impact.
+    2. gRPC Conduit: High-speed Protobuf transmission to the Collector.
+    3. Automatic Instrumentation: Automatically wraps the FastAPI router if provided.
+    \"\"\"
+    endpoint = os.getenv("OTLP_ENDPOINT", "{{ otel_endpoint }}")
+    
+    # 1. Forge the Resource Identity
+    resource = Resource.create({
+        SERVICE_NAME: os.getenv("OTLP_SERVICE_NAME", "{{ otel_service_name }}")
+    })
+    
+    # 2. Establish the Provider
+    provider = TracerProvider(resource=resource)
+    
+    # 3. Connect the Conduit
+    try:
+        exporter = OTLPSpanExporter(endpoint=endpoint, insecure=True)
+        processor = BatchSpanProcessor(exporter)
+        provider.add_span_processor(processor)
+        trace.set_tracer_provider(provider)
+        
+        # 4. Suture to the Application Heart
+        if app:
+            FastAPIInstrumentor.instrument_app(app)
+            
+        Logger.info(f"📡 [RADIATOR] OpenTelemetry Conduit forged to {endpoint}.")
+        return provider
+    except Exception as e:
+        Logger.warning(f"⚠️ [RADIATOR] Conduit fracture: {e}. Traces will remain local.")
+        return None
+
+# @scaffold:lifecycle(event="shutdown")
+async def flush_trace_radiator():
+    \"\"\"Ensures the final thoughts of the Engine are transmitted before death.\"\"\"
+    provider = trace.get_tracer_provider()
+    if hasattr(provider, 'shutdown'):
+        Logger.info("🌑 [RADIATOR] Flushing remaining spans to the Panopticon...")
+        provider.shutdown()
+"""
+
+# --- III. THE SURGICAL WEAVE ---
+@if {{ is_python | lower == "true" }}
+    pyproject.toml += """
+opentelemetry-api = "^1.24.0"
+opentelemetry-sdk = "^1.24.0"
+opentelemetry-exporter-otlp = "^1.24.0"
+opentelemetry-instrumentation-fastapi = "^0.45b0"
+"""
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Trace Radiator[/] is manifest."
+    proclaim: "OTLP Endpoint: [bold yellow]{{ otel_endpoint }}[/]"
+    proclaim: "LIF-Multiplier: [bold green]INFINITY (Systemic Blindness -> 0)[/]"

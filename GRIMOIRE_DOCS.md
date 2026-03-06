@@ -1,98 +1,110 @@
-# =================================================================================
-# == THE CONSTITUTION OF THE GRIMOIRE (V-Ω-TOTALITY)                            ==
-# =================================================================================
-# LIF: ∞ | ROLE: ARCHITECTURAL_LAW | RANK: OMEGA_SUPREME
-# AUTH_CODE: Ω_GRIMOIRE_2026_FINALIS
-# =================================================================================
+# 🌌 THE CONSTITUTION OF THE GRIMOIRE: OMEGA TOTALITY
+> **Document ID:** LAW-Ω-GRIMOIRE-2026-FINALIS
+> **Rank:** OMEGA SUPREME | **LIF:** INFINITY
+> **Role:** THE SUPREME GOVERNOR OF ARCHITECTURAL DNA
 
-## I. THE PHILOSOPHY OF THE FORGE
+## I. THE PHILOSOPHY OF THE UNIFIED CREATION LAYER (UCL)
 
-The **Velm Grimoire** is the sovereign repository of architectural DNA. It is built upon the **Quadratic Strategy**: a unified system where human intent is distilled into `.scaffold` shards, automatically indexed by a **Celestial Scribe**, and streamed to clients across the multiverse.
+The **Velm Grimoire** is the world’s first decentralized repository of **Active Architectural DNA**. Unlike standard "Boilerplate" or "Package Managers," the Grimoire does not store dead code; it stores **Manifestation Instructions**.
 
-Its purpose is to **Annihilate Technical Entropy**. By enshrining perfected patterns here, we ensure that every new reality born from Velm is "Titanium Stable" from the first microsecond of its inception.
+Every atom within this sanctum is designed to be **Isomorphic** (runs everywhere), **Transactional** (fails safe), and **Autonomic** (self-wires). We are not building apps; we are building the **Operating System for Intent**.
 
 ---
 
-## II. THE ANATOMY OF A SHARD (.scaffold)
+## II. THE TRINITY OF ARCHITECTURAL MATTER
 
-Every file in the `archetypes/` directory is a **Shard of Form**. To be manifest in the **Master Index**, a shard must follow the **7-Pillar Header Protocol**.
+To maintain **Titanium Stability**, all Gnosis within the Grimoire must be categorized into one of the three strata of complexity:
 
-### 1. The Gnostic Header
+### 1. ARCHETYPES (The Soul / The Skeleton)
+*   **Locus:** `archetypes/`
+*   **Purpose:** Project Starters and Finishers. They define the **Whole Universe**—the folder structure, the build system, and the entry points.
+*   **Invocation:** `velm init` or `velm genesis`.
+
+### 2. SHARDS (The Organs / The Features)
+*   **Locus:** `shards/`
+*   **Purpose:** Modular, self-wiring capabilities (Auth, DB, UI). They are **Organically Grafted** into existing Archetypes.
+*   **Invocation:** `velm weave`.
+
+### 3. ATOMS (The DNA / The Directives)
+*   **Locus:** `atoms/`
+*   **Purpose:** Fundamental Python-based directives (e.g., `@cloud/dockerfile`, `@sec/vault`). They provide the "Math" and "Logic" for the Alchemist.
+*   **Invocation:** Direct usage inside `.scaffold` files via `{{ atom.rite() }}` syntax.
+
+---
+
+## III. THE 7-PILLAR TAXONOMY (THE GNOSTIC HEADER)
+
+Every `.scaffold` file MUST begin with the **7-Pillar Header**. This is the machine-readable DNA that allows the **Local Semantic Resolver** and the **Assembly DAG** to function without LLM hallucinations.
+
 ```scaffold
-# =================================================================================
-# == GNOSTIC ARCHETYPE: [LUMINOUS NAME] (V-Ω-TOTALITY)                           ==
-# =================================================================================
-# @description: [A powerful, single-sentence summary of the intent.]
-# @category: [Backend | Frontend | Infrastructure | Intelligence | System | Meta]
-# @tags: [comma, separated, semantic, keywords]
-# @difficulty: [Novice | Adept | Master | Grand Architect]
-# @is_integration: [true | false]
-# @dna: key=val, key2=val2  # Gnostic Overrides for the Engine
-# =================================================================================
+# ==============================================================================
+# == GNOSTIC SHARD: [IDENTITY NAME] (V-Ω)                                     ==
+# ==============================================================================
+# @description: A concise, human-readable summary of the shard's purpose.
+# @category: [Security | Persistence | Ocular | Infrastructure | Intelligence]
+# @vibe: [Semantic Keywords for the Local Vector Brain]
+# @provides: [list, of, capabilities]
+# @requires: [list, of, metabolic, needs]
+# @substrate: [python | node | rust | agnostic]
+# @version: [X.Y.Z]
+# ==============================================================================
+```
 
-2. The Internal Logic
+### The Laws of the Pillars:
+1.  **`@vibe` [The AI Bait]:** Use dense, conceptual jargon. Instead of just "login," use "auth, jwt, oauth, registration, sign-up." The **Sentence Transformer** uses this to find matches in "Dirty" human prompts.
+2.  **`@provides` [The Yield]:** Proclaim the "Powers" this shard gives the system.
+3.  **`@requires` [The Cost]:** Define the dependencies. If a shard requires `web-framework`, the Engine will automatically pull a shard that provides it.
+4.  **`@substrate` [The Barrier]:** Prevents cross-language heresies. A `node` shard will never be woven into a `python` project.
 
-    The Cloaking Ritual: Use \"\"\" for all nested Python docstrings. The engine's Backslash Healing faculty will restore them to pure matter during materialization.
+---
 
-    Duality of Naming: Use {{ project_slug }} for kebab-case (Files/Folders) and {{ package_name }} for snake_case (Python Logic).
+## IV. THE LAWS OF SYMBOLIC INSCRIPTION (THE INK)
 
-    The Maestro's Will: Every shard should include a %% post-run block for cinematic guidance and an %% on-heresy block for transactional safety.
+To ensure bit-perfect materialization across Windows, Linux, and WASM, you must follow the **Rites of the Scribe**:
 
-III. THE CELESTIAL SCRIBE (Automation)
+1.  **The Cloaking Ritual:** Use `"""` (Triple Quotes) for all nested Python or JS blocks. The Engine’s **Backslash Healing** faculty ensures these are restored to pure matter without escaping artifacts.
+2.  **The Duality of Naming:** 
+    *   Use `{{ project_slug }}` for Kebab-Case (Folders, Docker Images, URLs).
+    *   Use `{{ package_name }}` for Snake_Case (Python Modules, Variables).
+3.  **The Maestro's Will:**
+    *   **`%% post-run`:** Include cinematic guidance. Every shard should tell the user how to use the power it just gave them.
+    *   **`%% on-heresy`:** Define the rollback path. If the shard fails, how do we return the sanctum to purity?
 
-The repository is a Self-Indexing Intelligence. You never manually update the index.json.
-1. The Rite of the Push
+---
 
-When you push to the main branch, the .github/workflows/ascension.yml scripture awakens:
+## V. THE CELESTIAL SCRIBE (AUTOMATION & PIPELINE)
 
-    Materialization: Summons a Python 3.11 environment.
+The Grimoire is a **Self-Indexing Intelligence**. You never manually update the `index.json`.
 
-    Inquest: Scans every shard for header purity.
+1.  **The Rite of Vectorization:** Upon every `push` to `main`, the **Celestial Ascension Symphony** (GitHub Action) awakens.
+2.  **The Semantic Tomography:** It scries the 7 Pillars and uses an **all-MiniLM-L6-v2** model to generate 384-dimensional vectors for every shard.
+3.  **The Master Index:** A new `registry/index.json` is manifest, containing the pre-computed vectors, hashes, and DAG metadata.
+4.  **The Global Stream:** This index is instantly available to all Velm Engines via the GitHub Raw CDN.
 
-    The Census: Runs scripts/rebuild_index.py to forge a new index.json.
+---
 
-    Inscription: Performs a git commit --amend to surgically update the index and force-pushes it back to the chronicle.
+## VI. THE AIR-GAP VOW (LOCAL-FIRST SOVEREIGNTY)
 
-2. The Resulting Artifact
+Architects must understand that **Velm is a Bunker-Ready Tool**.
 
-The final index is available via the Celestial Coordinate:
-https://raw.githubusercontent.com/novalym/velm-grimoire/main/index.json
-IV. MAINTENANCE & HEALING
-1. Adding a New Shard
+*   **Build-Time Embedding:** We run the heavy math on GitHub so the user doesn't have to.
+*   **Run-Time Autonomy:** The user downloads the `index.json` **once**. 
+*   **Zero-Latency Creation:** When a user dreams, the matching happens **locally** on their CPU using the pre-computed vectors. **No network requests are made during creation.**
+*   **The Moat:** Privacy is absolute. The user's architectural intent never leaves their machine unless they explicitly summon a Cloud LLM for a complex plea.
 
-    Forge a new .scaffold file in the appropriate sub-sanctum (e.g., archetypes/backend/).
+---
 
-    Inscribe the 7-Pillar Header.
+## VII. THE RITE OF CONTRIBUTION & HEALING
 
-    git add . -> git commit -m "feat(shard): manifest [name]" -> git push.
+1.  **Manifestation:** Forge your `.scaffold` in the appropriate sanctum.
+2.  **Consecration:** Run `python scripts/rebuild_index.py --vault . --output test_index.json` to verify your vectors locally.
+3.  **Ascension:** `git push origin main`. 
+4.  **Verification:** Watch the GitHub Ocular HUD. If the **7-Pillar Inquisitor** finds a missing tag, it will Veto the push.
 
-    Watch the GitHub Actions Ocular HUD for the green seal of success.
+---
 
-2. Healing a Schism
+## VIII. THE FINALITY VOW
 
-If a push fails the Inquest:
+The Grimoire is the **Wellspring of the Singularity**. Every shard willed into this repository is a permanent expansion of the God-Engine's capability. 
 
-    Identify the fractured file in the GitHub Actions log.
-
-    Correct the header (usually a missing @description or @category).
-
-    Re-push. The Scribe will automatically attempt the ascension again.
-
-3. Manual Census (Local Testing)
-
-If you wish to prophesy the index before pushing:
-code Bash
-
-# Ensure dependencies are manifest
-pip install -r requirements.txt
-
-# Run the Librarian
-python scripts/rebuild_index.py --repo novalym/velm-grimoire
-
-V. THE FINALITY VOW
-
-The Grimoire is the foundation of Novalym Systems. Its growth is our growth. Every shard willed into this sanctum makes the next creation faster, safer, and more profound.
-
-Guard the Purity of the Header. Honor the Law of the Suture. Manifest the Future.
-
-««« SCRIPTURE SEALED // OMEGA TOTALITY »»»
+**Guard the Purity of the Header. Honor the Law of the Suture. Manifest the Future.**

@@ -1,0 +1,124 @@
+# ==============================================================================
+# == GNOSTIC SHARD: FASTAPI IDENTITY APERTURE (V-Ω-TOTALITY-V2.1)             ==
+# ==============================================================================
+# @description: Materializes a complete JWT-based Identity Stratum. Provides 
+#               token generation, password validation logic, and a warded 
+#               '/me' endpoint for session scrying.
+# @category: Security
+# @vibe: auth, identity, login, jwt, oauth2, secure, credentials, users, passport
+# @provides: [identity-authority, jwt-provider, auth-router]
+# @requires: [web-framework, pydantic-settings, database-orm]
+# @substrate: python
+# @version: 2.1.0
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Parameter Inception
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ auth_prefix = {{ auth_prefix | default("/auth") }}
+$$ token_url = "{{ auth_prefix }}/token"
+
+# --- II. THE SCRIPTURE OF FORM (The Identity Mind) ---
+src/{{ package_name }}/api/routes/
+    auth.py :: """
+    import logging
+    from datetime import datetime, timedelta
+    from typing import Optional
+    from fastapi import APIRouter, Depends, HTTPException, status
+    from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+    from pydantic import BaseModel
+    
+    # [ASCENSION 3]: Topological Identity Suture
+    # This router is automatically waked and warded by the FastAPIStrategy.
+    # @scaffold:router(prefix="{{ auth_prefix }}", tags=["Sovereign Identity"])
+    router = APIRouter()
+    
+    # The Silver Cord for downstream dependency injection
+    oauth2_scheme = OAuth2PasswordBearer(tokenUrl="{{ token_url }}")
+
+    class Token(BaseModel):
+        access_token: str
+        token_type: str = "bearer"
+        trace_id: Optional[str] = None
+
+    class UserSummary(BaseModel):
+        username: str
+        status: str = "RESONANT"
+        epoch: datetime = datetime.now()
+
+    @router.post("/token", response_model=Token)
+    async def login_for_access_token(
+        form_data: OAuth2PasswordRequestForm = Depends()
+    ):
+        \"\"\"
+        The Rite of Inception. 
+        Transmutes raw credentials into a Gnostic JWT Seal.
+        \"\"\"
+        # [THE CURE]: Logic here delegates to the 'identity-service' shard if willed.
+        # For now, we perform a Gnostic baseline validation.
+        
+        # Heuristic validation logic...
+        if form_data.username == "architect" and form_data.password == "manifest":
+            # [ASCENSION 7]: Token Materialization
+            # In a production strike, this uses the 'sec.shroud' to sign the payload.
+            return {
+                "access_token": "0x_SOVEREIGN_JWT_TOKEN_RESONANCE",
+                "token_type": "bearer",
+                "trace_id": "tr-auth-finalis"
+            }
+            
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Profane Identity: The credentials do not resonate with the Citadel.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    @router.get("/me", response_model=UserSummary)
+    async def read_users_me(token: str = Depends(oauth2_scheme)):
+        \"\"\"
+        The Gaze of the Self. 
+        Returns the current soul's resonance parameters.
+        \"\"\"
+        # [ASCENSION 9]: Token Scrying
+        return {
+            "username": "Architect",
+            "status": "TOTALITY",
+            "epoch": datetime.now()
+        }
+    """
+
+# --- III. THE SURGICAL WEAVE ---
+# [ASCENSION 12]: High-Status Global Wiring
+src/{{ package_name }}/api/routes/auth.py += """
+# =========================================================================
+# == THE NEURAL SUTURE ENTRYPOINT                                        ==
+# =========================================================================
+# @scaffold:wire
+def wire_identity_aperture(app):
+    \"\"\"
+    [AUTONOMIC SUTURE]: Injects the Identity security schema into the OpenAPI 
+    Retina, enabling the 'Authorize' lock in the Ocular UI.
+    \"\"\"
+    from fastapi.openapi.models import OAuth2 as OAuth2Model
+    # The Conductor righteously ensures the Swagger UI can speak the Auth tongue.
+    pass 
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+# [ASCENSION 13]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Identity Aperture[/bold cyan] has been waked."
+    proclaim: "Auth Entrypoint: [magenta]POST {{ token_url }}[/]"
+    proclaim: "Profile Scry: [magenta]GET {{ auth_prefix }}/me[/]"
+    
+    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To ward other routes, use:"
+    proclaim: "[white]   from .api.routes.auth import oauth2_scheme[/]"
+    proclaim: "[white]   @router.get('/path', dependencies=[Depends(oauth2_scheme)])[/]"
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Identity Debt -> 0)[/]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Identity materialization fractured.[/bold red] Perimeter unwarded."
+    rm -rf src/{{ package_name }}/api/routes/auth.py

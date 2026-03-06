@@ -1,0 +1,112 @@
+# ==============================================================================
+# == GNOSTIC SHARD: TRAFFIC MIRROR (V-Ω-TOTALITY-V3.0)                        ==
+# ==============================================================================
+# @description: A Multiversal Mirror for live traffic shadowing. Intercepts 
+#               API requests and asynchronously duplicates them to a shadow 
+#               environment (V2 Refactor) without impacting the Prime response time.
+# @category: API / Resilience
+# @vibe: fastapi, shadowing, mirroring, neural-mesh, async-core, testing
+# @provides: [traffic-mirror, shadow-deployment-router]
+# @requires: [fastapi, python-core]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: 50,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ shadow_target_url = {{ shadow_url | default("https://shadow.project.com") }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/middleware/
+    __init__.py += "from .mirror import TrafficMirrorMiddleware\n"
+
+    mirror.py :: """
+import httpx
+import asyncio
+import logging
+from fastapi import Request, Response
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.background import BackgroundTask
+
+Logger = logging.getLogger("API:TrafficMirror")
+
+# @scaffold:middleware(priority=1000) # THE FINAL MIRROR: Runs after response
+class TrafficMirrorMiddleware(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE MULTIVERSAL MIRROR (V-Ω-TOTALITY)                                   ==
+    =============================================================================
+    LIF: ∞ | ROLE: SHADOW_ROUTER | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Zero-Blocking Asynchrony: Mirroring is pushed to a BackgroundTask.
+    2. Body Resurrection: Perfectly captures the request body for the Shadow.
+    3. Trace ID Propagation: Injects X-Reality-Phase to ward the Shadow mind.
+    \"\"\"
+    def __init__(self, app):
+        super().__init__(app)
+        self.shadow_url = "{{ shadow_target_url }}"
+        # Use a persistent client to avoid TCP handshake tax on every mirror
+        self.client = httpx.AsyncClient(timeout=3.0)
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        # --- MOVEMENT I: THE PEEKING RITE ---
+        body_bytes = b""
+        if request.method in ["POST", "PUT", "PATCH"]:
+            body_bytes = await request.body()
+            # Resurrect the stream for the Prime execution
+            async def receive(): return {"type": "http.request", "body": body_bytes}
+            request._receive = receive
+
+        # --- MOVEMENT II: KINETIC STRIKE (PRIME) ---
+        response = await call_next(request)
+        
+        # --- MOVEMENT III: ACHRONAL SHADOW STRIKE ---
+        # We attach the shadow strike to the response so the user doesn't wait
+        headers = dict(request.headers)
+        headers["X-Reality-Phase"] = "SHADOW"
+        
+        response.background = BackgroundTask(
+            self._shadow_strike, 
+            method=request.method,
+            path=request.url.path,
+            query=str(request.query_params),
+            headers=headers,
+            body=body_bytes
+        )
+        
+        return response
+
+    async def _shadow_strike(self, method: str, path: str, query: str, headers: dict, body: bytes):
+        \"\"\"Fires the duplicate request into the Shadow Realm.\"\"\"
+        if self.shadow_url == "VOID": return
+        
+        target = f"{self.shadow_url}{path}"
+        if query: target += f"?{query}"
+        
+        try:
+            # We don't await the response, we just fire it.
+            await self.client.request(
+                method=method,
+                url=target,
+                headers=headers,
+                content=body
+            )
+        except Exception as e:
+            # The Mirror is silent on failure; it must not spam logs if Shadow is down
+            Logger.debug(f"🪞 [MIRROR] Shadow strike fractured: {e}")
+"""
+
+# --- III. THE SURGICAL WEAVE ---
+@if {{ is_python | lower == "true" }}
+    pyproject.toml += """
+httpx = "^0.27.0"
+"""
+@endif
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Traffic Mirror[/] is manifest."
+    proclaim: "Shadow Target: [bold yellow]{{ shadow_target_url }}[/]"
+    proclaim: "LIF-Multiplier: [bold green]50,000x (Zero-Risk Refactoring)[/]"

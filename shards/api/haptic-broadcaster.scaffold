@@ -1,0 +1,113 @@
+# ==============================================================================
+# == GNOSTIC SHARD: HAPTIC BROADCASTER (V-Ω-TOTALITY-V3.0)                    ==
+# ==============================================================================
+# @description: A Haptic HUD Broadcaster. Intercepts API responses and transmutes 
+#               them into real-time visual telemetry events (VFX) via an asynchronous 
+#               event bus, enabling reactive, living user interfaces.
+# @category: API / Observability
+# @vibe: telemetry, haptics, websocket, real-time, neural-mesh, ui-feedback
+# @provides: [haptic-telemetry, ui-feedback-loop]
+# @requires: [fastapi, event-bus]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/middleware/
+    __init__.py += "from .haptics import HapticBroadcasterMiddleware\n"
+
+    haptics.py :: """
+import asyncio
+import logging
+import time
+from fastapi import Request, Response
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.background import BackgroundTask
+
+Logger = logging.getLogger("API:Haptics")
+
+# @scaffold:middleware(priority=100) # Runs last, capturing the ultimate result
+class HapticBroadcasterMiddleware(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE HAPTIC BROADCASTER (V-Ω-TOTALITY)                                   ==
+    =============================================================================
+    LIF: ∞ | ROLE: OCULAR_SYNCHRONIZER | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Zero-Latency Emission: Telemetry is offloaded to BackgroundTasks.
+    2. Semantic Color Mapping: Translates raw HTTP codes into Gnostic Auras.
+    3. Anomaly Amplification: 500s trigger heavy 'shake_red' VFX.
+    4. Trace Binding: Perfect synchronization with the Architect's view.
+    \"\"\"
+    async def dispatch(self, request: Request, call_next) -> Response:
+        start_time = time.perf_counter()
+        
+        try:
+            response = await call_next(request)
+            duration_ms = (time.perf_counter() - start_time) * 1000
+            
+            # Attach the radiation task to the response so the user doesn't wait
+            response.background = BackgroundTask(
+                self._radiate_pulse, 
+                request, 
+                response.status_code, 
+                duration_ms
+            )
+            return response
+            
+        except Exception as e:
+            # If the application shatters, we still radiate the heresy
+            duration_ms = (time.perf_counter() - start_time) * 1000
+            asyncio.create_task(self._radiate_pulse(request, 500, duration_ms, is_fracture=True))
+            raise e
+
+    async def _radiate_pulse(self, request: Request, status: int, duration_ms: float, is_fracture: bool = False):
+        try:
+            # [CAUSAL_LINK]: Broadcasting to the Achronal Event Bus
+            # Safely attempt to import the willed event bus
+            from ..api.events.bus import event_bus
+        except ImportError:
+            Logger.debug("Event Bus unmanifest. Haptic pulse stayed.")
+            return
+
+        # --- THE ALCHEMY OF COLOR ---
+        if status < 300:
+            vfx, color = "bloom", "#64ffda"  # Resonant Teal
+        elif status < 400:
+            vfx, color = "pulse", "#3b82f6"  # Redirect Blue
+        elif status < 500:
+            vfx, color = "shake", "#f59e0b"  # Warning Amber
+        else:
+            vfx, color = "shake_red", "#ef4444" # Fracture Red
+
+        if is_fracture:
+            vfx, color = "shake_fatal", "#dc2626"
+
+        trace_id = request.headers.get("X-Gnostic-Trace") or getattr(request.state, "trace_id", "tr-void")
+
+        # The Payload
+        pulse = {
+            "type": "HAPTIC_PULSE",
+            "vfx": vfx,
+            "color": color,
+            "status": status,
+            "path": request.url.path,
+            "method": request.method,
+            "latency": f"{duration_ms:.1f}ms",
+            "trace_id": trace_id
+        }
+
+        # Fire and forget into the Event Lattice
+        await event_bus.broadcast("system.haptics", pulse)
+"""
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Haptic Broadcaster[/] is manifest."
+    proclaim: "Integration: [bold magenta]Achronal Event Bus[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (UI Responsiveness)[/]"

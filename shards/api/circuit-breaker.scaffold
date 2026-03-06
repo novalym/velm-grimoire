@@ -1,0 +1,114 @@
+# ==============================================================================
+# == GNOSTIC SHARD: KINETIC CIRCUIT BREAKER (V-Ω-TOTALITY-V3.0)               ==
+# ==============================================================================
+# @description: A Tri-State (Closed, Open, Half-Open) Circuit Breaker middleware. 
+#               Surgically isolates failing downstream dependencies and prevents 
+#               cascading systemic collapse via autonomic healing probes.
+# @category: API / Resilience
+# @vibe: circuit-breaker, resilience, fault-tolerance, auto-healing, stability
+# @provides: [kinetic-circuit-breaker, systemic-fault-isolation]
+# @requires: [fastapi, python-core]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ failure_threshold = {{ failure_threshold | default(5) }}
+$$ healing_timeout_sec = {{ healing_timeout | default(30) }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/middleware/
+    __init__.py += "from .circuit_breaker import KineticCircuitBreaker\n"
+    
+    circuit_breaker.py :: """
+import asyncio
+import time
+import logging
+from enum import Enum
+from fastapi import Request, Response, HTTPException, status
+from starlette.middleware.base import BaseHTTPMiddleware
+
+Logger = logging.getLogger("API:CircuitBreaker")
+
+class CircuitState(str, Enum):
+    CLOSED = "CLOSED"       # Reality is Resonant. Traffic flows.
+    OPEN = "OPEN"           # Reality is Fractured. Traffic blocked.
+    HALF_OPEN = "HALF_OPEN" # Reality is Healing. Probing allowed.
+
+# @scaffold:middleware(priority=3)
+class KineticCircuitBreaker(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE KINETIC CIRCUIT BREAKER (V-Ω-TOTALITY)                              ==
+    =============================================================================
+    LIF: ∞ | ROLE: CASCADING_FAILURE_WARDEN | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Tri-State Physics: Transitions smoothly between health and fracture.
+    2. Apophatic Error Sieve: Ignores 4xx client errors; only trips on 5xx fractures.
+    3. Autonomic Resurrection: Automatically tests the waters after the timeout.
+    4. Metabolic Yielding: 0ms latency impact during CLOSED state.
+    \"\"\"
+    def __init__(self, app):
+        super().__init__(app)
+        self.state = CircuitState.CLOSED
+        self.failure_count = 0
+        self.last_fracture_time = 0.0
+        self._lock = asyncio.Lock()
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        # --- MOVEMENT I: STATE ADJUDICATION ---
+        if self.state == CircuitState.OPEN:
+            if time.time() - self.last_fracture_time > {{ healing_timeout_sec }}:
+                async with self._lock:
+                    if self.state == CircuitState.OPEN:
+                        self.state = CircuitState.HALF_OPEN
+                        Logger.warning("🛡️ [CIRCUIT] Entering HALF-OPEN state. Probing reality...")
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail="Circuit Open: The downstream reality is currently fractured."
+                )
+
+        # --- MOVEMENT II: THE KINETIC STRIKE ---
+        try:
+            response = await call_next(request)
+            
+            # [ASCENSION 2]: Evaluate status code
+            if response.status_code >= 500:
+                await self._record_fracture()
+            else:
+                await self._record_success()
+                
+            return response
+            
+        except Exception as e:
+            # Unhandled paradoxes always count as a fracture
+            await self._record_fracture()
+            raise e
+
+    async def _record_fracture(self):
+        async with self._lock:
+            self.failure_count += 1
+            self.last_fracture_time = time.time()
+            
+            if self.state == CircuitState.HALF_OPEN or self.failure_count >= {{ failure_threshold }}:
+                if self.state != CircuitState.OPEN:
+                    self.state = CircuitState.OPEN
+                    Logger.critical(f"🛑 [CIRCUIT] TRIPPED. Reality isolated for {{ healing_timeout_sec }}s.")
+
+    async def _record_success(self):
+        if self.state != CircuitState.CLOSED:
+            async with self._lock:
+                self.state = CircuitState.CLOSED
+                self.failure_count = 0
+                Logger.success("✅ [CIRCUIT] RESTORED. Resonance achieved.")
+"""
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Kinetic Circuit Breaker[/] is manifest."
+    proclaim: "Tolerance: [bold yellow]{{ failure_threshold }} Fractures[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cascading Collapse -> 0)[/]"

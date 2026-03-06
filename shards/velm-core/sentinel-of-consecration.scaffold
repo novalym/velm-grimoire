@@ -1,0 +1,208 @@
+# ==============================================================================
+# == GNOSTIC SHARD: SENTINEL OF CONSECRATION (V-Ω-TOTALITY-V2.5-IRON)         ==
+# ==============================================================================
+# @description: An environmental inquisitor that scries the host for missing 
+#               artisans. Autonomously forges OS-specific 'Consecration' 
+#               scriptures to heal the iron and ensure Titanium-Ready status.
+# @category: Meta / Infrastructure
+# @vibe: sentinel, hardening, substrate-purity, audit, omniscience, automation
+# @provides: [environmental-integrity-authority, binary-oracle, substrate-warden]
+# @requires: [python-core, maestro-conductor, pydantic-settings]
+# @substrate: cross-platform (POSIX / NT)
+# @version: 2.5.0
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ tool_name = "consecrator"
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ auto_scan_on_boot = {{ auto_scan | default(true) }}
+
+# --- II. THE ORACLE OF BINARIES (Forensic Scrier) ---
+
+scripts/forensics/
+    # [ASCENSION 2]: THE MULTI-STRATA BINARY ORACLE (Logic)
+    # This artisan performs a deep-tissue biopsy of the host machine. 
+    # It identifies "Gaps in Reality" where required tools are missing.
+    binary_oracle.py :: """
+import os
+import shutil
+import platform
+import subprocess
+import sys
+from pathlib import Path
+from typing import Dict, List, Tuple, Optional
+
+# =============================================================================
+# == THE GNOSTIC CENSUS (V-Ω-TOTALITY)                                       ==
+# =============================================================================
+# The Pantheon of Artisans required for the Velm God-Engine to reach Totality.
+ARTISANS = {
+    "docker": {"desc": "Vessel Orchestration", "v_cmd": "--version"},
+    "poetry": {"desc": "Pythonic Sovereignty", "v_cmd": "--version"},
+    "git":    {"desc": "Temporal Chronicle",    "v_cmd": "--version"},
+    "node":   {"desc": "Ocular Logic (JS/TS)",  "v_cmd": "-v"},
+    "rustc":  {"desc": "Iron Core (Perf)",      "v_cmd": "--version"},
+    "go":     {"desc": "System Conduction",     "v_cmd": "version"}
+}
+
+def scry_environment():
+    print("🔍 [SENTINEL] Initiating Multi-Strata Tomography of the Iron...")
+    os_type = platform.system().lower()
+    missing = []
+    found = []
+
+    for bin_name, meta in ARTISANS.items():
+        path = shutil.which(bin_name)
+        
+        # [ASCENSION 3]: Windows Script Suture
+        # Scry standard AppData loci if the global PATH is fractured.
+        if not path and os_type == "windows":
+            appdata = Path(os.getenv("APPDATA", ""))
+            local_appdata = Path(os.getenv("LOCALAPPDATA", ""))
+            candidates = [
+                appdata / "Python" / "Python312" / "Scripts" / f"{bin_name}.exe",
+                local_appdata / "Programs" / f"{bin_name}.exe",
+                Path("C:/Program Files") / bin_name / f"{bin_name}.exe"
+            ]
+            for cand in candidates:
+                if cand.exists(): path = str(cand)
+
+        if path:
+            # [ASCENSION 7]: Version Tomography
+            # We don't just check for existence; we verify the soul (version).
+            try:
+                v_out = subprocess.check_output([path, meta["v_cmd"]], stderr=subprocess.STDOUT).decode().strip()
+                v_short = v_out.split('\\n')[0][:30]
+                found.append(f"✅ {bin_name:<10} | [green]RESONANT[/] | {v_short}")
+            except:
+                found.append(f"⚠️  {bin_name:<10} | [yellow]TAINTED[/]  | Version Scry Failed")
+        else:
+            missing.append(bin_name)
+
+    print("\\n".join(found))
+    
+    if missing:
+        print(f"\\n⚠️  [VOID_DETECTED] {len(missing)} artisans are unmanifest in the Core.")
+        _forge_consecration_script(missing, os_type)
+        sys.exit(1) # Signal the Symphony to trigger the Redemption Rite
+    else:
+        print("\\n✨ [TITANIUM] The Iron Core is whole. No consecration required.")
+        sys.exit(0)
+
+def _forge_consecration_script(missing: List[str], os_type: str):
+    \"\"\"
+    [ASCENSION 2]: OS-AWARE SCRIPT GENERATION.
+    Forges the precisely correct scripture to heal the specific OS DNA.
+    \"\"\"
+    script_name = "consecrate_machine.sh" if os_type != "windows" else "consecrate_machine.ps1"
+    script_path = Path(script_name)
+    lines = []
+
+    if os_type == "windows":
+        lines.append("# == Gnostic Rite of Consecration (Windows) ==\\n")
+        lines.append("$ErrorActionPreference = 'Stop'")
+        for tool in missing:
+            if tool == "docker": lines.append("winget install Docker.DockerDesktop")
+            elif tool == "git":   lines.append("winget install Git.Git")
+            elif tool == "node":  lines.append("winget install OpenJS.NodeJS")
+            elif tool == "poetry":lines.append("(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -")
+    elif os_type == "darwin":
+        lines.append("#!/bin/bash\\n# == Gnostic Rite of Consecration (macOS) ==\\n")
+        lines.append("if ! command -v brew &> /dev/null; then /bin/bash -c '$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)'; fi")
+        for tool in missing:
+            lines.append(f"brew install {tool}")
+    else:
+        lines.append("#!/bin/bash\\n# == Gnostic Rite of Consecration (Linux) ==\\n")
+        for tool in missing:
+            lines.append(f"sudo apt-get update && sudo apt-get install -y {tool}")
+
+    # [ASCENSION 5]: Global Sovereign Aliases
+    lines.append("\\n# --- Bestowing Sovereign Aliases ---")
+    lines.append("alias v='velm'")
+    lines.append("alias vi='velm init'")
+
+    script_path.write_text('\\n'.join(lines), encoding='utf-8')
+    print(f"📜 [SENTINEL] Redemption Scripture forged: [bold cyan]{script_name}[/bold cyan]")
+
+if __name__ == "__main__":
+    scry_environment()
+"""
+
+# --- III. THE KINETIC SYMPHONY (Environmental Hardening) ---
+
+consecrate.symphony :: """
+# == Symphony: The Rite of Environmental Consecration ==
+# @description: Hardens the host iron to achieve Titanium-Ready status.
+# @LIF: INFINITY
+
+@task main
+    %% let: inquest_phase = "TOMOGRAPHY"
+    %% proclaim: "🛡️ [SENTINEL] Initiating Multi-Strata Tomography of the Iron..."
+
+    # 1. Initiate Inquest
+    @try:
+        >> python3 scripts/forensics/binary_oracle.py
+        %% proclaim: "[bold green]✅ IRON IS PURE.[/bold green] Reality is resonant."
+    @catch:
+        # 2. Adjudicate Redemption
+        %% let has_sh = ?? file_exists: "consecrate_machine.sh"
+        %% let has_ps1 = ?? file_exists: "consecrate_machine.ps1"
+
+        @if {{ has_sh or has_ps1 }}:
+            %% proclaim: "⚠️  [VOID] Artisans are missing. Consecration is willed."
+            %% let choice = @ask("Shall the Sentinel conduct the Consecration now? (y/n)")
+            
+            @if {{ choice == 'y' }}:
+                %% proclaim: "🔥 Igniting the Consecration... (This may require your Vow of Elevation/Sudo)"
+                @on_os windows:
+                    >> powershell -ExecutionPolicy Bypass -File ./consecrate_machine.ps1
+                @else:
+                    >> chmod +x consecrate_machine.sh
+                    >> ./consecrate_machine.sh
+                @endif
+                %% proclaim: "[bold green]✅ CONSECRATION COMPLETE.[/bold green] Reality is now Titanium-Ready."
+                # 3. Cleanup
+                >> rm -f consecrate_machine.*
+            @else:
+                %% warn: "Consecration stayed by Architect. Substrate remains unwarded."
+            @endif
+        @endif
+    @end
+"""
+
+# --- IV. THE UNIVERSAL SUTURE ---
+# [ASCENSION 9]: Global Conductor Integration
+Makefile:
+    .PHONY: consecrate scry-iron
+
+    consecrate: ## conduct the rite of environmental hardening
+        @velm run consecrate.symphony
+
+    scry-iron: ## perform a non-destructive biopsy of the host machine
+        @python3 scripts/forensics/binary_oracle.py
+
+# --- V. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Sentinel of Consecration[/bold cyan] is manifest."
+    proclaim: "Inquisitor Locus: [white]scripts/forensics/binary_oracle.py[/]"
+    proclaim: "Symphony: [white]consecrate.symphony[/]"
+    
+    # 1. Trigger immediate non-destructive scan
+    proclaim: "Initiating pre-flight environmental scan..."
+    @try:
+        >> make scry-iron
+    @catch:
+        proclaim: "[bold yellow]Metabolic Gaps Detected.[/bold yellow] Your iron is not yet Titanium-Ready."
+    @end
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]INFINITY (Environment Drift -> 0)[/]"
+    proclaim: "To harden your substrate, speak: [bold magenta]make consecrate[/bold magenta]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Sentinel activation fractured.[/bold red] Substrate remains profane."
+    rm -rf scripts/forensics/binary_oracle.py consecrate.symphony

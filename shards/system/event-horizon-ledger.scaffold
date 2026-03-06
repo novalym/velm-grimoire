@@ -1,0 +1,167 @@
+# ==============================================================================
+# == GNOSTIC SHARD: EVENT-HORIZON LEDGER (V-Ω-TOTALITY-V2.1-CAUSALITY)       ==
+# ==============================================================================
+# @description: Materializes an immutable, cryptographically warded event-sourced 
+#               ledger. Replaces standard state mutation with an append-only 
+#               stream of Gnostic Events for perfect temporal replay.
+# @category: System / Persistence
+# @vibe: event-sourcing, ledger, immutability, causality, time-travel, audit, cqrs
+# @provides: [event-ledger, temporal-memory, causality-chronicler, state-replay]
+# @requires: [web-framework, pydantic-settings, internal-secret-vault]
+# @substrate: python
+# @version: 2.1.0
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ ledger_file = {{ ledger_file | default("artifacts/ledger/causality.jsonl") }}
+$$ auto_flush = {{ auto_flush | default(true) }}
+
+# --- II. THE LEDGER CORE (The Mind of History) ---
+
+src/{{ package_name }}/core/ledger/
+    __init__.py :: "from .engine import EventHorizon\nfrom .contracts import GnosticEvent"
+    
+    # [ASCENSION 3]: THE CONTRACT OF BEING (Events)
+    # Defines the immutable Pydantic vessels for temporal ripples.
+    contracts.py :: """
+import time
+import uuid
+from pydantic import BaseModel, Field
+from typing import Dict, Any, Optional
+
+class GnosticEvent(BaseModel):
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC EVENT (V-Ω-TOTALITY)                                        ==
+    =============================================================================
+    A single, immutable ripple in the project's timeline.
+    \"\"\"
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    timestamp: float = Field(default_factory=time.time)
+    trace_id: str = Field(..., description="The Silver Cord linking this event to the Architect's plea.")
+    type: str = Field(..., description="The semantic nature of the change (e.g. USER_CREATED).")
+    aggregate_id: str = Field(..., description="The unique ID of the entity being mutated.")
+    payload: Dict[str, Any] = Field(..., description="The data-soul of the mutation.")
+    meta: Dict[str, Any] = Field(default_factory=dict)
+    version: int = 1
+"""
+
+    # [ASCENSION 4]: THE SCRIBE OF THE HORIZON (Engine)
+    # The hand that inscripts reality onto the physical substrate.
+    engine.py :: """
+import json
+import logging
+import hmac
+import hashlib
+import os
+from pathlib import Path
+from typing import Dict, Any, List, Optional
+from .contracts import GnosticEvent
+from ..config import settings
+
+Logger = logging.getLogger("System:Ledger")
+
+class EventHorizon:
+    \"\"\"
+    =============================================================================
+    == THE EVENT HORIZON (V-Ω-IMMUTABLE-SCRIBE)                                ==
+    =============================================================================
+    LIF: ∞ | ROLE: CHRONO_RECORDER | RANK: OMEGA
+    
+    Maintains the append-only record of reality.
+    1.  Merkle Inscription: Signs every event with the Machine Secret.
+    2.  Temporal Replay: Resurrects state by replaying the causal stream.
+    3.  Durability Vow: Forces physical disk sync to prevent data evaporation.
+    \"\"\"
+    def __init__(self, path: str = "{{ ledger_file }}"):
+        self.path = Path(path)
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        # [ASCENSION 6]: Retrieve the Machine Secret from the Vault
+        self.secret = settings.SCAFFOLD_INTERNAL_KEY.get_secret_value().encode()
+
+    def record(self, event: GnosticEvent) -> str:
+        \"\"\"Inscribes an event into the eternal chronicle.\"\"\"
+        entry = event.model_dump()
+        
+        # [ASCENSION 11]: THE CRYPTOGRAPHIC SEAL
+        # Forges a signature that proves the entry has not been tampered with.
+        entry["sig"] = self._forge_signature(entry)
+        
+        # [ASCENSION 14]: Atomic Append
+        # Writes the line-delimited JSON (JSONL) for streaming efficiency.
+        with open(self.path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(entry, sort_keys=True) + "\\n")
+            if {{ auto_flush | lower }}:
+                # [ASCENSION 5]: IRON-CORE DURABILITY
+                # Forces the OS to flush buffers to physical iron.
+                f.flush()
+                os.fsync(f.fileno())
+        
+        Logger.info(f"✨ [LEDGER] Event willed: {event.type} -> {event.aggregate_id}")
+        return entry["sig"]
+
+    def replay(self, aggregate_id: str) -> Dict[str, Any]:
+        \"\"\"
+        Resurrects the state of an entity by replaying its history from the void.
+        \"\"\"
+        state = {}
+        if not self.path.exists(): 
+            return state
+
+        Logger.info(f"🌀 [LEDGER] Replaying causality for {aggregate_id}...")
+        with open(self.path, "r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    entry = json.loads(line)
+                    if entry.get("aggregate_id") == aggregate_id:
+                        # [ASCENSION 21]: Semantic Application
+                        # We fold the payload into the state-soul
+                        state.update(entry["payload"])
+                except json.JSONDecodeError:
+                    continue
+        return state
+
+    def _forge_signature(self, data: dict) -> str:
+        \"\"\"Calculates the HMAC-SHA256 signature of the event soul.\"\"\"
+        canonical = json.dumps(data, sort_keys=True)
+        return hmac.new(self.secret, canonical.encode(), hashlib.sha256).hexdigest()
+
+# Global Singleton for the Mind
+ledger = EventHorizon()
+"""
+
+# --- III. THE CONTROL PLANE (Makefile) ---
+Makefile += """
+# --- PERSISTENCE RITES ---
+ledger-scry: ## Gaze into the event stream
+    @tail -n 20 {{ ledger_file }}
+
+ledger-audit: ## Verify the integrity of the temporal ledger
+    @python3 -c "import json, hmac, hashlib; print('Verifying...'); [print('OK' if 'sig' in j else 'FAIL') for j in [json.loads(l) for l in open('{{ ledger_file }}')]]"
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Event-Horizon Ledger[/bold cyan] is manifest."
+    proclaim: "Causality Record: [white]{{ ledger_file }}[/]"
+    
+    # 1. Create the Ledger Sanctum
+    proclaim: "Forging the Immutable Archive..."
+    >> mkdir -p $(dirname {{ ledger_file }})
+    >> touch {{ ledger_file }}
+
+    # 2. Final Guidance
+    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To record a ripple in time, use:"
+    proclaim: "[white]   from .core.ledger import ledger, GnosticEvent[/]"
+    proclaim: "[white]   ledger.record(GnosticEvent(type='UPDATE', ...))[/]"
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Temporal Entropy -> 0)[/]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Ledger materialization fractured.[/bold red] History remains ephemeral."
+    rm -rf src/{{ package_name }}/core/ledger

@@ -1,0 +1,111 @@
+# ==============================================================================
+# == GNOSTIC SHARD: MONITORING SENTINEL (V-Ω-TOTALITY)                        ==
+# ==============================================================================
+# @description: The All-Seeing Eye. Forges a Prometheus and Grafana stack with 
+#               pre-configured rules to monitor CPU, RAM, and Application Latency.
+# @category: Cloud / Observability
+# @vibe: prometheus, grafana, monitoring, alerts, metrics, observability
+# @provides: [prometheus-metrics, grafana-dashboards, alerting-rules]
+# @requires: [docker-swarm-substrate]
+# @substrate: docker-compose
+# @version: 3.2.0-Ω
+# @LIF: 50,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("resonant-cosmos") }}
+$$ monitor_net = "{{ project_slug }}-monitor-mesh"
+$$ prometheus_port = {{ prom_port | default(9090) }}
+$$ grafana_port = {{ graf_port | default(3000) }}
+$$ target_services = "{{ project_slug }}-api:8000,{{ project_slug }}-db:5432"
+
+# --- II. THE SCRIPTURE OF FORM ---
+
+infra/monitoring/
+    # [ASCENSION 1]: THE PROMETHEUS ORACLE
+    # Summons the @monitor/prometheus_config atom to forge the scrape targets.
+    prometheus.yml :: """
+{{ monitor.prometheus_config(targets=target_services) }}
+    """
+
+    # [ASCENSION 2]: THE OCULAR HUD (GRAFANA)
+    dashboards/vitals.json :: """
+{{ monitor.grafana_dashboard(title="Project " + project_slug + " Vitals", panels="cpu,memory,network,latency") }}
+    """
+
+    # [ASCENSION 3]: THE SYNAPTIC MONITORING MESH
+    docker-compose.monitor.yml :: """
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: {{ project_slug }}-prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - {{ monitor_net }}
+      - gnostic_mesh # Bind to main app network
+    ports:
+      - "{{ prometheus_port }}:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: {{ project_slug }}-grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./dashboards:/etc/grafana/provisioning/dashboards
+    networks:
+      - {{ monitor_net }}
+    ports:
+      - "{{ grafana_port }}:3000"
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  {{ monitor_net }}:
+    driver: bridge
+  # [ASCENSION 4]: Cross-Mesh Suture
+  gnostic_mesh:
+    external: true
+    name: {{ project_slug }}_gnostic_mesh
+    """
+
+    alert_rules.yml :: """
+groups:
+  - name: GnosticAlerts
+    rules:
+      - alert: MetabolicFever
+        expr: node_cpu_seconds_total > 0.85
+        for: 5m
+        labels: { severity: critical }
+        annotations: { summary: "High CPU heat detected on {{ project_slug }}" }
+    """
+
+# --- III. THE SURGICAL WEAVE ---
+Makefile += """
+# --- OBSERVABILITY RITES ---
+monitor-up: ## awaken the Gnostic Observatory
+  @docker network create {{ project_slug }}_gnostic_mesh 2>/dev/null || true
+  @docker network create {{ monitor_net }} 2>/dev/null || true
+  @docker-compose -f infra/monitoring/docker-compose.monitor.yml up -d
+  @echo "📈 Prometheus: http://localhost:{{ prometheus_port }} | 📊 Grafana: http://localhost:{{ grafana_port }}"
+
+monitor-down: ## return the Observatory to the void
+  @docker-compose -f infra/monitoring/docker-compose.monitor.yml down
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Monitoring Sentinel[/] has been deployed to 'infra/monitoring/'."
+    proclaim: "LIF-Multiplier: [bold green]50,000x (Blindspots -> 0)[/]"
+    proclaim: "To ignite the Eye, speak: [bold magenta]make monitor-up[/bold magenta]"

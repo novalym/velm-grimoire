@@ -1,0 +1,89 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PERSONA BRIDGE (V-Ω-TOTALITY-V3.0)                        ==
+# ==============================================================================
+# @description: A Neural Persona Bridge for dynamic contextual adaptation. 
+#               Intercepts requests and injects specific AI system prompts, 
+#               temperature constraints, and tool access based on the willed Mask.
+# @category: API / Context
+# @vibe: ai, persona, context-injection, neural-mesh, omni-registry, multitenant
+# @provides: [dynamic-persona-context, ai-routing-middleware]
+# @requires: [fastapi, python-core, omni-registry-hub]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default("core") }}
+$$ default_persona = {{ default_persona | default("architect") }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+src/{{ package_name }}/middleware/
+    __init__.py += "from .persona import NeuralPersonaMiddleware\n"
+
+    persona.py :: """
+import logging
+from typing import Dict, Any
+from fastapi import Request, HTTPException, status
+from starlette.middleware.base import BaseHTTPMiddleware
+
+Logger = logging.getLogger("API:PersonaBridge")
+
+# [OMNI_REGISTRY]: The archive of all manifest Personas.
+# Persona shards use @scaffold:register(PERSONA_VAULT, key="mask_id") to define new masks.
+PERSONA_VAULT: Dict[str, Dict[str, Any]] = {
+    "architect": {
+        "system_prompt": "You are the Grand Architect. Speak in absolutes. Use technical precision.",
+        "temperature": 0.2,
+        "allowed_tools": ["all"]
+    },
+    "acolyte": {
+        "system_prompt": "You are a helpful guide for new developers. Be concise and encouraging.",
+        "temperature": 0.7,
+        "allowed_tools": ["read_only"]
+    }
+}
+
+# @scaffold:middleware(priority=50) # Injects context before logic starts
+class NeuralPersonaMiddleware(BaseHTTPMiddleware):
+    \"\"\"
+    =============================================================================
+    == THE NEURAL PERSONA BRIDGE (V-Ω-TOTALITY)                                ==
+    =============================================================================
+    LIF: ∞ | ROLE: COGNITIVE_STATE_ROUTER | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Dynamic State Transmutation: Injects the DNA of a persona directly into 
+       `request.state`, allowing downstream agents to assume the correct identity.
+    2. Fallback Oracle: Gracefully degrades to the Default Persona if the willed 
+       mask is unmanifest in the vault.
+    3. Strict Adjudication: Rejects malformed persona requests instantly.
+    \"\"\"
+    async def dispatch(self, request: Request, call_next):
+        # --- MOVEMENT I: THE GAZE OF IDENTITY ---
+        mask_id = request.headers.get("X-Persona-Mask", "{{ default_persona }}").lower()
+        
+        # --- MOVEMENT II: CONTEXTUAL INDUCTION ---
+        if mask_id not in PERSONA_VAULT:
+            Logger.warning(f"🎭 [PERSONA] Willed mask '{mask_id}' is unmanifest. Falling back to '{{ default_persona }}'.")
+            mask_id = "{{ default_persona }}"
+            
+        persona_dna = PERSONA_VAULT[mask_id]
+        
+        # Suture the DNA into the request state for AI Agents and Routers
+        request.state.persona = persona_dna
+        request.state.mask_id = mask_id
+        
+        # --- MOVEMENT III: KINETIC EXECUTION ---
+        response = await call_next(request)
+        
+        # Radiate the active mask back to the Ocular HUD
+        response.headers["X-Active-Persona"] = mask_id
+        return response
+"""
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Neural Persona Bridge[/] is manifest."
+    proclaim: "Default Mask: [bold yellow]{{ default_persona }}[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cognitive Context Switching)[/]"

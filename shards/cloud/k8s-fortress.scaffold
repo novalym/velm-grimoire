@@ -1,0 +1,112 @@
+# ==============================================================================
+# == GNOSTIC SHARD: K8S-FORTRESS (V-Ω-TOTALITY-VMAX)                          ==
+# ==============================================================================
+# @description: A Sovereign Kubernetes orchestration shard. Synthesizes Deployments,
+#               Services, Ingresses, and Secrets using atomic Gnostic directives.
+# @category: Cloud / Orchestration
+# @vibe: k8s, kubernetes, deployment, ingress, microservices, container-orchestration
+# @provides: [k8s-cluster-manifests, atomic-mesh, service-ingress]
+# @requires: [docker-registry, kubectl-artisan]
+# @substrate: kubernetes / yaml
+# @version: 4.0.0-Ω
+# @LIF: 100,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ app_name = {{ project_slug | default("resonant-node") }}
+$$ replica_count = {{ replicas | default(3) }}
+$$ container_image = "{{ image | default('ghcr.io/novalym/node:latest') }}"
+$$ service_port = {{ port | default(8000) }}
+$$ ingress_host = "{{ host | default('api.novalym.systems') }}"
+
+# --- II. THE SCRIPTURE OF FORM ---
+
+infra/k8s/
+    # [ASCENSION 1]: THE ATOMIC DEPLOYMENT
+    # Summons the @k8s/deployment atom. This ensures the manifest is forged 
+    # using the system's gold-standard for security and liveness.
+    deployment.yaml :: """
+{{ k8s.deployment(
+    name=app_name, 
+    image=container_image, 
+    replicas=replica_count, 
+    port=service_port,
+    env_vars={
+        "SCAFFOLD_TRACE": trace_id,
+        "METABOLIC_MODE": "RESONANT"
+    }
+) }}
+    """
+
+    # [ASCENSION 2]: THE ATOMIC SERVICE
+    # Defines the network aperture via the @k8s/service directive.
+    service.yaml :: """
+{{ k8s.service(
+    name=app_name, 
+    port=80, 
+    target_port=service_port
+) }}
+    """
+
+    # [ASCENSION 3]: THE ATOMIC INGRESS
+    # Forges the bridge to the public aether using the @k8s/ingress directive.
+    ingress.yaml :: """
+{{ k8s.ingress(
+    name=app_name + "-ingress", 
+    host=ingress_host, 
+    service=app_name, 
+    port=80
+) }}
+    """
+
+    # [ASCENSION 4]: THE SECRET SARCOPHAGUS
+    # A warded container for sensitive Gnosis.
+    secrets.yaml :: """
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ app_name }}-secrets
+type: Opaque
+stringData:
+  # Secure entropy generated at materialization
+  SESSION_SECRET: "{{ crypto.random(64) }}"
+  VAULT_TOKEN: "latent"
+    """
+
+# [ASCENSION 5]: THE MAESTRO ASCENSION SCRIPT
+# This remains the kinetic limb that strikes the cluster.
+scripts/k8s-ascend.sh :: """
+#!/bin/bash
+set -e
+echo "🚀 [TITAN] Conducting Kubernetes Ascension for: {{ app_name }}..."
+
+# Verify kubectl context
+CONTEXT=$(kubectl config current-context)
+echo "🎯 Target Context: $CONTEXT"
+
+if ! kubectl apply -f infra/k8s/; then
+    echo "❌ Heresy: Deployment failed. Initiating Forensic Check..."
+    kubectl get events --sort-by='.lastTimestamp' | tail -n 10
+    exit 1
+fi
+
+echo "✅ [RESONANT] Cluster states updated."
+kubectl get pods -l app={{ app_name }}
+"""
+%% executable
+
+# --- III. THE SURGICAL WEAVE ---
+Makefile += """
+# --- K8S RITES ---
+k8s-deploy: ## strike the Kubernetes cluster with the new manifests
+    @./scripts/k8s-ascend.sh
+
+k8s-status: ## scry the vitality of the deployed pods
+    @kubectl get pods -l app={{ app_name }} -o wide
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Kubernetes Fortress[/] is manifest via Atomic Composition."
+    proclaim: "Atoms utilized: [magenta]k8s.deployment, k8s.service, k8s.ingress[/]"
+    proclaim: "To strike the cluster: [bold green]make k8s-deploy[/bold green]"

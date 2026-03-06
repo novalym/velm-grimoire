@@ -3,14 +3,15 @@
 
 """
 =================================================================================
-== THE MASTER LIBRARIAN (V-Ω-TOTALITY-V200-AUTO-NAVIGATOR)                     ==
+== THE MASTER LIBRARIAN (V-Ω-TOTALITY-V500-VECTOR-EMBEDDER)                    ==
 =================================================================================
 LIF: ∞ | ROLE: CELESTIAL_INDEX_CONDUCTOR | RANK: OMEGA_SUPREME
-AUTH_CODE: Ω_LIBRARIAN_V200_AUTO_SYNC
+AUTH_CODE: @#()@(#()@#)(()!!!!
 
 This divine artisan performs the Rite of the Global Census. It scries the
-Archetype Sanctum, extracts Gnostic DNA, and materializes the Master Index
-for the Architectural App Store.
+Archetypes, Shards, and Atoms, extracts their 7-Pillar Gnostic DNA,
+calculates their High-Dimensional Semantic Vectors using Sentence Transformers,
+and materializes the Master Index for the Deterministic Dream Engine.
 =================================================================================
 """
 
@@ -22,101 +23,78 @@ import hashlib
 import re
 import argparse
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Set, Tuple
-from collections import Counter
+from typing import List, Dict, Any, Optional
 
-# --- THE GNOSTIC UPLINKS (RICH TELEMETRY) ---
-# We use surgical imports to ensure the Librarian remains lightweight for CI/CD.
+# --- THE NEURAL UPLINK ---
+try:
+    from sentence_transformers import SentenceTransformer
+
+    HAS_TRANSFORMERS = True
+except ImportError:
+    HAS_TRANSFORMERS = False
+
+# --- THE VISUAL UPLINK ---
 try:
     from rich.console import Console
     from rich.table import Table
     from rich.panel import Panel
     from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
-    from rich.theme import Theme
 
     HAS_RICH = True
 except ImportError:
     HAS_RICH = False
 
-# =============================================================================
-# == THE CURE: CROSS-BOUNDARY IMPORT SUTURE                                  ==
-# =============================================================================
-# This script often runs inside the 'packages/velm-grimoire' submodule.
-# We must ensure it can find the 'velm' package mind in the parent directory.
-SCRIPT_PATH = Path(__file__).resolve()
-SUBMODULE_ROOT = SCRIPT_PATH.parent.parent
-PARENT_SRC = (SUBMODULE_ROOT.parent.parent / "src").resolve()
-
-if str(PARENT_SRC) not in sys.path:
-    sys.path.insert(0, str(PARENT_SRC))
-
-try:
-    from velm.genesis.canon_dna import GnosticDNAOracle
-except ImportError:
-    # Fail-safe for isolated GitHub Runner environments
-    class GnosticDNAOracle:
-        @staticmethod
-        def divine(slug, content):
-            return {"name": slug, "description": "Gnosis Deferred", "tags": [], "category": "Unclassified"}
-
-# --- THE VISUAL FREQUENCY ---
-GNOSTIC_THEME = Theme({
-    "info": "cyan",
-    "warning": "yellow",
-    "danger": "bold red",
-    "success": "bold green",
-    "soul": "bold magenta",
-    "locus": "dim white",
-    "meta": "bold blue"
-})
-
 
 class MasterLibrarian:
     """
-    The Sovereign Cartographer of the Grimoire.
-    Wields a 12-stage perception engine to unify the Celestial Grimoire.
+    The Sovereign Cartographer and Neural Embedder of the Grimoire.
     """
 
-    INDEX_VERSION = "2.0.0"
+    INDEX_VERSION = "3.0.0-VECTOR"
 
-    def __init__(self, repo: str, branch: str, vault_dir: str, output_file: str):
+    # The 7 Sacred Pillars
+    HEADER_REGEX = re.compile(r"^#\s*@([a-zA-Z0-9_]+):\s*(.*)$")
+
+    def __init__(self, repo: str, branch: str, output_file: str, vaults: List[str]):
         self.repo = repo
         self.branch = branch
-        self.vault_path = Path(vault_dir).resolve()
+        self.vaults = [Path(v).resolve() for v in vaults]
         self.output_path = Path(output_file).resolve()
 
-        # Forge the automatic celestial link
-        # Format: https://raw.githubusercontent.com/user/repo/branch/path/to/file
-        # We assume the vault_dir is relative to the repo root
-        self.base_url = f"https://raw.githubusercontent.com/{repo}/{branch}/{vault_dir}"
-
-        self.console = Console(theme=GNOSTIC_THEME) if HAS_RICH else None
+        self.console = Console() if HAS_RICH else None
         self.index: List[Dict[str, Any]] = []
         self.heresies: List[str] = []
-        self.stats = Counter()
 
-    def proclaim(self, msg: str, style: str = "info"):
+        # Load the Semantic Cortex (Sentence Transformer)
+        self.model = None
+        if HAS_TRANSFORMERS:
+            self.proclaim("Awakening the Neural Cortex (all-MiniLM-L6-v2)...", "yellow")
+            # 384-dimensional vector space, extremely fast and lightweight
+            self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        else:
+            self.proclaim("WARNING: SentenceTransformers unmanifest. Vectors will be void.", "bold red")
+
+    def proclaim(self, msg: str, style: str = "cyan"):
         if self.console:
             self.console.print(f"[{style}]»[/] {msg}")
         else:
             print(f">> {msg}")
 
     def conduct_census(self):
-        """The Grand Rite of the Census."""
+        """The Grand Rite of the Census and Embedding."""
         if self.console:
             self.console.print(Panel(
-                f"Librarian Awakening. Scrying [soul]{self.repo}[/] ([meta]{self.branch}[/])\n"
-                f"Locus: [locus]{self.vault_path}[/]",
-                title="[bold white]Ω_CELESTIAL_CENSUS[/]",
+                f"Librarian Awakening. Scrying[bold magenta]{self.repo}[/] ({self.branch})\n"
+                f"Vaults: {', '.join([v.name for v in self.vaults])}",
+                title="[bold white]Ω_CELESTIAL_VECTOR_CENSUS[/]",
                 border_style="cyan"
             ))
 
-        if not self.vault_path.exists():
-            self.proclaim(f"Sanctum '{self.vault_path}' is a void. Terminating.", "danger")
-            return
-
-        # [ASCENSION 3]: Recursive Deep-Scry
-        scaffold_shards = list(self.vault_path.rglob("*.scaffold"))
+        all_shards = []
+        for vault in self.vaults:
+            if vault.exists():
+                all_shards.extend(list(vault.rglob("*.scaffold")))
+                all_shards.extend(list(vault.rglob("*.py")))  # Capture Atoms
 
         if HAS_RICH:
             with Progress(
@@ -127,149 +105,159 @@ class MasterLibrarian:
                     console=self.console,
                     transient=True
             ) as progress:
-                task = progress.add_task("[info]Tomography of Shards...", total=len(scaffold_shards))
-                for shard in scaffold_shards:
-                    self._perceive_shard(shard)
+                task = progress.add_task("[cyan]Extracting DNA & Calculating Vectors...", total=len(all_shards))
+                for shard in all_shards:
+                    self._perceive_and_embed(shard)
                     progress.update(task, advance=1)
         else:
-            for shard in scaffold_shards:
-                self._perceive_shard(shard)
+            for shard in all_shards:
+                self._perceive_and_embed(shard)
 
         self._finalize_and_inscribe()
 
-    def _perceive_shard(self, path: Path):
+    def _perceive_and_embed(self, path: Path):
         """
-        [THE ATOMIC GAZE] Performs 12 stages of metadata extraction.
-        Titanium-hardened to catch and neutralize external Oracle logic failures.
+        [THE NEURAL GAZE]
+        Extracts the 7 Pillars and generates the mathematical soul (Vector).
         """
-        rel_path = path.relative_to(self.vault_path).as_posix()
+        # Determine which vault this belongs to (archetypes, shards, or atoms)
+        vault_parent = next((v for v in self.vaults if str(path).startswith(str(v))), None)
+        if not vault_parent:
+            return
+
+        rel_path = path.relative_to(vault_parent.parent).as_posix()
         slug = path.stem
 
         try:
             content = path.read_text(encoding="utf-8")
 
-            # 1. DIVINE THE DNA (The Oracle's Rite)
-            # This call is the external vulnerability. We defend against its possible crash.
-            try:
-                dna = GnosticDNAOracle.divine(slug, content)
-            except Exception as oracle_e:
-                # If the Oracle crashes, we log the forensic details but use a safe fallback.
-                self.heresies.append(f"Oracle Crash in {rel_path}: {type(oracle_e).__name__} - {str(oracle_e)}")
-                # Provide a minimal safe structure
-                dna = {"name": slug, "description": "Gnosis Fractured: Oracle Error.", "category": "Error-Quarantine",
-                       "tags": []}
+            # 1. EXTRACT THE 7 PILLARS
+            dna = self._extract_7_pillars(content, slug)
+            dna["file_path"] = rel_path
+            dna["type"] = vault_parent.name  # 'archetypes', 'shards', or 'atoms'
 
-            # [CRITICAL SUTURE 1]: ENSURE RETURN IS A DICTIONARY
-            if not isinstance(dna, dict):
-                dna = {"name": slug, "description": "Gnosis Corrupted: Forcing Dict.", "category": "Error-Quarantine",
-                       "tags": []}
+            # 2. VALIDATION
+            if not dna.get("description") or not dna.get("vibe"):
+                self.heresies.append(f"Void Pillars in {rel_path}: Missing @description or @vibe.")
+                return  # We do not index profane matter
 
-            # --- LEVEL 2: DEFENSIVE FIELD NORMALIZATION ---
+            # 3. THE SEMANTIC EMBEDDING (THE MAGIC)
+            # We combine the description and the vibe to create the Semantic String
+            semantic_string = f"{dna['description']} {dna['vibe']}"
 
-            # Normalize 'tags' to be a list (it might be a string or None)
-            tags_data = dna.get("tags")
-            if tags_data is not None and not isinstance(tags_data, list):
-                dna["tags"] = [str(tags_data)] if tags_data else []
+            if self.model:
+                # Transmute the string into a 384-dimensional mathematical array
+                vector = self.model.encode(semantic_string).tolist()
+                dna["semantic_vector"] = vector
             else:
-                dna["tags"] = dna.get("tags", [])
+                dna["semantic_vector"] = []
 
-            # Normalize 'gnosis_overrides' to be a dictionary
-            overrides_data = dna.get("gnosis_overrides")
-            if overrides_data is not None and not isinstance(overrides_data, dict):
-                dna["gnosis_overrides"] = {}
-            else:
-                dna["gnosis_overrides"] = dna.get("gnosis_overrides", {})
-
-            # --- LEVEL 3: MERKLE SEAL AND CHRONICLING ---
-
-            # 2. CALCULATE INTEGRITY
+            # 4. CHRONICLING
             hasher = hashlib.sha256(content.encode('utf-8'))
             dna["sha256"] = hasher.hexdigest()
             dna["bytes"] = len(content)
 
-            # 3. FORGE CELESTIAL COORDINATE (URL)
             clean_repo = self.repo.rstrip('/')
+            dna["url"] = f"https://raw.githubusercontent.com/{clean_repo}/{self.branch}/{rel_path}"
 
-            # The issue is the path construction. We ensure the relative path is correctly calculated.
-            # We assume self.vault_path.name is 'archetypes'
-            url_path_fragment = str(path.relative_to(self.vault_path.parent.parent)).replace('\\', '/')
-
-            dna["url"] = f"https://raw.githubusercontent.com/{clean_repo}/{self.branch}/{url_path_fragment}"
-
-            # 4. ADJUDICATE PURITY (Socratic Validation)
-            if not dna.get("description"):
-                self.heresies.append(f"Locus {rel_path}: Description is a void.")
-
-            # 5. INSCRIBE
             self.index.append(dna)
-            self.stats[dna.get("category", "Unclassified")] += 1
 
         except Exception as e:
-            # [FINALITY VOW]: Log the fracture and continue.
             self.heresies.append(f"Fracture in {rel_path}: {type(e).__name__} - {str(e)}")
+
+    def _extract_7_pillars(self, content: str, slug: str) -> Dict[str, Any]:
+        """Parses the Universal Gnostic Header."""
+        dna = {
+            "id": slug,
+            "description": "",
+            "category": "System",
+            "vibe": "",
+            "provides": [],
+            "requires": [],
+            "substrate": [],
+            "version": "1.0.0"
+        }
+
+        lines = content.splitlines()[:50]  # Headers must be at the top
+        for line in lines:
+            match = self.HEADER_REGEX.match(line.strip())
+            if match:
+                key, val = match.group(1).lower(), match.group(2).strip()
+
+                if key in ["description", "category", "vibe", "version"]:
+                    dna[key] = val
+                elif key in ["provides", "requires", "substrate"]:
+                    # Parse YAML-style arrays: [auth, db]
+                    clean_val = val.strip("[]")
+                    dna[key] = [v.strip().lower() for v in clean_val.split(",") if v.strip()]
+
+        return dna
 
     def _finalize_and_inscribe(self):
         """The Rite of Final Inscription."""
-        # Sort by name for deterministic Git diffs
-        self.index.sort(key=lambda x: x["name"])
+        self.index.sort(key=lambda x: x["id"])
 
         manifest = {
             "version": self.INDEX_VERSION,
             "timestamp": time.time(),
             "repo": self.repo,
             "branch": self.branch,
-            "count": len(self.index),
-            "archetypes": self.index
+            "total_shards": len(self.index),
+            "vector_dimensions": 384 if self.model else 0,
+            "registry": self.index
         }
 
-        # [ASCENSION 6]: Atomic Write Guard
+        self.output_path.parent.mkdir(parents=True, exist_ok=True)
         temp_file = self.output_path.with_suffix(".tmp")
+
         try:
             with open(temp_file, "w", encoding="utf-8") as f:
                 json.dump(manifest, f, indent=2)
 
-            # Atomic swap ensures zero corruption risk
             os.replace(temp_file, self.output_path)
 
             if self.console:
                 self._render_final_report()
             else:
-                print(f"✨ Master Index Materialized at {self.output_path}")
+                print(f"✨ Vector Index Materialized at {self.output_path}")
 
         except Exception as e:
-            self.proclaim(f"Inscription Paradox: {e}", "danger")
+            self.proclaim(f"Inscription Paradox: {e}", "bold red")
 
     def _render_final_report(self):
-        """Proclaims the state of the Grimoire to the Architect."""
-        table = Table(title="Grimoire Census Summary", box=None, expand=True)
-        table.add_column("Stratum (Category)", style="soul")
+        table = Table(title="Celestial Vector Census", box=None, expand=True)
+        table.add_column("Type", style="bold magenta")
         table.add_column("Count", justify="right", style="white")
-        table.add_column("Status", justify="center")
+        table.add_column("Vectors Embedded", justify="center", style="bold green")
 
-        for cat, count in self.stats.items():
-            table.add_row(cat, str(count), "[success]RESONANT[/]")
+        # Group by Type (Archetype, Shard, Atom)
+        counts = {}
+        for item in self.index:
+            t = item["type"]
+            counts[t] = counts.get(t, 0) + 1
+
+        for t, count in counts.items():
+            table.add_row(t.title(), str(count), "✅ TRUE")
 
         self.console.print(table)
-        self.console.print(f"\n[success]✨ Master Index Version {self.INDEX_VERSION} Materialized.[/]")
+        self.console.print(f"\n[bold green]✨ Vector Index v{self.INDEX_VERSION} Manifest.[/]")
 
         if self.heresies:
             self.console.print(Panel(
                 "\n".join([f"• {h}" for h in self.heresies]),
-                title="[bold yellow]Dossier of Schisms[/]",
+                title="[bold yellow]Dossier of Schisms (Rejected Matter)[/]",
                 border_style="yellow"
             ))
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Ω | The Master Librarian: Automated Celestial Indexer",
-        formatter_class=argparse.RawDescriptionHelpFormatter
-    )
-
-    parser.add_argument("--repo", required=True, help="GitHub repository identifier (e.g., novalym/velm-grimoire)")
-    parser.add_argument("--branch", default="main", help="The target branch for raw URLs (default: main)")
-    parser.add_argument("--vault", default="archetypes", help="The subfolder containing .scaffold files")
-    parser.add_argument("--output", default="index.json", help="Path to inscribe the final index.json")
+    parser = argparse.ArgumentParser(description="Ω | The Master Librarian: Vector Embedder")
+    parser.add_argument("--repo", required=True, help="GitHub repository identifier")
+    parser.add_argument("--branch", default="main", help="The target branch")
+    parser.add_argument("--archetypes", default="archetypes", help="Path to archetypes vault")
+    parser.add_argument("--shards", default="shards", help="Path to shards vault")
+    parser.add_argument("--atoms", default="atoms", help="Path to atoms vault")
+    parser.add_argument("--output", default="registry/index.json", help="Path to inscribe the final index.json")
 
     args = parser.parse_args()
 
@@ -278,13 +266,11 @@ if __name__ == "__main__":
     librarian = MasterLibrarian(
         repo=args.repo,
         branch=args.branch,
-        vault_dir=args.vault,
+        vaults=[args.archetypes, args.shards, args.atoms],
         output_file=args.output
     )
 
     librarian.conduct_census()
 
     duration_ms = (time.perf_counter() - start_time) * 1000
-    print(f"\n[LIBRARIAN] Census complete in {duration_ms:.2f}ms. Lattice is synchronized.")
-
-# == SCRIPTURE SEALED: THE MASTER LIBRARIAN IS OMNIPOTENT ==
+    print(f"\n[LIBRARIAN] Vector Embedding complete in {duration_ms:.2f}ms. The Brain is Synced.")

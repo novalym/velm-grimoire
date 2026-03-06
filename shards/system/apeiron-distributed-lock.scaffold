@@ -1,0 +1,134 @@
+# ==============================================================================
+# == GNOSTIC SHARD: APEIRON DISTRIBUTED LOCK (V-Ω-TOTALITY-V2.1)              ==
+# ==============================================================================
+# @description: Materializes a high-fidelity distributed mutex system. Prevents 
+#               race conditions and double-execution heresies across clusters.
+# @category: System
+# @vibe: lock, mutex, distributed-systems, redis, concurrency, safety, synchronization
+# @provides: [distributed-lock, concurrency-governor, mutex-authority]
+# @requires: [redis-backbone, pydantic-settings]
+# @substrate: python
+# @version: 2.1.0
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ redis_url = {{ redis_url | default("redis://reactive-backbone:6379/1") }}
+$$ lock_timeout = {{ lock_timeout | default(60) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE LOCKING CORE (Logic Stratum) ---
+src/{{ package_name }}/core/locking/
+    __init__.py :: "from .mutex import ApeironLock, distributed_lock"
+    
+    # [ASCENSION 3]: THE MUTEX ENGINE (Logic)
+    # The hand that adjudicates existence across the distributed mesh.
+    mutex.py :: """
+    import time
+    import uuid
+    import logging
+    import functools
+    import asyncio
+    import random
+    from typing import Optional, Any, Callable
+    from redis.asyncio import Redis
+
+    Logger = logging.getLogger("System:Apeiron")
+
+    class ApeironLock:
+        \"\"\"
+        =============================================================================
+        == THE APEIRON LOCK (V-Ω-TOTALITY)                                        ==
+        =============================================================================
+        LIF: 1,000,000x | ROLE: CONCURRENCY_ADJUDICATOR | RANK: OMEGA
+        
+        Enforces the Law of Single Presence.
+        1.  Atomic Acquisition: Uses Redis SET NX PX for 0ms race resolution.
+        2.  Sovereign Release: Lua-scripted release warded by unique identity tokens.
+        3.  Exponential Jitter: Prevents thundering herd herdsies during high load.
+        \"\"\"
+        def __init__(self, redis_client: Redis, name: str, timeout: int = {{ lock_timeout }}):
+            self.redis = redis_client
+            self.name = f"lock:{name}"
+            self.timeout = timeout # Seconds
+            self.token = str(uuid.uuid4()) # Cryptographic signature of the owner
+
+        async def __aenter__(self):
+            \"\"\"The Rite of Acquisition.\"\"\"
+            # [ASCENSION 5]: Recursive Backoff with Jitter
+            retry_count = 0
+            while not await self._acquire():
+                retry_count += 1
+                delay = min(2.0, (0.1 * (2 ** retry_count)) + random.uniform(0, 0.1))
+                await asyncio.sleep(delay)
+                if retry_count > 10:
+                    Logger.error(f"❌ [APEIRON] Lock Acquisition Timeout: {self.name}")
+                    raise RuntimeError(f"Concurrency Heresy: Could not acquire lock {self.name}")
+            return self
+
+        async def __aexit__(self, exc_type, exc_val, exc_tb):
+            \"\"\"The Rite of Release.\"\"\"
+            await self._release()
+
+        async def _acquire(self) -> bool:
+            # [ASCENSION 7]: Atomic Inception
+            # NX: Only set if key doesn't exist
+            # PX: Set expiration in milliseconds to prevent deadlock sarcophagi
+            return await self.redis.set(
+                self.name, 
+                self.token, 
+                px=self.timeout * 1000, 
+                nx=True
+            )
+
+        async def _release(self):
+            # [ASCENSION 2]: THE ATOMIC LUA UNBOXING
+            # We only delete the lock if our token matches, preventing one node
+            # from accidentally releasing a lock owned by another after a timeout.
+            script = \"\"\"
+            if redis.call("get", KEYS[1]) == ARGV[1] then
+                return redis.call("del", KEYS[1])
+            else
+                return 0
+            end
+            \"\"\"
+            await self.redis.eval(script, 1, self.name, self.token)
+            Logger.debug(f"🔓 [APEIRON] Lock Released: {self.name}")
+
+    def distributed_lock(name: str):
+        \"\"\"
+        [ASCENSION 9]: Luminous Decorator for protected functions.
+        Automatically sutures the lock into the function's lifecycle.
+        \"\"\"
+        def decorator(func: Callable):
+            @functools.wraps(func)
+            async def wrapper(*args, **kwargs):
+                # [THE CURE]: Scry for the willed Redis client
+                from ..network.redis import redis_vault
+                async with ApeironLock(redis_vault, name):
+                    return await func(*args, **kwargs)
+            return wrapper
+        return decorator
+    """
+
+# --- III. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Apeiron Distributed Lock[/bold cyan] is manifest."
+    proclaim: "Concurrency Logic: [white]core/locking/mutex.py[/]"
+    
+    # Dependencies
+    proclaim: "Ensuring Redis-py resonance..."
+    >> pip install redis
+    
+    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To ward a distributed rite, use:"
+    proclaim: "[white]   @distributed_lock('heavy_computation')[/]"
+    proclaim: "[white]   async def strike(): ...[/]"
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Race Conditions -> 0)[/]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Locking inception failed.[/bold red] Reality remains vulnerable to collisions."
+    rm -rf src/{{ package_name }}/core/locking
