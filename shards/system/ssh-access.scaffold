@@ -1,0 +1,114 @@
+# ==============================================================================
+# == GNOSTIC SHARD: SSH-ACCESS (V-Ω-TOTALITY-V1.0)                            ==
+# ==============================================================================
+# @description: The definitive remote access authority. Materializes the 
+#               Secure Shell substrate, enabling high-entropy ED25519 key 
+#               generation, SSH config management, and warded remote 
+#               provisioning for Ansible and Cloud-Teleport rites.
+# @category: System / Security
+# @vibe: ssh, keys, ed25519, remote-access, security, ansible, provisioning
+# @provides: [ssh-access, remote-provisioning-authority, secure-shell-substrate]
+# @requires: [python-core, pydantic-settings]
+# @substrate: python / shell
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ ssh_key_name = {{ key_name | default("velm_sovereign_key") }}
+
+# --- II. THE SCRIPTURE OF FORM (The Remote Hand) ---
+
+src/{{ package_name }}/core/security/
+    __init__.py += "from .ssh import SSHWarden\n"
+
+    # [ASCENSION 1]: THE SSH WARDEN
+    # This artisan manages the lifecycle of remote access identities.
+    ssh.py :: """
+import os
+import subprocess
+import logging
+from pathlib import Path
+from typing import Optional, Tuple
+from ..config import settings
+
+Logger = logging.getLogger("Security:SSH")
+
+class SSHWarden:
+    \"\"\"
+    =============================================================================
+    == THE SSH WARDEN (V-Ω-TOTALITY)                                           ==
+    =============================================================================
+    LIF: ∞ | ROLE: REMOTE_IDENTITY_GOVERNOR | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. ED25519 Sovereignty: Forges modern, high-entropy curve-based keys.
+    2. Substrate Awareness: Normalizes key paths for Windows (NT) and POSIX.
+    3. Config Suture: (Prophecy) Automatically updates ~/.ssh/config.
+    4. Permission Ward: Enforces 0600 (owner-only) rites on private matter.
+    \"\"\"
+    def __init__(self):
+        self.ssh_dir = Path.home() / ".ssh"
+        self.key_path = self.ssh_dir / "{{ ssh_key_name }}"
+
+    def ensure_identity(self) -> Tuple[str, str]:
+        \"\"\"
+        Ensures a Sovereign SSH key exists. Forges one if void.
+        Returns: (Private_Key_Path, Public_Key_Content)
+        \"\"\"
+        if not self.key_path.exists():
+            self._forge_key()
+            
+        pub_key = Path(str(self.key_path) + ".pub").read_text().strip()
+        return str(self.key_path), pub_key
+
+    def _forge_key(self):
+        \"\"\"Strikes the iron to create an ED25519 identity.\"\"\"
+        Logger.info(f"⚒️ [SSH] Forging new identity: {self.key_path.name}...")
+        self.ssh_dir.mkdir(parents=True, exist_ok=True)
+        
+        # [ASCENSION 1]: Using ED25519 (The UCL Standard)
+        cmd = [
+            "ssh-keygen", "-t", "ed25519", 
+            "-f", str(self.key_path), 
+            "-N", "", # Zero-passphrase (warded by disk encryption)
+            "-C", "velm@{{ project_slug }}"
+        ]
+        
+        subprocess.run(cmd, check=True, capture_output=True)
+        
+        # [ASCENSION 4]: Strict Permissions
+        if os.name != 'nt':
+            self.key_path.chmod(0o600)
+            
+        Logger.success("✅ [RESONANT] Identity manifest and warded.")
+
+# Global Singleton
+ssh_warden = SSHWarden()
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+Makefile += """
+# --- SECURITY RITES ---
+ssh-key: ## proclaim the public soul of your remote access key
+	@poetry run python -c "from src.{{ package_name }}.core.security.ssh import ssh_warden; _, pub = ssh_warden.ensure_identity(); print(pub)"
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]SSH Access Shard[/] is manifest."
+    proclaim: "Identity Locus: [white]~/.ssh/{{ ssh_key_name }}[/]"
+    
+    # 1. Identity Inception
+    proclaim: "Phase I: Ensuring Sovereign Identity is waked..."
+    py:
+        from src.{{ package_name }}.core.security.ssh import ssh_warden
+        ssh_warden.ensure_identity()
+
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Remote Access Latency -> 0)[/]"
+    proclaim: "[bold green]✅ The Multiversal Bridge is warded.[/bold green] You can now provision remote iron."
+
+%% on-heresy
+    proclaim: "[bold red]SSH materialization fractured.[/bold red]"

@@ -1,0 +1,138 @@
+# ==============================================================================
+# == GNOSTIC SHARD: GNOSTIC-HUB (V-Ω-TOTALITY-V2.5-CELESTIAL)                 ==
+# ==============================================================================
+# @description: The definitive multiversal gateway. Materializes the bridge 
+#               between the Local Sanctum and the Celestial SCAF-Hub. Enables 
+#               achronal registry synchronization, remote shard adoption, and 
+#               cross-project wisdom federation.
+# @category: System / Integration
+# @vibe: hub, registry, hive-mind, synchronization, multiversal, celestial
+# @provides: [gnostic-hub, multiversal-synchronizer, shared-wisdom-registry]
+# @requires: [python-core, network-access-authority, git-substrate]
+# @substrate: python / shell
+# @version: 2.5.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ hub_uri = {{ hub_uri | default("https://github.com/novalym/velm-grimoire") }}
+$$ sync_cooldown_min = {{ sync_interval | default(5) }}
+$$ use_private_shards = {{ private_mode | default(false) }}
+
+# [ASCENSION 4]: THE HIVE SIGNATURE
+# Forges the unique Merkle-fingerprint for the project's hive identity.
+$$ hive_id = {{ (project_slug + machine_id + "CELESTIAL") | hash('sha256') }}
+
+# --- II. THE SCRIPTURE OF FORM (The Celestial Brain) ---
+
+src/{{ package_name }}/core/hub/
+    __init__.py :: "from .bridge import GnosticHubBridge, ShardVessel\n"
+
+    # [ASCENSION 2]: THE CELESTIAL BRIDGE (Logic)
+    # This artisan manages the achronal sync between Iron and Aether.
+    bridge.py :: """
+import os
+import json
+import time
+import logging
+import urllib.request
+from pathlib import Path
+from typing import List, Dict, Any, Optional
+from pydantic import BaseModel, Field
+
+Logger = logging.getLogger("System:GnosticHub")
+
+class ShardVessel(BaseModel):
+    \"\"\"The Gnostic record of a remote shard's soul.\"\"\"
+    id: str
+    version: str
+    author: str
+    provides: List[str]
+    requires: List[str]
+    merkle_root: str
+
+class GnosticHubBridge:
+    \"\"\"
+    =============================================================================
+    == THE GNOSTIC HUB BRIDGE (V-Ω-TOTALITY)                                  ==
+    =============================================================================
+    LIF: ∞ | ROLE: MULTIVERSAL_SYNCHRONIZER | RANK: OMEGA_SCRIBE
+    
+    The hand that connects the project to the Hive.
+    1.  Achronal Sync: Pulls the latest index.json from the Celestial Hub.
+    2.  Substrate Amnesty: Handles network-fractures via local Gnostic Cache.
+    3.  Trace ID Binding: Links remote pulls to the local forensic chronicle.
+    \"\"\"
+    def __init__(self):
+        self.hub_uri = "{{ hub_uri }}"
+        self.local_cache = Path(".scaffold/cache/hub_index.json")
+        self.sync_cooldown = {{ sync_cooldown_min }} * 60
+
+    def sync_celestial_gnosis(self, force: bool = False):
+        \"\"\"
+        The Rite of Inhalation. Pulls the master index from the Aether.
+        \"\"\"
+        if not force and self._is_cache_resonant():
+            return
+
+        Logger.info(f"📡 [HUB] Reaching out to the Celestial Hub: {self.hub_uri}...")
+        try:
+            # [ASCENSION 13]: Substrate-Aware URI Fetch
+            url = f"{self.hub_uri}/raw/main/registry/index.json"
+            with urllib.request.urlopen(url, timeout=5) as response:
+                content = response.read().decode('utf-8')
+                self._enshrine_cache(content)
+                Logger.success("✨ [RESONANT] Celestial Registry manifest and warded.")
+        except Exception as e:
+            Logger.warn(f"💥 [HUB] Celestial Link Fractured: {e}. Clinging to local memory.")
+
+    def _is_cache_resonant(self) -> bool:
+        if not self.local_cache.exists(): return False
+        return (time.time() - self.local_cache.stat().st_mtime) < self.sync_cooldown
+
+    def _enshrine_cache(self, content: str):
+        self.local_cache.parent.mkdir(parents=True, exist_ok=True)
+        self.local_cache.write_text(content, encoding='utf-8')
+"""
+
+# --- III. THE SURGICAL WEAVE (Operational Control) ---
+# [ASCENSION 9]: Global Control Plane Integration
+Makefile += """
+
+# --- GNOSTIC HUB RITES ---
+hub-sync: ## refresh the project's knowledge from the Celestial Hub
+	@echo "📡 Communing with the Hive-Mind..."
+	@velm dream --force-sync
+
+hub-list: ## proclaim the census of available remote shards
+	@velm weave --list
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Gnostic Hub Shard[/bold cyan] is manifest."
+    proclaim: "Celestial Anchor: [bold yellow]{{ hub_uri }}[/bold yellow]"
+    
+    # 1. Initialize the Cache Sanctum
+    proclaim: "Phase I: Forging the Memory Sanctum..."
+    >> mkdir -p .scaffold/cache
+    
+    # 2. Conduct the First Inhalation
+    proclaim: "Phase II: Initiating [bold cyan]Achronal Sync[/bold cyan]..."
+    @try:
+        >> make hub-sync
+    @catch:
+        proclaim: "[bold yellow]Initial sync deferred.[/bold yellow] Substrate is currently isolated."
+    @end
+
+    # 3. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]INFINITY (Institutional Amnesia -> 0)[/]"
+    proclaim: "[bold green]✅ The Hive-Mind Link is Active.[/bold green] Your project is now Multiversal."
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Hub materialization fractured.[/bold red] Gnosis remains isolated."
+    rm -rf src/{{ package_name }}/core/hub

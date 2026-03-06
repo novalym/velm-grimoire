@@ -1,0 +1,139 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V1.0)                ==
+# ==============================================================================
+# @description: The definitive metabolic sensory array. Materializes a suite of
+#               high-precision profilers and hardware scryers powered by psutil 
+#               and cProfile for deep performance tomography and emulation.
+# @category: System / Substrate
+# @vibe: physics, metabolism, profiler, performance, hardware-tomography, psutil
+# @provides: [python-physics-toolkit, metabolic-profiler, hardware-tomography]
+# @requires: [python-core]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Physics Engine) ---
+
+src/{{ package_name }}/core/physics/
+    __init__.py :: "from .tomography import HardwareScrier\nfrom .profiler import GnosticProfiler, profile_rite"
+
+    # [ASCENSION 1]: THE HARDWARE SCRYER
+    # This artisan performs a deep-tissue biopsy of the host iron.
+    tomography.py :: """
+import os
+import psutil
+import platform
+import logging
+from typing import Dict, Any
+
+Logger = logging.getLogger("Physics:Tomography")
+
+class HardwareScrier:
+    \"\"\"
+    =============================================================================
+    == THE HARDWARE SCRYER (V-Ω-TOTALITY)                                      ==
+    =============================================================================
+    LIF: ∞ | ROLE: METABOLIC_SENSING_ORACLE | RANK: MASTER
+    
+    [ASCENSIONS]:
+    1. Substrate Tomography: Measures CPU, RAM, and Disk Wait-States.
+    2. Cache-Line Profiling: Divines memory latency of the host iron.
+    3. Achronal Signature: Forges the 'Metabolic Passport' for the throttler.
+    \"\"\"
+    @staticmethod
+    def capture_aura() -> Dict[str, Any]:
+        \"\"\"Performs a high-fidelity scan of the physical substrate.\"\"\"
+        try:
+            return {
+                "cpu_cores": psutil.cpu_count(logical=True),
+                "cpu_load_avg": psutil.getloadavg(),
+                "total_ram_gb": psutil.virtual_memory().total / (1024**3),
+                "os_platform": platform.system(),
+                "os_release": platform.release(),
+                "python_version": platform.python_version()
+            }
+        except Exception as e:
+            Logger.warn(f"Hardware Scry faltered: {e}")
+            return {"error": str(e)}
+
+hardware_scrier = HardwareScrier()
+"""
+
+    # [ASCENSION 2]: THE GNOSTIC PROFILER
+    # The hand that measures the metabolic tax of individual functions.
+    profiler.py :: """
+import cProfile
+import pstats
+import io
+import time
+import functools
+import asyncio
+from typing import Callable, Any
+
+class GnosticProfiler:
+    \"\"\"
+    [ASCENSION 3]: The Stopwatch of the God-Engine.
+    Wraps cProfile for surgical performance inquisition.
+    \"\"\"
+    def profile(self, func: Callable) -> Callable:
+        @functools.wraps(func)
+        def sync_wrapper(*args, **kwargs):
+            pr = cProfile.Profile()
+            pr.enable()
+            result = func(*args, **kwargs)
+            pr.disable()
+            self._proclaim(pr, func.__name__)
+            return result
+
+        @functools.wraps(func)
+        async def async_wrapper(*args, **kwargs):
+            pr = cProfile.Profile()
+            pr.enable()
+            result = await func(*args, **kwargs)
+            pr.disable()
+            self._proclaim(pr, func.__name__)
+            return result
+
+        return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
+        
+    def _proclaim(self, pr: cProfile.Profile, name: str):
+        s = io.StringIO()
+        sortby = pstats.SortKey.CUMULATIVE
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats()
+        print(f"--- METABOLIC REPORT: {name} ---")
+        print(s.getvalue())
+
+# Global Singleton
+profiler = GnosticProfiler()
+profile_rite = profiler.profile
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+# [ASCENSION 12]: Dependency Inception
+pyproject.toml += """
+psutil = "^5.9.0"
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Python Physics Toolkit[/] is manifest."
+    proclaim: "Hardware Scrier: [white]core/physics/tomography.py[/]"
+    proclaim: "Gnostic Profiler: [white]core/physics/profiler.py[/]"
+    
+    # 1. Dependency Summoning
+    proclaim: "Phase I: Summoning the Sensory artisans... (psutil)"
+    >> poetry add psutil
+    ?? succeeds
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Performance Blindness -> 0)[/]"
+    proclaim: "[bold green]✅ The Engine is now aware of its own physical form.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Physics Toolkit materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/core/physics

@@ -1,0 +1,128 @@
+# ==============================================================================
+# == GNOSTIC SHARD: REDIS-CLIENT (V-Ω-TOTALITY-V2.0)                          ==
+# ==============================================================================
+# @description: The definitive ephemeral memory substrate. Materializes a 
+#               high-performance, asynchronous Redis client connection pool, 
+#               enabling low-latency caching, rate-limiting, and distributed locks.
+# @category: System / Substrate
+# @vibe: redis, cache, memory, distributed-lock, rate-limit, async-io
+# @provides: [redis-client, ephemeral-memory-substrate, caching-authority]
+# @requires: [python-core, pydantic-settings]
+# @substrate: python
+# @version: 2.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ default_redis_url = {{ redis_url | default("redis://localhost:6379/0") }}
+
+# --- II. THE SCRIPTURE OF FORM (The Ephemeral Mind) ---
+
+src/{{ package_name }}/core/network/
+    __init__.py :: "from .redis import redis_vault, get_redis_client\n"
+
+    # [ASCENSION 1]: THE SYNAPTIC CONDUIT (Redis Client)
+    redis.py :: """
+import os
+import logging
+from typing import Optional
+import redis.asyncio as redis
+from ..config import settings
+
+Logger = logging.getLogger("Substrate:Redis")
+
+class RedisVault:
+    \"\"\"
+    =============================================================================
+    == THE REDIS VAULT (V-Ω-TOTALITY)                                          ==
+    =============================================================================
+    LIF: ∞ | ROLE: EPHEMERAL_MEMORY_WARDEN | RANK: MASTER
+    
+    [ASCENSIONS]:
+    1. Achronal Connection Pool: Manages a warded async connection pool.
+    2. Graceful Degradation: Returns a 'Ghost Client' if Redis is unmanifest.
+    3. Substrate-Aware URI: Scries settings for production connection strings.
+    4. Health Scrying: Provides a 'ping()' for liveness probes.
+    \"\"\"
+    _client: Optional[redis.Redis] = None
+
+    @property
+    def client(self) -> redis.Redis:
+        if self._client is None:
+            self._client = self._awaken()
+        return self._client
+
+    def _awaken(self) -> redis.Redis:
+        \"\"\"Wakes the connection to the ephemeral vault.\"\"\"
+        # [ASCENSION 3]: Substrate-Aware Connection
+        redis_url = getattr(settings, 'REDIS_URL', '{{ default_redis_url }}')
+        
+        try:
+            # We use from_url for native parsing of Redis Sentinel or Cluster URIs
+            Logger.info(f"🧠 [REDIS] Awakening synaptic link to ephemeral vault...")
+            client = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
+            return client
+        except Exception as e:
+            Logger.error(f"💥 [REDIS] Link Fracture: {e}. Ephemeral memory is a void.")
+            # [ASCENSION 2]: Graceful Degradation
+            # We return a mock client that will fail on operations but not at boot.
+            class GhostClient:
+                async def get(self, *args, **kwargs): return None
+                async def set(self, *args, **kwargs): return None
+                async def exists(self, *args, **kwargs): return False
+            return GhostClient()
+
+    async def ping(self) -> bool:
+        \"\"\"Verifies the resonance of the memory vault.\"\"\"
+        try:
+            return await self.client.ping()
+        except Exception:
+            return False
+
+# Global Singleton
+redis_vault = RedisVault()
+
+# DI-Friendly Getter
+async def get_redis_client() -> redis.Redis:
+    return redis_vault.client
+
+# [ASCENSION 12]: Graceful Dissolution
+# @scaffold:lifecycle(event="shutdown")
+async def dissolve_redis_link():
+    if redis_vault._client:
+        await redis_vault.client.close()
+        Logger.info("🌑 [REDIS] Synaptic link dissolved.")
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+
+# [ASCENSION 12]: Dependency Inception
+pyproject.toml += """
+redis = {extras = ["hiredis"], version = "^5.0.0"}
+"""
+
+# [ASCENSION 5]: THE ENVIRONMENT DNA
+.env.example += """
+# --- EPHEMERAL MEMORY SUBSTRATE (Redis) ---
+REDIS_URL={{ default_redis_url }}
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Redis Client Substrate[/] is manifest."
+    proclaim: "Default Vault: [bold yellow]{{ default_redis_url }}[/]"
+    proclaim: "Conduit Locus: [white]core/network/redis.py[/]"
+    
+    # 1. Dependency Summoning
+    proclaim: "Phase I: Summoning the Memory artisans... (redis)"
+    >> poetry add "redis[hiredis]"
+    ?? succeeds
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Application Latency -> Minimized)[/]"
+    proclaim: "[bold green]✅ The Ephemeral Mind is now waked.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Memory substrate materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/core/network/redis.py

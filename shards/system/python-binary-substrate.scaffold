@@ -1,0 +1,53 @@
+# ==============================================================================
+# == GNOSTIC SHARD: PYTHON-BINARY-SUBSTRATE (V-Ω-TOTALITY-V1.0)               ==
+# ==============================================================================
+# @description: The definitive Python Substrate Anchor. Materializes the 
+#               .python-version file and injects strict version requirements 
+#               into pyproject.toml, ensuring absolute interpreter parity across 
+#               all environments and developer machines.
+# @category: System / Substrate
+# @vibe: python-version, pyenv, poetry, pyproject, substrate-anchor
+# @provides: [python-binary, python-substrate, python-runtime]
+# @requires: [python-core]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ python_version = {{ python_version | default("3.12") }}
+
+# --- II. THE SCRIPTURE OF FORM (The Immutable Law) ---
+
+# [ASCENSION 1]: THE .python-version ANCHOR
+# The universal truth for pyenv and other version managers.
+.python-version :: "{{ python_version }}"
+
+# [ASCENSION 2]: THE POETRY SUTURE
+# Enforces the version at the Poetry/Pip level.
+pyproject.toml += """
+[tool.poetry.dependencies]
+python = "^{{ python_version }}"
+"""
+
+# --- III. THE MAESTRO'S WILL (The Consecration Rite) ---
+%% post-run
+    proclaim: "The [bold cyan]Python Binary Substrate[/] has been anchored."
+    proclaim: "Canonical Version: [bold yellow]{{ python_version }}[/]"
+    
+    # 1. Verification Strike
+    proclaim: "Phase I: Verifying Python binary resonance..."
+    @if {{ not shell('python --version 2>&1 | grep "{{ python_version }}" > /dev/null && echo "yes"') == 'yes' }}
+        proclaim: "[bold red]HERESY:[/bold red] Active Python does not match willed version [yellow]{{ python_version }}[/]."
+        proclaim: "Suggestion: Use 'pyenv' or your system's package manager to align realities."
+    @else
+        proclaim: "✅ [bold green]Active Python is resonant.[/bold green]"
+    @endif
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Interpreter Drift -> 0)[/]"
+    proclaim: "[bold green]✅ The Pythonic Multiverse is now unified under a single Law.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Substrate materialization fractured.[/bold red]"
+    rm -f .python-version

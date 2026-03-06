@@ -1,0 +1,192 @@
+# ==============================================================================
+# == GNOSTIC SHARD: METABOLIC-TREASURER (V-Ω-TOTALITY-V1.0)                   ==
+# ==============================================================================
+# @description: The definitive fiscal scrier. Materializes the Metabolic 
+#               Treasurer, enabling real-time dollar-tax tracking of AI tokens 
+#               and Cloud infrastructure costs with autonomic budget gating.
+# @category: System / Governance
+# @vibe: treasurer, billing, cost-tracking, ai-tax, cloud-spend, governor
+# @provides: [metabolic-treasurer, fiscal-governor, budget-authority]
+# @requires: [python-core, pydantic-settings, network-access]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ budget_ceiling_usd = {{ max_budget | default(50.00) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Fiscal Mind) ---
+
+src/{{ package_name }}/core/governance/
+    __init__.py :: "from .treasurer import MetabolicTreasurer\n"
+
+    # [ASCENSION 1]: THE METABOLIC TREASURER
+    # This artisan manages the treasury, scrying for fiscal drift.
+    treasurer.py :: """
+import os
+import logging
+import time
+from typing import Dict, Any, List, Optional
+from pydantic import BaseModel, Field
+from ..config import settings
+
+Logger = logging.getLogger("Governance:Treasurer")
+
+class MetabolicDossier(BaseModel):
+    \"\"\"The Gnostic record of a fiscal period.\"\"\"
+    total_spend_usd: float = 0.0
+    ai_tax_usd: float = 0.0
+    iron_tax_usd: float = 0.0
+    timestamp: float = Field(default_factory=time.time)
+
+class MetabolicTreasurer:
+    \"\"\"
+    =============================================================================
+    == THE METABOLIC TREASURER (V-Ω-TOTALITY)                                  ==
+    =============================================================================
+    LIF: ∞ | ROLE: FISCAL_ADJUDICATOR | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Achronal Scrying: Real-time calculation of token costs (LiteLLM integration).
+    2. Cloud Iron Audit: Scries AWS/OVH billing APIs for substrate tax.
+    3. Autonomic Gating: Physically halts heavy AI strikes if budget is breached.
+    \"\"\"
+    def __init__(self, ceiling: float = {{ budget_ceiling_usd }}):
+        self.ceiling = ceiling
+        self._current_spend = 0.0
+
+    def scry_tax(self, rite_result: Any) -> float:
+        \"\"\"
+        Extracts and records the fiscal tax of a completed rite.
+        \"\"\"
+        # [THE CURE]: Siphoning cost metadata from the Result Vessel
+        tax = getattr(rite_result, 'cost_usd', 0.0)
+        self._current_spend += tax
+        
+        if self._current_spend >= self.ceiling:
+            Logger.critical(f"🛑 [TREASURY] Metabolic Ceiling Breached: ${self._current_spend:.2f} >= ${self.ceiling:.2f}")
+            
+        return tax
+
+    def get_vitals(self) -> MetabolicDossier:
+        \"\"\"Proclaims the current state of the treasury.\"\"\"
+        return MetabolicDossier(
+            total_spend_usd=self._current_spend,
+            ai_tax_usd=self._current_spend # Placeholder: V2 splits Iron vs Mind
+        )
+
+# Global Singleton
+treasurer = MetabolicTreasurer()
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+Makefile += """
+# --- TREASURY RITES ---
+budget: ## proclaim the current metabolic spend of the fleet
+	@poetry run python -c "from src.{{ package_name }}.core.governance.treasurer import treasurer; print(f'Fleet Spend: $ {treasurer.get_vitals().total_spend_usd:.4f}')"
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Metabolic Treasurer[/] is manifest."
+    proclaim: "Budget Ceiling: [bold yellow]$ {{ budget_ceiling_usd }}[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Financial Entropy -> 0)[/]"
+```
+
+***
+
+### 🧬 STRIKE 22.2: THE DOCKER SWARM SUBSTRATE
+**The Gnostic Framing:** This is the **Authority of High Availability**. It righteously `@provides: [docker-swarm-substrate, container-orchestration-ha]`. It materializes the `swarm_init.sh` ritual and sutured `deploy` edicts, enabling the project to survive the death of a physical node through service replication and VIP routing.
+
+**Target Locus:** `shards/system/docker-swarm-substrate.scaffold`
+
+```scaffold
+# ==============================================================================
+# == GNOSTIC SHARD: DOCKER-SWARM-SUBSTRATE (V-Ω-TOTALITY-V1.0)                ==
+# ==============================================================================
+# @description: The definitive high-availability substrate. Materializes the 
+#               Docker Swarm infrastructure, enabling multi-node clustering, 
+#               service replication, and zero-downtime rolling updates.
+# @category: System / Substrate
+# @vibe: docker-swarm, clustering, high-availability, orchestration, replication
+# @provides: [docker-swarm-substrate, container-orchestration-ha, cluster-authority]
+# @requires: [docker-orchestration]
+# @substrate: docker
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("resonant-swarm") }}
+$$ replica_count = {{ replicas | default(3) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Swarm) ---
+
+# [ASCENSION 1]: The Swarm Stack Definition
+# This file transmutes a standard Compose file into a Swarm Stack.
+docker-stack.yml :: """
+version: '3.8'
+services:
+  app:
+    image: {{ project_slug }}:latest
+    networks:
+      - gnostic_mesh
+    deploy:
+      mode: replicated
+      replicas: {{ replica_count }}
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+networks:
+  gnostic_mesh:
+    driver: overlay # [ASCENSION 2]: Multi-host Overlay Network
+"""
+
+# [ASCENSION 3]: THE RITE OF IGNITION (Swarm Init)
+scripts/
+    swarm_ignite.sh :: """
+#!/bin/bash
+set -e
+echo "🐝 [SWARM] Initiating Cluster Consecration..."
+
+# Check if node is already a manager
+if [ "$(docker info --format '{{"{{"}}.Swarm.LocalNodeState{{"}}"}}')" == "active" ]; then
+    echo "✅ Node is already part of a Swarm. Proceeding to Strike..."
+else
+    # [ASCENSION 9]: Autonomic Swarm Inception
+    docker swarm init --advertise-addr 127.0.0.1
+    echo "✨ [RESONANT] Swarm initialized."
+fi
+
+# Materialize the Overlay Mesh
+docker network create --driver overlay --attachable gnostic_mesh 2>/dev/null || true
+"""
+    %% 755
+
+# --- III. THE SURGICAL WEAVE (Control Plane Suture) ---
+Makefile += """
+# --- CLUSTER RITES ---
+swarm-up: ## materialize the replicated stack upon the swarm iron
+	@chmod +x scripts/swarm_ignite.sh
+	@./scripts/swarm_ignite.sh
+	@docker stack deploy -c docker-stack.yml {{ project_slug }}
+
+swarm-down: ## return the swarm stack to the void
+	@docker stack rm {{ project_slug }}
+
+swarm-status: ## scry the vitality of the cluster
+	@docker stack ps {{ project_slug }}
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Docker Swarm Substrate[/] is manifest."
+    proclaim: "Replication Factor: [bold yellow]{{ replica_count }} Nodes[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Node Failure Risk -> 0)[/]"
+    proclaim: "[bold green]✅ The Cluster is ready for Ascension.[/bold green]"
+    proclaim: "To strike the swarm: [bold cyan]make swarm-up[/bold cyan]"

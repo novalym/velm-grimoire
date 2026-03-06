@@ -1,0 +1,124 @@
+# ==============================================================================
+# == GNOSTIC SHARD: DOCKER-SWARM-SUBSTRATE (V-Ω-TOTALITY-V1.0)                ==
+# ==============================================================================
+# @description: The definitive high-availability substrate. Materializes the 
+#               Docker Swarm cluster logic, enabling multi-node orchestration, 
+#               overlay networking, and service replication for zero-downtime 
+#               disaster recovery.
+# @category: System / Substrate
+# @vibe: docker-swarm, clustering, high-availability, orchestration, overlay-net
+# @provides: [docker-swarm-substrate, cluster-authority, container-orchestration-ha]
+# @requires: [docker-engine]
+# @substrate: docker / shell
+# @version: 1.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ project_slug = {{ project_slug | default("resonant-swarm") }}
+$$ replica_count = {{ replicas | default(3) }}
+$$ manager_ip = {{ manager_ip | default("127.0.0.1") }}
+
+# --- II. THE SCRIPTURE OF FORM (The Swarm Infrastructure) ---
+
+# [ASCENSION 2]: THE STACK DEFINITION (The Blueprint of the Legion)
+# Transmutes standard Compose logic into a warded Swarm Stack.
+docker-stack.yml :: """
+version: '3.8'
+services:
+  app:
+    image: {{ project_slug }}:latest
+    networks:
+      - gnostic_overlay
+    deploy:
+      mode: replicated
+      replicas: {{ replica_count }}
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+        window: 120s
+
+networks:
+  gnostic_overlay:
+    driver: overlay
+    attachable: true
+"""
+
+# [ASCENSION 3]: THE RITE OF IGNITION (Swarm Init)
+scripts/
+    swarm_ignite.sh :: """
+#!/bin/bash
+# =============================================================================
+# == THE SWARM IGNITION RITE (V-Ω-ATOMIC)                                    ==
+# =============================================================================
+set -e
+
+echo "🐝 [SWARM] Adjudicating Node State..."
+
+# 1. THE VOID CHECK
+if [ "$(docker info --format '{{"{{"}}.Swarm.LocalNodeState{{"}}"}}')" == "active" ]; then
+    echo "✅ Node is already a Sovereign Manager. Proceeding..."
+else
+    # 2. THE STRIKE
+    echo "🌀 Initiating Swarm Inception on {{ manager_ip }}..."
+    docker swarm init --advertise-addr {{ manager_ip }}
+    echo "✨ [RESONANT] Cluster Heart waked."
+fi
+
+# 3. THE MESH FORGE
+# Materialize the Overlay Network for cross-node communication
+echo "🌐 Forging the Gnostic Overlay Mesh..."
+docker network create --driver overlay --attachable gnostic_overlay 2>/dev/null || true
+
+echo "✅ [TOTALITY] Swarm Substrate is resonant."
+"""
+    %% 755
+
+# --- III. THE SURGICAL WEAVE (Control Plane Integration) ---
+# [ASCENSION 9]: Global Conductor Suture
+Makefile += """
+
+# --- SWARM RITES ---
+swarm-init: ## conduct the rite of cluster ignition
+	@chmod +x scripts/swarm_ignite.sh
+	@./scripts/swarm_ignite.sh
+
+swarm-deploy: ## materialize the replicated stack upon the swarm iron
+	@docker stack deploy -c docker-stack.yml {{ project_slug }}
+
+swarm-status: ## scry the vitality of the legion
+	@docker stack ps {{ project_slug }}
+
+swarm-down: ## return the swarm stack to the void
+	@docker stack rm {{ project_slug }}
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+# [ASCENSION 12]: Cinematic Guidance
+%% post-run
+    proclaim: "The [bold cyan]Docker Swarm Substrate[/bold cyan] is manifest."
+    proclaim: "Replication Law: [bold yellow]{{ replica_count }} Replicas[/bold yellow]"
+    proclaim: "Control Script: [white]scripts/swarm_ignite.sh[/]"
+    
+    # 1. Pre-Flight Verification
+    proclaim: "Phase I: Verifying Docker Engine resonance..."
+    @if {{ not shell('docker version > /dev/null 2>&1 && echo "yes"') == 'yes' }}
+        proclaim: "[bold red]HERESY:[/bold red] Docker is unmanifested. Cluster Inception stayed."
+    @else
+        proclaim: "✅ Docker Engine confirmed."
+    @endif
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]INFINITY (Service Downtime -> 0)[/]"
+    proclaim: "[bold green]✅ The Cluster Substrate is Ready.[/bold green] Your project can now survive the death of a node."
+    proclaim: "To ignite the Legion, speak: [bold cyan]make swarm-init && make swarm-deploy[/bold cyan]"
+
+%% on-heresy
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Swarm materialization fractured.[/bold red] Reality remains a single node."
+    rm -rf scripts/swarm_ignite.sh docker-stack.yml
