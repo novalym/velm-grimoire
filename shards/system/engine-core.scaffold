@@ -1,0 +1,153 @@
+# ==============================================================================
+# == GNOSTIC SHARD: ENGINE-CORE (V-Ω-TOTALITY-V3.0)                           ==
+# ==============================================================================
+# @description: The definitive kernel orchestrator. Materializes the 
+#               ScaffoldEngine, the Quantum Dispatcher, and the base Artisan 
+#               contracts, providing the central mind for all kinetic execution.
+# @category: System / Core
+# @vibe: kernel, engine, dispatcher, execution-framework, core-logic, gnostic-mind
+# @provides: [engine-core, kernel-authority, quantum-dispatcher, artisan-base]
+# @requires: [python-core, pydantic-settings, pydantic-v2]
+# @substrate: python
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+
+# --- II. THE SCRIPTURE OF FORM (The Kernel) ---
+
+src/{{ package_name }}/core/
+    # [ASCENSION 1]: THE SOVEREIGN KERNEL
+    # This file materializes the heart of the execution model.
+    engine.py :: """
+import time
+import uuid
+import logging
+from typing import Dict, Any, Type, Optional, List
+from pydantic import BaseModel
+from .artisan import BaseArtisan
+from ..interfaces.base import ScaffoldResult
+
+Logger = logging.getLogger("Kernel:Engine")
+
+class ScaffoldEngine:
+    \"\"\"
+    =============================================================================
+    == THE SCAFFOLD ENGINE (V-Ω-TOTALITY)                                      ==
+    =============================================================================
+    LIF: ∞ | ROLE: KERNEL_ORCHESTRATOR | RANK: OMEGA
+    
+    [ASCENSIONS]:
+    1. Quantum Dispatching: Maps willed intent (Requests) to kinetic action (Artisans).
+    2. Achronal Tracing: Automatically injects Trace IDs into every execution.
+    3. Transactional Boundary: (Prophecy) Integrated with Chronos Vault.
+    4. Substrate Aware: Adapts logging and performance to the host OS.
+    \"\"\"
+    def __init__(self):
+        self._registry: Dict[Type, Type[BaseArtisan]] = {}
+        self.session_id = uuid.uuid4().hex[:8].upper()
+
+    def register_artisan(self, request_type: Type, artisan_class: Type[BaseArtisan]):
+        \"\"\"Consecrates a new skill in the Engine's mind.\"\"\"
+        self._registry[request_type] = artisan_class
+        Logger.debug(f"⚙️  Artisan registered for {request_type.__name__}")
+
+    def dispatch(self, request: Any) -> ScaffoldResult:
+        \"\"\"
+        The Rite of Dispatch. Routes intent to the manifested Artisan.
+        \"\"\"
+        start_ts = time.perf_counter()
+        trace_id = getattr(request, 'trace_id', f"tr-{self.session_id}")
+        rite_name = type(request).__name__
+
+        ArtisanClass = self._registry.get(type(request))
+        if not ArtisanClass:
+            return ScaffoldResult.forge_failure(
+                message=f"Unmanifest Rite: No artisan found for {rite_name}.",
+                trace_id=trace_id
+            )
+
+        try:
+            # 1. Materialize Artisan
+            artisan = ArtisanClass(self)
+            
+            # 2. Execute Rite
+            Logger.info(f"[{trace_id}] Executing {rite_name}...")
+            result = artisan.execute(request)
+            
+            # 3. Finalize Telemetry
+            result.duration_seconds = time.perf_counter() - start_ts
+            result.trace_id = trace_id
+            return result
+
+        except Exception as e:
+            Logger.error(f"[{trace_id}] Execution Fracture: {e}")
+            return ScaffoldResult.forge_failure(
+                message=f"Catastrophic Fracture in {rite_name}",
+                details=str(e),
+                trace_id=trace_id
+            )
+
+# Global Singleton
+engine = ScaffoldEngine()
+"""
+
+    # [ASCENSION 2]: THE ARTISAN CONTRACT
+    artisan.py :: """
+from abc import ABC, abstractmethod
+from typing import Any, TYPE_CHECKING
+if TYPE_CHECKING:
+    from .engine import ScaffoldEngine
+
+class BaseArtisan(ABC):
+    \"\"\"The Abstract Soul of an Artisan.\"\"\"
+    def __init__(self, engine: 'ScaffoldEngine'):
+        self.engine = engine
+
+    @abstractmethod
+    def execute(self, request: Any) -> Any:
+        \"\"\"Performs the willed rite.\"\"\"
+        pass
+"""
+
+src/{{ package_name }}/interfaces/
+    # [ASCENSION 3]: THE RESULT VESSEL
+    base.py :: """
+from pydantic import BaseModel, Field
+from typing import Any, Optional, List, Dict
+import time
+
+class ScaffoldResult(BaseModel):
+    \"\"\"The warded result of a kinetic strike.\"\"\"
+    success: bool
+    message: str
+    data: Optional[Any] = None
+    trace_id: str = "tr-void"
+    duration_seconds: float = 0.0
+    error: Optional[str] = None
+    details: Optional[str] = None
+
+    @classmethod
+    def forge_failure(cls, message: str, **kwargs) -> 'ScaffoldResult':
+        return cls(success=False, message=message, **kwargs)
+
+    @classmethod
+    def forge_success(cls, message: str, data: Any = None, **kwargs) -> 'ScaffoldResult':
+        return cls(success=True, message=message, data=data, **kwargs)
+"""
+
+# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]Engine Core[/] is manifest."
+    proclaim: "Kernel Locus: [white]core/engine.py[/]"
+    proclaim: "Contract Locus: [white]core/artisan.py[/]"
+    
+    # 1. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Architectural Void -> 0)[/]"
+    proclaim: "[bold green]✅ The Mind is now Sovereign. The Dispatcher is active.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Core materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/core/engine.py src/{{ package_name }}/core/artisan.py

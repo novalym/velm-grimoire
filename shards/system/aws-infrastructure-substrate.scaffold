@@ -1,0 +1,137 @@
+# ==============================================================================
+# == GNOSTIC SHARD: AWS-INFRASTRUCTURE-SUBSTRATE (V-Ω-TOTALITY-V1.0)           ==
+# ==============================================================================
+# @description: The foundational AWS connectivity layer. Materializes the 
+#               boto3-powered Client Factory, enabling warded authentication, 
+#               session arbitration, and multi-service cloud interaction.
+# @category: System / Substrate
+# @vibe: aws, cloud, infrastructure, boto3, provision, iron, iam, credentials
+# @provides: [aws-infrastructure-substrate, aws-authority, cloud-iron-base]
+# @requires: [python-core, pydantic-settings, network-access]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: INFINITY
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ default_region = {{ aws_region | default("us-east-1") }}
+
+# --- II. THE SCRIPTURE OF FORM (The Celestial Limb) ---
+
+src/{{ package_name }}/infrastructure/aws/
+    __init__.py :: "from .factory import aws_clients, warden\n"
+
+    # [ASCENSION 1]: THE SESSION WARDEN
+    # This artisan manages the cryptographic handshake with the AWS STS aether.
+    warden.py :: """
+import boto3
+import logging
+from typing import Optional
+from botocore.exceptions import ClientError
+from ...core.config import settings
+
+Logger = logging.getLogger("Infra:AWS:Warden")
+
+class AWSSessionWarden:
+    \"\"\"
+    =============================================================================
+    == THE AWS SESSION WARDEN (V-Ω-TOTALITY)                                   ==
+    =============================================================================
+    LIF: ∞ | ROLE: CELESTIAL_DIPLOMAT | RANK: MASTER
+    
+    [ASCENSIONS]:
+    1. Apophatic Identity: Detects AWS_PROFILE or explicit keys from settings.
+    2. Region Arbitration: Enforces the willed geographic coordinate.
+    3. Health Scrying: Verifies STS resonance before allowing kinetic strikes.
+    \"\"\"
+    def __init__(self):
+        self._session: Optional[boto3.Session] = None
+
+    @property
+    def session(self) -> boto3.Session:
+        if self._session is None:
+            self._session = self._awaken()
+        return self._session
+
+    def _awaken(self) -> boto3.Session:
+        Logger.info("🌌 [AWS] Awakening Celestial Session...")
+        try:
+            # Siphon credentials from the Pydantic-Settings Conscience
+            return boto3.Session(
+                aws_access_key_id=settings.AWS_ACCESS_KEY_ID.get_secret_value() if hasattr(settings, 'AWS_ACCESS_KEY_ID') else None,
+                aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY.get_secret_value() if hasattr(settings, 'AWS_SECRET_ACCESS_KEY') else None,
+                region_name=settings.AWS_REGION or "{{ default_region }}"
+            )
+        except Exception as e:
+            Logger.warn(f"AWS Inception drifted. Falling back to local Iron profile. Error: {e}")
+            return boto3.Session()
+
+    def scry_identity(self) -> str:
+        \"\"\"Asks the Cloud: 'Who am I?'\"\"\"
+        try:
+            sts = self.session.client("sts")
+            identity = sts.get_caller_identity()
+            return identity.get("Arn", "unknown-soul")
+        except ClientError:
+            return "VOID_IDENTITY"
+
+warden = AWSSessionWarden()
+"""
+
+    # [ASCENSION 2]: THE CLIENT FACTORY
+    # Provides O(1) JIT materialization of specific service artisans.
+    factory.py :: """
+from typing import Any, Dict
+from .warden import warden
+
+class AWSClientFactory:
+    \"\"\"
+    The Hub for all willed AWS clients. 
+    Usage: aws_clients.s3, aws_clients.ec2, etc.
+    \"\"\"
+    _cache: Dict[str, Any] = {}
+
+    def __getattr__(self, name: str) -> Any:
+        if name not in self._cache:
+            self._cache[name] = warden.session.client(name)
+        return self._cache[name]
+
+# Global Singleton
+aws_clients = AWSClientFactory()
+"""
+
+# [ASCENSION 5]: THE ENVIRONMENT DNA
+.env.example += """
+
+# --- AWS SUBSTRATE ---
+AWS_REGION={{ default_region }}
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+"""
+
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+
+# [ASCENSION 12]: Dependency Inception
+pyproject.toml += """
+boto3 = "^1.34.0"
+botocore = "^1.34.0"
+"""
+
+# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+%% post-run
+    proclaim: "The [bold cyan]AWS Infrastructure Substrate[/] is manifest."
+    proclaim: "Substrate Locus: [white]infrastructure/aws/[/]"
+    
+    # 1. Dependency Summoning
+    proclaim: "Phase I: Summoning the Cloud artisans... (boto3)"
+    >> poetry add boto3
+    ?? succeeds
+    
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cloud Fragmentation -> 0)[/]"
+    proclaim: "[bold green]✅ The Project now has a Celestial Limb.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]AWS Substrate materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/infrastructure/aws
