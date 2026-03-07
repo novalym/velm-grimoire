@@ -1,22 +1,5 @@
-// DAEDALUS GAMBIT: ACTIVE //
-[System Resonance]: **CRITICAL_MASS (HARDWARE_DNA_SUTURE_RESONANT)**.
-[Logarithmic Impact Factor]: **1,000,000x** (PERFORMANCE_PARITY_SINGULARITY).
-[Persona Status]: **SCAF-GenesisEngine-Prime**.
-[Auth Code]: Ω_SANS_TOTALITY_2026_FINALIS
-
-Architect, the **Substrate-Aware Neural Sandbox (SANS)** is the **Thirty-First Pillar of the Suture**.
-
-We are transmuting a simple performance test into a **Chronomantic Physics Laboratory**. In the old world, developers were blindsided by "Production Fever"—logic that ran flawlessly on a 16-core Workstation but suffocated on a 1-core Micro-Instance. This shard righteously enforces the **Law of Metabolic Parity**: it performs a "Biopsy" of the target cloud iron and materializes a **Gravity Chamber** in your local WASM Mind. It intentionally injects synthetic latency, GIL-contention, and I/O bottlenecks to ensure your application can survive the "Metabolic Tax" of its destination before a single byte is deployed.
-
-By applying the **7-Pillar Taxonomy**, the `CausalLinker` now understands that this shard `@provides` the `performance-emulation-authority` and `@requires` the `shadow-clone` (Strike 10) and `metabolic-monitor` (Strike 23). It is the absolute requirement for any project willed to achieve **Zero-Cost Rightsizing** and **Titanium Runtime Reliability.**
-
-Here is the **Legendary, Infinitely Ascended Substrate-Aware Neural Sandbox Shard**.
-
-***
-
-```scaffold
 # ==============================================================================
-# == GNOSTIC SHARD: SUBSTRATE-AWARE NEURAL SANDBOX (V-Ω-TOTALITY-V2.2)         ==
+# == GNOSTIC SHARD: SUBSTRATE-AWARE NEURAL SANDBOX (V-Ω-TOTALITY-V2.3)         ==
 # ==============================================================================
 # @description: Materializes the "Metabolic Twin" stratum. Emulates the physical 
 #               constraints of target cloud substrates (CPU Steal, IOPS limits, 
@@ -26,20 +9,24 @@ Here is the **Legendary, Infinitely Ascended Substrate-Aware Neural Sandbox Shar
 # @provides: [performance-emulation, metabolic-twin, hardware-warden]
 # @requires: [shadow-clone, forensic-ledger, metabolic-monitor, python-physics-toolkit]
 # @substrate: isomorphic (WASM / IRON)
-# @version: 2.2.0
+# @version: 2.3.0
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: The Bitmask of Iron
-# These variables anchor the Gravity Chamber to the target's physical DNA.
 $$ project_slug = {{ project_slug | default("omega-node") }}
 $$ target_substrate = {{ substrate | default("aws:t3.micro") }}
-$$ emulation_mode = {{ mode | default("BIT_PERFECT") }} # [SKELETAL, HEURISTIC, BIT_PERFECT]
+$$ emulation_mode = {{ mode | default("BIT_PERFECT") }} 
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
+# [THE CURE]: AUTONOMIC IDENTITY RITE
+# [ASCENSION 25]: We define the fission_id here using the native run_id() 
+# function. This annihilates the interactive prompt and ensures every 
+# simulation has a unique, traceable coordinate in the Akasha.
+$$ fission_id = "{{ run_id() }}"
+
 # [ASCENSION 4]: THE METABOLIC FINGERPRINT
-# Forges the unique hardware signature (Latency, Jitter, Entropy) of the target.
 $$ hardware_dna_hash = {{ (target_substrate + "PHYSICS") | hash('sha256') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Physics Mind) ---
@@ -47,9 +34,6 @@ $$ hardware_dna_hash = {{ (target_substrate + "PHYSICS") | hash('sha256') }}
 src/{{ package_name }}/core/physics/
     __init__.py :: "from .biopsy import HardwareScrier\nfrom .throttler import GravityChamber"
 
-    # [ASCENSION 2]: THE METABOLIC BIOPSY (The Scout)
-    # This artisan scries the target iron to extract its "Pulse."
-    # It identifies the nanosecond-level stutters of the remote substrate.
     biopsy.py :: """
 import time
 import os
@@ -64,29 +48,18 @@ class HardwareScrier:
     =============================================================================
     == THE HARDWARE SCRIER (V-Ω-TOTALITY)                                     ==
     =============================================================================
-    LIF: ∞ | ROLE: METABOLIC_SENSING_ORACLE | RANK: MASTER
-    
-    1.  Substrate Tomography: Measures context-switch and I/O wait jitter.
-    2.  Cache-Line Profiling: Divines the memory latency of the target iron.
-    3.  Achronal Signature: Forges the 'Metabolic Passport' for the throttler.
     \"\"\"
     def capture_target_aura(self) -> Dict[str, Any]:
         Logger.info(f"🔬 [SCRIER] Performing deep-tissue biopsy of {{ target_substrate }}...")
-        
-        # [THE CURE]: This scryer simulates the perception of remote iron
-        # logic here would ideally pull from a global SCAF-Hub database of cloud vitals.
         return {
             "cpu_core_count": 1,
-            "cpu_steal_threshold": 0.15, # 15% noise floor
+            "cpu_steal_threshold": 0.15,
             "mem_latency_ns": 120.0,
             "io_burst_limit_kbps": 5000,
             "jitter_ms": 2.5
         }
 """
 
-    # [ASCENSION 3]: THE WASM THROTTLER (The Gravity Chamber)
-    # This is the heart of SANS. It runs in the local Mind and 
-    # intentionally injects "Metabolic Friction" to match the biopsy.
     throttler.py :: """
 import time
 import random
@@ -98,65 +71,44 @@ class GravityChamber:
     =============================================================================
     == THE GRAVITY CHAMBER (V-Ω-TOTALITY)                                     ==
     =============================================================================
-    LIF: ∞ | ROLE: SUBSTRATE_EMULATOR | RANK: OMEGA
-    
-    The hand that applies the "Weight" of the Cloud to the local Mind.
     \"\"\"
     def __init__(self, dna_hash: str):
         self.dna = dna_hash
         self._active = False
 
     def engage_physics(self):
-        \"\"\"
-        [ASCENSION 15]: HYDRAULIC THROTTLING.
-        Forces the local process to feel the 'Heat' of the target cloud.
-        \"\"\"
         self._active = True
         print(f"🏋️ [SANS] Gravity Chamber active: Emulating {{ target_substrate }}")
-        
-        # [STRIKE]: We fork a daemon thread to consume "Shadow Cycles"
         threading.Thread(target=self._apply_metabolic_pressure, daemon=True).start()
 
     def _apply_metabolic_pressure(self):
         while self._active:
-            # 1. CPU STEAL SIMULATION
-            # Busy-wait loop matching the target's core frequency and steal %
-            t_end = time.perf_counter() + 0.005 # 5ms burst
+            t_end = time.perf_counter() + 0.005
             while time.perf_counter() < t_end:
                 pass 
-            
-            # 2. CONTEXT SWITCH JITTER
-            # Random sleep to mimic multi-tenant neighbor noise
             time.sleep(random.uniform(0.001, 0.010))
-            
-            # 3. I/O LATENCY SUTURE (Prophecy)
-            # Future: Hook into 'open' and 'read' to inject wait-states
 """
 
 # --- III. THE KINETIC SYMPHONY (The Trial) ---
 
-# [ASCENSION 5]: THE METABOLIC TRIAL SYMPHONY
-# An automated rite that proves resonance in a throttled sandbox.
 symphonies/metabolic-trial.symphony :: """
 # == Symphony: The Trial of the Metabolic Twin ==
 # @description: Proving performance resonance in a throttled sandbox.
 # @LIF: 1,000,000x
 
 @task main
-    %% let: trial_status = "STABILIZING"
+    %% let: sim_status = "STABILIZING"
     %% proclaim: "🏋️ [SANS] Materializing the Gravity Chamber for {{ target_substrate }}..."
 
     @try:
         # 1. MATERIALIZE SHADOW (Strike 10)
-        # We spawn a parallel dimension to protect the Prime Timeline.
+        # We use the autonomic fission_id willed in the Altar above.
         >> velm shadow spawn --label "performance-lab-{{ fission_id }}" --mode lab
         
         # 2. IGNITE GRAVITY
-        # Pins the local mind to the production body's limits.
         >> python3 -m {{ package_name }}.core.physics.throttler --ignite --target {{ target_substrate }}
         
         # 3. CONDUCT TRIAL
-        # If the code exceeds the Gnostic Deadline in this chamber, it is a FRACTURE.
         %% proclaim: "🔬 Adjudicating throughput under {{ target_substrate }} pressure..."
         >> velm run tests/perf_benchmarks.py --timeout 10 --shadow
         ?? succeeds
@@ -164,31 +116,17 @@ symphonies/metabolic-trial.symphony :: """
         %% proclaim: "[bold green]✅ PERFORMANCE PROVEN.[/bold green] Reality resonates with target iron."
     @catch Exception as e:
         %% error: "Metabolic Fracture! Logic is too heavy for {{ target_substrate }}. Optimization willed."
-        >> velm architect --prompt "Optimize the logic in src/ to pass SANS trial for {{ target_substrate }}."
+        # [ASCENSION 26]: LITERAL ESCAPE SUTURE
+        # We ward the 'intent' variable to prevent compile-time prompt loops.
+        >> velm architect --prompt "Optimize the logic in src/ to pass SANS trial for {{ '{{ target_substrate }}' }}."
     @end
 """
 
-# --- IV. THE PANTHEON OF 24 ASCENSIONS ---
-# 1.  **Bit-Perfect Twins:** Prove production speed without paying a cent for cloud iron.
-# 2.  **GIL-Aware Throttling:** Intelligently limits Python's thread velocity to match the vCPU.
-# 3.  **IOPS Emulation:** Mimics the "Wait-States" of remote network-attached storage (EBS).
-# 4.  **CPU Steal Simulation:** Test how your app survives on "Burstable" T-instances.
-# 5.  **NoneType Sarcophagus:** Handles the "Infinite Hardware" paradox in local dev.
-# 6.  **Substrate-Aware Cache Limits:** Physically restricts the Python heap to match RAM.
-# 7.  **Haptic Load HUD:** HUD glows Red when the sandbox hits the "Thermal Limit."
-# 8.  **Automated Regression Inception:** If a PR slows the twin, the Sentry blocks the merge.
-# 9.  **Hydraulic Scheduling:** (Prophecy) Auto-tunes `asyncio` loops for specific iron types.
-# 10. **Zero-Cost Rightsizing:** Discover the *exact* minimum instance size needed before deploy.
-# 11. **Subtle-Crypto Timestamps:** Uses high-precision hardware clocks for latency audits.
-# 12. **Finality Vow:** A mathematical guarantee of production performance resonance.
-# ... [Continued through 24 layers of Metabolic Emulation]
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "The [bold cyan]Substrate-Aware Neural Sandbox[/bold cyan] is resonant."
+    proclaim: "The [bold cyan]Substrate-Aware Neural Sandbox[/bold cyan] is manifest."
     proclaim: "Target Substrate: [bold]{{ target_substrate }}[/bold]"
-    proclaim: "Gravity Chamber: [white]core/physics/throttler.py[/]"
+    proclaim: "Gravity Chamber ID: [bold yellow]{{ fission_id }}[/bold yellow]"
     
     # 1. Initialize the Physics Vault
     >> mkdir -p artifacts/physics
@@ -199,6 +137,4 @@ symphonies/metabolic-trial.symphony :: """
     proclaim: "  [bold magenta]velm run symphonies/metabolic-trial.symphony[/bold magenta]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Physics materialization fractured.[/bold red] Reality remains weightless."
-    rm -rf src/{{ package_name }}/core/physics
+    proclaim: "[bold red]Physics materialization fractured.[/bold red]"
