@@ -1,5 +1,7 @@
 # Path: .github/workflows/ascension.yml
 # ------------------------------------
+# LIF: ∞ // ROLE: CELESTIAL_GOVERNOR
+# AUTH_CODE: Ω_ASCENSION_VMAX_REFINED_FINALIS
 
 name: Ω | Celestial Ascension & ONNX Vector Adjudication
 
@@ -47,36 +49,60 @@ jobs:
           pip install onnxruntime tokenizers numpy pydantic rich
 
       # [ASCENSION 2]: NEURAL WEIGHTS CACHE
-      # Caches the 25MB ONNX model to save network energy.
       - name: 🧠 Caching the Neural Retina
         uses: actions/cache@v3
         with:
           path: ~/.scaffold/models
           key: ucl-onnx-minilm-v2
 
-      # --- II. THE INQUEST (7-PILLAR LINTING) ---
+      # --- II. THE INQUEST (BICAMERAL LINTING) ---
       - name: 🔍 Conducting 7-Pillar Gnostic Inquest
         run: |
-          echo "Adjudicating UCL Taxonomy..."
+          echo "===================================================="
+          echo "== UCL TAXONOMY ADJUDICATION: INITIATED          =="
+          echo "===================================================="
           ERROR_COUNT=0
-          # Recursive scry of the Shard and Archetype sanctums
-          for file in $(find archetypes shards -name "*.scaffold"); do
+
+          # --- STRATUM 1: THE SHARD INQUEST (STRICT 7-PILLARS) ---
+          # Shards are the atoms of the DAG. They MUST be fully classified.
+          echo "Scrying Shards (Matter)..."
+          for file in $(find shards -name "*.scaffold" -not -path "*/.*"); do
             for pillar in "@description:" "@category:" "@vibe:" "@provides:" "@requires:" "@substrate:" "@version:"; do
               if ! grep -qi "$pillar" "$file"; then
-                echo "::error file=$file,line=1::Heresy: Missing $pillar"
+                echo "::error file=$file,line=1::Heresy: Shard missing $pillar"
                 ERROR_COUNT=$((ERROR_COUNT+1))
               fi
             done
           done
-          if [ $ERROR_COUNT -ne 0 ]; then exit 1; fi
+
+          # --- STRATUM 2: THE ARCHETYPE INQUEST (TRINITY OF INTENT) ---
+          # Archetypes are High-Level Blueprints. They require human Gnosis.
+          echo "Scrying Archetypes (Form)..."
+          for file in $(find archetypes -name "*.scaffold" -not -path "*/.*"); do
+            for pillar in "@description:" "@category:" "@tags:"; do
+              if ! grep -qi "$pillar" "$file"; then
+                echo "::error file=$file,line=1::Heresy: Archetype missing $pillar"
+                ERROR_COUNT=$((ERROR_COUNT+1))
+              fi
+            done
+          done
+
+          if [ $ERROR_COUNT -ne 0 ]; then
+            echo "===================================================="
+            echo "== 🛑 FRACTURE DETECTED: $ERROR_COUNT HERESIES PERCEIVED =="
+            echo "===================================================="
+            exit 1
+          fi
+          
+          echo "===================================================="
+          echo "== ✨ LATTICE RESONANT: ALL HEADERS PURE          =="
+          echo "===================================================="
 
       # --- III. THE TRANSFORMATION (ONNX EMBEDDING) ---
-      # [ASCENSION 2]: THE MASTER CENSUS
       - name: 🌀 Materializing Lightweight Celestial Index
         run: |
           mkdir -p registry
           # The script is willed to use our new onnxruntime-based SemanticResolver logic.
-          # It downloads the 25MB model weights if the cache missed.
           python scripts/rebuild_index.py \
             --repo ${{ github.repository }} \
             --branch main \
