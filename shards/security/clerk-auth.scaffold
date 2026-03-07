@@ -1,31 +1,46 @@
-# Path: codex/shards/security/clerk-auth.scaffold
-# -----------------------------------------------
+# =================================================================================
+# == GNOSTIC SHARD: CLERK IDENTITY CITADEL (V-Ω-TOTALITY-V24-FINALIS)            ==
+# =================================================================================
+# @description: Materializes a total identity stratum. Sutures the Clerk.com 
+#               Ocular Membrane to the FastAPI Mind with Isomorphic JWT 
+#               verification and automatic UI wrapping.
+# @category: Security / Identity
+# @vibe: auth, clerk, identity, jwt, passport, oauth2, secure, warded
+# @provides: [identity-authority, auth-guard, clerk-integration, passport]
+# @requires: [python-core, react-ocular, pydantic-settings]
+# @substrate: full-stack (FastAPI + Next.js)
+# @version: 24.0.0-Ω
+# @LIF: INFINITY
+# =================================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default("core") }}
-$$ clerk_theme = {{ clerk_theme | default("dark") }}
+# [THE FIX]: Using 'vault_package_name' to prevent Request attribute collision.
+$$ vault_package_name = {{ package_name | default(project_slug | snake) }}
+$$ clerk_theme        = {{ clerk_theme | default("dark") }}
 
 # [ASCENSION 1]: The Secret Veil
-# We proclaim the required Gnosis. The PydanticSettingsStrategy will find these.
-# @scaffold:setting(CLERK_SECRET_KEY: SecretStr = None) # The Master Key from Clerk Dashboard
-# @scaffold:setting(CLERK_PUBLISHABLE_KEY: str = None) # The Ocular Key for the UI
+# Proclaims the required Gnosis to the PydanticSettingsStrategy.
+# @scaffold:setting(CLERK_SECRET_KEY: SecretStr = None) 
+# @scaffold:setting(CLERK_PUBLISHABLE_KEY: str = None)
 
-# --- II. THE SCRIPTURE OF FORM ---
+# --- II. THE SCRIPTURE OF FORM (The Mind & The Eye) ---
 
-# [1] THE BACKEND SENTINEL (The Mind)
-src/{{ package_name }}/core/security/
+# [MOVEMENT I: THE BACKEND PASSPORT]
+src/{{ vault_package_name }}/core/security/
+    __init__.py += "from .passport import get_current_user\n"
+
     passport.py :: """
 import logging
 from typing import Optional
 from fastapi import Request, HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from clerk_backend_api import Clerk
-from ..config import settings # Injected by PydanticSettingsStrategy
+from ..config import settings 
 
 Logger = logging.getLogger("Security:Passport")
 
 # [ASCENSION 2]: THE CLERK ENGINE
-# Materialized with the warded Secret Key
+# Born from the warded secret in the Gnostic Vault.
 clerk_client = Clerk(bearer_auth=settings.CLERK_SECRET_KEY.get_secret_value())
 
 security = HTTPBearer()
@@ -35,31 +50,31 @@ async def get_current_user(res: HTTPAuthorizationCredentials = Depends(security)
     =============================================================================
     == THE PASSPORT GUARD (V-Ω-TOTALITY)                                      ==
     =============================================================================
-    LIF: ∞ | ROLE: IDENTITY_ADJUDICATOR
+    LIF: ∞ | ROLE: IDENTITY_ADJUDICATOR | RANK: OMEGA
     
-    Surgically verifies the Gnostic JWT issued by Clerk. 
-    If the token is profane or expired, it vetoes the request.
+    Surgically verifies the Gnostic JWT issued by the Celestial Identity Provider.
+    If the token is profane, expired, or void, it righteously stays the Gaze.
     \"\"\"
     token = res.credentials
     try:
-        # [STRIKE]: Verifying the session in the celestial registry
+        # [STRIKE]: The Achronal Handshake
         request_state = clerk_client.sessions.verify_session(token)
         user_id = request_state.user_id
         
-        # Inhale full user Gnosis
+        # Inhale full user Gnosis from the Hub
         user = clerk_client.users.get(user_id)
         return user
     except Exception as e:
         Logger.error(f"❌ [AUTH] Identity Fracture: {e}")
         raise HTTPException(
-            status_code=status.HTTP_444_CONNECTION_CLOSED, # Gnostic 'No Response'
-            detail="Profane Identity: The provided token does not resonate."
+            status_code=status.HTTP_444_CONNECTION_CLOSED,
+            detail=\"Profane Identity: The provided token does not resonate with the Citadel.\"
         )
 """
 
-# [2] THE FRONTEND MEMBRANE (The Eye)
-# @layout(IdentityWrapper)
+# [MOVEMENT II: THE OCULAR MEMBRANE]
 frontend/src/components/auth/
+    # [ASCENSION 4]: THE IDENTITY WRAPPER
     ClerkProvider.tsx :: """
 import React from 'react';
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
@@ -72,8 +87,7 @@ import { {{ clerk_theme }} } from '@clerk/themes';
  */
 export function IdentityWrapper({ children }: { children: React.ReactNode }) {
   return (
-    {/* [THE CURE]: Using Jinja string literals to escape React JSX Double-Braces */}
-    <ClerkProvider appearance={{"{{"}} baseTheme: {{ clerk_theme }} {{"}}"}} >
+    <ClerkProvider appearance={ {{" appearance={{ "}} baseTheme: {{ clerk_theme }} {{ "}}" }} } >
       <header className="flex justify-between items-center p-6 border-b border-zinc-900 bg-black/50 backdrop-blur-xl">
         <div className="flex items-center gap-4">
            <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse" />
@@ -100,27 +114,39 @@ export function IdentityWrapper({ children }: { children: React.ReactNode }) {
 
 # --- III. THE SURGICAL WEAVE ---
 
-# 1. Dependency Inception
-@if {{ is_python | lower == "true" }}
+# [ASCENSION 12]: Dependency Inception
+@if {{ is_python }}
     pyproject.toml += """
 clerk-backend-api = "^1.0.0"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 """
 @endif
 
-# 2. UI Entrypoint Suture (Next.js layout)
-# @scaffold:wire(target="frontend/src/app/layout.tsx", anchor="body")
-# This tells the ReactOcular strategy to wrap the <body> in our <IdentityWrapper>
+# [ASCENSION 20]: Ocular Suture (Next.js Layout)
+# This marker tells the ReactOcular strategy to wrap the body in the IdentityWrapper.
+# @scaffold:layout(target="frontend/src/app/layout.tsx", wrap="IdentityWrapper")
 
 # --- IV. THE MAESTRO'S WILL ---
+
 %% post-run
-    proclaim: "The [bold cyan]Clerk Identity Stratum[/bold cyan] has been waked."
-    proclaim: "Backend Guard: [white]core/security/passport.py[/]"
-    proclaim: "Ocular Wrapper: [white]components/auth/ClerkProvider.tsx[/]"
+    proclaim: "The [bold cyan]Clerk Identity Stratum[/bold cyan] has achieved Convergence."
     
-    proclaim: "[bold yellow]ACTION REQUIRED:[/bold yellow]"
-    proclaim: "Inscribe your Clerk keys in [bold].env[/bold]:"
-    proclaim: "  [dim]CLERK_SECRET_KEY=sk_test_...[/]"
-    proclaim: "  [dim]CLERK_PUBLISHABLE_KEY=pk_test_...[/]"
+    # [ASCENSION 13]: Initialize the physical sanctums
+    >> mkdir -p src/{{ vault_package_name }}/core/security frontend/src/components/auth
     
-    proclaim: "LIF-Multiplier: [bold green]100,000x (Identity Infrastructure -> 0)[/]"
+    proclaim: "[bold yellow]ACTION REQUIRED:[/bold yellow] Inscribe keys in [bold].env[/bold]:"
+    proclaim: "   [dim]CLERK_SECRET_KEY=sk_...[/]"
+    proclaim: "   [dim]CLERK_PUBLISHABLE_KEY=pk_...[/]"
+    
+    # 1. Dependency Summoning
+    @if {{ has_poetry }}
+        >> poetry add clerk-backend-api
+    @else
+        >> pip install clerk-backend-api
+    @endif
+    ?? succeeds
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Identity Infrastructure -> 0)[/]"
+
+%% on-heresy
+    proclaim: "[bold red]Identity materialization fractured.[/bold red]"

@@ -1,44 +1,37 @@
 # ==============================================================================
-# == GNOSTIC ARCHETYPE: API GATEWAY MONAD (V-Ω-TOTALITY-V2.2-INGRESS)         ==
+# == GNOSTIC SHARD: API GATEWAY MONAD (V-Ω-TOTALITY-V2.5-INGRESS)             ==
 # ==============================================================================
-# @description: Materializes a sovereign unified ingress orchestrator using 
-#               Caddy. Manages automatic SSL, request normalization, and 
-#               achronal trace-id injection for microservice multiverses.
+# @description: Injects a sovereign unified ingress orchestrator using Caddy. 
+#               Manages automatic SSL, request normalization, and achronal 
+#               trace-id injection for microservice multiverses.
 # @category: Integrations / Networking
 # @vibe: gateway, ingress, caddy, ssl-auto, proxy, mesh, microservices, warded
 # @provides: [ingress-authority, ssl-manager, api-gateway, reverse-proxy]
-# @requires: [docker-orchestration, pydantic-settings, network-access]
+# @requires: [docker-orchestration, network-access]
 # @substrate: cross-platform (Iron / Cloud)
-# @version: 2.2.0-Ω
+# @version: 2.5.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: Causal Variable Anchoring
-$$ project_slug = {{ project_slug | default("omega-citadel") }}
-$$ public_domain = {{ domain | default(project_slug + ".local") }}
-$$ api_vessel = {{ api_host | default("api-service") }}
-$$ ui_vessel = {{ ui_host | default("web-service") }}
-$$ api_port = {{ api_port | default(8000) }}
-$$ ui_port = {{ ui_port | default(3000) }}
-$$ mesh_network = "{{ project_slug }}_gnostic_mesh"
-$$ package_name = {{ package_name | default(project_slug | snake) }}
+# We inherit project_slug and package_name from the active Mind.
+$$ public_domain = {{ domain | default("citadel.local") }}
+$$ api_vessel    = {{ api_host | default("api-service") }}
+$$ ui_vessel     = {{ ui_host | default("web-service") }}
+$$ api_port       = {{ api_port | default(8000) }}
+$$ ui_port        = {{ ui_port | default(3000) }}
 
 # --- II. THE SCRIPTURE OF FORM (The Aperture Law) ---
 
 infra/gateway/
     # [ASCENSION 2]: THE GNOSTIC INGRESS POLICY
-    # Defines the laws of the perimeter. Implements Zero-Trust headers
-    # and Automatic SSL Inception.
+    # Wards the perimeter and ensures persistence across substrate reboots.
     Caddyfile :: """
 {
     # --- GLOBAL CONSTITUTION ---
-    # [ASCENSION 1]: Diagnostic Exposure
     admin 0.0.0.0:2019
     debug
-    
-    # [ASCENSION 2]: Persistence Suture
-    # Ensures certificates survive substrate reboots.
     storage file_system /data
 }
 
@@ -53,44 +46,31 @@ infra/gateway/
 
     # --- THE PERIMETER SHIELD (Security Headers) ---
     header {
-        # Banish Iframe hijacking
         X-Frame-Options DENY
-        # Annihilate MIME-type sniffing heresies
         X-Content-Type-Options nosniff
-        # Enforce the strictness of the Secure Socket
         Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-        # [ASCENSION 7]: Strict Content Security Policy
         Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';"
-        # Mask server identity to prevent fingerprinting
         -Server
     }
 
     # [ASCENSION 10]: HYDRAULIC COMPRESSION
-    # Negotiates the fastest metabolic transfer via Zstd or Gzip.
     encode zstd gzip
 
     # --- STRATUM I: THE INTELLIGENCE LAYER (/api/*) ---
     handle_path /api/* {
-        # [ASCENSION 4]: Forward intent to the API service
         reverse_proxy {{ api_vessel }}:{{ api_port }} {
             header_up X-Real-IP {remote_host}
             header_up X-Forwarded-Proto {scheme}
-            
-            # [ASCENSION 3]: ACHRONAL TRACE INJECTION
-            # Forges the Silver Cord if missing, ensuring distributed causality.
-            header_up X-Titan-Trace {header.X-Titan-Trace}
             header_up X-Gnostic-Trace {uuid}
         }
     }
 
     # --- STRATUM II: THE OCULAR LAYER (/*) ---
     handle {
-        # [ASCENSION 5]: Fallback to the Visual Membrane
         reverse_proxy {{ ui_vessel }}:{{ ui_port }}
     }
 
     # [ASCENSION 12]: THE METRIC RADIATOR
-    # Exposes real-time traffic tomography for the Panopticon.
     metrics /metrics
 
     # --- THE REDEMPTION (Custom Error Sanctum) ---
@@ -107,10 +87,9 @@ infra/gateway/
 version: '3.8'
 
 services:
-  # [THE PERIMETER WARDEN]
   gateway:
     image: caddy:2.7-alpine
-    container_name: {{ project_slug }}_gateway
+    container_name: gnostic-gateway
     restart: unless-stopped
     ports:
       - "80:80"
@@ -126,7 +105,6 @@ services:
     environment:
       - DOMAIN={{ public_domain }}
     healthcheck:
-      # [ASCENSION 9]: Metabolic Health Check
       test: ["CMD", "curl", "-f", "http://localhost:2019/metrics"]
       interval: 30s
       timeout: 5s
@@ -135,7 +113,7 @@ services:
 networks:
   gnostic_mesh:
     external: true
-    name: {{ mesh_network }}
+    name: {{ project_slug }}_gnostic_mesh
 
 volumes:
   gateway_data:
@@ -147,7 +125,6 @@ src/{{ package_name }}/core/gateway/
     __init__.py :: ""
     
     # [ASCENSION 6]: THE ROUTE SCRIER
-    # A Gnostic utility that verifies the Gateway's vision.
     scrier.py :: """
 import socket
 import logging
@@ -157,9 +134,7 @@ from typing import List, Tuple
 Logger = logging.getLogger("Gateway:Scrier")
 
 class GatewayScrier:
-    \"\"\"
-    Performs a network-level Gaze to ensure the mesh backends are breathing.
-    \"\"\"
+    \"\"\"Performs a network-level Gaze to ensure the mesh backends are breathing.\"\"\"
     BACKENDS: List[Tuple[str, int]] = [
         ("{{ api_vessel }}", {{ api_port }}),
         ("{{ ui_vessel }}", {{ ui_port }})
@@ -167,72 +142,49 @@ class GatewayScrier:
 
     @classmethod
     def verify_resonance(cls) -> bool:
-        \"\"\"Scries all configured backends for physical presence.\"\"\"
         all_stable = True
         for host, port in cls.BACKENDS:
             try:
-                # [ASCENSION 13]: Nanosecond Socket Probe
                 with socket.create_connection((host, port), timeout=1.0):
-                    print(f"✅ Backend [cyan]{host}:{port}[/cyan] is RESONANT.")
-            except (socket.timeout, ConnectionRefusedError, socket.gaierror):
-                print(f"❌ Backend [bold red]{host}:{port}[/bold red] is FRACTURED.")
+                    print(f"✅ Backend {host}:{port} is RESONANT.")
+            except:
+                print(f"❌ Backend {host}:{port} is FRACTURED.")
                 all_stable = False
         return all_stable
 
 if __name__ == "__main__":
     import sys
-    success = GatewayScrier.verify_resonance()
-    sys.exit(0 if success else 1)
+    sys.exit(0 if GatewayScrier.verify_resonance() else 1)
 """
 
-# --- IV. THE CONTROL PLANE (Makefile Integration) ---
-# [ASCENSION 9]: Global Conductor Suture
-Makefile:
-    .PHONY: gateway-up gateway-down gateway-check gateway-logs gateway-reload
+# --- IV. THE CONTROL PLANE (Maestro Integration) ---
+Makefile += """
 
-    # Gnostic Coordinates
-    $GW_COMPOSE = infra/gateway/docker-compose.gateway.yml
-    $MESH_NET = {{ mesh_network }}
+# --- GATEWAY RITES ---
+gateway-up: ## ignite the API Gateway Monad and forge the mesh
+    @echo "🔭 Awakening the Ingress Aperture..."
+    @docker network create {{ project_slug }}_gnostic_mesh 2>/dev/null || true
+    @docker-compose -f infra/gateway/docker-compose.gateway.yml up -d
+    @echo "✅ Gateway manifest at http://{{ public_domain }}"
 
-    gateway-up: ## ignite the API Gateway Monad and forge the mesh
-        @echo "🔭 Awakening the Perimenter Aperture..."
-        @docker network create $($MESH_NET) 2>/dev/null || true
-        @docker-compose -f $($GW_COMPOSE) up -d
-        @echo "✅ Gateway manifest at http://{{ public_domain }}"
+gateway-down: ## return the Gateway to the void
+    @docker-compose -f infra/gateway/docker-compose.gateway.yml down
 
-    gateway-down: ## return the Gateway to the void
-        @echo "🌑 Dissolving the Aperture..."
-        @docker-compose -f $($GW_COMPOSE) down
-
-    gateway-reload: ## hot-swap the gateway configuration without dropping links
-        @docker exec -it {{ project_slug }}_gateway caddy reload --config /etc/caddy/Caddyfile
-
-    gateway-check: ## conduct a health inquest on the ingress lattice
-        @echo "🔍 Scrying the Mesh Network..."
-        @docker exec -it {{ project_slug }}_gateway caddy validate --config /etc/caddy/Caddyfile
-        @poetry run python src/{{ package_name }}/core/gateway/scrier.py
-
-    gateway-logs: ## gaze into the ingress chronicles
-        @docker-compose -f $($GW_COMPOSE) logs -f gateway
+gateway-check: ## conduct a health inquest on the ingress lattice
+    @poetry run python src/{{ package_name }}/core/gateway/scrier.py
+"""
 
 # --- V. THE MAESTRO'S WILL ---
 # [ASCENSION 12]: Cinematic Guidance
 %% post-run
-    proclaim: "The [bold cyan]API Gateway Monad[/bold cyan] has achieved Totality."
+    proclaim: "The [bold cyan]API Gateway Monad[/bold cyan] shard has been integrated."
+    
+    # [ASCENSION 13]: Recursive Directory Suture
+    # Ensure the target directories exist before the transaction commits.
+    >> mkdir -p infra/gateway src/{{ package_name }}/core/gateway
+    
     proclaim: "Aperture Domain: [bold yellow]http://{{ public_domain }}[/]"
-    proclaim: "Mesh Network: [white]{{ mesh_network }}[/]"
-    
-    # 1. Initialize the Gateway Sanctum
-    proclaim: "Forging the Ingress Sanctum..."
-    >> mkdir -p infra/gateway
-    >> mkdir -p src/{{ package_name }}/core/gateway
-    
-    # 2. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Ingress Chaos -> 0)[/]"
-    proclaim: "[bold green]The Perimeter is now Sovereign. All routes warded.[/bold green]"
     proclaim: "To ignite the Aperture: [bold cyan]make gateway-up[/bold cyan]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Gateway materialization fractured.[/bold red] Perimeter remains open."
-    rm -rf infra/gateway/ src/{{ package_name }}/core/gateway/
+    proclaim: "[bold red]Gateway weaving fractured.[/bold red]"

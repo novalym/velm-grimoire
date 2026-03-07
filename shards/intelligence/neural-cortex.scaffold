@@ -1,36 +1,58 @@
-# Path: codex/shards/intelligence/neural-cortex.scaffold
-# ------------------------------------------------------
-
+# =================================================================================
+# == GNOSTIC SHARD: NEURAL CORTEX (V-Ω-TOTALITY-V24-SINGULARITY)                 ==
+# =================================================================================
+# @description: The definitive Cognitive Spine. Wires a universal AI Gateway 
+#               supporting 100+ providers via LiteLLM with real-time HUD telemetry.
+# @category: Intelligence / AI
+# @vibe: ai, llm, litellm, gateway, cognition, telemetry, cost-tracking, neural
+# @provides: [neural-mind-authority, ai-gateway, cognitive-spine]
+# @requires: [python-core, pydantic-settings, gnostic-telemetry-beacon]
+# @substrate: python
+# @version: 24.0.0-Ω
+# @LIF: INFINITY
+# =================================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
-$$ default_model = {{ default_model | default("gpt-4o") }}
+# [THE FIX]: Using 'vault_package_name' to prevent collision with reserved engine names
+$$ vault_package_name = {{ package_name | default(project_slug | snake) }}
+$$ default_model       = {{ default_model | default("gpt-4o") }}
 
 # --- II. THE SCRIPTURE OF FORM (The Cognitive Mind) ---
 
-src/{{ package_name }}/core/ai/
-    __init__.py :: "from .gateway import neural_gateway\n"
+src/{{ vault_package_name }}/core/ai/
+    __init__.py :: """
+from .gateway import neural_gateway, AIRevelation
+__all__ = ["neural_gateway", "AIRevelation"]
+"""
 
-    # [ASCENSION 1]: The Universal Proxy (LiteLLM Suture)
-    # This artisan normalizes the multiverse of AI providers into a single 
-    # Pythonic vow, allowing for 0ms provider switching.
+    # [ASCENSION 1]: THE UNIVERSAL PROXY (THE MASTER SUTURE)
     gateway.py :: """
 import os
 import time
+import uuid
 import logging
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
 from litellm import completion
 from pydantic import BaseModel, Field
 
-Logger = logging.getLogger("Intelligence:Cortex")
+# --- THE DIVINE UPLINKS ---
+from ...logger import Scribe
+
+Logger = Scribe("NeuralCortex")
 
 class AIRevelation(BaseModel):
-    \"\"\"The structured soul of an AI epiphany.\"\"\"
-    content: str
-    model: str
-    cost_usd: float
-    latency_ms: float
-    trace_id: str
+    \"\"\"
+    =============================================================================
+    == THE AI REVELATION (V-Ω-TOTALITY)                                       ==
+    =============================================================================
+    The structured soul of an AI epiphany.
+    \"\"\"
+    content: str = Field(..., description="The transmuted matter (output text).")
+    model: str = Field(..., description="The specific mind utilized.")
+    cost_usd: float = Field(0.0, description="The fiscal tax of this thought.")
+    latency_ms: float = Field(0.0, description="The temporal tax of this thought.")
+    trace_id: str = Field(..., description="The silver cord of causality.")
+    metadata: Dict[str, Any] = Field(default_factory=dict)
 
 class NeuralGateway:
     \"\"\"
@@ -39,64 +61,96 @@ class NeuralGateway:
     =============================================================================
     LIF: ∞ | ROLE: COGNITIVE_ORCHESTRATOR | RANK: OMEGA
     
-    [ASCENSIONS]:
-    1. Substrate Agnosticism: Swaps between OpenAI, Anthropic, and local Ollama.
-    2. Fiscal Tomography: Records the exact dollar-tax of every epiphany.
-    3. Haptic HUD Pulses: Radiates 'Thinking' signals to the Ocular HUD.
-    4. Phoenix Retry: Automatic exponential backoff on provider fractures.
+    The supreme bridge between Architect Intent and Silicon Intelligence.
     \"\"\"
-    def __init__(self):
+    def __init__(self, engine: Any = None):
+        self.engine = engine
         self.default_model = os.getenv("SCAFFOLD_AI_MODEL", "{{ default_model }}")
+        
+        # [ASCENSION 4]: Phoenix Resilience
+        # LiteLLM handles retries; we configure the ward here.
+        import litellm
+        litellm.num_retries = 3
+        litellm.telemetry = False # Preserve Gnostic privacy
 
-    async def think(self, prompt: str, system: str = None, trace_id: str = "tr-void") -> AIRevelation:
+    async def think(
+        self, 
+        prompt: str, 
+        system: Optional[str] = None, 
+        model: Optional[str] = None,
+        trace_id: Optional[str] = None
+    ) -> AIRevelation:
         \"\"\"
         Conducts the Rite of Inference.
         \"\"\"
         start_ts = time.perf_counter()
-        
-        # [ASCENSION 3]: HUD Multicast (Signal Intent)
-        self._radiate_thought_start(trace_id)
+        active_trace = trace_id or f"tr-ai-{uuid.uuid4().hex[:6].upper()}"
+        active_model = model or self.default_model
+
+        # [ASCENSION 3]: HUD MULTICAST (Thinking Pulse)
+        self._radiate_hud_pulse("AI_THINKING", "#a855f7", active_trace, active_model)
 
         try:
-            # [ASCENSION 4]: Phoenix Retry Logic is built into LiteLLM
+            # [STRIKE]: The Neural Communion
             response = await completion(
-                model=self.default_model,
+                model=active_model,
                 messages=[
                     {"role": "system", "content": system or "You are a Gnostic Architect Engine."},
                     {"role": "user", "content": prompt}
                 ],
-                metadata={"trace_id": trace_id}
+                metadata={"trace_id": active_trace}
             )
 
             duration_ms = (time.perf_counter() - start_ts) * 1000
             
-            # [ASCENSION 2]: Fiscal Tomography
+            # [ASCENSION 2]: FISCAL TOMOGRAPHY
+            # LiteLLM calculates cost based on token usage and model pricing.
             cost = getattr(response, '_response_cost', 0.0)
-
-            return AIRevelation(
+            
+            revelation = AIRevelation(
                 content=response.choices[0].message.content,
                 model=response.model,
                 cost_usd=cost,
                 latency_ms=duration_ms,
-                trace_id=trace_id
+                trace_id=active_trace
             )
 
+            # [ASCENSION 11]: SUCCESS RADIATION
+            self._radiate_hud_pulse("AI_COMPLETE", "#64ffda", active_trace, active_model)
+            
+            return revelation
+
         except Exception as e:
+            # [ASCENSION 8]: FRACTURE TELEMETRY
+            self._radiate_hud_pulse("AI_FRACTURED", "#ef4444", active_trace, active_model)
             Logger.error(f"Neural Link Severed: {e}")
             raise e
 
-    def _radiate_thought_start(self, trace_id: str):
-        # (Prophecy: This sutures to the Turn 11 Reactive Hub)
-        pass
+    def _radiate_hud_pulse(self, type_str: str, color: str, trace: str, model: str):
+        \"\"\"[ASCENSION 3]: Directly signals the Ocular HUD.\"\"\"
+        if self.engine and hasattr(self.engine, 'akashic') and self.engine.akashic:
+            try:
+                self.engine.akashic.broadcast({
+                    "method": "novalym/hud_pulse",
+                    "params": {
+                        "type": type_str,
+                        "label": f"BRAIN: {model}",
+                        "color": color,
+                        "trace": trace
+                    }
+                })
+            except:
+                pass
 
-# Singleton Mind
+# [ASCENSION 12]: THE SOVEREIGN BINDING
+# This singleton is waked by the Conductor during boot.
 neural_gateway = NeuralGateway()
 """
 
 # [ASCENSION 5]: THE ENVIRONMENT DNA
 .env.example += """
 
-# --- NEURAL CORTEX ---
+# --- NEURAL CORTEX (Intelligence Stratum) ---
 OPENAI_API_KEY=sk-placeholder
 ANTHROPIC_API_KEY=sk-ant-placeholder
 SCAFFOLD_AI_MODEL={{ default_model }}
@@ -111,19 +165,24 @@ litellm = "^1.31.0"
 
 # --- IV. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "The [bold cyan]Neural Cortex[/] is waked."
-    proclaim: "Cognitive Locus: [white]src/{{ package_name }}/core/ai/gateway.py[/]"
-    proclaim: "Primary Model: [bold yellow]{{ default_model }}[/]"
+    proclaim: "The [bold cyan]Neural Cortex[/] has been sutured into the Mind."
+    proclaim: "Locus: [white]src/{{ vault_package_name }}/core/ai/gateway.py[/]"
+    
+    # [ASCENSION 13]: Initialize the directory hierarchy
+    >> mkdir -p src/{{ vault_package_name }}/core/ai
     
     # 1. Dependency Summoning
     proclaim: "Phase I: Summoning the Neural artisans... (litellm)"
-    >> poetry add litellm
+    @if {{ has_poetry }}
+        >> poetry add litellm
+    @else
+        >> pip install litellm
+    @endif
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cognitive Latency -> 0)[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cognitive Friction -> 0)[/]"
     proclaim: "[bold green]✅ The Mind is open.[/bold green] Your application can now perceive intent."
 
 %% on-heresy
     proclaim: "[bold red]Neural materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/ai

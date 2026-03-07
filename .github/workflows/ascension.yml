@@ -1,7 +1,7 @@
 # Path: .github/workflows/ascension.yml
 # ------------------------------------
 # LIF: ∞ // ROLE: CELESTIAL_GOVERNOR_&_FORENSIC_INQUISITOR
-# AUTH_CODE: Ω_DIAGNOSTIC_VMAX_2026_FINALIS
+# AUTH_CODE: Ω_ASCENSION_VMAX_ONTOLOGY_2026_FINALIS
 
 name: Ω | Celestial Ascension & ONNX Vector Adjudication
 
@@ -11,6 +11,8 @@ on:
     paths:
       - 'archetypes/**.scaffold'
       - 'shards/**.scaffold'
+      - 'traits/**.scaffold'
+      - 'infrastructure/**.scaffold'
       - 'atoms/**.py'
       - 'scripts/rebuild_index.py'
   pull_request:
@@ -50,12 +52,15 @@ jobs:
           path: ~/.scaffold/models
           key: ucl-onnx-minilm-v2
 
-      # --- THE SUPREME INQUEST (HYPER-DIAGNOSTIC) ---
-      - name: 🔍 Conducting 7-Pillar Gnostic Inquest
+      # =========================================================================
+      # == THE SUPREME INQUEST: MULTIVERSAL ONTOLOGY ADJUDICATION              ==
+      # =========================================================================
+      - name: 🔍 Conducting Multiversal Gnostic Inquest
         shell: python
         run: |
           import os
           import sys
+          import re
           from pathlib import Path
           from rich.console import Console
           from rich.table import Table
@@ -63,35 +68,75 @@ jobs:
 
           console = Console()
           
+          # [THE LAWS OF FORM]: Defining the Pillars for each Ontology
           SHARD_PILLARS = ["@description:", "@category:", "@vibe:", "@provides:", "@requires:", "@substrate:", "@version:"]
+          TRAIT_PILLARS = ["@description:", "@category:", "@vibe:", "@provides:", "@requires:", "@substrate:", "@version:"]
+          CITADEL_PILLARS = ["@description:", "@category:", "@vibe:", "@provides:", "@requires:", "@substrate:", "@version:"]
           ARCH_PILLARS = ["@description:", "@category:", "@tags:"]
+          
+          # Map [Gnostic Header String] -> Required Pillars
+          ONTOLOGY_MAP = {
+              "SHARD": SHARD_PILLARS,
+              "TRAIT": TRAIT_PILLARS,
+              "CITADEL": CITADEL_PILLARS,
+              "MONAD": SHARD_PILLARS,
+              "ARCHETYPE": ARCH_PILLARS
+          }
+
+          # Regex to scry the first line for Ontological Identity
+          ONTOLOGY_PATTERN = re.compile(r"== GNOSTIC\s+(?P<type>SHARD|TRAIT|MONAD|CITADEL|ARCHETYPE):", re.IGNORECASE)
           
           heresies = []
 
-          def scry_directory(directory, pillars, label):
-              error_count = 0
+          def conduct_inquest(directory):
+              if not os.path.exists(directory):
+                  return
+                  
               for path in Path(directory).rglob("*.scaffold"):
                   if ".scaffold" in path.parts: continue
-                  content = path.read_text().lower()
-                  missing = [p for p in pillars if p.lower() not in content]
+                  
+                  content = path.read_text(encoding='utf-8', errors='ignore')
+                  lines = content.splitlines()
+                  if not lines: continue
+                  
+                  # 1. Divine Ontology from first line
+                  first_line = lines[0].strip()
+                  onto_match = ONTOLOGY_PATTERN.search(first_line)
+                  
+                  # 2. Determine Rule Set
+                  if onto_match:
+                      o_type = onto_match.group("type").upper()
+                  else:
+                      # Heuristic Fallback based on directory
+                      o_type = "ARCHETYPE" if "archetype" in str(path).lower() else "SHARD"
+                  
+                  pillars = ONTOLOGY_MAP.get(o_type, SHARD_PILLARS)
+                  
+                  # 3. Adjudicate Content
+                  content_lower = content.lower()
+                  missing = [p for p in pillars if p.lower() not in content_lower]
+                  
                   if missing:
                       for m in missing:
-                          # Emit GitHub Annotation
-                          print(f"::error file={path},line=1::Heresy: {label} missing {m}")
-                          heresies.append({"file": str(path), "type": label, "missing": m})
-                          error_count += 1
-              return error_count
+                          # [ASCENSION 5]: GitHub Annotation Radiation
+                          print(f"::error file={path},line=1::Ontological Heresy: {o_type} is missing pillar '{m}'")
+                          heresies.append({
+                              "file": str(path.relative_to(os.getcwd())), 
+                              "type": o_type, 
+                              "missing": m
+                          })
 
-          console.print(Panel("[bold cyan]UCL TAXONOMY ADJUDICATION: INITIATED[/]", border_style="cyan"))
+          console.print(Panel("[bold cyan]MULTIVERSAL TAXONOMY ADJUDICATION: INITIATED[/]", border_style="cyan"))
           
-          scry_directory("shards", SHARD_PILLARS, "Shard (Matter)")
-          scry_directory("archetypes", ARCH_PILLARS, "Archetype (Form)")
+          # Conduct Inquest across all known strata
+          for strata in ["shards", "archetypes", "traits", "infrastructure", "codex/shards"]:
+              conduct_inquest(strata)
 
           if heresies:
               table = Table(title="[bold red]THE CHRONICLE OF LATTICE FRACTURES[/]", border_style="red", expand=True)
               table.add_column("Locus (File Path)", style="magenta")
-              table.add_column("Ontological Type", style="yellow")
-              table.add_column("Missing Pillar", style="red", bold=True)
+              table.add_column("Ontological Lifeform", style="yellow")
+              table.add_column("Missing Gnostic Pillar", style="red", bold=True)
               
               for h in heresies:
                   table.add_row(h['file'], h['type'], h['missing'])
@@ -100,12 +145,13 @@ jobs:
               console.print(f"\n[bold red]🛑 FRACTURE DETECTED:[/] {len(heresies)} Heresies perceived in the architecture.")
               sys.exit(1)
           
-          console.print(Panel("[bold green]✨ LATTICE RESONANT: ALL HEADERS ARE PURE[/]", border_style="green"))
+          console.print(Panel("[bold green]✨ LATTICE RESONANT: ALL GNOSTIC GENOMES ARE PURE[/]", border_style="green"))
 
       # --- III. THE TRANSFORMATION (ONNX EMBEDDING) ---
       - name: 🌀 Materializing Lightweight Celestial Index
         run: |
           mkdir -p registry
+          # The Rebuild script remains the primary alchemist
           python scripts/rebuild_index.py \
             --repo ${{ github.repository }} \
             --branch main \

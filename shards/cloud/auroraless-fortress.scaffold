@@ -1,343 +1,319 @@
 # =================================================================================
-# == GNOSTIC ARCHETYPE: AWS AURORALESS FORTRESS (V-Ω-SERVERLESS-DATA-VMAX)       ==
+# == GNOSTIC SHARD: AWS AURORALESS FORTRESS (V-Ω-TOTALITY-V4-FINALIS)            ==
 # =================================================================================
-# @description: A highly scalable, cost-optimized persistence layer. Forges an 
-#               AWS Aurora Serverless v2 cluster with RDS Proxy, VPC networking, 
-#               KMS Encryption, and Performance Insights using pure Terraform.
+# @description: The definitive Serverless Data Stratum. Wires a warded 
+#               Aurora v2 cluster with RDS Proxy and Achronal Encryption.
 # @category: Infrastructure / Database
-# @vibe: aws, aurora, serverless, rds-proxy, terraform, persistence, vpc, postgres
+# @vibe: aws, aurora, serverless, rds-proxy, terraform, postgres, titan
 # @provides: [serverless-database, rds-proxy, vpc-network, kms-encryption]
 # @requires: [aws-cli, terraform-binary]
 # @substrate: terraform
-# @version: 3.5.0-Ω
+# @version: 4.0.0-Ω
 # @LIF: INFINITY
 # =================================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ project_name = {{ project_name | default("aurora-citadel") }}
-$$ author = "{{ author | default('The Architect') }}"
-$$ aws_region = {{ aws_region | default("us-east-1") }}
-$$ environment = {{ env | default("staging") }}
+$$ db_name       = {{ project_name | default("aurora_citadel") | snake }}
+$$ aws_region    = {{ aws_region | default("us-east-1") }}
+$$ environment   = {{ env | default("staging") }}
 
-# Derived Gnosis
-$$ project_slug = {{ project_name | slug }}
+# [THE FIX]: Using 'vault_secrets' to prevent collision with Request.secrets
+$$ vault_secrets = "@crypto/password(32)"
 
-# --- II. THE SCRIPTURE OF FORM ---
-{{ project_slug }}/
+# --- II. THE SCRIPTURE OF FORM (Physical Matter) ---
 
-    # [ASCENSION 1]: THE KERNEL CONFIGURATION
-    .gitignore :: """
-.terraform/
-*.tfstate
-*.tfstate.backup
-.terraform.lock.hcl
-*.log
-    """
+# [ASCENSION 10]: THE ABYSSAL SHIELD
+.gitignore += """
+# == Terraform Abyss (Auroraless) ==
+infra/database/.terraform/
+infra/database/*.tfstate
+infra/database/*.tfstate.backup
+infra/database/.terraform.lock.hcl
+"""
 
+infra/database/
     # [ASCENSION 2]: THE GNOSTIC PROVIDER
     providers.tf :: """
 terraform {
   required_version = ">= 1.5.0"
   required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.5"
-    }
+    aws = { source  = "hashicorp/aws", version = "~> 5.0" }
+    random = { source  = "hashicorp/random", version = "~> 3.5" }
   }
-  # [ASCENSION 13]: Backend prophecy for production state management
-  # backend "s3" {} 
 }
-
-provider "aws" {
-  region = var.aws_region
-}
-    """
+provider "aws" { region = var.aws_region }
+"""
 
     # [ASCENSION 3]: THE GNOSTIC VARIABLES
     variables.tf :: """
-variable "aws_region" {
-  description = "The AWS region to forge resources in."
-  type        = string
-  default     = "{{ aws_region }}"
-}
-variable "project_name" {
-  description = "The Gnostic name for resource tagging."
-  type        = string
-  default     = "{{ project_name }}"
-}
-variable "environment" {
-  description = "The target environment (e.g., staging, production)."
-  type        = string
-  default     = "{{ environment }}"
-}
-    """
+variable "aws_region" { type = string; default = "{{ aws_region }}" }
+variable "db_name" { type = string; default = "{{ db_name }}" }
+variable "environment" { type = string; default = "{{ environment }}" }
+"""
 
-    # [ASCENSION 4]: THE MASTER SYMPHONY (ROOT)
+    # [ASCENSION 4]: THE MASTER SYMPHONY
     main.tf :: """
-// This is the root conductor. It calls the networking, kms, and persistence modules.
-
 module "context" {
   source = "./modules/context"
-  project_name = var.project_name
+  project_name = var.db_name
   environment  = var.environment
 }
 
-// [ASCENSION 14]: KMS Encryption Key Forge
 module "kms" {
-  source = "./modules/kms"
-  tags   = module.context.tags
-  alias_name = "alias/${var.project_name}-${var.environment}-db"
+  source     = "./modules/kms"
+  tags       = module.context.tags
+  alias_name = "alias/${var.db_name}-${var.environment}-db"
 }
 
 module "network" {
-  source = "./modules/network"
-  tags   = module.context.tags
+  source      = "./modules/network"
+  tags        = module.context.tags
   environment = var.environment
 }
 
 module "persistence" {
-  source     = "./modules/persistence"
-  vpc_id     = module.network.vpc_id
-  subnet_ids = module.network.private_subnet_ids
-  tags       = module.context.tags
-  project_name = var.project_name
-  kms_key_arn = module.kms.key_arn
+  source       = "./modules/persistence"
+  vpc_id       = module.network.vpc_id
+  subnet_ids   = module.network.private_subnet_ids
+  tags         = module.context.tags
+  project_name = var.db_name
+  kms_key_arn  = module.kms.key_arn
+  db_pass      = "{{ vault_secrets }}"
 }
-    """
-    
-    # [ASCENSION 5]: THE MODULAR ORGANS (VPC, CONTEXT, PERSISTENCE, KMS)
-    modules/
-        context/
-            main.tf :: """
+"""
+
+    # [ASCENSION 5]: THE MODULAR ORGANS
+    modules/context/main.tf :: """
 locals {
   global_tags = {
     Project     = var.project_name
     Environment = var.environment
-    ManagedBy   = "Velm-Terraform-God-Engine"
+    ManagedBy   = "VELM-God-Engine"
   }
 }
 output "tags" { value = local.global_tags }
-            """
-            variables.tf :: "variable \"project_name\" { type = string }\nvariable \"environment\" { type = string }"
-        
-        kms/
-            main.tf :: """
-# [ASCENSION 15]: Substrate Encryption Authority
+"""
+    modules/context/variables.tf :: "variable \"project_name\" { type = string }\nvariable \"environment\" { type = string }"
+
+    modules/kms/main.tf :: """
 resource "aws_kms_key" "db_key" {
-  description             = "KMS key for Aurora Serverless encryption"
-  enable_key_rotation     = true
-  deletion_window_in_days = 7
-  tags                    = var.tags
+  description = "KMS key for Aurora Serverless encryption"
+  enable_key_rotation = true
+  tags = var.tags
 }
 resource "aws_kms_alias" "db_alias" {
-  name          = var.alias_name
+  name = var.alias_name
   target_key_id = aws_kms_key.db_key.key_id
 }
 output "key_arn" { value = aws_kms_key.db_key.arn }
-            """
-            variables.tf :: "variable \"tags\" { type = map(string) }\nvariable \"alias_name\" { type = string }"
+"""
+    modules/kms/variables.tf :: "variable \"tags\" { type = map(string) }\nvariable \"alias_name\" { type = string }"
 
-        network/
-            main.tf :: """
-# [ASCENSION 16]: Multi-AZ High-Availability VPC
+    modules/network/main.tf :: """
 resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
   enable_dns_hostnames = true
-  tags                 = merge(var.tags, { Name = "vpc-${var.environment}" })
+  tags = merge(var.tags, { Name = "vpc-db-${var.environment}" })
 }
-
 data "aws_availability_zones" "available" { state = "available" }
-
 resource "aws_subnet" "private" {
-  count             = 3 # Force 3 AZs for Titanium stability
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index)
+  count = 3
+  vpc_id = aws_vpc.main.id
+  cidr_block = cidrsubnet(aws_vpc.main.cidr_block, 8, count.index)
   availability_zone = data.aws_availability_zones.available.names[count.index]
-  tags              = merge(var.tags, { Name = "private-${count.index}" })
+  tags = merge(var.tags, { Name = "private-db-${count.index}" })
 }
-
 output "vpc_id" { value = aws_vpc.main.id }
 output "private_subnet_ids" { value = aws_subnet.private[*].id }
-            """
-            variables.tf :: "variable \"environment\" { type = string }\nvariable \"tags\" { type = map(string) }"
+"""
+    modules/network/variables.tf :: "variable \"environment\" { type = string }\nvariable \"tags\" { type = map(string) }"
 
-        persistence/
-            main.tf :: """
-# [ASCENSION 6]: AURORA SERVERLESS V2 CLUSTER
+    modules/persistence/main.tf :: """
 resource "aws_rds_cluster" "aurora_v2" {
-  cluster_identifier       = "${var.project_name}-cluster"
-  engine                   = "aurora-postgresql"
-  engine_mode              = "provisioned" # Serverless V2 uses provisioned engine type
-  engine_version           = "15.5"
-  database_name            = "appdb"
-  master_username          = "gnostic_admin"
-  master_password          = random_password.db_password.result
-  vpc_security_group_ids   = [aws_security_group.db_sg.id]
-  db_subnet_group_name     = aws_db_subnet_group.main.name
-  
-  # [ASCENSION 17]: Storage Encryption
-  storage_encrypted        = true
-  kms_key_id               = var.kms_key_arn
-
-  # [ASCENSION 18]: Backup Windows
-  backup_retention_period  = 7
-  preferred_backup_window  = "02:00-04:00"
-  
-  # [ASCENSION 19]: Serverless V2 Scaling Config
-  serverlessv2_scaling_configuration {
-    max_capacity = 16.0
-    min_capacity = 0.5
-  }
-
+  cluster_identifier = "${var.project_name}-cluster"
+  engine = "aurora-postgresql"
+  engine_mode = "provisioned"
+  engine_version = "15.5"
+  database_name = "appdb"
+  master_username = "gnostic_admin"
+  master_password = var.db_pass
+  vpc_security_group_ids = [aws_security_group.db_sg.id]
+  db_subnet_group_name = aws_db_subnet_group.main.name
+  storage_encrypted = true
+  kms_key_id = var.kms_key_arn
+  serverlessv2_scaling_configuration { max_capacity = 16.0; min_capacity = 0.5 }
   tags = var.tags
 }
-
-# [ASCENSION 20]: Cluster Instance Genesis
 resource "aws_rds_cluster_instance" "aurora_v2_instance" {
   cluster_identifier = aws_rds_cluster.aurora_v2.id
-  instance_class     = "db.serverless"
-  engine             = aws_rds_cluster.aurora_v2.engine
-  engine_version     = aws_rds_cluster.aurora_v2.engine_version
-  
-  # [ASCENSION 21]: Performance Insights
-  performance_insights_enabled    = true
-  performance_insights_kms_key_id = var.kms_key_arn
-  
+  instance_class = "db.serverless"
+  engine = aws_rds_cluster.aurora_v2.engine
+  engine_version = aws_rds_cluster.aurora_v2.engine_version
+  performance_insights_enabled = true
   tags = var.tags
 }
-
-# [ASCENSION 7]: RDS PROXY (Connection Pooling)
 resource "aws_db_proxy" "main" {
-  name                   = "${var.project_name}-proxy"
-  engine_family          = "POSTGRESQL"
-  vpc_subnet_ids         = var.subnet_ids
+  name = "${var.project_name}-proxy"
+  engine_family = "POSTGRESQL"
+  vpc_subnet_ids = var.subnet_ids
   vpc_security_group_ids = [aws_security_group.db_sg.id]
-  role_arn               = aws_iam_role.proxy_role.arn
-  
-  auth {
-    auth_scheme = "SECRETS"
-    iam_auth    = "DISABLED"
-    secret_arn  = aws_secretsmanager_secret.db_secret.arn
-  }
+  role_arn = aws_iam_role.proxy_role.arn
+  auth { auth_scheme = "SECRETS"; iam_auth = "DISABLED"; secret_arn = aws_secretsmanager_secret.db_secret.arn }
 }
-
-resource "aws_db_proxy_default_target_group" "target" {
-  db_proxy_name = aws_db_proxy.main.name
-  connection_pool_config {
-    connection_borrow_timeout    = 120
-    max_connections_percent      = 100
-    max_idle_connections_percent = 50
-  }
-}
-
-resource "aws_db_proxy_target" "cluster" {
-  db_proxy_name          = aws_db_proxy.main.name
-  target_group_name      = aws_db_proxy_default_target_group.target.name
-  db_cluster_identifier  = aws_rds_cluster.aurora_v2.id
-}
-
-# --- Boilerplate & Secrets ---
-resource "aws_db_subnet_group" "main" {
-  name       = "${var.project_name}-subnet-group"
-  subnet_ids = var.subnet_ids
-}
-
-# [ASCENSION 22]: Strict Egress/Ingress
+resource "aws_db_subnet_group" "main" { name = "${var.project_name}-subnets"; subnet_ids = var.subnet_ids }
 resource "aws_security_group" "db_sg" { 
   vpc_id = var.vpc_id
   ingress { protocol = "tcp"; from_port = 5432; to_port = 5432; cidr_blocks = ["10.0.0.0/16"] }
-  egress  { protocol = "-1"; from_port = 0; to_port = 0; cidr_blocks = ["0.0.0.0/0"] }
 }
-
-resource "aws_secretsmanager_secret" "db_secret" { 
-  name = "${var.project_name}/db-credentials-${random_string.suffix.result}" 
-}
-
-resource "random_string" "suffix" { length = 4; special = false }
-
+resource "aws_secretsmanager_secret" "db_secret" { name = "${var.project_name}/db-vault" }
 resource "aws_secretsmanager_secret_version" "db_secret_version" {
   secret_id = aws_secretsmanager_secret.db_secret.id
-  secret_string = jsonencode({ 
-    username = "gnostic_admin", 
-    password = random_password.db_password.result,
-    engine   = "postgres",
-    host     = aws_rds_cluster.aurora_v2.endpoint,
-    port     = 5432,
-    dbname   = "appdb"
-  })
+  secret_string = jsonencode({ username = "gnostic_admin", password = var.db_pass })
 }
-
-# IAM Role for Proxy to read Secrets
 resource "aws_iam_role" "proxy_role" { 
-  name = "${var.project_name}-proxy-role" 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{ Action = "sts:AssumeRole", Effect = "Allow", Principal = { Service = "rds.amazonaws.com" } }]
-  })
+  name = "${var.project_name}-proxy-role"
+  assume_role_policy = jsonencode({ Version = "2012-10-17", Statement = [{ Action = "sts:AssumeRole", Effect = "Allow", Principal = { Service = "rds.amazonaws.com" } }] })
 }
-
 resource "aws_iam_role_policy" "proxy_policy" {
-  name = "${var.project_name}-proxy-policy"
-  role = aws_iam_role.proxy_role.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{ Action = "secretsmanager:GetSecretValue", Effect = "Allow", Resource = aws_secretsmanager_secret.db_secret.arn }]
-  })
+  name = "${var.project_name}-proxy-policy"; role = aws_iam_role.proxy_role.id
+  policy = jsonencode({ Version = "2012-10-17", Statement = [{ Action = "secretsmanager:GetSecretValue", Effect = "Allow", Resource = aws_secretsmanager_secret.db_secret.arn }] })
 }
-
-resource "random_password" "db_password" { length = 24; special = true; override_special = "_%@" }
-
-output "proxy_endpoint" { value = aws_db_proxy.main.endpoint }
-output "secret_arn" { value = aws_secretsmanager_secret.db_secret.arn }
-            """
-            variables.tf :: """
+"""
+    modules/persistence/variables.tf :: """
 variable "vpc_id" { type = string }
 variable "subnet_ids" { type = list(string) }
 variable "tags" { type = map(string) }
 variable "project_name" { type = string }
 variable "kms_key_arn" { type = string }
-            """
-            
-    # [ASCENSION 8]: THE ARCHITECT'S MANIFESTO
-    scripts/
-        deploy.sh :: """
-#!/bin/bash
-# RITE OF CELESTIAL ASCENSION
-set -euo pipefail
-
-echo "🚀 Initializing Terraform Fortress..."
-terraform init -upgrade
-
-echo "🧐 Proclaiming Prophecy..."
-terraform plan -var="environment=$1"
-
-echo "🔥 Making Reality Manifest..."
-terraform apply -auto-approve -var="environment=$1"
-
-if [ $? -eq 0 ]; then
-    echo "✅ Ascension Complete. Proxy Endpoint:"
-    terraform output -module=persistence proxy_endpoint
-else
-    echo "❌ Heresy: Terraform Apply Failed."
-    exit 1
-fi
-        """
-        %% 755
+variable "db_pass" { type = string }
+"""
 
 # --- III. THE MAESTRO'S WILL ---
 %% post-run
-    # 1. Initialize Chronicle
-    @if {{ use_git }} -> git init
+    proclaim: "The [bold cyan]Auroraless Fortress[/] Shard is woven."
+    
+    # Forge local .env for application mind
+    >> echo "DATABASE_URL=postgresql://gnostic_admin:{{ vault_secrets }}@localhost:5432/appdb" >> .env
+    
+    proclaim: "To materialize the iron: [bold cyan]cd infra/database && terraform init && terraform apply[/bold cyan]"
 
-    # 2. Final Proclamation
-    proclaim: "The Aurora Serverless Fortress is manifest in '{{ project_slug }}/'."
-    proclaim: "Capabilities: [green]KMS Encrypted, Serverless V2, RDS Proxy, 3-AZ Network[/green]"
-    proclaim: "To ascend to the cloud:"
-    proclaim: "  1. [bold cyan]cd {{ project_slug }}[/bold cyan]"
-    proclaim: "  2. [bold cyan]terraform init[/bold cyan]"
-    proclaim: "  3. [bold cyan]./scripts/deploy.sh staging[/bold cyan]"
+%% on-heresy
+    proclaim: "[bold red]Data Stratum weaving failed.[/bold red]"
+```
+
+***
+
+### 2. // `shards/integrations/api-gateway-monad.scaffold`
+**The Sovereign Ingress Orchestrator.**
+
+```scaffold
+# ==============================================================================
+# == GNOSTIC SHARD: API GATEWAY MONAD (V-Ω-TOTALITY-V2.5-INGRESS)             ==
+# ==============================================================================
+# @description: Injects a sovereign unified ingress orchestrator using Caddy. 
+#               Manages automatic SSL and a-chronal trace-id injection.
+# @category: Integrations / Networking
+# @vibe: gateway, ingress, caddy, ssl-auto, proxy, mesh, microservices, warded
+# @provides: [ingress-authority, ssl-manager, api-gateway, reverse-proxy]
+# @requires: [docker-orchestration, network-access]
+# @substrate: cross-platform (Iron / Cloud)
+# @version: 2.5.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ public_domain = {{ domain | default("citadel.local") }}
+$$ api_vessel    = {{ api_host | default("api-service") }}
+$$ ui_vessel     = {{ ui_host | default("web-service") }}
+$$ api_port       = {{ api_port | default(8000) }}
+$$ ui_port        = {{ ui_port | default(3000) }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+
+infra/gateway/
+    # [ASCENSION 2]: THE GNOSTIC INGRESS POLICY
+    Caddyfile :: """
+{
+    admin 0.0.0.0:2019
+    debug
+    storage file_system /data
+}
+
+{{ public_domain }} {
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
+
+    header {
+        X-Frame-Options DENY
+        X-Content-Type-Options nosniff
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';"
+        -Server
+    }
+
+    encode zstd gzip
+
+    # STRATUM I: THE INTELLIGENCE LAYER
+    handle_path /api/* {
+        reverse_proxy {{ api_vessel }}:{{ api_port }} {
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+            header_up X-Gnostic-Trace {uuid}
+        }
+    }
+
+    # STRATUM II: THE OCULAR LAYER
+    handle {
+        reverse_proxy {{ ui_vessel }}:{{ ui_port }}
+    }
+}
+"""
+
+    # [ASCENSION 6]: THE CELESTIAL MESH
+    docker-compose.gateway.yml :: """
+version: '3.8'
+services:
+  gateway:
+    image: caddy:2.7-alpine
+    container_name: gnostic-gateway
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - gateway_data:/data
+      - gateway_config:/config
+    networks:
+      - gnostic_mesh
+    environment:
+      - DOMAIN={{ public_domain }}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:2019/metrics"]
+      interval: 30s
+      timeout: 5s
+
+networks:
+  gnostic_mesh:
+    external: true
+
+volumes:
+  gateway_data:
+  gateway_config:
+"""
+
+# --- III. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]API Gateway Monad[/bold cyan] has been sutured into the Ingress Stratum."
+    
+    # [ASCENSION 12]: Create the Gateway directory if it was willed void
+    >> mkdir -p infra/gateway
+    
+    proclaim: "Aperture Domain: [bold yellow]http://{{ public_domain }}[/]"
+    proclaim: "To ignite the Aperture: [bold cyan]docker-compose -f infra/gateway/docker-compose.gateway.yml up -d[/bold cyan]"
+
+%% on-heresy
+    proclaim: "[bold red]Ingress materialization fractured.[/bold red]"

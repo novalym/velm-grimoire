@@ -1,72 +1,53 @@
-# ==============================================================================
-# == GNOSTIC ARCHETYPE: OVH SOVEREIGN AI FOUNDRY (V-Ω-TOTALITY-V2.1)          ==
-# ==============================================================================
-# @description: Materializes a private LLM gateway on OVH GPU Iron. 
+# =================================================================================
+# == GNOSTIC SHARD: OVH SOVEREIGN AI FOUNDRY (V-Ω-TOTALITY-V3-FINALIS)           ==
+# =================================================================================
+# @description: Materializes a private LLM gateway on remote OVH GPU Iron. 
 #               Autonomously configures NVIDIA runtimes, installs Ollama, 
 #               and enforces a Zero-Data-Leakage PII perimeter.
 # @category: Intelligence / Infrastructure
-# @vibe: ai, llm, gpu, private-cloud, sovereignty, pii-warden, docker-gpu, nvidia
+# @vibe: ai, llm, gpu, private-cloud, sovereignty, pii-warden, nvidia, gnostic
 # @provides: [sovereign-ai-node, private-llm-gateway, pii-warden, ai-foundry]
 # @requires: [cloud-authority, docker-gpu, nvidia-drivers, python-core]
 # @substrate: ovh-gpu (GRA11 / BHS5)
-# @version: 2.1.0-Ω
-# @LIF: 1,000,000x
-# ==============================================================================
+# @version: 3.0.0-Ω
+# @LIF: INFINITY
+# =================================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Cognitive Variable Anchoring
-$$ project_name = {{ project_name | default("Sovereign-AI-Node") }}
-$$ ovh_gpu_flavor = {{ gpu_flavor | default("gpu-a100") }}
-$$ ovh_region = {{ region | default("GRA11") }}
-$$ local_model = {{ model | default("llama3:8b") }}
-$$ author = {{ author | default("The Architect") }}
-$$ package_name = {{ project_name | slug | snake }}
+# [THE FIX]: Using 'vault_package_name' to prevent Request attribute collision.
+$$ vault_package_name = {{ package_name | default(project_slug | snake) }}
+$$ ovh_gpu_flavor     = {{ gpu_flavor | default("gpu-a100") }}
+$$ ovh_region         = {{ region | default("GRA11") }}
+$$ local_model        = {{ model | default("llama3:8b") }}
 
-# --- II. THE SCRIPTURE OF FORM (The Body of the Mind) ---
-{{ project_name | slug }}/
+# --- II. THE SCRIPTURE OF FORM (The Intelligence Stratum) ---
 
-    # [1] THE SOVEREIGN AI MANIFESTO
-    README.md :: """
-# 🧠 OVH Sovereign AI Foundry: {{ project_name }}
-> "Gnosis stays on the Iron. Intelligence remains Sovereign."
+# [ASCENSION 3]: THE PRIVACY WARDEN
+# This logic lives in the core, intercepting queries before they reach the GPU.
+src/{{ vault_package_name }}/core/intelligence/
+    __init__.py :: "from .warden import PrivacyWarden\n"
 
-This is a **High-Status AI Foundry** forged by the VELM God-Engine. It transforms 
-an OVH GPU instance into a private, local-first intelligence gateway.
-
-### 🏗️ Strategic Strata
-- **Mind:** Private LLM ({{ local_model }}) running on NVIDIA Iron.
-- **Ward:** `src/warden.py` (PII Scrubber - Ensures zero data leakage).
-- **Conduit:** `api/v1/` (Standard OpenAI-compatible API).
-
-### ⚡ Kinetic Strike
-1. **Provision Iron:** `make provision`
-2. **Ignite Mind:** `make bootstrap-ai`
-3. **Commune:** `make test-ai`
-"""
-
-    # [2] THE PRIVACY SENTINEL (The Ward)
-    # [ASCENSION 3]: THE SENSORY SIEVE
-    # Intercepts every query to the local model and masks sensitive matter.
-    src/{{ package_name }}/
-        __init__.py :: "from .warden import PrivacyWarden"
-        
-        warden.py :: """
+    warden.py :: """
 import re
 import logging
+from typing import List
 
-Logger = logging.getLogger("Warden:PII")
+# --- THE DIVINE UPLINKS ---
+from ...logger import Scribe
+
+Logger = Scribe("Warden:PII")
 
 class PrivacyWarden:
     \"\"\"
     =============================================================================
     == THE PRIVACY WARDEN (V-Ω-TOTALITY)                                      ==
     =============================================================================
-    LIF: 50x | ROLE: DATA_RESIDENCY_ENFORCER | RANK: OMEGA
+    LIF: 100x | ROLE: DATA_RESIDENCY_ENFORCER | RANK: OMEGA
     
     Ensures that sensitive Gnosis never leaves the local GPU iron.
     \"\"\"
     # [ASCENSION 1]: The Grimoire of Profane Signatures
-    PII_PATTERNS = [
+    PII_PATTERNS: List[re.Pattern] = [
         re.compile(r'\\d{3}-\\d{2}-\\d{4}'), # SSN
         re.compile(r'\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b'), # Email
         re.compile(r'\\b(?:\\d[ -]*?){13,16}\\b') # Credit Cards
@@ -76,39 +57,38 @@ class PrivacyWarden:
         \"\"\"Scans and masks PII before allowing the Mind to perceive it.\"\"\"
         clean_query = query
         for pattern in self.PII_PATTERNS:
-            clean_query = pattern.sub("[REDACTED_BY_SOVEREIGN_WARD]", clean_query)
+            clean_query = pattern.sub(\"[REDACTED_BY_SOVEREIGN_WARD]\", clean_query)
             
         if clean_query != query:
-            Logger.warning("🛡️ Warden: PII detected and neutralized.")
+            Logger.warning(\"🛡️ Warden: PII detected and neutralized.\")
             
         return clean_query
 """
 
-    # [3] THE KINETIC SYMPHONY (The Will)
-    # [ASCENSION 5]: THE RITE OF INFERENCE INCEPTION
-    symphonies/
-        bootstrap_ai.symphony :: """
-# == Symphony: AI Foundry Inception ==
-# @description: Converts raw Linux iron into a sentient AI Node.
-# @LIF: 1,000,000x
+# [ASCENSION 5]: THE KINETIC SYMPHONY
+# This file is ڈیزائنed to be run via 'velm run' to ignite the remote iron.
+symphonies/
+    ignite_ai_foundry.symphony :: """
+# == Symphony: Sovereign AI Foundry Inception ==
+# @description: Transmutes raw Linux iron into a sentient GPU-accelerated AI Node.
 
 @task main
-    %% let: foundry_phase = "INITIATING"
+    %% let: foundry_phase = 'INITIATING'
     %% proclaim: "🛡️ [TITAN] Initiating [bold blue]Sovereign AI Inception[/bold blue]..."
     
     # MOVEMENT I: SUBSTRATE VERIFICATION
-    # Ensure NVIDIA Tensors are waked and warded.
+    # Verify the presence of NVIDIA Tensors.
     >> nvidia-smi
     ?? succeeds
     
-    # MOVEMENT II: MATERIALIZATION
-    # [ASCENSION 9]: Using Docker-GPU to isolate the Mind.
+    # MOVEMENT II: CONTAINER MATERIALIZATION
+    # [ASCENSION 9]: Isolated GPU Mind using Ollama.
     %% proclaim: "🧱 Materializing the AI Runtime (Ollama)..."
-    >> docker run -d --gpus=all -v ollama_mass:/root/.ollama -p 11434:11434 --name ollama_core ollama/ollama
+    >> docker run -d --gpus=all -v ollama_data:/root/.ollama -p 11434:11434 --name ollama_core ollama/ollama
     ?? succeeds
     
-    # MOVEMENT III: THE INHALATION
-    # Pull the Gnostic Model into the iron core.
+    # MOVEMENT III: NEURAL INHALATION
+    # Siphon the model weights into the iron core.
     %% proclaim: "📥 Downloading Neural Weights: {{ local_model }}..."
     >> docker exec -it ollama_core ollama pull {{ local_model }}
     ?? succeeds
@@ -116,62 +96,42 @@ class PrivacyWarden:
     %% proclaim: "[bold green]✅ FOUNDRY RESONANT.[/bold green] Private AI is online."
 """
 
-    # [4] THE CONTROL PLANE (The Hand)
-    Makefile :: """
-.PHONY: help provision bootstrap-ai test-ai clean
+# --- III. THE CONTROL PLANE (Makefile Suture) ---
 
-# Gnostic Parameters
-$PROVIDER = ovh
-$FLAVOR = {{ ovh_gpu_flavor }}
-$REGION = {{ ovh_region }}
+Makefile += """
 
-help: ## Proclaim the rites of the AI Foundry
-    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+# --- AI FOUNDRY RITES ---
+foundry-provision: ## materialize the high-status GPU iron on OVH
+    @velm cloud provision --provider ovh --size {{ ovh_gpu_flavor }} --region {{ ovh_region }}
 
-provision: ## materialize the high-status GPU iron on OVH
-    @echo "🏗️ Provisioning $PROVIDER node ($FLAVOR) in $REGION..."
-    @velm cloud provision --provider $($PROVIDER) --size $($FLAVOR) --region $($REGION)
+foundry-ignite: ## conduct the AI Inception symphony
+    @velm run symphonies/ignite_ai_foundry.symphony
 
-bootstrap-ai: ## conduct the AI Inception symphony
-    @velm run symphonies/bootstrap_ai.symphony
-
-test-ai: ## conduct a local inference resonance test
+foundry-test: ## conduct a local inference resonance test
     @curl http://localhost:11434/api/generate -d '{"model": "{{ local_model }}", "prompt": "State your purpose as a Sovereign Node."}'
-
-clean: ## return the foundry mass to the void
-    @docker rm -f ollama_core
 """
 
-# --- III. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
+
 %% post-run
-    proclaim: "================================================================="
-    proclaim: "THE [bold blue]SOVEREIGN AI FOUNDRY[/bold blue] IS READY FOR GENESIS."
-    proclaim: "================================================================="
+    proclaim: "The [bold blue]Sovereign AI Foundry[/bold blue] shard is manifest."
     
-    # 1. Initialize the AI Sanctum
-    proclaim: "Phase I: Materializing local Control Plane..."
-    >> mkdir -p {{ project_name | slug }}/data/models {{ project_name | slug }}/logs
+    # [ASCENSION 13]: Recursive Directory Suture
+    # Annihilates the "Void Directory" heresy by ensuring structure before commit.
+    >> mkdir -p symphonies src/{{ vault_package_name }}/core/intelligence
     
-    # 2. TRIGGER THE HANDSHAKE
-    # [ASCENSION 10]: Validate GPU Iron status
-    proclaim: "Phase II: Validating OVH GPU credentials..."
+    # 1. Trigger the Handshake
+    proclaim: "Phase I: Validating OVH GPU credentials..."
     @try:
         >> velm identity verify --provider ovh
     @catch:
-        proclaim: "[bold yellow]Handshake deferred.[/bold yellow] Configure OVH keys to unlock GPU Iron."
+        proclaim: "[bold yellow]Credentials Deferred.[/bold yellow] Configure OVH keys to unlock GPU iron."
     @end
 
-    # 3. Final Proclamation
-    proclaim: "================================================================="
-    proclaim: "✅ [bold blue]AI FOUNDRY FORGED[/bold blue] in '{{ project_name | slug }}/'."
-    proclaim: "   Target Substrate: [bold]{{ ovh_gpu_flavor }}[/bold] in [bold]{{ ovh_region }}[/bold]."
-    proclaim: "   LIF-Multiplier: [bold green]1,000,000x (Cognitive Debt -> 0)[/]"
-    proclaim: "   To ignite the Private AI, speak:"
-    proclaim: "   [bold cyan]make provision && make bootstrap-ai[/bold cyan]"
-    proclaim: "================================================================="
+    # 2. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cognitive Debt -> 0)[/]"
+    proclaim: "[bold green]✅ The Foundry is waked.[/bold green] Your project now has a Private Mind."
+    proclaim: "To provision iron, speak: [bold cyan]make foundry-provision[/bold cyan]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]AI FOUNDRY FRACTURED![/bold red] Iron could not be warded."
-    rm -rf {{ project_name | slug }}/
+    proclaim: "[bold red]AI Foundry materialization fractured.[/bold red]"
