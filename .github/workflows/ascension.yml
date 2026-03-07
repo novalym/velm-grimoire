@@ -1,7 +1,7 @@
 # Path: .github/workflows/ascension.yml
 # ------------------------------------
-# LIF: ∞ // ROLE: CELESTIAL_GOVERNOR
-# AUTH_CODE: Ω_ASCENSION_VMAX_REFINED_FINALIS
+# LIF: ∞ // ROLE: CELESTIAL_GOVERNOR_&_FORENSIC_INQUISITOR
+# AUTH_CODE: Ω_DIAGNOSTIC_VMAX_2026_FINALIS
 
 name: Ω | Celestial Ascension & ONNX Vector Adjudication
 
@@ -15,7 +15,7 @@ on:
       - 'scripts/rebuild_index.py'
   pull_request:
     branches: [ main ]
-  workflow_dispatch: # Manual invocation by the Sovereign Architect
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,7 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      # --- I. THE MATERIALIZATION ---
       - name: 📥 Summoning Local Matter
         uses: actions/checkout@v4
 
@@ -40,69 +39,73 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
-      # [ASCENSION 1]: THE CURE (Lightweight Dependencies)
-      - name: 📦 Summoning Gnostic Artisans (Zero-Torch Mode)
+      - name: 📦 Summoning Gnostic Artisans
         run: |
           python -m pip install --upgrade pip
-          # We only need the lean runtime and the tokenizers. 
-          # No 500MB PyTorch mass allowed in this sanctum.
           pip install onnxruntime tokenizers numpy pydantic rich
 
-      # [ASCENSION 2]: NEURAL WEIGHTS CACHE
       - name: 🧠 Caching the Neural Retina
         uses: actions/cache@v3
         with:
           path: ~/.scaffold/models
           key: ucl-onnx-minilm-v2
 
-      # --- II. THE INQUEST (BICAMERAL LINTING) ---
+      # --- THE SUPREME INQUEST (HYPER-DIAGNOSTIC) ---
       - name: 🔍 Conducting 7-Pillar Gnostic Inquest
+        shell: python
         run: |
-          echo "===================================================="
-          echo "== UCL TAXONOMY ADJUDICATION: INITIATED          =="
-          echo "===================================================="
-          ERROR_COUNT=0
+          import os
+          import sys
+          from pathlib import Path
+          from rich.console import Console
+          from rich.table import Table
+          from rich.panel import Panel
 
-          # --- STRATUM 1: THE SHARD INQUEST (STRICT 7-PILLARS) ---
-          # Shards are the atoms of the DAG. They MUST be fully classified.
-          echo "Scrying Shards (Matter)..."
-          for file in $(find shards -name "*.scaffold" -not -path "*/.*"); do
-            for pillar in "@description:" "@category:" "@vibe:" "@provides:" "@requires:" "@substrate:" "@version:"; do
-              if ! grep -qi "$pillar" "$file"; then
-                echo "::error file=$file,line=1::Heresy: Shard missing $pillar"
-                ERROR_COUNT=$((ERROR_COUNT+1))
-              fi
-            done
-          done
-
-          # --- STRATUM 2: THE ARCHETYPE INQUEST (TRINITY OF INTENT) ---
-          # Archetypes are High-Level Blueprints. They require human Gnosis.
-          echo "Scrying Archetypes (Form)..."
-          for file in $(find archetypes -name "*.scaffold" -not -path "*/.*"); do
-            for pillar in "@description:" "@category:" "@tags:"; do
-              if ! grep -qi "$pillar" "$file"; then
-                echo "::error file=$file,line=1::Heresy: Archetype missing $pillar"
-                ERROR_COUNT=$((ERROR_COUNT+1))
-              fi
-            done
-          done
-
-          if [ $ERROR_COUNT -ne 0 ]; then
-            echo "===================================================="
-            echo "== 🛑 FRACTURE DETECTED: $ERROR_COUNT HERESIES PERCEIVED =="
-            echo "===================================================="
-            exit 1
-          fi
+          console = Console()
           
-          echo "===================================================="
-          echo "== ✨ LATTICE RESONANT: ALL HEADERS PURE          =="
-          echo "===================================================="
+          SHARD_PILLARS = ["@description:", "@category:", "@vibe:", "@provides:", "@requires:", "@substrate:", "@version:"]
+          ARCH_PILLARS = ["@description:", "@category:", "@tags:"]
+          
+          heresies = []
+
+          def scry_directory(directory, pillars, label):
+              error_count = 0
+              for path in Path(directory).rglob("*.scaffold"):
+                  if ".scaffold" in path.parts: continue
+                  content = path.read_text().lower()
+                  missing = [p for p in pillars if p.lower() not in content]
+                  if missing:
+                      for m in missing:
+                          # Emit GitHub Annotation
+                          print(f"::error file={path},line=1::Heresy: {label} missing {m}")
+                          heresies.append({"file": str(path), "type": label, "missing": m})
+                          error_count += 1
+              return error_count
+
+          console.print(Panel("[bold cyan]UCL TAXONOMY ADJUDICATION: INITIATED[/]", border_style="cyan"))
+          
+          scry_directory("shards", SHARD_PILLARS, "Shard (Matter)")
+          scry_directory("archetypes", ARCH_PILLARS, "Archetype (Form)")
+
+          if heresies:
+              table = Table(title="[bold red]THE CHRONICLE OF LATTICE FRACTURES[/]", border_style="red", expand=True)
+              table.add_column("Locus (File Path)", style="magenta")
+              table.add_column("Ontological Type", style="yellow")
+              table.add_column("Missing Pillar", style="red", bold=True)
+              
+              for h in heresies:
+                  table.add_row(h['file'], h['type'], h['missing'])
+              
+              console.print(table)
+              console.print(f"\n[bold red]🛑 FRACTURE DETECTED:[/] {len(heresies)} Heresies perceived in the architecture.")
+              sys.exit(1)
+          
+          console.print(Panel("[bold green]✨ LATTICE RESONANT: ALL HEADERS ARE PURE[/]", border_style="green"))
 
       # --- III. THE TRANSFORMATION (ONNX EMBEDDING) ---
       - name: 🌀 Materializing Lightweight Celestial Index
         run: |
           mkdir -p registry
-          # The script is willed to use our new onnxruntime-based SemanticResolver logic.
           python scripts/rebuild_index.py \
             --repo ${{ github.repository }} \
             --branch main \
@@ -125,7 +128,6 @@ jobs:
             echo "✨ The Registry has ascended with 0-Torch Purity."
           fi
 
-      # --- V. THE OCULAR RESONANCE ---
       - name: 📡 Broadcasting Resonance
         if: success() && github.event_name == 'push'
         run: |
