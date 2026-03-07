@@ -1,0 +1,3838 @@
+{
+  "version": "3.0.0-VECTOR",
+  "timestamp": 1772867664.273495,
+  "repo": "novalym/velm-grimoire",
+  "branch": "main",
+  "total_shards": 148,
+  "vector_dimensions": 0,
+  "registry": [
+    {
+      "id": "achronal-clock",
+      "description": "The definitive temporal anchor. Materializes a high-precision",
+      "category": "System / Logic",
+      "vibe": "chronos, time, monotonic, tracing, nanosecond-precision, causality",
+      "provides": [
+        "achronal-clock",
+        "temporal-authority",
+        "monotonic-time"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/achronal-clock.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "c0b99fa6d9317a68ab1a5f944e6af0eac35ee22c3085380e097b09fc0343b987",
+      "bytes": 4239,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/achronal-clock.scaffold"
+    },
+    {
+      "id": "achronal-dependency-alchemist",
+      "description": "Materializes an autonomic dependency governor. Scries registries",
+      "category": "Intelligence",
+      "vibe": "alchemist, upgrader, self-healing, modernity, eternity, autonomous, debt-free",
+      "provides": [
+        "dependency-autonomy",
+        "autonomic-upgrader",
+        "debt-liquidator"
+      ],
+      "requires": [
+        "shadow-clone",
+        "neural-cortex",
+        "web-framework",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/achronal-dependency-alchemist.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "52b23074d34694192a72b0634f9690268aa30585a5777c5ab9104afc62471448",
+      "bytes": 7381,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/achronal-dependency-alchemist.scaffold"
+    },
+    {
+      "id": "achronal-event-bus",
+      "description": "A high-velocity, non-blocking asynchronous Event Bus. Decouples",
+      "category": "API / Architecture",
+      "vibe": "async, events, pub-sub, decoupled, background-tasks, cqrs",
+      "provides": [
+        "event-bus",
+        "pub-sub-fabric",
+        "background-processing"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/achronal-event-bus.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "683bc435777fa4e177dec05aa5e89f9ae01f2758c6de95ee386539d208947d29",
+      "bytes": 5306,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/achronal-event-bus.scaffold"
+    },
+    {
+      "id": "achronal-event-lattice",
+      "description": "Materializes a decentralized, brokerless P2P nervous system.",
+      "category": "System",
+      "vibe": "p2p, mesh, zenoh, distributed, event-bus, synapse, low-latency, decentralized",
+      "provides": [
+        "neural-backbone",
+        "p2p-bus",
+        "distributed-signals",
+        "multiversal-link"
+      ],
+      "requires": [
+        "docker",
+        "python",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "agnostic"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/achronal-event-lattice.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "70a6bca9529dc56c13c50a64e1deb57ffc28a2541ccd613c8a4295ebe9179878",
+      "bytes": 7911,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/achronal-event-lattice.scaffold"
+    },
+    {
+      "id": "achronal-fleet-commander",
+      "description": "The Central Intelligence for Multiversal Fleet Orchestration.",
+      "category": "System",
+      "vibe": "commander, fleet, multirepo, dashboard, management, orchestration, command-center, high-status",
+      "provides": [
+        "fleet-authority",
+        "global-observatory",
+        "cross-project-conductor"
+      ],
+      "requires": [
+        "neural-backbone",
+        "project-manager",
+        "metabolic-treasurer",
+        "gnostic-hub"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/achronal-fleet-commander.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8ab9ad449d19b4a3f04497fd2f8ed008390c538a7a19e648cc3e2ba8ccf835bf",
+      "bytes": 10495,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/achronal-fleet-commander.scaffold"
+    },
+    {
+      "id": "achronal-hot-standby",
+      "description": "Materializes an achronal hot-standby infrastructure for absolute",
+      "category": "Cloud / Resilience",
+      "vibe": "failover, multi-cloud, high-availability, litefs, hot-standby, achronal, dr, replication",
+      "provides": [
+        "multi-cloud-failover",
+        "achronal-data-sync",
+        "high-availability-substrate"
+      ],
+      "requires": [
+        "docker-swarm-substrate",
+        "global-anycast-citadel",
+        "python-core"
+      ],
+      "substrate": [
+        "python / docker-compose"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/cloud/achronal-hot-standby.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "2c022a24adeecdba5d4704fa58fc11871e15f3940fefb99b54c041dcd190704c",
+      "bytes": 6847,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/achronal-hot-standby.scaffold"
+    },
+    {
+      "id": "achronal-migrator",
+      "description": "Materializes the Achronal Shift stratum. Enables the project to",
+      "category": "Velm-Core / Evolution",
+      "vibe": "migration, time-travel, evolution, parity, chronos, achronal, graft",
+      "provides": [
+        "achronal-migrator",
+        "state-transfer-service",
+        "evolution-governor"
+      ],
+      "requires": [
+        "forensic-ledger",
+        "chronos-guardian",
+        "python-ast-toolkit"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/velm-core/achronal-migrator.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "50b89ea29c09b99abf3ce1f7ea60fe4dce562111218135d2e12c3f862ae8f651",
+      "bytes": 5684,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/achronal-migrator.scaffold"
+    },
+    {
+      "id": "achronal-project-mirror",
+      "description": "Materializes an immersive, Next.js-powered Ocular Portal.",
+      "category": "Intelligence / Ocular",
+      "vibe": "documentation, showcase, aura, trust, metrics, cinematic, dx, visualization",
+      "provides": [
+        "dx-mirror",
+        "stakeholder-portal",
+        "architectural-showcase"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings",
+        "cloud-storage",
+        "forensic-ledger"
+      ],
+      "substrate": [
+        "python / typescript"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/achronal-project-mirror.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "e8678f141f1fb4c08e9c8cda4a7d604347106a1cab8563643ede60c6b2790d55",
+      "bytes": 8926,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/achronal-project-mirror.scaffold"
+    },
+    {
+      "id": "achronal-shadow-mirror",
+      "description": "Materializes an Nginx-based traffic mirror that silently duplicates",
+      "category": "Cloud / Observability",
+      "vibe": "mirror, shadow, testing, zero-risk, deployment, traffic, duplication",
+      "provides": [
+        "shadow-traffic-mirror",
+        "zero-risk-deployment",
+        "semantic-drift-detection"
+      ],
+      "requires": [
+        "docker-swarm-substrate",
+        "python-core",
+        "fastapi"
+      ],
+      "substrate": [
+        "docker-compose"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/cloud/achronal-shadow-mirror.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "b8cdc18ab783780d5c27751e1a158a3f40bc237cb69e48f60307834dd45d1f96",
+      "bytes": 7793,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/achronal-shadow-mirror.scaffold"
+    },
+    {
+      "id": "aegis-secret-bastion",
+      "description": "A Sovereign, Auto-Unsealing Secret Management Fortress powered",
+      "category": "Security / Infrastructure",
+      "vibe": "vault, hashicorp, secrets, kms, raft, identity, approle, zero-trust",
+      "provides": [
+        "dynamic-secrets",
+        "auto-unseal-vault",
+        "high-availability-store"
+      ],
+      "requires": [
+        "docker-swarm-substrate",
+        "pydantic-settings",
+        "python-core"
+      ],
+      "substrate": [
+        "docker-compose / hcl"
+      ],
+      "version": "4.0.0-\u03a9",
+      "file_path": "shards/cloud/aegis-secret-bastion.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "af9a8761fce1ca1f8e91f56b76a797adc08633a87bfff4a696fd596124596e09",
+      "bytes": 7755,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/aegis-secret-bastion.scaffold"
+    },
+    {
+      "id": "agentic-servitor",
+      "description": "Materializes a transcendental autonomous worker. Executes",
+      "category": "Intelligence / Autonomics",
+      "vibe": "agent, worker, autonomous, reasoning, react, tool-use, cognitive",
+      "provides": [
+        "agentic-intelligence",
+        "autonomous-worker",
+        "tool-orchestrator",
+        "agency"
+      ],
+      "requires": [
+        "neural-cortex",
+        "pydantic-settings",
+        "forensic-ledger",
+        "python-core"
+      ],
+      "substrate": [
+        "python (achronal agent)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/intelligence/agentic-servitor.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "93b9d5265338a37d118a903f57969bb3250f0eb19a7d85995ca9ca7b4ed3bc8c",
+      "bytes": 8078,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/intelligence/agentic-servitor.scaffold"
+    },
+    {
+      "id": "ai-context-anchor",
+      "description": "Materializes the high-gravity Gnostic Anchor for LLM alignment.",
+      "category": "Meta / Intelligence",
+      "vibe": "ai, context, rag, documentation, retina, llm-optimized, self-aware, oracle",
+      "provides": [
+        "architectural-constitution",
+        "ai-context-anchor",
+        "semantic-grounding"
+      ],
+      "requires": [
+        "vector-librarian",
+        "python-core",
+        "project-manager"
+      ],
+      "substrate": [
+        "isomorphic (python / markdown)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/velm-core/ai-context-anchor.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1e30c357585f171cbf37de6e74eaa6261f592f97fede1bf2493ec8e7d5e6c3be",
+      "bytes": 7801,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/ai-context-anchor.scaffold"
+    },
+    {
+      "id": "alchemical-reactor",
+      "description": "The definitive string transmutation engine. Materializes the",
+      "category": "System / Logic",
+      "vibe": "jinja2, alchemist, transmutation, dynamic-code, templates, logic-forge",
+      "provides": [
+        "alchemical-reactor",
+        "gnostic-templater",
+        "transmutation-authority"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/alchemical-reactor.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "cbea015e6b4c42d342bb64fdb8400ea5d771b0d6fb8c5e78e8a623d1cc6c709c",
+      "bytes": 4902,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/alchemical-reactor.scaffold"
+    },
+    {
+      "id": "ansible-citadel",
+      "description": "Materializes a production-grade Ansible fortress for declarative",
+      "category": "Automation / DevOps",
+      "vibe": "ansible, devops, iac, orchestration, playbooks, hardening, configuration",
+      "provides": [
+        "server-configuration-authority",
+        "ansible-orchestration",
+        "infra-gov"
+      ],
+      "requires": [
+        "python-core",
+        "ssh-access",
+        "pydantic-settings",
+        "maestro-control"
+      ],
+      "substrate": [
+        "iron (linux / posix)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/automation/ansible-citadel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d4f4aa3b124de872e5a9b9de3613c49229dc4243e0317adeed2026e736dbb948",
+      "bytes": 6163,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/automation/ansible-citadel.scaffold"
+    },
+    {
+      "id": "apeiron-distributed-lock",
+      "description": "Materializes a high-fidelity distributed mutex system. Prevents",
+      "category": "System",
+      "vibe": "lock, mutex, distributed-systems, redis, concurrency, safety, synchronization",
+      "provides": [
+        "distributed-lock",
+        "concurrency-governor",
+        "mutex-authority"
+      ],
+      "requires": [
+        "redis-backbone",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/apeiron-distributed-lock.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d8f139aae4c4c3c43ae668aa525837c076a6ffead9b0d2ec96d1a238e19f4592",
+      "bytes": 5787,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/apeiron-distributed-lock.scaffold"
+    },
+    {
+      "id": "api-gateway-monad",
+      "description": "Injects a sovereign unified ingress orchestrator using Caddy.",
+      "category": "Integrations / Networking",
+      "vibe": "gateway, ingress, caddy, ssl-auto, proxy, mesh, microservices, warded",
+      "provides": [
+        "ingress-authority",
+        "ssl-manager",
+        "api-gateway",
+        "reverse-proxy"
+      ],
+      "requires": [
+        "docker-orchestration",
+        "network-access"
+      ],
+      "substrate": [
+        "cross-platform (iron / cloud)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/integrations/api-gateway-monad.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "e85f99715baabeaaef221ce3d1a4aab330d803f094cac9e0a2796124427f2254",
+      "bytes": 6104,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/integrations/api-gateway-monad.scaffold"
+    },
+    {
+      "id": "architectural-mri",
+      "description": "Materializes a high-fidelity layer-enforcement engine. Scries",
+      "category": "Velm-Core / Forensics",
+      "vibe": "mri, biopsy, architecture, clean-code, ddd, linting, hierarchy, warden",
+      "provides": [
+        "layer-enforcement",
+        "topological-audit",
+        "dependency-jurisprudence"
+      ],
+      "requires": [
+        "gnostic-graph",
+        "python-core",
+        "maestro-control",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python (achronal scrier)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/velm-core/architectural-mri.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "384cbb5ca1d673c845ec1c435078610206638c8ec887f6b9c9ef111df7e9f703",
+      "bytes": 7667,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/architectural-mri.scaffold"
+    },
+    {
+      "id": "audit-chronicler",
+      "description": "Materializes an asynchronous, cryptographically signed audit",
+      "category": "Security",
+      "vibe": "audit, ledger, forensics, compliance, logging, hmac, integrity, chronicle",
+      "provides": [
+        "forensic-ledger",
+        "audit-authority",
+        "request-chronicler"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings",
+        "internal-secret-vault"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/audit-chronicler.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "7816d42370a3f466503b5709310981194f1560df778151ac6241a2385808a698",
+      "bytes": 6606,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/audit-chronicler.scaffold"
+    },
+    {
+      "id": "auroraless-fortress",
+      "description": "The definitive Serverless Data Stratum. Wires a warded",
+      "category": "Infrastructure / Database",
+      "vibe": "aws, aurora, serverless, rds-proxy, terraform, postgres, titan",
+      "provides": [
+        "serverless-database",
+        "rds-proxy",
+        "vpc-network",
+        "kms-encryption"
+      ],
+      "requires": [
+        "aws-cli",
+        "terraform-binary"
+      ],
+      "substrate": [
+        "terraform"
+      ],
+      "version": "4.0.0-\u03a9",
+      "file_path": "shards/cloud/auroraless-fortress.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "51746eb5c720fcbcd7ab2ee72284c1c4a22f59c259a240f9f014317511d4c07d",
+      "bytes": 11029,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/auroraless-fortress.scaffold"
+    },
+    {
+      "id": "autonomic-intent-manifestor",
+      "description": "Materializes the \"Living Singularity\" stratum. Allows the",
+      "category": "Intelligence / System",
+      "vibe": "singularity, autonomic, self-evolution, recursive, intent, living-code, manifest",
+      "provides": [
+        "autonomic-evolution",
+        "intent-manifestor",
+        "self-modification-engine"
+      ],
+      "requires": [
+        "web-framework",
+        "database-orm",
+        "neural-cortex",
+        "shadow-clone",
+        "forensic-ledger"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/autonomic-intent-manifestor.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1eab7ff84eb0e4a56f46aafb29f2f0444f426fada5a7ff50773ddf247036c79b",
+      "bytes": 9887,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/autonomic-intent-manifestor.scaffold"
+    },
+    {
+      "id": "autonomic-neural-sentry",
+      "description": "Materializes an AI-driven immune system. Monitors forensic",
+      "category": "Resilience",
+      "vibe": "resilience, immune-system, guardian, self-healing, forensics, sentry",
+      "provides": [
+        "autonomic-sentry",
+        "cognitive-immune-system",
+        "auto-healer"
+      ],
+      "requires": [
+        "forensic-ledger",
+        "neural-cortex",
+        "shadow-clone",
+        "docker",
+        "web-framework"
+      ],
+      "substrate": [
+        "agnostic"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/autonomic-neural-sentry.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "634aaf7fc865393397a460bbd173244b7a16c1c93bcaf9d825a638bee2a5bfbd",
+      "bytes": 9992,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/autonomic-neural-sentry.scaffold"
+    },
+    {
+      "id": "aws-infrastructure-substrate",
+      "description": "The foundational AWS connectivity layer. Materializes the",
+      "category": "System / Substrate",
+      "vibe": "aws, cloud, infrastructure, boto3, provision, iron, iam, credentials",
+      "provides": [
+        "aws-infrastructure-substrate",
+        "aws-authority",
+        "cloud-iron-base"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "network-access"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/aws-infrastructure-substrate.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "836b0ac11600d160b85b7868dd6153a4e0ce57bf00d68463db926955861ef6a1",
+      "bytes": 5047,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/aws-infrastructure-substrate.scaffold"
+    },
+    {
+      "id": "bicameral-execution-engine",
+      "description": "Materializes a bidirectional schema governor. Synchronizes",
+      "category": "Persistence",
+      "vibe": "database, migration, alembic, schema, evolution, sql, sqlalchemy, persistence, autonomic-schema",
+      "provides": [
+        "database-migration-engine",
+        "schema-governor",
+        "persistence-evolution"
+      ],
+      "requires": [
+        "database-orm",
+        "pydantic-settings",
+        "postgres-driver"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/bicameral-execution-engine.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8afc6f1682a7d90e061f91b557644fb463c876f40b4fe3a4bdbc7b1926ca860a",
+      "bytes": 6020,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/bicameral-execution-engine.scaffold"
+    },
+    {
+      "id": "causal-dependency-oracle",
+      "description": "Materializes a high-fidelity runtime reflection engine. Scries",
+      "category": "Intelligence",
+      "vibe": "reflection, introspection, ast, dependency-graph, causality, self-aware",
+      "provides": [
+        "architectural-reflection",
+        "internal-graph-oracle",
+        "impact-analyzer"
+      ],
+      "requires": [
+        "python-ast-toolkit",
+        "networkx",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/causal-dependency-oracle.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "2e8742beb6b6691f5c073a169cec044a27b90aa7a41ae4547b0e49caa395fb64",
+      "bytes": 8563,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/causal-dependency-oracle.scaffold"
+    },
+    {
+      "id": "celery-mailer",
+      "description": "Materializes an asynchronous mail distribution system. Provides",
+      "category": "System",
+      "vibe": "celery, worker, async, tasks, email, mailer, background, cron, schedule",
+      "provides": [
+        "async-mailer",
+        "vital-reporter",
+        "background-comms"
+      ],
+      "requires": [
+        "celery-backbone",
+        "redis-backbone",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/celery-mailer.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "77876aa68de8952c513de5f60d000072943003a41bfa429644948014e5e4b4e9",
+      "bytes": 4152,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/celery-mailer.scaffold"
+    },
+    {
+      "id": "chronicle-scribe",
+      "description": "Materializes an immutable forensic ledger. Transmutes every",
+      "category": "Governance / Akasha",
+      "vibe": "chronicle, scribe, audit, history, immutable, proof, forensic, ledger",
+      "provides": [
+        "forensic-journal",
+        "provenance-authority",
+        "audit-scribe",
+        "causality-log"
+      ],
+      "requires": [
+        "git-chronicle",
+        "python-substrate",
+        "maestro-control"
+      ],
+      "substrate": [
+        "python (achronal ledger)"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/traits/chronicle-scribe.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "2b208db0698d31b5b270ee8a9c36118a0da4329d79b26724b2a2a3ac3a2710e9",
+      "bytes": 6744,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/traits/chronicle-scribe.scaffold"
+    },
+    {
+      "id": "chronos-state-engine",
+      "description": "Materializes an unbreakable, event-sourced Finite State Machine.",
+      "category": "System / Logic",
+      "vibe": "fsm, state-machine, determinism, workflow-engine, causality, pydantic",
+      "provides": [
+        "deterministic-state-authority",
+        "workflow-governor",
+        "logic-adjudicator"
+      ],
+      "requires": [
+        "event-horizon-ledger",
+        "reactive-hub",
+        "python-core",
+        "pydantic-v2"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/chronos-state-engine.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "e415ea69511b6eed03597dc028e579ce07c6aefccd4b92ef4c7d4fc1742c275a",
+      "bytes": 11203,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/chronos-state-engine.scaffold"
+    },
+    {
+      "id": "ci-cd-hardening",
+      "description": "Materializes a legendary production-grade GitHub Actions matrix.",
+      "category": "Automation / CI-CD",
+      "vibe": "ci-cd, automation, hardening, security, integrity, github-actions, oidc",
+      "provides": [
+        "ci-cd-authority",
+        "integrity-adjudicator",
+        "release-orchestrator"
+      ],
+      "requires": [
+        "git-chronicle",
+        "testing-framework",
+        "pydantic-models",
+        "python-core"
+      ],
+      "substrate": [
+        "github-actions"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/automation/ci-cd-hardening.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "b8447c1bac967e3c1d4627bd64c007c8bd0a05116756662c51b98a6aaeb2b199",
+      "bytes": 6889,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/automation/ci-cd-hardening.scaffold"
+    },
+    {
+      "id": "ci-cd-symphony",
+      "description": "The Rite of Perpetual Ascension. Orchestrates Purity (Lint),",
+      "category": "Automation / DevOps",
+      "vibe": "ci, cd, github-actions, deployment, security, trivy, testing, pipeline",
+      "provides": [
+        "perpetual-ascension",
+        "continuous-integration",
+        "security-scanning"
+      ],
+      "requires": [
+        "python-core",
+        "test-suite"
+      ],
+      "substrate": [
+        "github-actions"
+      ],
+      "version": "5.0.0-\u03a9",
+      "file_path": "shards/cloud/ci-cd-symphony.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "a74956d4b39668d98201cc9b2e236a391c9618cbc85b384d20ea4021162b72ec",
+      "bytes": 7860,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/ci-cd-symphony.scaffold"
+    },
+    {
+      "id": "circuit-breaker",
+      "description": "A Tri-State (Closed, Open, Half-Open) Circuit Breaker middleware.",
+      "category": "API / Resilience",
+      "vibe": "circuit-breaker, resilience, fault-tolerance, auto-healing, stability",
+      "provides": [
+        "kinetic-circuit-breaker",
+        "systemic-fault-isolation"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/circuit-breaker.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d15fdfe7c6c886a54b2707b5515d936500f64ea8662df2f5c56e672fd8132864",
+      "bytes": 4966,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/circuit-breaker.scaffold"
+    },
+    {
+      "id": "clerk-auth",
+      "description": "Materializes a total identity stratum. Sutures the Clerk.com",
+      "category": "Security / Identity",
+      "vibe": "auth, clerk, identity, jwt, passport, oauth2, secure, warded",
+      "provides": [
+        "identity-authority",
+        "auth-guard",
+        "clerk-integration",
+        "passport"
+      ],
+      "requires": [
+        "python-core",
+        "react-ocular",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "full-stack (fastapi + next.js)"
+      ],
+      "version": "24.0.0-\u03a9",
+      "file_path": "shards/security/clerk-auth.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "346eb1bda449acc45a6274f10655a68696ba9c1f98017c1a79c1b556ecab7d82",
+      "bytes": 6082,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/clerk-auth.scaffold"
+    },
+    {
+      "id": "cli-runtime",
+      "description": "The definitive terminal interface runtime. Materializes the",
+      "category": "System / Interface",
+      "vibe": "cli, typer, terminal, interface, command-line, bridge, runtime",
+      "provides": [
+        "cli-runtime",
+        "typer-substrate",
+        "command-bridge"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "engine-core",
+        "rich-telemetry"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/cli-runtime.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "cba7277c421246058702fabb64e7629875ac71ac7fb6cfc8941c4d57ed9263a7",
+      "bytes": 4752,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/cli-runtime.scaffold"
+    },
+    {
+      "id": "cloud-storage-drivers",
+      "description": "The definitive multiversal storage adapters. Materializes",
+      "category": "Cloud / Integration",
+      "vibe": "s3, blob-storage, azure, aws, local-drive, persistence, multi-cloud",
+      "provides": [
+        "cloud-storage-drivers",
+        "blob-storage-authority",
+        "isomorphic-file-conduit"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "network-access"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/cloud-storage-drivers.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "3d5866d6c6a4995f61069ea3185a2cea89b453652b7fc838015560bd4000cb06",
+      "bytes": 5966,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/cloud-storage-drivers.scaffold"
+    },
+    {
+      "id": "cloudfront-s3-fortress",
+      "description": "The definitive global distribution platform. Forges an S3 bucket",
+      "category": "Cloud / Edge",
+      "vibe": "aws, cloudfront, s3, cdn, static-site, security, terraform, edge",
+      "provides": [
+        "global-cdn",
+        "static-asset-storage",
+        "edge-security"
+      ],
+      "requires": [
+        "terraform-binary",
+        "aws-credentials"
+      ],
+      "substrate": [
+        "terraform"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/cloud/cloudfront-s3-fortress.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "70760756a5f2fa385e9f0404ffaf3cff2586f32607daf22c005ede777d2fd78a",
+      "bytes": 5573,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/cloudfront-s3-fortress.scaffold"
+    },
+    {
+      "id": "cognitive-crucible",
+      "description": "Materializes an advanced AI evaluation framework. Uses",
+      "category": "Intelligence / Quality",
+      "vibe": "intelligence, eval, quality-gate, llm-judge, forensics, regression, test",
+      "provides": [
+        "cognitive-adjudicator",
+        "ai-eval-framework",
+        "wisdom-oracle"
+      ],
+      "requires": [
+        "neural-cortex",
+        "testing-framework",
+        "pydantic-models",
+        "openai-client"
+      ],
+      "substrate": [
+        "python (pytest-native)"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/intelligence/cognitive-crucible.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "13ec4d0f230bc8e1d0dd7b8168010074783ea2be481b2f11f979c4cc037e9e67",
+      "bytes": 7455,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/intelligence/cognitive-crucible.scaffold"
+    },
+    {
+      "id": "cors",
+      "description": "Materializes an autonomic Cross-Origin Resource Sharing (CORS)",
+      "category": "Security",
+      "vibe": "cors, security, origins, access-control, web-guard, frontend-link, integration",
+      "provides": [
+        "cors-policy",
+        "origin-governor",
+        "web-aperture-control"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/cors.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "22633aa3ca767aa9756601806f9692eb1d8d6a8269f7af41d11c0e7e21c65a28",
+      "bytes": 4079,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/cors.scaffold"
+    },
+    {
+      "id": "data-science-appendix",
+      "description": "Materializes an integrated analytical laboratory. Features a",
+      "category": "Intelligence / Analytical",
+      "vibe": "jupyter, research, science, ml-ops, experimentation, analytics, lab",
+      "provides": [
+        "analytical-laboratory",
+        "research-sandbox",
+        "data-crucible"
+      ],
+      "requires": [
+        "docker-orchestration",
+        "pydantic-settings",
+        "python-core"
+      ],
+      "substrate": [
+        "docker"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/integrations/data-science-appendix.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1fefebbadc25c42890e5a23036fa6953b4b660a14fb9fd24d0825583eaf3e2d4",
+      "bytes": 8371,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/integrations/data-science-appendix.scaffold"
+    },
+    {
+      "id": "docker-advanced",
+      "description": "A cybernetic fortress. Implements a multi-stage BuildKit-optimized",
+      "category": "Cloud / Substrate",
+      "vibe": "docker, buildkit, production, nginx, celery, multi-stage, worker",
+      "provides": [
+        "fortress-substrate",
+        "async-worker-mesh",
+        "reverse-proxy"
+      ],
+      "requires": [
+        "docker-buildkit",
+        "python-core"
+      ],
+      "substrate": [
+        "docker"
+      ],
+      "version": "5.0.0-\u03a9",
+      "file_path": "shards/cloud/docker-advanced.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8d862eee6624143f278d5e517163ca126ddfbee98770e4e6c7087c7f3dcf4bf8",
+      "bytes": 5214,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/docker-advanced.scaffold"
+    },
+    {
+      "id": "docker-basic",
+      "description": "A foundational, high-performance containerization shard. Forges",
+      "category": "Cloud / Substrate",
+      "vibe": "docker, compose, container, local-dev, redis, basic",
+      "provides": [
+        "containerized-substrate",
+        "local-cache-mesh"
+      ],
+      "requires": [
+        "docker-engine"
+      ],
+      "substrate": [
+        "docker"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/cloud/docker-basic.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "ad846354067ce90193ad9b7e5ea24b8d4ddafc3d9ecddb1db3a866c32bd886db",
+      "bytes": 3337,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/docker-basic.scaffold"
+    },
+    {
+      "id": "docker-compose-swarm",
+      "description": "A legendary Docker Compose stack for orchestrating a polyglot",
+      "category": "Automation / Infrastructure",
+      "vibe": "docker, compose, orchestration, microservices, local-dev, swarm",
+      "provides": [
+        "local-orchestration",
+        "container-runtime",
+        "dev-environment"
+      ],
+      "requires": [
+        "docker-engine",
+        "pydantic-settings",
+        "maestro-control"
+      ],
+      "substrate": [
+        "docker"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/automation/docker-compose-swarm.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "f55684db83de989b07a2ad0c50849e163858fd06f184ab5537973187e38b44d1",
+      "bytes": 4372,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/automation/docker-compose-swarm.scaffold"
+    },
+    {
+      "id": "docker-orchestration",
+      "description": "The definitive physical vessel orchestrator. Materializes the",
+      "category": "System / Substrate",
+      "vibe": "docker, compose, container, virtualization, orchestration, vessel",
+      "provides": [
+        "docker-orchestration",
+        "docker-engine",
+        "container-substrate",
+        "vessel-authority"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "docker"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/docker-orchestration.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "7a76f91ef66752f406dbd97f46a31541fc231201c05cb3d4d4b1da0ef8fa7cb9",
+      "bytes": 4453,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/docker-orchestration.scaffold"
+    },
+    {
+      "id": "docker-swarm-substrate",
+      "description": "The definitive high-availability substrate. Materializes the",
+      "category": "System / Substrate",
+      "vibe": "docker-swarm, clustering, high-availability, orchestration, overlay-net",
+      "provides": [
+        "docker-swarm-substrate",
+        "cluster-authority",
+        "container-orchestration-ha"
+      ],
+      "requires": [
+        "docker-engine"
+      ],
+      "substrate": [
+        "docker / shell"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/docker-swarm-substrate.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "35c5283f39689041a2d0aa99214e23685c7b94a288b5265e4a1af5c3f1703802",
+      "bytes": 4632,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/docker-swarm-substrate.scaffold"
+    },
+    {
+      "id": "edge-pulse-citadel",
+      "description": "A legendary Cloudflare Worker for edge-first Gnosis. Features",
+      "category": "Cloud / Edge",
+      "vibe": "cloudflare, worker, edge, serverless, hmac, zero-trust, cache",
+      "provides": [
+        "edge-compute",
+        "zero-trust-proxy",
+        "distributed-caching"
+      ],
+      "requires": [
+        "node-environment",
+        "python-backend"
+      ],
+      "substrate": [
+        "isomorphic (typescript / python)"
+      ],
+      "version": "4.0.0-\u03a9",
+      "file_path": "shards/cloud/edge-pulse-citadel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "97100c9abe481f7e300a7d5951cb9048e4dde5b400007ab4908d32caee9d30f5",
+      "bytes": 6615,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/edge-pulse-citadel.scaffold"
+    },
+    {
+      "id": "elastic-sentry",
+      "description": "Materializes an autonomic observability and scaling citadel.",
+      "category": "Infrastructure / Autonomics",
+      "vibe": "autoscaling, governor, sentry, traefik, prometheus, grafana, autonomic",
+      "provides": [
+        "autonomic-scaling-authority",
+        "observability-citadel",
+        "metabolic-governor"
+      ],
+      "requires": [
+        "docker-swarm-substrate",
+        "pydantic-settings",
+        "python-core"
+      ],
+      "substrate": [
+        "docker-compose"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/infrastructure/elastic-sentry.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "ed1f44bd131a75f94c2f4042b8b08c8839a2b807fdc93e138ffc1e9b614e8b4e",
+      "bytes": 7084,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/infrastructure/elastic-sentry.scaffold"
+    },
+    {
+      "id": "engine-core",
+      "description": "The definitive kernel orchestrator. Materializes the",
+      "category": "System / Core",
+      "vibe": "kernel, engine, dispatcher, execution-framework, core-logic, gnostic-mind",
+      "provides": [
+        "engine-core",
+        "kernel-authority",
+        "quantum-dispatcher",
+        "artisan-base"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "pydantic-v2"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/engine-core.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "7baca6f1aa2c055515082d7e2365e66e90789b666e2fdb4681c873bcbaf34273",
+      "bytes": 5771,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/engine-core.scaffold"
+    },
+    {
+      "id": "entropy-syringe",
+      "description": "A Chaos Engineering Syringe. Safely injects latency, memory",
+      "category": "API / Resilience",
+      "vibe": "chaos-monkey, testing, resilience, entropy, fault-injection",
+      "provides": [
+        "chaos-engineering-middleware",
+        "production-stress-testing"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/entropy-syringe.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "7e86f50c56c2ba9f8fd27eec779349b606a1269b917848c495d14702eca8587d",
+      "bytes": 4229,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/entropy-syringe.scaffold"
+    },
+    {
+      "id": "environment-sealer",
+      "description": "Materializes the Gnostic Veil for secrets. Forges a Pydantic",
+      "category": "Security / Jurisprudence",
+      "vibe": "security, secrets, env, pydantic, validation, hardening, gnostic-veil",
+      "provides": [
+        "secret-management-authority",
+        "environment-conscience",
+        "pii-warden"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "maestro-control"
+      ],
+      "substrate": [
+        "python (achronal)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/infrastructure/environment-sealer.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d421958e0be71ec07a667ce5e169827c0bc90a7194e5a5b9f7baa07a8ad89221",
+      "bytes": 7434,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/infrastructure/environment-sealer.scaffold"
+    },
+    {
+      "id": "ephemeral-reality-forge",
+      "description": "A Traefik-powered dynamic routing engine. Automatically detects",
+      "category": "Cloud / CI-CD",
+      "vibe": "traefik, preview, branch-environment, ephemeral, dynamic-routing",
+      "provides": [
+        "ephemeral-environments",
+        "dynamic-proxy",
+        "branch-deployments"
+      ],
+      "requires": [
+        "docker-engine"
+      ],
+      "substrate": [
+        "docker-compose / python"
+      ],
+      "version": "3.1.0-\u03a9",
+      "file_path": "shards/cloud/ephemeral-reality-forge.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "a654161221a4d3c83738d6230da661ee3bd0a46c12062d7b23f99c8afd98def5",
+      "bytes": 4713,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/ephemeral-reality-forge.scaffold"
+    },
+    {
+      "id": "event-horizon-ledger",
+      "description": "Materializes an immutable, cryptographically warded event-sourced",
+      "category": "System / Persistence",
+      "vibe": "event-sourcing, ledger, immutability, causality, time-travel, audit, cqrs",
+      "provides": [
+        "event-ledger",
+        "temporal-memory",
+        "causality-chronicler",
+        "state-replay"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings",
+        "internal-secret-vault"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/event-horizon-ledger.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "a2e607bbe34d1abdf2f3d80d38c04f1fbda7f81d4762bdfc137516d60c105a9f",
+      "bytes": 7265,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/event-horizon-ledger.scaffold"
+    },
+    {
+      "id": "fargate-serverless",
+      "description": "A zero-management, serverless compute layer. Forges an AWS ECS",
+      "category": "Cloud / Substrate",
+      "vibe": "aws, ecs, fargate, serverless, terraform, compute, container",
+      "provides": [
+        "serverless-compute",
+        "auto-scaling-group"
+      ],
+      "requires": [
+        "terraform-binary",
+        "vpc-network"
+      ],
+      "substrate": [
+        "terraform"
+      ],
+      "version": "3.5.0-\u03a9",
+      "file_path": "shards/cloud/fargate-serverless.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1a1cf6689d48047c8879f9631ec1e470d356c0526b41004d6f609fb49cab1ad5",
+      "bytes": 6179,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/fargate-serverless.scaffold"
+    },
+    {
+      "id": "fastapi-auth",
+      "description": "Materializes a complete JWT-based Identity Stratum. Provides",
+      "category": "Security",
+      "vibe": "auth, identity, login, jwt, oauth2, secure, credentials, users, passport",
+      "provides": [
+        "identity-authority",
+        "jwt-provider",
+        "auth-router"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings",
+        "database-orm"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/fastapi-auth.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8eb828afd1b653638a1285ca54c82441af8085786d266fc8908722f73d062c02",
+      "bytes": 5172,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/fastapi-auth.scaffold"
+    },
+    {
+      "id": "fastapi-fortress",
+      "description": "The definitive FastAPI entrypoint. Materializes the high-status",
+      "category": "API / Framework",
+      "vibe": "fastapi, asgi, uvicorn, rest-api, heart, mind, web-framework",
+      "provides": [
+        "web-framework",
+        "fastapi",
+        "api-heart",
+        "asgi-substrate"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/fastapi-fortress.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "3f325e17b2b5e6413d9fa2f12f64ff090e4a7bb37b2d00d3c7d1df51696be2dc",
+      "bytes": 4730,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/fastapi-fortress.scaffold"
+    },
+    {
+      "id": "forensic-chronocycle",
+      "description": "Materializes an advanced post-mortem analysis engine. Scries",
+      "category": "Velm-Core / Forensics",
+      "vibe": "forensics, autopsy, coroner, debugging, paradox-resolution, redemption",
+      "provides": [
+        "forensic-coroner",
+        "post-mortem-analysis",
+        "redemption-oracle"
+      ],
+      "requires": [
+        "python-core",
+        "rich-telemetry",
+        "git-chronicle",
+        "gnostic-cortex"
+      ],
+      "substrate": [
+        "python (achronal diagnostic)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/velm-core/forensic-chronocycle.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "4c61a4b2b678b5b1f977a3f714414c4ebab81d25ba98a2caa749e316bbde8cd1",
+      "bytes": 8687,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/forensic-chronocycle.scaffold"
+    },
+    {
+      "id": "forensic-time-capsule",
+      "description": "Materializes a high-fidelity deterministic replay engine.",
+      "category": "Forensics",
+      "vibe": "blackbox, replay, time-travel, forensics, causality, diagnostic, telemetry",
+      "provides": [
+        "forensic-time-machine",
+        "causality-record",
+        "deterministic-replay"
+      ],
+      "requires": [
+        "web-framework",
+        "shadow-clone",
+        "neural-cortex",
+        "forensic-ledger"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.2.0",
+      "file_path": "shards/system/forensic-time-capsule.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "47395c5d41729f91d1415f2f57c9b1718741779d1adf9097f634d497aae8dd18",
+      "bytes": 9646,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/forensic-time-capsule.scaffold"
+    },
+    {
+      "id": "forensic-watchtower",
+      "description": "A zero-latency Forensic Logging middleware. Injects Trace IDs",
+      "category": "API / Observability",
+      "vibe": "forensics, audit-log, tracing, zero-latency, security",
+      "provides": [
+        "forensic-audit-trail",
+        "trace-id-propagation"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/forensic-watchtower.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "e4f3bb4aee9ca91b43db1b64438e171dd77760c7f577f090a413b576b33a0a0f",
+      "bytes": 4712,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/forensic-watchtower.scaffold"
+    },
+    {
+      "id": "forge-commands",
+      "description": "Materializes the 'forge' command group. Orchestrates",
+      "category": "CLI / Operations",
+      "vibe": "cli, typer, command-singularity, forge, operational-mastery, strike, scry",
+      "provides": [
+        "forge-command-group",
+        "strike-rite",
+        "scry-rite",
+        "luminate-rite"
+      ],
+      "requires": [
+        "cli-runtime",
+        "engine-core",
+        "pydantic-settings",
+        "rich-telemetry"
+      ],
+      "substrate": [
+        "python (typer-native)"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/cli/forge-commands.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "c4a3ab852e46c5ccd564358590c1f3714438ecc6940dc3b90906a3877fb26cdf",
+      "bytes": 5106,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cli/forge-commands.scaffold"
+    },
+    {
+      "id": "global-anycast-citadel",
+      "description": "Materializes a global edge perimeter using AWS Global",
+      "category": "Infrastructure / Network",
+      "vibe": "anycast, aws, global-accelerator, waf, edge, security, low-latency, bgp",
+      "provides": [
+        "global-anycast-perimeter",
+        "edge-waf-protection",
+        "anycast-routing"
+      ],
+      "requires": [
+        "aws-infrastructure-substrate",
+        "terraform-binary"
+      ],
+      "substrate": [
+        "terraform"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/cloud/global-anycast-citadel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8891be449a982bcf80f001a1738dfcc24903744eba5eb81608eaf25bbd6c4e2b",
+      "bytes": 5039,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/global-anycast-citadel.scaffold"
+    },
+    {
+      "id": "gnostic-adoptive-scribe",
+      "description": "The definitive reverse-engineering engine. Scries unmanaged",
+      "category": "Velm-Core / Meta",
+      "vibe": "migration, legacy, adoption, reverse-engineering, automation, blueprint-forge",
+      "provides": [
+        "reality-transcription",
+        "legacy-adoption-service",
+        "blueprint-generator"
+      ],
+      "requires": [
+        "python-core",
+        "maestro-control",
+        "gnostic-cortex"
+      ],
+      "substrate": [
+        "python (achronal)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/velm-core/gnostic-adoptive-scribe.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "53df841e56e5bd166bf1d0cbe1d5fd979cbfcdc06111296fdc0b877ab1ece0dc",
+      "bytes": 9040,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/gnostic-adoptive-scribe.scaffold"
+    },
+    {
+      "id": "gnostic-docs",
+      "description": "Materializes a self-synchronizing documentation citadel using",
+      "category": "Integrations / Akasha",
+      "vibe": "documentation, chronicle, mkdocs, material, automated, gnostic, ark",
+      "provides": [
+        "documentation-citadel",
+        "living-chronicle",
+        "ark-of-gnosis"
+      ],
+      "requires": [
+        "python-runtime",
+        "git-chronicle",
+        "velm-core",
+        "maestro-control"
+      ],
+      "substrate": [
+        "isomorphic (iron / cloud)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/integrations/gnostic-docs.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "92cedb95cd066c4bf452f77f36b24a7fb1cb446c70b60d1889dbbb0936b9718a",
+      "bytes": 11063,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/integrations/gnostic-docs.scaffold"
+    },
+    {
+      "id": "gnostic-hub",
+      "description": "The definitive multiversal gateway. Materializes the bridge",
+      "category": "System / Integration",
+      "vibe": "hub, registry, hive-mind, synchronization, multiversal, celestial",
+      "provides": [
+        "gnostic-hub",
+        "multiversal-synchronizer",
+        "shared-wisdom-registry"
+      ],
+      "requires": [
+        "python-core",
+        "network-access-authority",
+        "git-substrate"
+      ],
+      "substrate": [
+        "python / shell"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/system/gnostic-hub.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "79e71158cc4006d6578e47920d668fc8005659f1e70e13d0141bf66ae4ec8acc",
+      "bytes": 5687,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/gnostic-hub.scaffold"
+    },
+    {
+      "id": "gnostic-spine-middleware",
+      "description": "Materializes the high-speed nervous system. Injects a multi-layered",
+      "category": "System",
+      "vibe": "middleware, tracing, telemetry, profiling, security, privacy, performance",
+      "provides": [
+        "gnostic-spine",
+        "telemetry-backbone",
+        "trace-provider",
+        "metabolic-monitor"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/gnostic-spine-middleware.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "539044d63c231ed3b2ce1b06690530d321989b1173ce594f62ad1b15a40eb106",
+      "bytes": 6018,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/gnostic-spine-middleware.scaffold"
+    },
+    {
+      "id": "gnostic-telemetry-beacon",
+      "description": "Materializes an autonomous background vital-scryer. Radiates",
+      "category": "System / Monitoring",
+      "vibe": "telemetry, vitals, heartbeat, metabolism, psutil, monitoring, sensory, health",
+      "provides": [
+        "metabolic-visibility",
+        "vital-pulse-provider",
+        "hardware-tomography"
+      ],
+      "requires": [
+        "neural-backbone",
+        "pydantic-settings",
+        "python-metabolism-toolkit"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.2.0",
+      "file_path": "shards/system/gnostic-telemetry-beacon.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "affef5fd10c9077d8fdacd4a47225c7efb42b054a6e1bc61f47d174b97be2345",
+      "bytes": 7259,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/gnostic-telemetry-beacon.scaffold"
+    },
+    {
+      "id": "gnostic-tui-cockpit",
+      "description": "Materializes a high-status Terminal User Interface (TUI).",
+      "category": "System / Ocular",
+      "vibe": "tui, dashboard, textual, monitoring, terminal, real-time, observatory, hud",
+      "provides": [
+        "system-observatory",
+        "tui-cockpit",
+        "ocular-retina-terminal"
+      ],
+      "requires": [
+        "neural-backbone",
+        "vital-pulse-provider",
+        "python-ui-toolkit"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/gnostic-tui-cockpit.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "15ccbacfde16ec53523ea9eb1fc609c2d4825ea2d0145bc06947f1e152e24ef8",
+      "bytes": 7810,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/gnostic-tui-cockpit.scaffold"
+    },
+    {
+      "id": "graphql-gateway",
+      "description": "A Strawberry-powered GraphQL Gateway. Implements modular schema",
+      "category": "API / Data",
+      "vibe": "graphql, strawberry, api, gateway, schema-stitching, query-complexity",
+      "provides": [
+        "graphql-api",
+        "unified-graph-schema",
+        "dataloader-context"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/graphql-gateway.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1cf888b8b5a1f4fb026b521a26f93fe5a1cfc44831feee622265d350b91a6cf1",
+      "bytes": 4129,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/graphql-gateway.scaffold"
+    },
+    {
+      "id": "grpc-terminus",
+      "description": "An Iron Protocol Terminus for high-speed binary inter-process",
+      "category": "API / Protocol",
+      "vibe": "grpc, protobuf, high-performance, binary, rpc, microservices, iron-core",
+      "provides": [
+        "grpc-server",
+        "binary-communion",
+        "schema-reflection"
+      ],
+      "requires": [
+        "python-core",
+        "lifecycle-manager"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/grpc-terminus.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1732d0a17a6223eb3f45285a1b7a692344181277e95d51c4862e19dfc0c39452",
+      "bytes": 4577,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/grpc-terminus.scaffold"
+    },
+    {
+      "id": "haptic-broadcaster",
+      "description": "A Haptic HUD Broadcaster. Intercepts API responses and transmutes",
+      "category": "API / Observability",
+      "vibe": "telemetry, haptics, websocket, real-time, neural-mesh, ui-feedback",
+      "provides": [
+        "haptic-telemetry",
+        "ui-feedback-loop"
+      ],
+      "requires": [
+        "fastapi",
+        "event-bus"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/haptic-broadcaster.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "23e0acb4fe1370cf7960c13a636ac7463661678d866dd8daeb1378b3fc3a6d43",
+      "bytes": 4622,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/haptic-broadcaster.scaffold"
+    },
+    {
+      "id": "holographic-reality-simulator",
+      "description": "Materializes the \"Holodeck\" stratum. Forges an ephemeral,",
+      "category": "Resilience / Simulation",
+      "vibe": "holodeck, simulation, sandbox, risk-free, rehearsal, time-dilation, chaos",
+      "provides": [
+        "holographic-sandbox",
+        "reality-simulation",
+        "risk-mitigation-engine"
+      ],
+      "requires": [
+        "shadow-clone",
+        "forensic-ledger",
+        "web-framework",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "agnostic (wasm/ram)"
+      ],
+      "version": "2.2.0",
+      "file_path": "shards/system/holographic-reality-simulator.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "0284971e93e3f555fb43a1ecefe66a4f74c3ac8c64595c6ff994f95e32ea177e",
+      "bytes": 8238,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/holographic-reality-simulator.scaffold"
+    },
+    {
+      "id": "identity-ward",
+      "description": "Materializes an unbreakable security phalanx. Injects PII",
+      "category": "Security / Sovereignty",
+      "vibe": "auth, security, rbac, jwt, encryption, sentinel, zero-trust, privacy",
+      "provides": [
+        "identity-authority",
+        "pii-shrouding",
+        "secret-scrubber",
+        "jwt-warden"
+      ],
+      "requires": [
+        "internal-vault",
+        "python-cryptography",
+        "pydantic",
+        "web-framework"
+      ],
+      "substrate": [
+        "python (achronal shield)"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/traits/identity-ward.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d50d547cca9acb3d38bdc157ecfc3351421d02ccc7e647a9627fd574db871539",
+      "bytes": 5688,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/traits/identity-ward.scaffold"
+    },
+    {
+      "id": "integrity-ledger",
+      "description": "A Forensic Integrity Ledger for immutable proof of intent.",
+      "category": "API / Security",
+      "vibe": "security, forensics, hmac, audit-log, neural-mesh, non-repudiation",
+      "provides": [
+        "cryptographic-audit",
+        "request-signing",
+        "immutable-ledger"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/integrity-ledger.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "e8d4ab61323cfa659026bf5384e0c23a578a3e5d28090138e49c50613f86b35c",
+      "bytes": 5066,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/integrity-ledger.scaffold"
+    },
+    {
+      "id": "internal-secret-vault",
+      "description": "The sovereign inner sanctum for internal system secrets.",
+      "category": "Security",
+      "vibe": "internal-vault, encryption, fernet, local-secrets, security-warden",
+      "provides": [
+        "internal-vault",
+        "internal-secret-vault",
+        "cryptographic-anchor"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "python-cryptography"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/security/internal-secret-vault.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "9dc6fb8a9f9ebad1f2144c4a64f768a06b35106746138b9daa530fe6def8b288",
+      "bytes": 5798,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/internal-secret-vault.scaffold"
+    },
+    {
+      "id": "jurisprudence-gate",
+      "description": "A Jurisprudence Gate for universal runtime contract validation.",
+      "category": "API / Security",
+      "vibe": "security, validation, contract-law, neural-mesh, pydantic, strict",
+      "provides": [
+        "runtime-contract-validation",
+        "universal-schema-enforcement"
+      ],
+      "requires": [
+        "fastapi",
+        "pydantic"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/jurisprudence-gate.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "929a6fdee310bb5a8967417dc529e83cc6c56563586a2c027a4f4e295b47beed",
+      "bytes": 4816,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/jurisprudence-gate.scaffold"
+    },
+    {
+      "id": "k8s-fortress",
+      "description": "A Sovereign Kubernetes orchestration shard. Synthesizes Deployments,",
+      "category": "Cloud / Orchestration",
+      "vibe": "k8s, kubernetes, deployment, ingress, microservices, container-orchestration",
+      "provides": [
+        "k8s-cluster-manifests",
+        "atomic-mesh",
+        "service-ingress"
+      ],
+      "requires": [
+        "docker-registry",
+        "kubectl-artisan"
+      ],
+      "substrate": [
+        "kubernetes / yaml"
+      ],
+      "version": "4.0.0-\u03a9",
+      "file_path": "shards/cloud/k8s-fortress.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "114028c942845718a8752ff6d12c3168bac8b7a2b2b36125dfcb9e92c535994c",
+      "bytes": 3633,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/k8s-fortress.scaffold"
+    },
+    {
+      "id": "lambda-swarm-cdk",
+      "description": "A scalable Serverless Compute Fortress. Defines a multi-function",
+      "category": "Cloud / Serverless",
+      "vibe": "aws, lambda, serverless, cdk, typescript, s3, api-gateway, event-driven",
+      "provides": [
+        "lambda-compute-swarm",
+        "event-bridge-bus",
+        "api-gateway-ingress"
+      ],
+      "requires": [
+        "node-environment",
+        "aws-cdk-cli"
+      ],
+      "substrate": [
+        "aws-cdk / typescript"
+      ],
+      "version": "3.5.0-\u03a9",
+      "file_path": "shards/cloud/lambda-swarm-cdk.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "f75bdd6b5d8c2a9b75238a26209d723b48805d499402e246c9fa9f56bb65a427",
+      "bytes": 6324,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/lambda-swarm-cdk.scaffold"
+    },
+    {
+      "id": "lazarus-lifecycle-guardian",
+      "description": "Materializes a sovereign process-lifecycle manager. Intercepts",
+      "category": "System / Resilience",
+      "vibe": "lifecycle, signals, shutdown, graceful, cleanup, reaper, lazarus, system",
+      "provides": [
+        "system-lifecycle-authority",
+        "process-governor",
+        "shutdown-registry"
+      ],
+      "requires": [
+        "neural-signal",
+        "pydantic-settings",
+        "web-framework"
+      ],
+      "substrate": [
+        "python (posix/nt isomorphic)"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/lazarus-lifecycle-guardian.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d4faa8d49967833e7207e564d7699102b343abeee2eac716a4b033b7443a3286",
+      "bytes": 7473,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/lazarus-lifecycle-guardian.scaffold"
+    },
+    {
+      "id": "lazarus-resurrector",
+      "description": "Materializes an autonomic self-healing sentinel. Monitors the",
+      "category": "System / Resilience",
+      "vibe": "self-healing, uptime, resurrection, immune-system, reliability, sentinel",
+      "provides": [
+        "autonomic-resurrection-reflex",
+        "immune-orchestrator",
+        "uptime-governor"
+      ],
+      "requires": [
+        "system-lifecycle-authority",
+        "metabolic-visibility",
+        "web-framework"
+      ],
+      "substrate": [
+        "python (posix/nt isomorphic)"
+      ],
+      "version": "2.3.0",
+      "file_path": "shards/system/lazarus-resurrector.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "ae6d73e039218a6b505e35f9786a7e92564ac8cb7bb631b995b717a95f47f6a8",
+      "bytes": 7707,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/lazarus-resurrector.scaffold"
+    },
+    {
+      "id": "librarians-inquest",
+      "description": "Materializes an advanced self-healing RAG infrastructure.",
+      "category": "Intelligence / Akasha",
+      "vibe": "rag, memory, chromadb, vector, knowledge, embeddings, semantic-search",
+      "provides": [
+        "achronal-memory",
+        "vector-knowledge-base",
+        "rag-orchestrator",
+        "recall-hub"
+      ],
+      "requires": [
+        "docker-backbone",
+        "python-core",
+        "pydantic-settings",
+        "neural-cortex"
+      ],
+      "substrate": [
+        "isomorphic (wasm / iron)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/intelligence/librarians-inquest.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "75bec8bf3d6349b253fb0085a23f188dc27db36528284f0d1a3c4e54e3bd8606",
+      "bytes": 11830,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/intelligence/librarians-inquest.scaffold"
+    },
+    {
+      "id": "localstack-emissary",
+      "description": "Materializes a hermetic AWS simulation environment using",
+      "category": "Infrastructure / Tooling",
+      "vibe": "aws, localstack, cloud, devops, sandbox, simulation, celestial-mirror",
+      "provides": [
+        "local-aws-simulation",
+        "cloud-sandbox",
+        "aws-mirror-environment"
+      ],
+      "requires": [
+        "docker-orchestration",
+        "pydantic-settings",
+        "python-core",
+        "maestro-control"
+      ],
+      "substrate": [
+        "docker-compose"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/infrastructure/localstack-emissary.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "be010b4633d2d7f4e939bc0343fa963ef7521147dba9187d0858c86489f71b0e",
+      "bytes": 7889,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/infrastructure/localstack-emissary.scaffold"
+    },
+    {
+      "id": "logic-trace-alchemist",
+      "description": "Materializes the \"Provenance Stratum\". Injects forensic trace",
+      "category": "Velm-Core / Forensics",
+      "vibe": "debugging, transparency, logic-trace, provenance, audit, forensics",
+      "provides": [
+        "forensic-trace-service",
+        "provenance-authority",
+        "debug-scribe"
+      ],
+      "requires": [
+        "alchemical-reactor",
+        "achronal-clock",
+        "python-core"
+      ],
+      "substrate": [
+        "cross-platform (isomorphic comments)"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/velm-core/logic-trace-alchemist.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "435c6bf5cf48124d83104ed3e7bfcae2631e640a15f495c81282c6f00e911d72",
+      "bytes": 6118,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/logic-trace-alchemist.scaffold"
+    },
+    {
+      "id": "luminous-intelligence-studio",
+      "description": "Materializes an autonomic Administrative Workbench. Generates",
+      "category": "Intelligence / Ocular",
+      "vibe": "studio, workbench, admin, dashboard, schema-explorer, maestro, control",
+      "provides": [
+        "admin-workbench",
+        "gnostic-studio",
+        "schema-visualizer",
+        "rite-conductor"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-models",
+        "neural-backbone",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python / node"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/luminous-intelligence-studio.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "0f0ad3ce1ed5c4ebff043cda1024630b48eb6e63a8fb79452cb6ad50ae68ba8d",
+      "bytes": 8016,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/luminous-intelligence-studio.scaffold"
+    },
+    {
+      "id": "maestro-control",
+      "description": "The definitive operational control plane. Materializes the",
+      "category": "System / Hand",
+      "vibe": "maestro, control-plane, makefile, cli, automation, execution-engine",
+      "provides": [
+        "maestro-control",
+        "operational-authority",
+        "cli-runtime",
+        "task-conductor"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python / shell"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/maestro-control.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "66ad4ff2b67fcb9f90ce179eaa54e88dc2f2bf849c10b4f2e5f2a74583679f07",
+      "bytes": 5357,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/maestro-control.scaffold"
+    },
+    {
+      "id": "metabolic-governor",
+      "description": "An Adaptive Throttling Governor based on real-time system vitals.",
+      "category": "API / Resilience",
+      "vibe": "fastapi, metabolism, rate-limiting, autonomous-safety, throttling",
+      "provides": [
+        "autonomic-throttling",
+        "overload-protection",
+        "zero-latency-health"
+      ],
+      "requires": [
+        "fastapi",
+        "psutil"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/metabolic-governor.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "c4c254539b7affb71bdf32f9a409d9c7b464c6cc9694b068628489b30a864577",
+      "bytes": 4914,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/metabolic-governor.scaffold"
+    },
+    {
+      "id": "metabolic-profiler",
+      "description": "Materializes the \"Tomography Stratum\". Injects high-fidelity",
+      "category": "Velm-Core / Forensics",
+      "vibe": "performance, profiling, optimization, benchmarks, flamegraph, tax",
+      "provides": [
+        "performance-tomography",
+        "metabolic-profiling",
+        "optimization-oracle"
+      ],
+      "requires": [
+        "achronal-clock",
+        "metabolic-monitor",
+        "python-core",
+        "rich-telemetry"
+      ],
+      "substrate": [
+        "isomorphic (wasm / iron)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/velm-core/metabolic-profiler.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "45fe0599901988ea6948bde760e239834926ee79e08d08620622c35d78220a63",
+      "bytes": 9278,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/metabolic-profiler.scaffold"
+    },
+    {
+      "id": "metabolic-reaper-daemon",
+      "description": "Materializes an autonomic resource reclaimer. Scries the",
+      "category": "System / Maintenance",
+      "vibe": "reaper, gc, maintenance, purity, reclaimer, forensics, autonomic, cleanup",
+      "provides": [
+        "metabolic-reaper",
+        "entropy-reclaimer",
+        "resource-gc-authority"
+      ],
+      "requires": [
+        "docker",
+        "python",
+        "pydantic-settings",
+        "metabolic-visibility"
+      ],
+      "substrate": [
+        "python (docker-aware)"
+      ],
+      "version": "2.3.0",
+      "file_path": "shards/system/metabolic-reaper-daemon.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8fe7685ed9bf4746dd9fa8a8fde5a21c3499bd43847297bf1190ef9045c65aba",
+      "bytes": 6913,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/metabolic-reaper-daemon.scaffold"
+    },
+    {
+      "id": "metabolic-sentinel",
+      "description": "Injects a high-fidelity metabolic governor. Monitors CPU heat,",
+      "category": "Monitoring / Resilience",
+      "vibe": "health, telemetry, metrics, performance, watchdog, homeostasis, vitals",
+      "provides": [
+        "metabolic-governor",
+        "vitality-oracle",
+        "heartbeat-provider"
+      ],
+      "requires": [
+        "psutil",
+        "pydantic",
+        "neural-signal",
+        "web-framework"
+      ],
+      "substrate": [
+        "python (native/docker aware)"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/traits/metabolic-sentinel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "4226789f10eed74d3ee10275b5739ead421e2bb7151df8e1c837aa2a7ccdbbca",
+      "bytes": 6349,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/traits/metabolic-sentinel.scaffold"
+    },
+    {
+      "id": "metabolic-treasurer",
+      "description": "The definitive fiscal scrier. Materializes the Metabolic",
+      "category": "System / Governance",
+      "vibe": "treasurer, billing, cost-tracking, ai-tax, cloud-spend, governor",
+      "provides": [
+        "metabolic-treasurer",
+        "fiscal-governor",
+        "budget-authority"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "network-access"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/metabolic-treasurer.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "18aa3ba7c0421659ae0bd8761d8d3f02d8608e52afd1c689bae4cf3c5ecfcf51",
+      "bytes": 7525,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/metabolic-treasurer.scaffold"
+    },
+    {
+      "id": "mockingbird-simulacrum",
+      "description": "Materializes the \"Mimicry Stratum\". Autonomously scries Python",
+      "category": "Velm-Core / Prototyping",
+      "vibe": "mocking, prototyping, frontend-sync, simulation, data-generation, faker, schema-aware",
+      "provides": [
+        "mock-data-service",
+        "ephemeral-prototype-engine",
+        "schema-mirror"
+      ],
+      "requires": [
+        "pydantic-models",
+        "python-core",
+        "faker-lib",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python (achronal)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/velm-core/mockingbird-simulacrum.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "54c312728e28970dfa66236658265ec18ffa8612f79878a4ffaed57288e22a5a",
+      "bytes": 9243,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/mockingbird-simulacrum.scaffold"
+    },
+    {
+      "id": "monitoring-sentinel",
+      "description": "The All-Seeing Eye. Forges a Prometheus and Grafana stack with",
+      "category": "Cloud / Observability",
+      "vibe": "prometheus, grafana, monitoring, alerts, metrics, observability",
+      "provides": [
+        "prometheus-metrics",
+        "grafana-dashboards",
+        "alerting-rules"
+      ],
+      "requires": [
+        "docker-swarm-substrate"
+      ],
+      "substrate": [
+        "docker-compose"
+      ],
+      "version": "3.2.0-\u03a9",
+      "file_path": "shards/cloud/monitoring-sentinel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "885943f34fcbb2e1a1aa969aeeb69593093b2f580233d16a1df3063c1d61534f",
+      "bytes": 3911,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/monitoring-sentinel.scaffold"
+    },
+    {
+      "id": "multi-tenant-warden",
+      "description": "Materializes a sovereign multi-tenant isolation layer. Enforces",
+      "category": "System / Security",
+      "vibe": "isolation, saas, multitenancy, contextvars, data-silo, security, governor",
+      "provides": [
+        "isolation-governor",
+        "tenancy-authority",
+        "dynamic-router-hub"
+      ],
+      "requires": [
+        "web-framework",
+        "database-orm",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.2.0",
+      "file_path": "shards/system/multi-tenant-warden.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "6d950d1e1f5ab4ee79c5c521300872648c6e4e7194f521d7d97471c1f5df2229",
+      "bytes": 8443,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/multi-tenant-warden.scaffold"
+    },
+    {
+      "id": "multiversal-persistence-lattice",
+      "description": "Materializes an unbreakable, content-addressable storage lattice.",
+      "category": "Persistence / System",
+      "vibe": "storage, lattice, merkle, content-addressable, cas, immortality, redundant",
+      "provides": [
+        "multiversal-storage",
+        "data-immortality-service",
+        "content-addressable-vault"
+      ],
+      "requires": [
+        "cloud-storage-drivers",
+        "internal-secret-vault",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "agnostic"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/multiversal-persistence-lattice.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "4d8f92ed15c7ca7ca9c685e9a85c745d456c9757d3c9569047522a6bbd8419a2",
+      "bytes": 8072,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/multiversal-persistence-lattice.scaffold"
+    },
+    {
+      "id": "multiversal-reality-fission",
+      "description": "Materializes a high-fidelity reality fission engine. Forges",
+      "category": "System / Temporal",
+      "vibe": "quantum, multiverse, fission, immutable, copy-on-write, stasis, parallel",
+      "provides": [
+        "reality-fission",
+        "shadow-state-orchestration",
+        "multiversal-branching"
+      ],
+      "requires": [
+        "substrate-orchestration",
+        "forensic-ledger",
+        "cloud-provider",
+        "shadow-clone"
+      ],
+      "substrate": [
+        "zfs / btrfs / aws-ebs / gcp-pd"
+      ],
+      "version": "2.2.0",
+      "file_path": "shards/system/multiversal-reality-fission.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1e968338f6c0b3b18bfcf427e5b1bc553593a806c5d0d1e57326bbf967aae960",
+      "bytes": 9616,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/multiversal-reality-fission.scaffold"
+    },
+    {
+      "id": "network-access",
+      "description": "The definitive celestial conduit. Materializes an asynchronous",
+      "category": "System / Network",
+      "vibe": "networking, http-client, httpx, async-io, telemetry, trace-id, bridge",
+      "provides": [
+        "network-access",
+        "http-client",
+        "celestial-communion"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/network-access.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "3ee9533e27e426e1183056e518c7599d72bddc1a05f0e54fb123b1fd1fc20631",
+      "bytes": 6377,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/network-access.scaffold"
+    },
+    {
+      "id": "neural-cortex",
+      "description": "The definitive Cognitive Spine. Wires a universal AI Gateway",
+      "category": "Intelligence / AI",
+      "vibe": "ai, llm, litellm, gateway, cognition, telemetry, cost-tracking, neural",
+      "provides": [
+        "neural-mind-authority",
+        "ai-gateway",
+        "cognitive-spine"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "gnostic-telemetry-beacon"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "24.0.0-\u03a9",
+      "file_path": "shards/intelligence/neural-cortex.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "025262560e82ae471feb2b04f0b12efa639e693d450a3d7b64c530264603e8bc",
+      "bytes": 7171,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/intelligence/neural-cortex.scaffold"
+    },
+    {
+      "id": "neural-gateway",
+      "description": "The definitive Neural Switchboard. Materializes a Redis-backed",
+      "category": "Intelligence / Orchestration",
+      "vibe": "neural-gateway, litellm, redis-cache, semantic-memory, prompt-engineering",
+      "provides": [
+        "neural-mind-authority",
+        "ai-orchestrator",
+        "cognitive-switchboard"
+      ],
+      "requires": [
+        "python-core",
+        "redis-client",
+        "pydantic-v2"
+      ],
+      "substrate": [
+        "cross-platform (iron / cloud / docker)"
+      ],
+      "version": "24.0.0-\u03a9",
+      "file_path": "shards/intelligence/neural-gateway.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "95400d0d938640f793f4906d89b688cbdd1c542349b8f33b56f69c786a72ae47",
+      "bytes": 9167,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/intelligence/neural-gateway.scaffold"
+    },
+    {
+      "id": "neural-mesh-tunnel",
+      "description": "A Zero-Trust WireGuard wormhole powered by Tailscale. Isolates",
+      "category": "Cloud / Security",
+      "vibe": "tailscale, wireguard, vpn, zero-trust, dark-ingress, security",
+      "provides": [
+        "zero-trust-network",
+        "wireguard-tunnel",
+        "private-mesh"
+      ],
+      "requires": [
+        "docker-engine"
+      ],
+      "substrate": [
+        "docker-compose"
+      ],
+      "version": "3.1.0-\u03a9",
+      "file_path": "shards/cloud/neural-mesh-tunnel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "e56394c860256370b29159e712575c4194a452efea44259b8458516c0b41ed03",
+      "bytes": 3190,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/cloud/neural-mesh-tunnel.scaffold"
+    },
+    {
+      "id": "neural-suture-graft",
+      "description": "Materializes an AI-driven surgical integration engine.",
+      "category": "Intelligence / System",
+      "vibe": "suture, graft, integration, automatic-wiring, ast-surgery, bridge-code, autonomic-mesh",
+      "provides": [
+        "neural-suture-engine",
+        "semantic-integration-service",
+        "autonomic-linker"
+      ],
+      "requires": [
+        "neural-cortex",
+        "architectural-oracle",
+        "shadow-clone",
+        "web-framework"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/neural-suture-graft.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "ec326868319d884a5a74da08f1e529020545d49e2b3f322e8aaf9ff016922648",
+      "bytes": 9058,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/neural-suture-graft.scaffold"
+    },
+    {
+      "id": "neural-synapse",
+      "description": "Materializes an AI-optimized context stratum. Injects an",
+      "category": "Intelligence / Metadata",
+      "vibe": "ai, context, rag, documentation, retina, llm-optimized, self-aware",
+      "provides": [
+        "semantic-retina",
+        "gnostic-context-anchor",
+        "prompt-navigator"
+      ],
+      "requires": [
+        "gnostic-cortex",
+        "vector-librarian",
+        "python-ast-toolkit"
+      ],
+      "substrate": [
+        "python (achronal sync)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/traits/neural-synapse.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "a4802df8293f8a6b14edaa01977630f99cdeccb2beb6255883313dbddd533c68",
+      "bytes": 7070,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/traits/neural-synapse.scaffold"
+    },
+    {
+      "id": "node-core",
+      "description": "The primordial Node.js substrate. Materializes the build system",
+      "category": "System / Substrate",
+      "vibe": "node, npm, typescript, esm, fundamental, substrate, base",
+      "provides": [
+        "node-environment",
+        "npm-substrate",
+        "typescript-base",
+        "node-core"
+      ],
+      "requires": [
+        "node-binary"
+      ],
+      "substrate": [
+        "node"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/node-core.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "41827af797b8d6622de73873ac4b7c220e988734b460a47561c3ae714ce9908c",
+      "bytes": 2734,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/node-core.scaffold"
+    },
+    {
+      "id": "observability-bastion",
+      "description": "Materializes a sovereign observability fortress. Orchestrates",
+      "category": "Infrastructure / Forensics",
+      "vibe": "telemetry, observability, tracing, metrics, logs, otel, panopticon",
+      "provides": [
+        "observability-fortress",
+        "forensic-authority",
+        "metabolic-hud"
+      ],
+      "requires": [
+        "docker-orchestration",
+        "pydantic-settings",
+        "network-access",
+        "python-core"
+      ],
+      "substrate": [
+        "docker-compose"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/integrations/observability-bastion.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "11c08053fd8882bae652396e5e3cb9ea9e6c9e5aeb65430dfb84104a2d35d6a4",
+      "bytes": 11319,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/integrations/observability-bastion.scaffold"
+    },
+    {
+      "id": "ouroboros-distiller",
+      "description": "The supreme self-perception engine. Transmutes physical matter",
+      "category": "Meta / Evolution",
+      "vibe": "recursive, metaprogramming, reflection, self-aware, blueprint-forge",
+      "provides": [
+        "archetype-inception-authority",
+        "self-perception-engine",
+        "gnostic-distiller"
+      ],
+      "requires": [
+        "gnostic-cortex",
+        "path-harmonizer",
+        "python-core",
+        "maestro-control"
+      ],
+      "substrate": [
+        "isomorphic (iron / wasm)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/velm-core/ouroboros-distiller.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "f2dd3bb6e4c1f347caff0ad39525fcbd981f4e29a216a89f3af32e6b08929569",
+      "bytes": 8414,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/ouroboros-distiller.scaffold"
+    },
+    {
+      "id": "ouroboros-guardian",
+      "description": "Enforces absolute architectural discipline via Git-Hook",
+      "category": "Integrity / Governance",
+      "vibe": "discipline, sentinel, gatekeeper, git-hooks, law, verified, unbreakable",
+      "provides": [
+        "integrity-enforcement",
+        "git-warden",
+        "drift-prevention",
+        "commit-gate"
+      ],
+      "requires": [
+        "git-chronicle",
+        "velm-core",
+        "maestro-control"
+      ],
+      "substrate": [
+        "cross-platform (posix/nt)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/traits/ouroboros-guardian.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "92224e7975fd7626e1e6f0eb5991d4b00eda0fe93bf6dbff0ed72bbabc9c8104",
+      "bytes": 5324,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/traits/ouroboros-guardian.scaffold"
+    },
+    {
+      "id": "ovh-cloud-suture",
+      "description": "Transmutes local reality into a remote Sovereign Node.",
+      "category": "Integration / Infrastructure",
+      "vibe": "ovh, cloud, vps, iron, gra11, terraform-ovh, substrate, celestial",
+      "provides": [
+        "cloud-authority",
+        "ovh-infrastructure",
+        "celestial-ascension"
+      ],
+      "requires": [
+        "pydantic-settings",
+        "forensic-ledger",
+        "network-access"
+      ],
+      "substrate": [
+        "python / shell"
+      ],
+      "version": "7.0.0-\u03a9",
+      "file_path": "shards/ovh/ovh-cloud-suture.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "919479ef21e4180dbf61bcaae31a4bbcdcf2479f50f429faef197ee9e29e92cb",
+      "bytes": 6219,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/ovh/ovh-cloud-suture.scaffold"
+    },
+    {
+      "id": "ovh-sovereign-ai-foundry",
+      "description": "Materializes a private LLM gateway on remote OVH GPU Iron.",
+      "category": "Intelligence / Infrastructure",
+      "vibe": "ai, llm, gpu, private-cloud, sovereignty, pii-warden, nvidia, gnostic",
+      "provides": [
+        "sovereign-ai-node",
+        "private-llm-gateway",
+        "pii-warden",
+        "ai-foundry"
+      ],
+      "requires": [
+        "cloud-authority",
+        "docker-gpu",
+        "nvidia-drivers",
+        "python-core"
+      ],
+      "substrate": [
+        "ovh-gpu (gra11 / bhs5)"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/ovh/ovh-sovereign-ai-foundry.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "1b474bec56237bf2c5966a93b78a5ef2f23681ae7a4f091ffb96e5318c183877",
+      "bytes": 5658,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/ovh/ovh-sovereign-ai-foundry.scaffold"
+    },
+    {
+      "id": "perimeter-shield",
+      "description": "Materializes the Gnostic Perimeter Shield. Enforces the Law of",
+      "category": "Security",
+      "vibe": "security, sentinel, telemetry, trace-id, metrics, middleware, ingress-guard",
+      "provides": [
+        "perimeter-shield",
+        "active-defense-stratum",
+        "trace-provider"
+      ],
+      "requires": [
+        "web-framework"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/perimeter-shield.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "9788ebaa6c6c1f26e66c6ac5d1eaed0ef7a5f13979d2108e4e4bc4dd157698b6",
+      "bytes": 5505,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/perimeter-shield.scaffold"
+    },
+    {
+      "id": "persona-bridge",
+      "description": "A Neural Persona Bridge for dynamic contextual adaptation.",
+      "category": "API / Context",
+      "vibe": "ai, persona, context-injection, neural-mesh, omni-registry, multitenant",
+      "provides": [
+        "dynamic-persona-context",
+        "ai-routing-middleware"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core",
+        "omni-registry-hub"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/persona-bridge.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "220cd7f7de866d85b2b59cfb1fc54d9ece05609f21331a9789048c7070dda084",
+      "bytes": 3993,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/persona-bridge.scaffold"
+    },
+    {
+      "id": "polyglot-hyperdrive",
+      "description": "Materializes an extreme-performance native bridge. Forges a",
+      "category": "Integrations / Performance",
+      "vibe": "rust, ffi, native, performance, compute-heavy, optimization, iron",
+      "provides": [
+        "native-acceleration",
+        "rust-bridge",
+        "iron-core",
+        "high-speed-compute"
+      ],
+      "requires": [
+        "rust-toolchain",
+        "python-runtime",
+        "node-runtime",
+        "maestro-control"
+      ],
+      "substrate": [
+        "iron (native compilation required)"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/integrations/polyglot-hyperdrive.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "cf34d4b49749061d5a156f2c59993e4fd28b4a471df9c4a839f7ee7e95e643d2",
+      "bytes": 8352,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/integrations/polyglot-hyperdrive.scaffold"
+    },
+    {
+      "id": "privacy-shroud",
+      "description": "Materializes an advanced PII hardening stratum. Features",
+      "category": "Security",
+      "vibe": "cryptography, pii, gdpr, hardening, sqlalchemy, encryption, vault, search",
+      "provides": [
+        "privacy-shroud",
+        "pii-encryption",
+        "searchable-ciphertext"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings",
+        "database-orm"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/privacy-shroud.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "120f194293147a09190a9de3bfb1d80eaae89d359b4d0b05747752c859d967c4",
+      "bytes": 6965,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/privacy-shroud.scaffold"
+    },
+    {
+      "id": "project-manager",
+      "description": "The definitive multiversal hypervisor. Materializes the",
+      "category": "System / Governance",
+      "vibe": "project-manager, observatory, registry, multirepo, context-switcher",
+      "provides": [
+        "project-manager",
+        "observatory-authority",
+        "multiversal-registry"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/project-manager.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "b08abe4fce1ada2a313e841d906fe0bd3979fe30a7cda3c659c09a2c10d48bd0",
+      "bytes": 6251,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/project-manager.scaffold"
+    },
+    {
+      "id": "pulse-socket",
+      "description": "A Real-Time Neural Signal for WebSocket communion. Establishes",
+      "category": "API / Realtime",
+      "vibe": "litestar, websocket, real-time, async-core, telemetry, streaming",
+      "provides": [
+        "realtime-websocket-conduit",
+        "vital-streaming"
+      ],
+      "requires": [
+        "litestar-framework",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/pulse-socket.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "fe3fef123cfa761947fd31141d50e1f332eeeb102aedeb7ba7c7913c4c9cc762",
+      "bytes": 3273,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/pulse-socket.scaffold"
+    },
+    {
+      "id": "pydantic-settings",
+      "description": "The Gnostic Conscience for configuration. Materializes the",
+      "category": "System / Config",
+      "vibe": "pydantic-settings, config, env, validation, pydantic-v2, settings",
+      "provides": [
+        "pydantic-settings",
+        "environment-authority",
+        "secret-warden"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/pydantic-settings.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "47514c9f3b897f037623a1db06e54bfb4352cd66a0c0083dbab6d057b0620170",
+      "bytes": 3597,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/pydantic-settings.scaffold"
+    },
+    {
+      "id": "pydantic-v2",
+      "description": "The definitive data validation stratum. Materializes the",
+      "category": "System / Logic",
+      "vibe": "pydantic, validation, schemas, dto, types, type-safety, pydantic-v2",
+      "provides": [
+        "pydantic",
+        "pydantic-v2",
+        "validation-authority",
+        "sovereign-vessels"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/pydantic-v2.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d1f7a4517d5e45929c7ba2b62fb3d77a502aa093610cc4ca56b6e43adde55e3d",
+      "bytes": 3765,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/pydantic-v2.scaffold"
+    },
+    {
+      "id": "python-binary-substrate",
+      "description": "The definitive Python Substrate Anchor. Materializes the",
+      "category": "System / Substrate",
+      "vibe": "python-version, pyenv, poetry, pyproject, substrate-anchor",
+      "provides": [
+        "python-binary",
+        "python-substrate",
+        "python-runtime"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/python-binary-substrate.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "3438690b23ea65007a20bf66b9052b10e54792d89d2388f31fdddba5074a4ded",
+      "bytes": 2417,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/python-binary-substrate.scaffold"
+    },
+    {
+      "id": "python-core",
+      "description": "The primordial Python substrate. Materializes the build system",
+      "category": "System / Substrate",
+      "vibe": "python, poetry, src-layout, pep621, fundamental, substrate, base",
+      "provides": [
+        "python-core",
+        "logic-substrate",
+        "web-framework-base",
+        "pydantic-v2"
+      ],
+      "requires": [
+        "python-binary"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/python-core.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "f59d7691232b6d40349388545bc22bf4cb94b0f8a23958e3a41918a8df65d10b",
+      "bytes": 3414,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/python-core.scaffold"
+    },
+    {
+      "id": "python-cryptography",
+      "description": "The definitive cryptographic engine. Materializes the",
+      "category": "System / Security",
+      "vibe": "cryptography, encryption, fernet, security-warden, hmac, entropy",
+      "provides": [
+        "python-cryptography",
+        "cryptographic-authority",
+        "secure-entropy",
+        "vault-warden"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/system/python-cryptography.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "4babe48759443085a5dfa0eec744b2753fabfb80638e51f53342fc8a1d5402fd",
+      "bytes": 4735,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/python-cryptography.scaffold"
+    },
+    {
+      "id": "python-metabolism-toolkit",
+      "description": "The definitive hardware sensing toolkit. Materializes the",
+      "category": "System / Substrate",
+      "vibe": "psutil, metabolism, hardware-sensing, vitals, telemetry-toolkit",
+      "provides": [
+        "python-metabolism-toolkit",
+        "metabolic-sensing-authority",
+        "hardware-biopsy"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/python-metabolism-toolkit.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "70c92ed4f00203bf1457d2f86efbb67c2d47c64e6d90ca33d758bb4ac0ef722a",
+      "bytes": 4105,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/python-metabolism-toolkit.scaffold"
+    },
+    {
+      "id": "python-physics-toolkit",
+      "description": "The definitive metabolic sensory array. Materializes a suite of",
+      "category": "System / Substrate",
+      "vibe": "physics, metabolism, profiler, performance, hardware-tomography, psutil",
+      "provides": [
+        "python-physics-toolkit",
+        "metabolic-profiler",
+        "hardware-tomography"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/python-physics-toolkit.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d8dfced9a1b8708a4fff9bffcb18693952e6bea75aaf6c5cf3f6c45cb7310368",
+      "bytes": 5113,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/python-physics-toolkit.scaffold"
+    },
+    {
+      "id": "quantum-logic-fission",
+      "description": "Materializes the \"Quantum Bridge\" stratum. Forges a high-speed",
+      "category": "Compute / Architecture",
+      "vibe": "wasm, rust, ffi, isomorphic, performance, bridge, binary-soul, zero-copy",
+      "provides": [
+        "isomorphic-compute",
+        "rust-bridge",
+        "wasm-executor",
+        "logic-fission"
+      ],
+      "requires": [
+        "rust-toolchain",
+        "wasm-bindgen",
+        "python-wasmtime",
+        "node-runtime"
+      ],
+      "substrate": [
+        "wasm / python / browser"
+      ],
+      "version": "2.2.0",
+      "file_path": "shards/system/quantum-logic-fission.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "2e71fab06561e4ea6995eb23133714a30be759c0c8ed9983e1a980293b2f055b",
+      "bytes": 9412,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/quantum-logic-fission.scaffold"
+    },
+    {
+      "id": "quantum-pulse-sync",
+      "description": "Materializes a high-availability distributed coordination layer.",
+      "category": "System / Consensus",
+      "vibe": "consensus, leader-election, distributed-systems, redis, HA, synchronization",
+      "provides": [
+        "consensus-authority",
+        "leader-election-service",
+        "distributed-coordination"
+      ],
+      "requires": [
+        "redis-backbone",
+        "pydantic-settings",
+        "system-lifecycle-authority"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/quantum-pulse-sync.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "e4f66c8061b31e5d63b2628ba9dbd9d8cce2ab839f0e17df18c69739c47db156",
+      "bytes": 7505,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/quantum-pulse-sync.scaffold"
+    },
+    {
+      "id": "rbac-citadel",
+      "description": "Materializes a declarative Role-Based Access Control (RBAC)",
+      "category": "Security",
+      "vibe": "rbac, authorization, permissions, security, policy, guard, access-control",
+      "provides": [
+        "authorization-governor",
+        "rbac-sentinel",
+        "access-control-list"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/rbac-citadel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8063e4b5249f1fa120df51d310ac910816848d2218f0bd1e3bf71fd601bd7ff5",
+      "bytes": 8792,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/rbac-citadel.scaffold"
+    },
+    {
+      "id": "reactive-hub",
+      "description": "Materializes a high-velocity, bi-directional event bus. Enables",
+      "category": "System / Connectivity",
+      "vibe": "websocket, realtime, synaptic, socketio, redis-pubsub, async, sync, hub",
+      "provides": [
+        "realtime-bus",
+        "synaptic-link",
+        "event-lattice",
+        "message-conduit"
+      ],
+      "requires": [
+        "redis-backbone",
+        "pydantic-settings",
+        "web-framework"
+      ],
+      "substrate": [
+        "python",
+        "typescript",
+        "node"
+      ],
+      "version": "3.0.0",
+      "file_path": "shards/system/reactive-hub.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "0d760ed4bacfe371b146a131aaefa31a6abf00c973723b00f231cc7bdcb6d969",
+      "bytes": 8106,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/reactive-hub.scaffold"
+    },
+    {
+      "id": "redis-client",
+      "description": "The definitive ephemeral memory substrate. Materializes a",
+      "category": "System / Substrate",
+      "vibe": "redis, cache, memory, distributed-lock, rate-limit, async-io",
+      "provides": [
+        "redis-client",
+        "ephemeral-memory-substrate",
+        "caching-authority"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.0.0-\u03a9",
+      "file_path": "shards/system/redis-client.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "5138ba43400485043b139c71a85306c0f43670351456a17dc68bb6f8f239177d",
+      "bytes": 5030,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/redis-client.scaffold"
+    },
+    {
+      "id": "resilient-mesh-guard",
+      "description": "Materializes an advanced inter-service resilience layer.",
+      "category": "System / Resilience",
+      "vibe": "resilience, bulkhead, stable, safe, circuit-breaker, reliability, immune",
+      "provides": [
+        "resilience-layer",
+        "circuit-breaker",
+        "fault-tolerance-authority"
+      ],
+      "requires": [
+        "web-framework",
+        "pydantic-settings",
+        "metabolic-monitor"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.2.0",
+      "file_path": "shards/system/resilient-mesh-guard.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "463aee03b6c561078dec0f6546210cd2840713b7a7c59c8ce6680197f4cb3b73",
+      "bytes": 8117,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/resilient-mesh-guard.scaffold"
+    },
+    {
+      "id": "rich-telemetry",
+      "description": "High-fidelity terminal observability. Materializes the",
+      "category": "Monitoring / UI",
+      "vibe": "rich, terminal-ui, telemetry, progress, logs, visual-gnosis",
+      "provides": [
+        "rich-telemetry",
+        "terminal-observability",
+        "visual-scribe"
+      ],
+      "requires": [
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/monitoring/rich-telemetry.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "0d96dbb8060f238cd235d544b406033281858beaf985b7479d6d35fced3104e3",
+      "bytes": 4418,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/monitoring/rich-telemetry.scaffold"
+    },
+    {
+      "id": "schema-vault",
+      "description": "A Semantic Validation Vault for cross-platform schema parity.",
+      "category": "API / Data",
+      "vibe": "validation, pydantic, json-schema, omni-registry, openapi, reflection",
+      "provides": [
+        "central-schema-registry",
+        "dynamic-openapi-sync"
+      ],
+      "requires": [
+        "pydantic",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/schema-vault.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "a979ae7231aa575ef0f953958b523ea909609788c0a339f86f5d785b1509644b",
+      "bytes": 3504,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/schema-vault.scaffold"
+    },
+    {
+      "id": "security-aegis",
+      "description": "Materializes an active IDPS. Features Redis-backed rate",
+      "category": "Security / Jurisprudence",
+      "vibe": "waf, idps, security, firewall, hardening, aegis, perimeter, warded",
+      "provides": [
+        "perimeter-defense",
+        "waf-authority",
+        "intrusion-prevention",
+        "idps"
+      ],
+      "requires": [
+        "redis-backbone",
+        "pydantic-settings",
+        "web-framework"
+      ],
+      "substrate": [
+        "isomorphic (python / node)"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/integrations/security-aegis.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d2edff25b267cdcf88d22e1a6d9e017261c47e2d3ad14a1e7ea5eab567fbb72c",
+      "bytes": 7511,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/integrations/security-aegis.scaffold"
+    },
+    {
+      "id": "security-analyst",
+      "description": "Materializes the \"Inquisitor\"\u2014a PydanticAI-powered autonomous",
+      "category": "Intelligence / Security",
+      "vibe": "agent, auditor, pydantic-ai, forensics, heresy, inquisitor, logic-scan",
+      "provides": [
+        "security-agent",
+        "code-inquisitor",
+        "forensic-analyst-service"
+      ],
+      "requires": [
+        "pydantic-ai",
+        "neural-nexus",
+        "forensic-ledger",
+        "project-mri"
+      ],
+      "substrate": [
+        "python (neuromorphic)"
+      ],
+      "version": "2.5.0-\u03a9",
+      "file_path": "shards/intelligence/security-analyst.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "493a6538b726578453203a49b62a546e2e3b093b603a36d3688152d2434dfa5b",
+      "bytes": 5305,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/intelligence/security-analyst.scaffold"
+    },
+    {
+      "id": "semantic-cache",
+      "description": "A Semantic Cache Warden for zero-latency intent recall. Intercepts",
+      "category": "API / Performance",
+      "vibe": "fastapi, redis, caching, performance, neural-mesh, zero-latency",
+      "provides": [
+        "semantic-caching",
+        "zero-latency-responses",
+        "redis-integration"
+      ],
+      "requires": [
+        "fastapi",
+        "redis-client",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/semantic-cache.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "7378d66a0981b87c3a6db66cfd8d946fb30bb80affe2378ed1ae54c0b38d085e",
+      "bytes": 5463,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/semantic-cache.scaffold"
+    },
+    {
+      "id": "sentinel-of-consecration",
+      "description": "An environmental inquisitor that scries the host for missing",
+      "category": "Meta / Infrastructure",
+      "vibe": "sentinel, hardening, substrate-purity, audit, omniscience, automation",
+      "provides": [
+        "environmental-integrity-authority",
+        "binary-oracle",
+        "substrate-warden"
+      ],
+      "requires": [
+        "python-core",
+        "maestro-conductor",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "cross-platform (posix / nt)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/velm-core/sentinel-of-consecration.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "c439fec53f21828593420feb5aacfda0d96f570b79e2917a6215fddb2d3dd9dc",
+      "bytes": 9130,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/velm-core/sentinel-of-consecration.scaffold"
+    },
+    {
+      "id": "shield",
+      "description": "Materializes the Zenith Gatekeeper middleware. Provides",
+      "category": "Security",
+      "vibe": "security, shield, waf, headers, protection, middleware, fast-defense",
+      "provides": [
+        "active-shield",
+        "ingress-shield",
+        "web-hardening"
+      ],
+      "requires": [
+        "web-framework"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/security/shield.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "bec7d8b84334b9a76106e87ffc028367af1e4ec57ad6d66dab519d6c574abef2",
+      "bytes": 6658,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/shield.scaffold"
+    },
+    {
+      "id": "sovereign-autonomous-microcloud",
+      "description": "Materializes the SAM-C stratum. Enables autonomic substrate",
+      "category": "System / Sovereignty",
+      "vibe": "nomadic, microcloud, substrate-independent, arbitrage, teleport, autonomous",
+      "provides": [
+        "nomadic-compute",
+        "fiscal-governor",
+        "substrate-abstraction",
+        "sam-c"
+      ],
+      "requires": [
+        "cloud-authority",
+        "shadow-clone",
+        "pydantic-settings",
+        "forensic-ledger"
+      ],
+      "substrate": [
+        "isomorphic (wasm / iron)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/system/sovereign-autonomous-microcloud.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "cab074123889aa093e2c6ed37a8ccabe5719a7d3be1aceabc73e7fcc3d259df7",
+      "bytes": 9607,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/sovereign-autonomous-microcloud.scaffold"
+    },
+    {
+      "id": "sovereign-integrity-citadel",
+      "description": "Materializes the Supreme Court of Form. Enforces bit-perfect",
+      "category": "Security / Sovereignty",
+      "vibe": "integrity, security, warden, merkle-root, purgation, incorruptible, law",
+      "provides": [
+        "integrity-authority",
+        "architectural-judge",
+        "dead-mans-switch"
+      ],
+      "requires": [
+        "forensic-ledger",
+        "pydantic-settings",
+        "project-manager"
+      ],
+      "substrate": [
+        "isomorphic (wasm / iron)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/system/sovereign-integrity-citadel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "2e8b7d93d54dd42ab30b391010f197d69fd780e718045fe1ab8a161ff60d6a36",
+      "bytes": 9257,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/sovereign-integrity-citadel.scaffold"
+    },
+    {
+      "id": "sovereignity-hive-mind",
+      "description": "Materializes an organizational collective intelligence layer.",
+      "category": "Intelligence / Governance",
+      "vibe": "hive, collective, swarm, federated, wisdom, pattern-induction, organizational",
+      "provides": [
+        "collective-intelligence",
+        "pattern-governor",
+        "hive-authority"
+      ],
+      "requires": [
+        "observatory-access",
+        "gnostic-cortex",
+        "vector-librarian",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python (achronal mesh)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/system/sovereignity-hive-mind.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "594db3d57fba38ab0d6ecb2d4a9d3b6f3b596fbcd5c01c15878b9de556ea1119",
+      "bytes": 10407,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/sovereignity-hive-mind.scaffold"
+    },
+    {
+      "id": "sqlalchemy-persistence-layer",
+      "description": "Materializes a sovereign persistence layer using SQLAlchemy 2.0.",
+      "category": "Persistence",
+      "vibe": "database, orm, sqlalchemy, postgres, pydantic, schema, repository",
+      "provides": [
+        "database-orm",
+        "user-persistence",
+        "sql-master"
+      ],
+      "requires": [
+        "pydantic-settings",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/data/sqlalchemy-persistence-layer.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "78f4ed430ada7ffadd731afe70cbb81791d1466e3458581e09cf5f744a604c7c",
+      "bytes": 2394,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/data/sqlalchemy-persistence-layer.scaffold"
+    },
+    {
+      "id": "ssh-access",
+      "description": "The definitive remote access authority. Materializes the",
+      "category": "System / Security",
+      "vibe": "ssh, keys, ed25519, remote-access, security, ansible, provisioning",
+      "provides": [
+        "ssh-access",
+        "remote-provisioning-authority",
+        "secure-shell-substrate"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python / shell"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/ssh-access.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d22bcac8aa015eeb6d0da8a7dd61f877260d794a727f7c2a8b06aa8dd8c3300b",
+      "bytes": 4564,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/ssh-access.scaffold"
+    },
+    {
+      "id": "substrate-aware-neural-sandbox",
+      "description": "Materializes the \"Metabolic Twin\" stratum. Emulates the physical",
+      "category": "Resilience / Physics",
+      "vibe": "physics-engine, metabolic-twin, gravity-chamber, rightsizing, emulation",
+      "provides": [
+        "performance-emulation",
+        "metabolic-twin",
+        "hardware-warden"
+      ],
+      "requires": [
+        "shadow-clone",
+        "forensic-ledger",
+        "metabolic-monitor",
+        "python-physics-toolkit"
+      ],
+      "substrate": [
+        "isomorphic (wasm / iron)"
+      ],
+      "version": "2.3.0",
+      "file_path": "shards/system/substrate-aware-neural-sandbox.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "5d05bdeb9560c72b7d909da3ffd227cbc89bf97878ecfd18dacc19b5b83dde0e",
+      "bytes": 5744,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/substrate-aware-neural-sandbox.scaffold"
+    },
+    {
+      "id": "synaptic-limiter",
+      "description": "A Distributed Rate-Limiter backed by the Redis Lattice. Prevents",
+      "category": "API / Resilience",
+      "vibe": "fastapi, redis, rate-limiting, distributed-systems, security, throttling",
+      "provides": [
+        "distributed-rate-limiting",
+        "api-abuse-prevention"
+      ],
+      "requires": [
+        "fastapi",
+        "redis-client",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/synaptic-limiter.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "10f53efc0ffb52c3e7cd35ff96765c4f34bbba1b20cdabffcea1df2f9a4df744",
+      "bytes": 4407,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/synaptic-limiter.scaffold"
+    },
+    {
+      "id": "tax-processor",
+      "description": "Injects a high-fidelity telemetry processor that calculates",
+      "category": "Monitoring / Telemetry",
+      "vibe": "audit, fiscal-aware, telemetry, metrics, observability, performance, tax",
+      "provides": [
+        "telemetry-processor",
+        "metabolic-auditor",
+        "metric-enhancer"
+      ],
+      "requires": [
+        "telemetry-hub",
+        "pydantic-settings",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/monitoring/tax-processor.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "bbe4c772cf8ca12c271fd211706b0a97ab33683568eb073bbcd58932d8f732b1",
+      "bytes": 4849,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/monitoring/tax-processor.scaffold"
+    },
+    {
+      "id": "tenant-phalanx",
+      "description": "A Multi-Tenant Phalanx for holographic reality isolation. Uses",
+      "category": "API / Security",
+      "vibe": "fastapi, multi-tenancy, security, context-injection, isolation",
+      "provides": [
+        "multi-tenant-context",
+        "zero-trust-isolation"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/tenant-phalanx.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "81aa6d149e57b9ede9caf93c77a171f4c9683fe2047f700f997f8a8bcec175f9",
+      "bytes": 4001,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/tenant-phalanx.scaffold"
+    },
+    {
+      "id": "terraform-fortress",
+      "description": "A legendary Terraform foundation for immutable AWS infrastructure.",
+      "category": "Automation / Infrastructure",
+      "vibe": "terraform, iac, aws, cloud, immutable-infra, s3-backend, fortress",
+      "provides": [
+        "cloud-orchestration",
+        "terraform-authority",
+        "aws-foundation"
+      ],
+      "requires": [
+        "aws-cli",
+        "terraform-cli",
+        "pydantic-settings",
+        "maestro-control"
+      ],
+      "substrate": [
+        "aws"
+      ],
+      "version": "2.1.0-\u03a9",
+      "file_path": "shards/automation/terraform-fortress.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "46d9be3bf6a30002cf3da724f7268e6f511097dcf3d77184da2173e652b459a7",
+      "bytes": 3507,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/automation/terraform-fortress.scaffold"
+    },
+    {
+      "id": "terraform-orchestrator",
+      "description": "The definitive Infrastructure-as-Code orchestrator. Materializes",
+      "category": "System / Substrate",
+      "vibe": "terraform, hcl, iac, orchestration, cloud-genesis, state-management",
+      "provides": [
+        "terraform-binary",
+        "terraform-orchestrator",
+        "hcl-authority"
+      ],
+      "requires": [
+        "python-core",
+        "pydantic-settings",
+        "maestro-control"
+      ],
+      "substrate": [
+        "python / shell"
+      ],
+      "version": "1.0.0-\u03a9",
+      "file_path": "shards/system/terraform-orchestrator.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "f2c97e509973f6f0c13252aa0528a838023643271d32d5313d1e8e0d35151586",
+      "bytes": 4997,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/terraform-orchestrator.scaffold"
+    },
+    {
+      "id": "threat-sentinel",
+      "description": "Injects an active Intrusion Detection & Prevention System (IDPS)",
+      "category": "Security",
+      "vibe": "security, sentinel, firewall, waf, threat, ids, ips, protection, active-defense",
+      "provides": [
+        "threat-sentinel",
+        "runtime-protection",
+        "ingress-gatekeeper"
+      ],
+      "requires": [
+        "redis-backbone",
+        "web-framework",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.0.0",
+      "file_path": "shards/security/threat-sentinel.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "8b702fcbbd09e112d8d0856a600c6269d3ab3bb06216b5fd2bad5e78e4f30a1b",
+      "bytes": 8904,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/threat-sentinel.scaffold"
+    },
+    {
+      "id": "trace-radiator",
+      "description": "A Gnostic Trace Radiator for distributed OpenTelemetry observability.",
+      "category": "API / Observability",
+      "vibe": "telemetry, tracing, opentelemetry, async-core, observability, jaeger",
+      "provides": [
+        "distributed-tracing",
+        "opentelemetry-exporter"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/trace-radiator.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "aeb91d52f01617917adf12bc9584c66f869b13c92367f7830c75688e59360394",
+      "bytes": 4176,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/trace-radiator.scaffold"
+    },
+    {
+      "id": "traffic-mirror",
+      "description": "A Multiversal Mirror for live traffic shadowing. Intercepts",
+      "category": "API / Resilience",
+      "vibe": "fastapi, shadowing, mirroring, neural-mesh, async-core, testing",
+      "provides": [
+        "traffic-mirror",
+        "shadow-deployment-router"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/traffic-mirror.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "2888ea6c586422c3aa38542cafb08b6050df8f3e7c877662e6c77993c2050b7c",
+      "bytes": 4527,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/traffic-mirror.scaffold"
+    },
+    {
+      "id": "universal-polyglot-suture",
+      "description": "The definitive soul-mark for every architect in the system.",
+      "category": "System / Architecture",
+      "vibe": "identity, auth, user, profile, account",
+      "provides": [
+        "polyglot-synchronization",
+        "isomorphic-types",
+        "schema-authority"
+      ],
+      "requires": [
+        "python",
+        "node-runtime",
+        "database-orm",
+        "neural-cortex"
+      ],
+      "substrate": [
+        "isomorphic (wasm / iron)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/system/universal-polyglot-suture.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "2131459babc5fe762cbcd1ed1dc4dfd8d422759a5f07ec9637daf48c64b95c3c",
+      "bytes": 8284,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/universal-polyglot-suture.scaffold"
+    },
+    {
+      "id": "universal-saas-nexus",
+      "description": "Materializes the Sovereign External World Gateway. Centralizes",
+      "category": "Integration / Governance",
+      "vibe": "nexus, gateway, saas, external-api, diplomat, fiscal-ward, vault-link",
+      "provides": [
+        "saas-orchestrator",
+        "external-api-gateway",
+        "billing-governor"
+      ],
+      "requires": [
+        "internal-secret-vault",
+        "network-access",
+        "forensic-ledger",
+        "pydantic-settings"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "2.1.0",
+      "file_path": "shards/system/universal-saas-nexus.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "5536990b03446dfa4c5af108be3f9781bc0f4155ac1e5147e737f9a1e0558aa9",
+      "bytes": 6890,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/system/universal-saas-nexus.scaffold"
+    },
+    {
+      "id": "user-service",
+      "description": "Materializes the Sovereign User Logic Stratum. Implements the",
+      "category": "Logic / Services",
+      "vibe": "service, logic, user, account, lifecycle, clean-architecture, di, ioc",
+      "provides": [
+        "user-logic-service",
+        "user-lifecycle-authority",
+        "business-mind"
+      ],
+      "requires": [
+        "user-repository",
+        "identity-authority",
+        "event-bus",
+        "pydantic-models"
+      ],
+      "substrate": [
+        "python (apophatic logic)"
+      ],
+      "version": "2.5.0",
+      "file_path": "shards/logic/user-service.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "4f64c8099fa2b9508b38b8356570d6c4b6708d53bd2a59eae6dc601923afde3b",
+      "bytes": 6300,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/logic/user-service.scaffold"
+    },
+    {
+      "id": "vault-guardian",
+      "description": "An isomorphic secrets management facade with AWS/HCP/Local fallback.",
+      "category": "Security",
+      "vibe": "secrets, vault, keys, credentials, aws secrets manager, hashicorp, security, env",
+      "provides": [
+        "secrets-manager",
+        "vault-guardian"
+      ],
+      "requires": [
+        "pydantic-settings",
+        "web-framework"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "1.0.0",
+      "file_path": "shards/security/vault-guardian.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "d03e45b055981892fce1a0fb55ab22f71cc5fb8310367ee2d2d442d1b894de36",
+      "bytes": 9977,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/security/vault-guardian.scaffold"
+    },
+    {
+      "id": "version-switchboard",
+      "description": "A Dynamic Versioning Switchboard for multi-era API routing.",
+      "category": "API / Routing",
+      "vibe": "fastapi, routing, versioning, neural-mesh, deprecation, architecture",
+      "provides": [
+        "api-versioning-hub",
+        "dynamic-routing"
+      ],
+      "requires": [
+        "fastapi",
+        "python-core"
+      ],
+      "substrate": [
+        "python"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/api/version-switchboard.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "efb2bd657b3c3711f68bb59ec617fc3f1dd5378def3772e0f7b2fa97cbbdb62a",
+      "bytes": 3013,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/api/version-switchboard.scaffold"
+    },
+    {
+      "id": "worker-swarm",
+      "description": "Materializes a high-scale distributed task queue. Orchestrates",
+      "category": "Integrations / Compute",
+      "vibe": "celery, bullmq, swarm, worker, distributed, async, compute, background",
+      "provides": [
+        "distributed-compute",
+        "task-queue-authority",
+        "async-worker-swarm"
+      ],
+      "requires": [
+        "redis-backbone",
+        "pydantic-settings",
+        "python-core",
+        "docker-orchestration"
+      ],
+      "substrate": [
+        "isomorphic (python / node)"
+      ],
+      "version": "3.0.0-\u03a9",
+      "file_path": "shards/integrations/worker-swarm.scaffold",
+      "type": "shards",
+      "semantic_vector": [],
+      "sha256": "49a0a0acf6942b552e486ab99e36dfc20b4178042e8c229da5c8780b6da18079",
+      "bytes": 8165,
+      "url": "https://raw.githubusercontent.com/novalym/velm-grimoire/main/shards/integrations/worker-swarm.scaffold"
+    }
+  ]
+}
