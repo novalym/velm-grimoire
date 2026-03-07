@@ -11,7 +11,7 @@
 # @is_integration: false
 # @dna: use_docker=true, use_poetry=true, use_redis=true, scale_workers=2
 # =================================================================================
-
+#
 # --- I. THE ALTAR OF VARIABLES ---
 $$ project_name = "hive-mind"
 $$ author = "The Architect"
