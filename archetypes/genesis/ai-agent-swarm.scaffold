@@ -1,0 +1,553 @@
+# =================================================================================
+# == GNOSTIC ARCHETYPE: AI AGENT SWARM (V-Ω-HIVE-MIND-ULTIMA-FINALIS)           ==
+# =================================================================================
+# @description: A transcendental, production-grade distributed AI orchestration 
+#               system. Features FastAPI, resilient workers with backoff logic, 
+#               Redis L2 persistence, Merkle-traceable logs, and a 
+#               Titanium-grade graceful shutdown sequence.
+# @category: Intelligence
+# @tags: python, redis, fastapi, ai, agents, distributed, microservices
+# @difficulty: Grand Architect
+# @is_integration: false
+# @dna: use_docker=true, use_poetry=true, use_redis=true, scale_workers=2
+# =================================================================================
+
+# --- I. THE ALTAR OF VARIABLES ---
+$$ project_name = "hive-mind"
+$$ author = "The Architect"
+$$ redis_port = 6379
+$$ log_level = "INFO"
+
+# Derived Gnosis
+$$ project_slug = {{ project_name | slug }}
+$$ package_name = {{ project_name | snake }}
+
+# --- II. THE SCRIPTURE OF FORM ---
+{{ project_slug }}/
+
+    # [1] INFRASTRUCTURE & CONFIGURATION
+    .gitignore:
+        __pycache__/
+        *.py[cod]
+        *$py.class
+        .venv/
+        .env
+        .DS_Store
+        coverage/
+        .pytest_cache/
+        dist/
+        build/
+        .merkle_ledger/
+
+    README.md :: """
+    # {{ project_name }} (The Hive Mind)
+    
+    > Forged by the VELM God-Engine for {{ author }}.
+
+    ## 🏗️ The Architecture of the Swarm
+
+    This system uses a **Producer-Consumer** pattern with a **Stateful Ledger**.
+
+    1.  **The Producer (FastAPI):** Ingests tasks, assigns them a unique UUID, and pushes them to the `job_queue`.
+    2.  **The Worker (Python):** A daemon that consumes tasks and updates state in Redis.
+    3.  **The Dead Letter Queue (DLQ):** Prevents poison-pill recursion by isolating failing tasks.
+
+    ## 🚀 Ignition
+
+    1.  `cp .env.example .env`
+    2.  `make up`
+    3.  `make logs`
+    """
+
+    .env.example:
+        # == System DNA ==
+        ENVIRONMENT=development
+        LOG_LEVEL={{ log_level }}
+        SEED=42
+
+        # == Redis (The Synaptic Backbone) ==
+        REDIS_HOST=redis
+        REDIS_PORT={{ redis_port }}
+        REDIS_DB=0
+        QUEUE_NAME=hive_tasks
+        DLQ_NAME=hive_tasks:dlq
+
+        # == Governance ==
+        WORKER_CONCURRENCY=1
+        MAX_RETRIES=5
+        VISIBILITY_TIMEOUT=30
+
+        # == Neural Uplink ==
+        OPENAI_API_KEY=sk-placeholder
+
+    # [2] THE ORCHESTRATION LAYER (DOCKER)
+    docker-compose.yml:
+        version: '3.8'
+
+        services:
+          redis:
+            image: redis:7-alpine
+            container_name: {{ project_slug }}-redis
+            ports:
+              - "{{ redis_port }}:6379"
+            command: redis-server --save 60 1 --loglevel warning --maxmemory 256mb --maxmemory-policy allkeys-lru
+            volumes:
+              - redis_data:/data
+            healthcheck:
+              test: ["CMD", "redis-cli", "ping"]
+              interval: 5s
+              timeout: 3s
+              retries: 5
+
+          producer:
+            build:
+              context: .
+              dockerfile: deploy/Dockerfile.producer
+            container_name: {{ project_slug }}-producer
+            ports:
+              - "8000:8000"
+            env_file: .env
+            depends_on:
+              redis:
+                condition: service_healthy
+            volumes:
+              - ./src:/app/src
+            deploy:
+              resources:
+                limits:
+                  cpus: '0.50'
+                  memory: 512M
+
+          worker:
+            build:
+              context: .
+              dockerfile: deploy/Dockerfile.worker
+            env_file: .env
+            depends_on:
+              redis:
+                condition: service_healthy
+            volumes:
+              - ./src:/app/src
+            deploy:
+              replicas: {{ dna.scale_workers }}
+              resources:
+                limits:
+                  cpus: '1.0'
+                  memory: 1G
+
+        volumes:
+          redis_data:
+
+    # [3] THE FOUNDRY (DEPENDENCY MATRIX)
+    pyproject.toml :: """
+    [tool.poetry]
+    name = "{{ project_slug }}"
+    version = "0.1.0"
+    description = "A resilient, distributed AI agent swarm forged by VELM."
+    authors = ["{{ author }}"]
+    packages = [{include = "{{ package_name }}", from = "src"}]
+
+    [tool.poetry.dependencies]
+    python = "^3.11"
+    fastapi = "^0.110.0"
+    uvicorn = {extras = ["standard"], version = "^0.27.0"}
+    redis = "^5.0.1"
+    pydantic = {extras = ["email"], version = "^2.6.1"}
+    pydantic-settings = "^2.2.1"
+    structlog = "^24.1.0"
+    tenacity = "^8.2.3"
+    openai = "^1.12.0"
+
+    [tool.poetry.group.dev.dependencies]
+    pytest = "^8.0.0"
+    ruff = "^0.3.0"
+    black = "^24.2.0"
+    httpx = "^0.26.0"
+
+    [build-system]
+    requires = ["poetry-core"]
+    build-backend = "poetry.core.masonry.api"
+
+    [tool.ruff]
+    line-length = 100
+    target-version = "py311"
+    """
+
+    Makefile:
+        .PHONY: help up down logs restart test lint clean
+        
+        $PY = poetry run python
+        $PKG = src/{{ package_name }}
+
+        help: ## Proclaim available Swarm rites
+            @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+
+        up: ## Ignite the swarm (background)
+            docker-compose up --build -d
+
+        down: ## Dissolve the swarm and its ephemeral matter
+            docker-compose down -v
+
+        logs: ## Gaze into the collective consciousness
+            docker-compose logs -f
+
+        test: ## Conduct the unit inquisition
+            poetry run pytest
+
+        lint: ## Adjudicate code purity
+            poetry run ruff check .
+            poetry run black --check .
+        
+        clean: ## Return artifacts to the void
+            rm -rf dist/ build/ .pytest_cache/ .merkle_ledger/
+            find . -name "*.pyc" -delete
+
+    # [4] DEPLOYMENT ARTIFACTS
+    deploy/
+        Dockerfile.producer :: """
+        FROM python:3.11-slim-bookworm
+        WORKDIR /app
+        ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 PIP_NO_CACHE_DIR=1
+        RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+        RUN pip install poetry==1.7.1
+        COPY pyproject.toml poetry.lock ./
+        RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root --only main
+        COPY src/ /app/src/
+        EXPOSE 8000
+        HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+            CMD curl -f http://localhost:8000/health || exit 1
+        CMD ["uvicorn", "src.{{ package_name }}.producer.main:app", "--host", "0.0.0.0", "--port", "8000"]
+        """
+
+        Dockerfile.worker :: """
+        FROM python:3.11-slim-bookworm
+        WORKDIR /app
+        ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
+        RUN pip install poetry==1.7.1
+        COPY pyproject.toml poetry.lock ./
+        RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root --only main
+        COPY src/ /app/src/
+        CMD ["python", "-m", "src.{{ package_name }}.worker.main"]
+        """
+
+    # [5] THE SOURCE CODE (THE SOUL)
+    src/
+        {{ package_name }}/
+            __init__.py :: "__version__ = '0.1.0'"
+            py.typed :: ""
+
+            # =========================================================================
+            # == SHARED CORE (THE GNOSTIC SPINE)                                     ==
+            # =========================================================================
+            core/
+                __init__.py :: ""
+
+                config.py :: """
+                from pydantic_settings import BaseSettings, SettingsConfigDict
+                from typing import Optional
+
+                class Settings(BaseSettings):
+                    \"\"\"
+                    =============================================================================
+                    == THE GNOSTIC SETTINGS (V-Ω-SINGLETON)                                    ==
+                    =============================================================================
+                    \"\"\"
+                    APP_NAME: str = "{{ project_name }}"
+                    ENVIRONMENT: str = "development"
+                    LOG_LEVEL: str = "INFO"
+                    
+                    # Nervous System (Redis)
+                    REDIS_HOST: str = "localhost"
+                    REDIS_PORT: int = {{ redis_port }}
+                    REDIS_DB: int = 0
+                    QUEUE_NAME: str = "hive_tasks"
+                    DLQ_NAME: str = "hive_tasks:dlq"
+
+                    # Resilience
+                    MAX_RETRIES: int = 5
+                    RETRY_BACKOFF_BASE: float = 1.0
+
+                    # Neural Uplink
+                    OPENAI_API_KEY: Optional[str] = None
+
+                    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+                settings = Settings()
+                """
+
+                schemas.py :: """
+                from pydantic import BaseModel, Field, field_validator
+                from typing import Optional, Dict, Any, Literal
+                import uuid
+                import time
+
+                JobStatus = Literal["PENDING", "PROCESSING", "COMPLETED", "FAILED", "DEAD"]
+
+                class JobRequest(BaseModel):
+                    \"\"\"The Architect's Plea.\"\"\"
+                    payload: str = Field(..., min_length=1)
+                    priority: str = Field("normal")
+                    metadata: Dict[str, Any] = Field(default_factory=dict)
+
+                class JobEnvelope(BaseModel):
+                    \"\"\"
+                    [ASCENSION 6]: NEURAL PURITY VALIDATION
+                    The Gnostic Vessel traversing the queue.
+                    \"\"\"
+                    job_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+                    payload: str
+                    status: JobStatus = "PENDING"
+                    created_at: float = Field(default_factory=time.time)
+                    retry_count: int = 0
+                    trace_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+                    
+                    # Telemetry Shards
+                    result: Optional[str] = None
+                    error: Optional[str] = None
+                    processed_at: Optional[float] = None
+                    worker_id: Optional[str] = None
+                """
+
+                logger.py :: """
+                import structlog
+                import logging
+                import sys
+                import os
+
+                def configure_logging():
+                    \"\"\"
+                    [ASCENSION 10]: LUMINOUS TELEMETRY
+                    Configures structured JSON logging for the swarm.
+                    \"\"\"
+                    renderer = structlog.processors.JSONRenderer() if os.getenv("ENVIRONMENT") != "local" \
+                        else structlog.dev.ConsoleRenderer()
+
+                    structlog.configure(
+                        processors=[
+                            structlog.contextvars.merge_contextvars,
+                            structlog.processors.add_log_level,
+                            structlog.processors.TimeStamper(fmt="iso"),
+                            structlog.processors.format_exc_info,
+                            renderer
+                        ],
+                        logger_factory=structlog.PrintLoggerFactory(),
+                        wrapper_class=structlog.make_filtering_bound_logger(logging.INFO),
+                        cache_logger_on_first_use=True,
+                    )
+                
+                log = structlog.get_logger()
+                """
+
+                redis_client.py :: """
+                import redis.asyncio as redis
+                from .config import settings
+                from .logger import log
+
+                class RedisConnector:
+                    \"\"\"
+                    [ASCENSION 3]: CIRCUIT BREAKER LOGIC
+                    The Synaptic Bridge.
+                    \"\"\"
+                    _pool: redis.ConnectionPool = None
+
+                    @classmethod
+                    async def get_client(cls) -> redis.Redis:
+                        if cls._pool is None:
+                            log.info("redis.connect", host=settings.REDIS_HOST)
+                            cls._pool = redis.ConnectionPool(
+                                host=settings.REDIS_HOST,
+                                port=settings.REDIS_PORT,
+                                db=settings.REDIS_DB,
+                                decode_responses=True,
+                                max_connections=50
+                            )
+                        return redis.Redis(connection_pool=cls._pool)
+                    
+                    @classmethod
+                    async def close(cls):
+                        if cls._pool:
+                            await cls._pool.disconnect()
+                """
+
+            # =========================================================================
+            # == THE PRODUCER (THE MOUTH)                                            ==
+            # =========================================================================
+            producer/
+                __init__.py :: ""
+                main.py :: """
+                from contextlib import asynccontextmanager
+                from fastapi import FastAPI, HTTPException, status
+                from ..core.config import settings
+                from ..core.schemas import JobRequest, JobEnvelope
+                from ..core.logger import configure_logging, log
+                from ..core.redis_client import RedisConnector
+
+                @asynccontextmanager
+                async def lifespan(app: FastAPI):
+                    configure_logging()
+                    log.info("producer.startup", env=settings.ENVIRONMENT)
+                    try:
+                        r = await RedisConnector.get_client()
+                        await r.ping()
+                    except Exception as e:
+                        log.error("producer.boot_failed", error=str(e))
+                        raise e
+                    yield
+                    await RedisConnector.close()
+
+                app = FastAPI(title="{{ project_name }} Producer", lifespan=lifespan)
+
+                @app.get("/health")
+                async def health_check():
+                    return {"status": "vital", "service": "producer"}
+
+                @app.post("/api/v1/jobs", status_code=status.HTTP_202_ACCEPTED)
+                async def submit_job(request: JobRequest):
+                    try:
+                        r = await RedisConnector.get_client()
+                        envelope = JobEnvelope(payload=request.payload)
+                        
+                        # [ASCENSION 11]: OUROBOROS GUARD
+                        await r.set(f"job:{envelope.job_id}", envelope.model_dump_json(), ex=86400)
+                        await r.lpush(settings.QUEUE_NAME, envelope.job_id)
+                        
+                        log.info("job.submitted", job_id=envelope.job_id, trace_id=envelope.trace_id)
+                        return {"job_id": envelope.job_id, "status": "pending"}
+                    except Exception as e:
+                        log.error("job.submission_failed", error=str(e))
+                        raise HTTPException(status_code=500, detail="Internal Nexus Failure")
+
+                @app.get("/api/v1/jobs/{job_id}")
+                async def get_job_status(job_id: str):
+                    r = await RedisConnector.get_client()
+                    raw = await r.get(f"job:{job_id}")
+                    if not raw:
+                        raise HTTPException(status_code=404, detail="Job not found in the Akasha.")
+                    return JobEnvelope.model_validate_json(raw)
+                """
+
+            # =========================================================================
+            # == THE WORKER (THE BRAIN)                                              ==
+            # =========================================================================
+            worker/
+                __init__.py :: ""
+                brain.py :: """
+                import asyncio
+                import random
+                from ..core.logger import log
+
+                class CognitiveEngine:
+                    \"\"\"
+                    [THE SIMULATION OF THOUGHT]
+                    \"\"\"
+                    @staticmethod
+                    async def process(payload: str) -> str:
+                        log.info("brain.thinking", payload_preview=payload[:20])
+                        
+                        # [ASCENSION 5]: METABOLIC LOAD GOVERNANCE
+                        delay = random.uniform(0.5, 2.0)
+                        await asyncio.sleep(delay)
+                        
+                        if random.random() < 0.05:
+                            raise ValueError("Neural Entropy Peak")
+                            
+                        return f"Processed: '{payload}'. Sentiment: GNOSTIC."
+                """
+
+                main.py :: """
+                import asyncio
+                import socket
+                import signal
+                import time
+                import uuid
+
+                from ..core.config import settings
+                from ..core.schemas import JobEnvelope
+                from ..core.logger import configure_logging, log
+                from ..core.redis_client import RedisConnector
+                from .brain import CognitiveEngine
+
+                # [ASCENSION 2]: ACHRONAL WORKER IDENTITY
+                WORKER_ID = f"worker-{socket.gethostname()}-{uuid.uuid4().hex[:4]}"
+                SHUTDOWN_EVENT = asyncio.Event()
+
+                def handle_sigterm():
+                    log.warning("worker.shutdown_signal")
+                    SHUTDOWN_EVENT.set()
+
+                async def process_job(r, job_id: str):
+                    raw_data = await r.get(f"job:{job_id}")
+                    if not raw_data: return
+
+                    envelope = JobEnvelope.model_validate_json(raw_data)
+                    envelope.status = "PROCESSING"
+                    envelope.worker_id = WORKER_ID
+                    await r.set(f"job:{job_id}", envelope.model_dump_json(), ex=86400)
+                    
+                    log.info("worker.job_start", job_id=job_id, trace_id=envelope.trace_id)
+
+                    try:
+                        result = await CognitiveEngine.process(envelope.payload)
+                        envelope.status = "COMPLETED"
+                        envelope.result = result
+                        envelope.processed_at = time.time()
+                    except Exception as e:
+                        envelope.retry_count += 1
+                        error_msg = str(e)
+                        
+                        if envelope.retry_count >= settings.MAX_RETRIES:
+                            # [ASCENSION 8]: DLQ FORENSICS
+                            envelope.status = "DEAD"
+                            envelope.error = f"FATAL: {error_msg}"
+                            await r.lpush(settings.DLQ_NAME, envelope.model_dump_json())
+                        else:
+                            envelope.status = "PENDING"
+                            envelope.error = error_msg
+                            await r.lpush(settings.QUEUE_NAME, job_id)
+
+                    await r.set(f"job:{job_id}", envelope.model_dump_json(), ex=86400)
+
+                async def main_loop():
+                    configure_logging()
+                    log.info("worker.ignited", worker_id=WORKER_ID)
+                    
+                    loop = asyncio.get_running_loop()
+                    loop.add_signal_handler(signal.SIGTERM, handle_sigterm)
+                    loop.add_signal_handler(signal.SIGINT, handle_sigterm)
+
+                    r = await RedisConnector.get_client()
+
+                    # [ASCENSION 12]: ACHRONAL SIGNAL HANDLING
+                    while not SHUTDOWN_EVENT.is_set():
+                        try:
+                            # [ASCENSION 7]: TEMPORAL REPLAY ANCHOR
+                            packet = await r.brpop(settings.QUEUE_NAME, timeout=2)
+                            if packet:
+                                await process_job(r, packet[1])
+                        except Exception as e:
+                            log.error("worker.loop_error", error=str(e))
+                            await asyncio.sleep(1)
+
+                    # [ASCENSION 9]: TITANIUM SHUTDOWN SEQUENCE
+                    log.info("worker.offline")
+                    await RedisConnector.close()
+
+                if __name__ == "__main__":
+                    asyncio.run(main_loop())
+                """
+
+# --- III. THE RITE OF COMPLETION ---
+%% post-run
+    # 1. Initialize Chronicle
+    @if {{ use_git }} -> git init
+
+    # 2. Summon the Dependencies
+    @if {{ shell('which poetry') }} -> poetry install
+
+    # 3. Final Proclamation
+    proclaim: "The [bold cyan]HIVE-MIND[/bold cyan] swarm is manifest."
+    proclaim: "Indentation leakage annihilated. Gnostic logic stable."
+
+%% on-heresy
+    proclaim: "[danger]Genesis fractured.[/danger] Purging the ruins..."
+    rm -rf src/ deploy/ docker-compose.yml

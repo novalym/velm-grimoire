@@ -1,0 +1,50 @@
+# Path: archetypes/genesis/base-api.scaffold
+# -----------------------------------------
+
+# =================================================================================
+# == GNOSTIC ARCHETYPE: BASE-API (V-Ω-TOTALITY-V2)                               ==
+# =================================================================================
+# @description: The Universal Gateway. Forges a production-grade API by 
+#              weaving specific language and cloud shards dynamically.
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL (INTERACTIVE GNOSIS) ---
+# The Oracle stops time here to ask the Architect for the project's DNA.
+
+$$ project_name = @ask("What is the sacred name of this API?", default="nexus-api")
+$$ author = @ask("Who is the Lead Architect?", default=os.env("USER"))
+
+# [THE BIFURCATION]: Choice-driven logic
+$$ tongue = @ask("Which tongue shall the logic speak?", choices=["python", "typescript", "go"])
+$$ substrate = @ask("Target Infrastructure?", choices=["ovh", "aws", "docker"])
+
+# --- II. THE SCRIPTURE OF FORM (THE BODY) ---
+# We do not define files here. We WEAVE the chosen realities from the Codex.
+
+# 1. Incept the Language Core
+# This weaves the specific folder structure (src/main.py or src/index.ts, etc.)
+{{ logic.weave("genesis/" + tongue + "-fortress") }}
+
+# 2. Incept the Cloud Suture
+# If the user chose a cloud provider, we bolt on the provisioning logic.
+@if substrate != "docker":
+    {{ logic.weave("cloud/" + substrate + "-suture") }}
+@else:
+    {{ logic.weave("cloud/docker-basic") }}
+
+# 3. Incept the Security Ward
+# Always weave the standard security layers
+{{ logic.weave("security/threat-sentinel") }}
+
+# --- III. THE MAESTRO'S WILL (POST-RUN) ---
+%% post-run
+    proclaim: "================================================================="
+    proclaim: "  [bold cyan]REALITY MANIFESTED:[/bold cyan] {{ project_name }}"
+    proclaim: "  [bold cyan]ARCHITECT:[/bold cyan] {{ author }}"
+    proclaim: "  [bold cyan]TONGUE:[/bold cyan] {{ tongue | upper }}"
+    proclaim: "  [bold cyan]SUBSTRATE:[/bold cyan] {{ substrate | upper }}"
+    proclaim: "================================================================="
+    
+    # Conditionally run setup based on the tongue
+    @if tongue == "python" -> >> make install
+    @if tongue == "typescript" -> >> npm install

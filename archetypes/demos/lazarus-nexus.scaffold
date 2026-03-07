@@ -1,0 +1,159 @@
+# =================================================================================
+# == GNOSTIC ARCHETYPE: LAZARUS NEXUS (V-Ω-TOTALITY-RESILIENCE)                  ==
+# =================================================================================
+# @name: Lazarus Nexus
+# @description: A self-healing, event-driven resilience hub. It demonstrates 
+#               VELM's ability to detect logic fractures and automatically 
+#               conduct redemption rites.
+# @category: System
+# @tags: system, demo, resilience, self-healing, advanced-automation
+# @difficulty: Adept
+# @icon: HeartPulse
+# @color: #ef4444
+# @dna: recovery_strategy=recursive, log_depth=forensic
+# =================================================================================
+
+# --- I. THE ALTAR OF GNOSTIC WILL (VARIABLES) ---
+$$ project_name = "Lazarus-Nexus"
+$$ package_name = "nucleus"
+$$ author = "The Architect"
+
+# --- II. THE SCRIPTURE OF FORM (THE BODY) ---
+{{ project_name }}/
+
+    # [1] THE CONSTITUTION OF RESILIENCE
+    README.md :: """
+    # 🧪 The Lazarus Nexus
+    > "Fracture is not an end; it is a catalyst for ascension."
+
+    This system is a **Gnostic Stress-Test**. It is designed to be broken so that the **Maestro Conductor** can demonstrate the Rite of Resurrection.
+
+    ### 🏗️ Anatomy of the Hub
+    1. **The Nucleus (`src/nucleus.py`):** A high-frequency logic loop containing intentional "Heresy Triggers."
+    2. **The Sentinel (`src/sentinel.py`):** Monitors the Nucleus and radiates heartbeat signals.
+    3. **The Resurrection Symphony (`symphonies/resurrect.symphony`):** The Gnostic workflow that heals the Nucleus when it collapses.
+
+    ### ⚡ The Rite of Chaos
+    Speak this command to break the system and witness the healing:
+    `velm run symphonies/stress_test.symphony`
+    """
+
+    # [2] THE FRAGILE SOUL (NUCLEUS)
+    src/
+        {{ package_name }}/
+            __init__.py
+            nucleus.py :: """
+            import random
+            import time
+            import sys
+            from pathlib import Path
+
+            def conduct_metabolic_loop():
+                print("🌀 [NUCLEUS] Loop active. Resonance: STABLE.")
+                # Intentional Fracture: 20% chance of a "Memory Heresy"
+                if random.random() < 0.2:
+                    print("💀 [FRACTURE] A catastrophic memory heresy has occurred!")
+                    sys.exit(1)
+                return True
+
+            if __name__ == "__main__":
+                while True:
+                    conduct_metabolic_loop()
+                    time.sleep(1)
+            """
+            
+            sentinel.py :: """
+            import os
+            import time
+            from pathlib import Path
+
+            def pulse():
+                heartbeat = Path(".heartbeat")
+                heartbeat.write_text(str(time.time()))
+                print("💓 [SENTINEL] Pulse radiated to substrate.")
+
+            if __name__ == "__main__":
+                while True:
+                    pulse()
+                    time.sleep(2)
+            """
+
+    # [3] THE RITES OF REDEMPTION (SYMPHONY)
+    symphonies/
+        resurrect.symphony :: """
+        # == Symphony: The Lazarus Protocol ==
+        
+        @task main
+            %% proclaim: "Initiating Lazarus Protocol..."
+            
+            @try:
+                # Vow I: Check if the Nucleus is breathing
+                >> python -c "import time, os; print(os.path.getmtime('.heartbeat'))" as last_pulse
+                # If pulse is older than 5s, the Nucleus has died
+                py:
+                    import time
+                    if time.time() - float(ctx.last_pulse) > 5:
+                        print("FRACTURE_CONFIRMED")
+                
+                ?? stdout_contains: "FRACTURE_CONFIRMED"
+                
+                # Rite of Resurrection
+                %% proclaim: "[bold yellow]⚠️  The Nucleus has collapsed! Conducting Resurrection...[/bold yellow]"
+                >> rm -f .heartbeat
+                >> python src/{{ package_name }}/nucleus.py &
+                ?? succeeds
+                
+                %% proclaim: "[bold green]✅ Nucleus Resurrected. Reality Restored.[/bold green]"
+            @catch:
+                %% proclaim: "Nucleus is currently resonant. No action required."
+            @end
+        """
+
+        stress_test.symphony :: """
+        # == Symphony: Stress Test ==
+        
+        %% proclaim: "Launching the Lazarus Nexus..."
+        >> python src/{{ package_name }}/nucleus.py &
+        >> python src/{{ package_name }}/sentinel.py &
+        
+        %% sleep: 5
+        
+        %% proclaim: "Conducting Gnostic Inquest via Lazarus Protocol..."
+        >> velm run symphonies/resurrect.symphony
+        """
+
+    # [4] THE GNOSTIC CHRONICLE
+    .scaffold/
+        identity.json :: """
+        {
+            "id": "{{ project_slug }}",
+            "tier": "Resilient",
+            "archetype": "lazarus-nexus"
+        }
+        """
+
+    # [5] THE VEIL
+    .gitignore :: """
+    __pycache__/
+    .heartbeat
+    *.log
+    .scaffold/
+    """
+
+# --- III. THE MAESTRO'S WILL (POST-RUN SYMPHONY) ---
+%% post-run
+    proclaim: "================================================================="
+    proclaim: "THE LAZARUS NEXUS IS MANIFEST."
+    proclaim: "================================================================="
+    
+    # 1. Initialize heartbeat
+    >> touch .heartbeat
+    
+    # 2. Final Proclamation
+    proclaim: "✅ [bold red]LAZARUS CORE ACTIVE[/bold red] in '{{ project_name }}/'."
+    proclaim: "   To witness the self-healing power, speak:"
+    proclaim: "   [bold cyan]velm run symphonies/stress_test.symphony[/bold cyan]"
+
+%% on-heresy
+    proclaim: "[bold red]A HERESY OF CREATION![/bold red]"
+    proclaim: "The Nexus failed to ignite. Forensic data: {{ HERALD_STDERR }}"
