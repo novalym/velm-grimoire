@@ -12,7 +12,7 @@
 # @version: 2.3.0
 # @LIF: 1,000,000x
 # ==============================================================================
-
+#
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: The Bitmask of Iron
 $$ project_slug = {{ project_slug | default("omega-node") }}
