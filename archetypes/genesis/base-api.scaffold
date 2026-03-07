@@ -1,43 +1,56 @@
-# Path: archetypes/genesis/base-api.scaffold
-# -----------------------------------------
+# =================================================================================
+# == GNOSTIC ARCHETYPE: UNIVERSAL BASE API (V-Ω-TOTALITY-V24-FINALIS)            ==
+# =================================================================================
+# @description: The Sovereign Inceptor for all API Realities. Forges a hardened, 
+#               production-grade gateway by dynamically weaving language-specific 
+#               fortresses and multi-cloud infrastructure shards.
+# @category: Genesis / API
+# @tags: api, gateway, fullstack, multiversal, python, go, typescript, cloud
+# @provides: [api-gateway-inception, universal-foundation]
+# @requires: [scaffold-core, logic-weaver, infrastructure-orchestrator]
+# @substrate: agnostic
+# @version: 24.0.0-Ω
+# @author: Novalym Systems
+# @difficulty: Adept
+# @LIF: INFINITY
+# =================================================================================
 
-# =================================================================================
-# == GNOSTIC ARCHETYPE: BASE-API (V-Ω-TOTALITY-V2)                               ==
-# =================================================================================
-# @description: The Universal Gateway. Forges a production-grade API by 
-#              weaving specific language and cloud shards dynamically.
-# =================================================================================
-
-# --- I. THE ALTAR OF GNOSTIC WILL (INTERACTIVE GNOSIS) ---
-# The Oracle stops time here to ask the Architect for the project's DNA.
+# --- I. THE ALTAR OF GNOSTIC WILL (THE SACRED DIALOGUE) ---
+# The Oracle halts the flow of time to inhale the Architect's specific intent.
 
 $$ project_name = @ask("What is the sacred name of this API?", default="nexus-api")
-$$ author = @ask("Who is the Lead Architect?", default=os.env("USER"))
+$$ author       = @ask("Who is the Lead Architect?", default=os.env("USER"))
 
-# [THE BIFURCATION]: Choice-driven logic
-$$ tongue = @ask("Which tongue shall the logic speak?", choices=["python", "typescript", "go"])
-$$ substrate = @ask("Target Infrastructure?", choices=["ovh", "aws", "docker"])
+# [THE BIFURCATION]: Choice-driven logic anchors the project's DNA
+$$ tongue       = @ask("Which tongue shall the logic speak?", choices=["python", "typescript", "go"], default="python")
+$$ substrate    = @ask("Target Infrastructure Substrate?", choices=["ovh", "aws", "docker"], default="docker")
 
-# --- II. THE SCRIPTURE OF FORM (THE BODY) ---
-# We do not define files here. We WEAVE the chosen realities from the Codex.
+# --- II. THE SCRIPTURE OF FORM (THE LOOM) ---
+# In the Unified Creation Layer, we do not write files; we weave Realities.
 
-# 1. Incept the Language Core
-# This weaves the specific folder structure (src/main.py or src/index.ts, etc.)
+# 1. MATERIALIZE THE LANGUAGE CORE
+# [ASCENSION 5]: This surgically pulls the specific "Fortress" for the chosen tongue.
+# It handles the primary entrypoint, model stratum, and routing logic.
 {{ logic.weave("genesis/" + tongue + "-fortress") }}
 
-# 2. Incept the Cloud Suture
-# If the user chose a cloud provider, we bolt on the provisioning logic.
+# 2. MATERIALIZE THE INFRASTRUCTURE IRON
+# [ASCENSION 3]: Branched materialization based on physical substrate.
 @if substrate != "docker":
+    # Teleport the reality to the Cloud via specialized sutures
     {{ logic.weave("cloud/" + substrate + "-suture") }}
 @else:
+    # Anchor the reality to local Iron via standard containers
     {{ logic.weave("cloud/docker-basic") }}
 
-# 3. Incept the Security Ward
-# Always weave the standard security layers
+# 3. MATERIALIZE THE IMMUNE SYSTEM
+# [ASCENSION 6]: Absolute Security Vow. No reality is waked without a Shield.
 {{ logic.weave("security/threat-sentinel") }}
 
-# --- III. THE MAESTRO'S WILL (POST-RUN) ---
+# --- III. THE MAESTRO'S WILL (THE KINETIC STRIKE) ---
+# Executes edicts upon the physical disk after the atoms are manifest.
+
 %% post-run
+    # [ASCENSION 7]: Haptic HUD Multicast
     proclaim: "================================================================="
     proclaim: "  [bold cyan]REALITY MANIFESTED:[/bold cyan] {{ project_name }}"
     proclaim: "  [bold cyan]ARCHITECT:[/bold cyan] {{ author }}"
@@ -45,6 +58,25 @@ $$ substrate = @ask("Target Infrastructure?", choices=["ovh", "aws", "docker"])
     proclaim: "  [bold cyan]SUBSTRATE:[/bold cyan] {{ substrate | upper }}"
     proclaim: "================================================================="
     
-    # Conditionally run setup based on the tongue
-    @if tongue == "python" -> >> make install
-    @if tongue == "typescript" -> >> npm install
+    # [ASCENSION 8]: Adaptive Setup Rites
+    # Ensures the environment is hydrated the microsecond the strike concludes.
+    @if tongue == "python":
+        proclaim: "Summoning Python dependencies via Poetry..."
+        >> make install
+    @endif
+    
+    @if tongue == "typescript":
+        proclaim: "Hydrating Node modules via NPM..."
+        >> npm install
+    @endif
+
+    @if tongue == "go":
+        proclaim: "Aligning Go modules..."
+        >> go mod tidy
+    @endif
+
+    proclaim: "[bold green]✅ CONSECRATION COMPLETE.[/bold green] Reality is resonant."
+
+%% on-heresy
+    proclaim: "[bold red]Achronal Fracture Detected![/bold red] Stasis protocols engaged."
+    proclaim: "Review the Forensic Ledger to find the path to redemption."
