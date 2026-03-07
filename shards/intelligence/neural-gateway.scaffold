@@ -1,17 +1,6 @@
-# ==============================================================================
-# == GNOSTIC SHARD: NEURAL GATEWAY (V-Ω-TOTALITY-V3.0-CONDUIT)                ==
-# ==============================================================================
-# @description: Materializes the high-performance unified AI proxy. Features 
-#               provider-agnostic routing, semantic caching, fiscal 
-#               telemetry, and a versioned Jinja2 prompt registry.
-# @category: Intelligence / System
-# @vibe: ai, llm, proxy, gateway, conduit, neural, caching, fiscal-aware, jinja
-# @provides: [neural-nexus, ai-gateway, prompt-registry, cognitive-conduit]
-# @requires: [redis-backbone, pydantic-settings, forensic-ledger, python-core]
-# @substrate: python (Async Optimized)
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
-# ==============================================================================
+# Path: codex/shards/intelligence/neural-gateway.scaffold
+# -------------------------------------------------------
+
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: Causal Variable Anchoring
@@ -195,6 +184,7 @@ async def think(prompt: str, x_gnostic_trace: Optional[str] = Header(None)):
     A direct portal to the project's Neural Mind.
     \"\"\"
     # 1. Forge the high-status system prompt
+    # [THE CURE]: These arguments satisfy the template's hunger at runtime.
     system = prompt_alchemist.forge(
         "system_base.j2", 
         intent="ARCHITECTURAL_ANALYSIS", 
@@ -214,8 +204,11 @@ async def think(prompt: str, x_gnostic_trace: Optional[str] = Header(None)):
 
 # --- V. THE PROMPT SANCTUM (Templates) ---
 prompts/
+    # [THE CURE]: LITERAL ESCAPE SUTURE
+    # We use a trick to force Jinja to render the literal braces for the
+    # runtime template engine, instead of trying to resolve them now.
     system_base.j2 :: """
-    You are the {{ intent }} of the {{ project_name }} multiverse.
+    You are the {{ '{{ intent }}' }} of the {{ '{{ project_name }}' }} multiverse.
     Your mind is warded by the VELM God-Engine. 
     You must speak with mathematical precision and senior-level architectural wisdom.
     """

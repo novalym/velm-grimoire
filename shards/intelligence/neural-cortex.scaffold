@@ -1,17 +1,6 @@
-# ==============================================================================
-# == GNOSTIC SHARD: NEURAL-CORTEX (V-Ω-TOTALITY-V3.0)                         ==
-# ==============================================================================
-# @description: The definitive cognitive gateway. Materializes the LiteLLM-powered 
-#               Neural Cortex, enabling substrate-agnostic AI queries with 
-#               integrated cost-tracking, retry-resilience, and HUD signaling.
-# @category: Intelligence / AI
-# @vibe: neural-cortex, llm, ai-gateway, cognitive-mind, gpt-4, claude-3, litellm
-# @provides: [neural-cortex, ai-authority, cognitive-gateway, inference-substrate]
-# @requires: [python-core, pydantic-settings]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
-# ==============================================================================
+# Path: codex/shards/intelligence/neural-cortex.scaffold
+# ------------------------------------------------------
+
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ package_name = {{ package_name | default(project_slug | snake) }}
