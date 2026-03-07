@@ -1,7 +1,7 @@
 # Path: .github/workflows/ascension.yml
 # ------------------------------------
 # LIF: ∞ // ROLE: CELESTIAL_GOVERNOR_&_FORENSIC_INQUISITOR
-# AUTH_CODE: Ω_ASCENSION_VMAX_FIX_2026_FINALIS
+# AUTH_CODE: Ω_ASCENSION_VMAX_REPORT_FIX_2026_FINALIS
 
 name: Ω | Celestial Ascension & ONNX Vector Adjudication
 
@@ -53,7 +53,7 @@ jobs:
           key: ucl-onnx-minilm-v2
 
       # =========================================================================
-      # == THE SUPREME INQUEST: MULTIVERSAL ONTOLOGY ADJUDICATION (CORRECTED)  ==
+      # == THE SUPREME INQUEST: MULTIVERSAL ONTOLOGY ADJUDICATION (VMAX)       ==
       # =========================================================================
       - name: 🔍 Conducting Multiversal Gnostic Inquest
         shell: python
@@ -63,8 +63,7 @@ jobs:
           import re
           from pathlib import Path
           
-          # [THE FIX]: DIRECT OBJECT SUMMONING
-          # Ensures 'rich' has no attribute errors by importing verified classes
+          # [THE FIX]: SURGICAL SYMBOL IMPORT
           from rich.console import Console
           from rich.table import Table
           from rich.panel import Panel
@@ -87,7 +86,7 @@ jobs:
 
           ONTOLOGY_PATTERN = re.compile(r"== GNOSTIC\s+(?P<type>SHARD|TRAIT|MONAD|CITADEL|ARCHETYPE):", re.IGNORECASE)
           
-          # [THE FIX]: Anchoring the current working directory as an absolute Path
+          # [THE FIX]: Anchoring Global Geometry
           PROJECT_ROOT = Path.cwd().resolve()
           heresies = []
 
@@ -96,21 +95,18 @@ jobs:
               if not strata_path.exists():
                   return
                   
-              # Scan all scriptures within the targeted stratum
               for path in strata_path.rglob("*.scaffold"):
                   if ".scaffold" in path.parts: continue
                   
                   try:
-                      # [ASCENSION 2]: Physical Biopsy
                       content = path.read_text(encoding='utf-8', errors='ignore')
                       lines = content.splitlines()
                       if not lines: continue
                       
-                      # 1. Divine Ontology from first line
+                      # 1. Divine Ontology
                       first_line = lines[0].strip()
                       onto_match = ONTOLOGY_PATTERN.search(first_line)
                       
-                      # 2. Determine Rule Set
                       if onto_match:
                           o_type = onto_match.group("type").upper()
                       else:
@@ -119,16 +115,19 @@ jobs:
                       
                       pillars = ONTOLOGY_MAP.get(o_type, SHARD_PILLARS)
                       
-                      # 3. Adjudicate Content
+                      # 2. Adjudicate Content
                       content_lower = content.lower()
                       missing = [p for p in pillars if p.lower() not in content_lower]
                       
                       if missing:
-                          # [THE FIX]: GEOMETRIC RELATIVIZATION
-                          # We resolve both paths to absolute before calculating relativity.
-                          rel_path = path.resolve().relative_to(PROJECT_ROOT)
-                          
+                          # [THE FIX]: SAFE GEOMETRIC RELATIVIZATION
+                          try:
+                              rel_path = path.resolve().relative_to(PROJECT_ROOT)
+                          except ValueError:
+                              rel_path = path.name
+
                           for m in missing:
+                              # Radiate GitHub Annotation
                               print(f"::error file={rel_path},line=1::Ontological Heresy: {o_type} is missing pillar '{m}'")
                               heresies.append({
                                   "file": str(rel_path), 
@@ -140,8 +139,7 @@ jobs:
 
           console.print(Panel("[bold cyan]UCL MULTIVERSAL INQUEST: COMMENCING[/]", border_style="cyan"))
           
-          # Conduct Inquest across the known strata
-          # [ASCENSION 14]: Expanded recursive discovery
+          # [ASCENSION 14]: Continuous discovery across all manifest strata
           target_strata = ["shards", "archetypes", "traits", "infrastructure", "codex/shards"]
           for strata in target_strata:
               conduct_inquest(strata)
@@ -150,7 +148,8 @@ jobs:
               table = Table(title="[bold red]THE CHRONICLE OF LATTICE FRACTURES[/]", border_style="red", expand=True)
               table.add_column("Locus (Relative Path)", style="magenta")
               table.add_column("Ontological Lifeform", style="yellow")
-              table.add_column("Missing Gnostic Pillar", style="red", bold=True)
+              # [THE FIX]: Boldness is part of the style string, not a kwarg
+              table.add_column("Missing Gnostic Pillar", style="bold red")
               
               for h in heresies:
                   table.add_row(h['file'], h['type'], h['missing'])
