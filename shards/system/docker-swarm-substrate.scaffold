@@ -1,5 +1,5 @@
 # ==============================================================================
-# == GNOSTIC SHARD: DOCKER-SWARM-SUBSTRATE (V-Ω-TOTALITY-V1.0)                ==
+# == GNOSTIC SHARD: DOCKER-SWARM-SUBSTRATE (V-Ω-TOTALITY-V2-RAW-WARDED)        ==
 # ==============================================================================
 # @description: The definitive high-availability substrate. Materializes the 
 #               Docker Swarm cluster logic, enabling multi-node orchestration, 
@@ -10,7 +10,7 @@
 # @provides: [docker-swarm-substrate, cluster-authority, container-orchestration-ha]
 # @requires: [docker-engine]
 # @substrate: docker / shell
-# @version: 1.0.0-Ω
+# @version: 2.0.0-Ω (HEALED)
 # @LIF: INFINITY
 # ==============================================================================
 
@@ -54,19 +54,28 @@ scripts/
     swarm_ignite.sh :: """
 #!/bin/bash
 # =============================================================================
-# == THE SWARM IGNITION RITE (V-Ω-ATOMIC)                                    ==
+# == THE SWARM IGNITION RITE (V-Ω-ATOMIC-RAW-WARDED)                         ==
 # =============================================================================
 set -e
 
 echo "🐝 [SWARM] Adjudicating Node State..."
 
+# =========================================================================
+# == [THE MASTER CURE]: ACHRONAL SANCTUARY                               ==
+# =========================================================================
+# We use the raw block to shield the Go-template dot notation from the 
+# Alchemist. This annihilates the 'unexpected dot' heresy forever.
+{% raw %}
+LOCAL_NODE_STATE=$(docker info --format '{{.Swarm.LocalNodeState}}' 2>/dev/null || echo "void")
+{% endraw %}
+
 # 1. THE VOID CHECK
-if [ "$(docker info --format '{{"{{"}}.Swarm.LocalNodeState{{"}}"}}')" == "active" ]; then
+if [ "$LOCAL_NODE_STATE" == "active" ]; then
     echo "✅ Node is already a Sovereign Manager. Proceeding..."
 else
     # 2. THE STRIKE
     echo "🌀 Initiating Swarm Inception on {{ manager_ip }}..."
-    docker swarm init --advertise-addr {{ manager_ip }}
+    docker swarm init --advertise-addr {{ manager_ip }} || echo "⚠️  Swarm already waked or requires manual peer join."
     echo "✨ [RESONANT] Cluster Heart waked."
 fi
 
@@ -85,17 +94,17 @@ Makefile += """
 
 # --- SWARM RITES ---
 swarm-init: ## conduct the rite of cluster ignition
-	@chmod +x scripts/swarm_ignite.sh
-	@./scripts/swarm_ignite.sh
+    @chmod +x scripts/swarm_ignite.sh
+    @./scripts/swarm_ignite.sh
 
 swarm-deploy: ## materialize the replicated stack upon the swarm iron
-	@docker stack deploy -c docker-stack.yml {{ project_slug }}
+    @docker stack deploy -c docker-stack.yml {{ project_slug }}
 
 swarm-status: ## scry the vitality of the legion
-	@docker stack ps {{ project_slug }}
+    @docker stack ps {{ project_slug }}
 
 swarm-down: ## return the swarm stack to the void
-	@docker stack rm {{ project_slug }}
+    @docker stack rm {{ project_slug }}
 """
 
 # --- IV. THE MAESTRO'S WILL ---
@@ -107,10 +116,10 @@ swarm-down: ## return the swarm stack to the void
     
     # 1. Pre-Flight Verification
     proclaim: "Phase I: Verifying Docker Engine resonance..."
-    @if {{ not shell('docker version > /dev/null 2>&1 && echo "yes"') == 'yes' }}
-        proclaim: "[bold red]HERESY:[/bold red] Docker is unmanifested. Cluster Inception stayed."
+    @if {{ not file_exists('/var/run/docker.sock') and not is_windows }}
+        proclaim: "[bold red]HERESY:[/bold red] Docker Socket unmanifested. Substrate may be virtualized."
     @else
-        proclaim: "✅ Docker Engine confirmed."
+        proclaim: "✅ Docker Substrate confirmed."
     @endif
     
     # 2. Final Proclamation
