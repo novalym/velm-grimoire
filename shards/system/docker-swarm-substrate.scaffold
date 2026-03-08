@@ -52,7 +52,7 @@ echo "🐝 [SWARM] Adjudicating Node State..."
 # =========================================================================
 # == [THE MASTER CURE]: THE GREP-PHALANX                                 ==
 # =========================================================================
-# We no longer use Go-Templates ({{.}}) because they leak into the Engine's 
+# We no longer use Go-Templates because they leak into the Engine's 
 # recursive parsing passes. We use a raw text-stream probe instead.
 # This is 100% Jinja-safe and substrate-robust.
 # =========================================================================
