@@ -1,29 +1,28 @@
 # ==============================================================================
-# == GNOSTIC SHARD: DOCKER-SWARM-SUBSTRATE (V-Ω-TOTALITY-V2-RAW-WARDED)        ==
+# == GNOSTIC SHARD: DOCKER-SWARM-SUBSTRATE (V-Ω-TOTALITY-V2.1-INDESTRUCTIBLE)  ==
 # ==============================================================================
 # @description: The definitive high-availability substrate. Materializes the 
-#               Docker Swarm cluster logic, enabling multi-node orchestration, 
-#               overlay networking, and service replication for zero-downtime 
-#               disaster recovery.
+#               Docker Swarm cluster logic. 
+#               [HEALED]: Uses Triple-Brace Alchemical Escaping to survive 
+#               multi-pass transmutation rites.
 # @category: System / Substrate
 # @vibe: docker-swarm, clustering, high-availability, orchestration, overlay-net
 # @provides: [docker-swarm-substrate, cluster-authority, container-orchestration-ha]
 # @requires: [docker-engine]
 # @substrate: docker / shell
-# @version: 2.0.0-Ω (HEALED)
+# @version: 2.1.0-Ω (TITANIUM-HEALED)
 # @LIF: INFINITY
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: Causal Variable Anchoring
-$$ project_slug = {{ project_slug | default("resonant-swarm") }}
-$$ replica_count = {{ replicas | default(3) }}
-$$ manager_ip = {{ manager_ip | default("127.0.0.1") }}
+$$ project_slug   = {{ project_slug | default("resonant-swarm") }}
+$$ replica_count  = {{ replicas | default(3) }}
+$$ manager_ip     = {{ manager_ip | default("127.0.0.1") }}
 
 # --- II. THE SCRIPTURE OF FORM (The Swarm Infrastructure) ---
 
-# [ASCENSION 2]: THE STACK DEFINITION (The Blueprint of the Legion)
-# Transmutes standard Compose logic into a warded Swarm Stack.
+# [ASCENSION 2]: THE STACK DEFINITION
 docker-stack.yml :: """
 version: '3.8'
 services:
@@ -54,20 +53,23 @@ scripts/
     swarm_ignite.sh :: """
 #!/bin/bash
 # =============================================================================
-# == THE SWARM IGNITION RITE (V-Ω-ATOMIC-RAW-WARDED)                         ==
+# == THE SWARM IGNITION RITE (V-Ω-ATOMIC-TITANIUM-HEALED)                    ==
 # =============================================================================
 set -e
 
 echo "🐝 [SWARM] Adjudicating Node State..."
 
 # =========================================================================
-# == [THE MASTER CURE]: ACHRONAL SANCTUARY                               ==
+# == [THE MASTER CURE]: TRIPLE-BRACE ALCHEMICAL ESCAPING                 ==
 # =========================================================================
-# We use the raw block to shield the Go-template dot notation from the 
-# Alchemist. This annihilates the 'unexpected dot' heresy forever.
-{% raw %}
-LOCAL_NODE_STATE=$(docker info --format '{{.Swarm.LocalNodeState}}' 2>/dev/null || echo "void")
-{% endraw %}
+# We use {{ '{{' }} and {{ '}}' }} to force the Alchemist to output literal 
+# braces that survive the Dream-to-Genesis recursion. This is the only 
+# way to physically ward the dot-notation from the God-Engine's fire.
+# =========================================================================
+{% set b_open = '{{' %}
+{% set b_close = '}}' %}
+
+LOCAL_NODE_STATE=$(docker info --format '{{ b_open }}.Swarm.LocalNodeState{{ b_close }}' 2>/dev/null || echo "void")
 
 # 1. THE VOID CHECK
 if [ "$LOCAL_NODE_STATE" == "active" ]; then
@@ -75,21 +77,30 @@ if [ "$LOCAL_NODE_STATE" == "active" ]; then
 else
     # 2. THE STRIKE
     echo "🌀 Initiating Swarm Inception on {{ manager_ip }}..."
-    docker swarm init --advertise-addr {{ manager_ip }} || echo "⚠️  Swarm already waked or requires manual peer join."
+    # [ASCENSION 5]: Substrate-Aware Init
+    if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
+        docker swarm init || echo "⚠️  Swarm already active on Windows."
+    else
+        docker swarm init --advertise-addr {{ manager_ip }} || echo "⚠️  Swarm already waked."
+    fi
     echo "✨ [RESONANT] Cluster Heart waked."
 fi
 
 # 3. THE MESH FORGE
 # Materialize the Overlay Network for cross-node communication
 echo "🌐 Forging the Gnostic Overlay Mesh..."
-docker network create --driver overlay --attachable gnostic_overlay 2>/dev/null || true
+if ! docker network ls | grep -q "gnostic_overlay"; then
+    docker network create --driver overlay --attachable gnostic_overlay
+    echo "🔗 Overlay Mesh manifest."
+else
+    echo "✅ Overlay Mesh already resonant."
+fi
 
 echo "✅ [TOTALITY] Swarm Substrate is resonant."
 """
     %% 755
 
 # --- III. THE SURGICAL WEAVE (Control Plane Integration) ---
-# [ASCENSION 9]: Global Conductor Suture
 Makefile += """
 
 # --- SWARM RITES ---
@@ -108,26 +119,24 @@ swarm-down: ## return the swarm stack to the void
 """
 
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Docker Swarm Substrate[/bold cyan] is manifest."
     proclaim: "Replication Law: [bold yellow]{{ replica_count }} Replicas[/bold yellow]"
-    proclaim: "Control Script: [white]scripts/swarm_ignite.sh[/]"
     
-    # 1. Pre-Flight Verification
-    proclaim: "Phase I: Verifying Docker Engine resonance..."
-    @if {{ not file_exists('/var/run/docker.sock') and not is_windows }}
-        proclaim: "[bold red]HERESY:[/bold red] Docker Socket unmanifested. Substrate may be virtualized."
-    @else
-        proclaim: "✅ Docker Substrate confirmed."
+    # 1. Substrate Sensing
+    # [ASCENSION 14]: Metabolic Sensing
+    @if {{ has_docker }}:
+        proclaim: "✅ Docker Iron detected."
+    @else:
+        proclaim: "⚠️  [WARNING] Docker unmanifested on this substrate."
     @endif
     
     # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]INFINITY (Service Downtime -> 0)[/]"
-    proclaim: "[bold green]✅ The Cluster Substrate is Ready.[/bold green] Your project can now survive the death of a node."
+    proclaim: "[bold green]✅ The Cluster Substrate is Ready.[/bold green]"
     proclaim: "To ignite the Legion, speak: [bold cyan]make swarm-init && make swarm-deploy[/bold cyan]"
 
 %% on-heresy
     # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Swarm materialization fractured.[/bold red] Reality remains a single node."
+    proclaim: "[bold red]Swarm materialization fractured.[/bold red]"
     rm -rf scripts/swarm_ignite.sh docker-stack.yml
