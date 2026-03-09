@@ -143,16 +143,8 @@ build-backend = \"poetry.core.masonry.api\"
     proclaim: \"The [bold cyan]Python Physics Toolkit[/] is manifest.\"
     proclaim: \"Hardware Scrier Locus: [white]core/physics/tomography.py[/]\"
     
-    # [ASCENSION 2]: THE MASTER CURE FOR TOML CORRUPTION
-    # We use 'poetry add' exclusively to handle existing manifests.
-    # This ensures the physical iron (Poetry) manages the TOML structure.
-    @if {{ has_poetry }}:
-        proclaim: \"Phase I: Synchronizing manifest with Poetry...\"
-        >> poetry add psutil
-    @else:
-        proclaim: \"Phase I: Standardizing substrate via pip...\"
-        >> pip install psutil
-    @endif
+    >> pip install psutil
+
     ?? succeeds
     
     # 2. Final Proclamation
