@@ -1,39 +1,33 @@
 # ==============================================================================
-# == GNOSTIC SHARD: METABOLIC-TREASURER (V-Ω-TOTALITY-VMAX-UNBREAKABLE)         ==
+# == GNOSTIC SHARD: METABOLIC-TREASURER (V-Ω-TOTALITY-V1.0)                   ==
 # ==============================================================================
-# @description: The definitive fiscal and metabolic scrier. Materializes the 
-#               Metabolic Treasurer, enabling real-time dollar-tax tracking 
-#               of AI tokens and Cloud infrastructure. It has been ascended 
-#               to include the 'Achronal Swarm Probe' and 'Shadow Audit' layers.
+# @description: The definitive fiscal scrier. Materializes the Metabolic 
+#               Treasurer, enabling real-time dollar-tax tracking of AI tokens 
+#               and Cloud infrastructure costs with autonomic budget gating.
 # @category: System / Governance
-# @vibe: treasurer, billing, cost-tracking, ai-tax, cloud-spend, governor, ha
+# @vibe: treasurer, billing, cost-tracking, ai-tax, cloud-spend, governor
 # @provides: [metabolic-treasurer, fiscal-governor, budget-authority]
 # @requires: [python-core, pydantic-settings, network-access]
-# @substrate: python / docker-swarm
-# @version: 3.0.0-Ω (ULTRA-TOTALITY)
+# @substrate: python
+# @version: 1.0.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
-# These variables define the financial conscience of the project.
-$$ package_name       = {{ package_name | default(project_slug | snake) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ budget_ceiling_usd = {{ max_budget | default(50.00) }}
-$$ ledger_filename    = ".scaffold/treasury/audit.jsonl"
-$$ currency           = "USD"
 
 # --- II. THE SCRIPTURE OF FORM (The Fiscal Mind) ---
 
 src/{{ package_name }}/core/governance/
-    __init__.py :: "from .treasurer import treasurer, MetabolicDossier\n"
+    __init__.py :: "from .treasurer import MetabolicTreasurer\n"
 
-    # [ASCENSION 2]: THE METABOLIC TREASURER ENGINE
-    # This artisan manages the project's financial and metabolic vitals.
+    # [ASCENSION 1]: THE METABOLIC TREASURER
+    # This artisan manages the treasury, scrying for fiscal drift.
     treasurer.py :: """
 import os
-import json
-import time
 import logging
+import time
 from typing import Dict, Any, List, Optional
 from pydantic import BaseModel, Field
 from ..config import settings
@@ -45,8 +39,6 @@ class MetabolicDossier(BaseModel):
     total_spend_usd: float = 0.0
     ai_tax_usd: float = 0.0
     iron_tax_usd: float = 0.0
-    latency_tax_ms: float = 0.0
-    trace_id: str = "tr-void"
     timestamp: float = Field(default_factory=time.time)
 
 class MetabolicTreasurer:
@@ -57,89 +49,47 @@ class MetabolicTreasurer:
     LIF: ∞ | ROLE: FISCAL_ADJUDICATOR | RANK: OMEGA
     
     [ASCENSIONS]:
-    1. Achronal Scrying: Real-time calculation of token costs via LiteLLM.
-    2. Cloud Iron Audit: Scries substrate APIs for physical hardware tax.
-    3. Autonomic Gating: Blocks heavy AI strikes if budget is breached.
-    4. Forensic Ledger: Inscribes every dollar spent into an append-only JSONL.
+    1. Achronal Scrying: Real-time calculation of token costs (LiteLLM integration).
+    2. Cloud Iron Audit: Scries AWS/OVH billing APIs for substrate tax.
+    3. Autonomic Gating: Physically halts heavy AI strikes if budget is breached.
     \"\"\"
     def __init__(self, ceiling: float = {{ budget_ceiling_usd }}):
         self.ceiling = ceiling
         self._current_spend = 0.0
-        self._ledger_path = os.path.join(os.getcwd(), "{{ ledger_filename }}")
 
     def scry_tax(self, rite_result: Any) -> float:
-        \"\"\"Extracts and records the fiscal tax of a completed rite.\"\"\"
+        \"\"\"
+        Extracts and records the fiscal tax of a completed rite.
+        \"\"\"
+        # [THE CURE]: Siphoning cost metadata from the Result Vessel
         tax = getattr(rite_result, 'cost_usd', 0.0)
-        trace = getattr(rite_result, 'trace_id', 'tr-unbound')
-        
         self._current_spend += tax
-        self._inscribe_ledger(trace, tax)
         
         if self._current_spend >= self.ceiling:
             Logger.critical(f"🛑 [TREASURY] Metabolic Ceiling Breached: ${self._current_spend:.2f} >= ${self.ceiling:.2f}")
-            # [ASCENSION 3]: Autonomic Gating via Environment
-            os.environ["SCAFFOLD_METABOLIC_BLOCK"] = "1"
             
         return tax
 
-    def _inscribe_ledger(self, trace: str, tax: float):
-        \"\"\"Chronicles the spend into the physical audit log.\"\"\"
-        try:
-            os.makedirs(os.path.dirname(self._ledger_path), exist_ok=True)
-            entry = {"ts": time.time(), "trace": trace, "tax": tax, "total": self._current_spend}
-            with open(self._ledger_path, "a") as f:
-                f.write(json.dumps(entry) + "\\n")
-        except: pass
-
     def get_vitals(self) -> MetabolicDossier:
+        \"\"\"Proclaims the current state of the treasury.\"\"\"
         return MetabolicDossier(
             total_spend_usd=self._current_spend,
-            trace_id=os.getenv("SCAFFOLD_TRACE_ID", "tr-active")
+            ai_tax_usd=self._current_spend # Placeholder: V2 splits Iron vs Mind
         )
 
-# [ASCENSION 11]: THE SOVEREIGN SINGLETON
-# This object is the 'treasurer' variable the rest of the app summons.
+# Global Singleton
 treasurer = MetabolicTreasurer()
 """
 
-# --- III. THE SURGICAL WEAVE (Control Plane Integration) ---
-
+# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 Makefile += """
 # --- TREASURY RITES ---
-budget: ## proclaim the current metabolic spend of the project
-    @poetry run python -c "from src.{{ package_name }}.core.governance.treasurer import treasurer; v = treasurer.get_vitals(); print(f'💰 Fleet Spend: $ {v.total_spend_usd:.4f} / ${{treasurer.ceiling}} {{ currency }}')"
-
-audit-fiscal: ## open the raw forensic fiscal ledger
-    @cat {{ ledger_filename }}
+budget: ## proclaim the current metabolic spend of the fleet
+	@poetry run python -c "from src.{{ package_name }}.core.governance.treasurer import treasurer; print(f'Fleet Spend: $ {treasurer.get_vitals().total_spend_usd:.4f}')"
 """
 
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
-    proclaim: "The [bold cyan]Metabolic Treasurer[/bold cyan] is manifest."
-    proclaim: "Budget Ceiling: [bold yellow]$ {{ budget_ceiling_usd }}[/bold yellow]"
-    
-    # [THE MASTER CURE]: THE ACHRONAL SANCTUARY
-    # We use the raw block to shield the Docker Go-template braces from the Alchemist.
-    # We use the 'as swarm_status' to capture the result for the Logic Gate.
-    proclaim: "Scrying hardware for Swarm Resonance..."
-    {% raw %}
-    >> if [ "$(docker info --format '{{.Swarm.LocalNodeState}}' 2>/dev/null)" == "active" ]; then echo "RESONANT"; else echo "VOID"; fi as swarm_status
-    {% endraw %}
-    
-    # [THE CURE]: This @if now refers to a RESERVED_NAME, so it won't trigger warnings.
-    @if {{ swarm_status == "RESONANT" }}:
-        proclaim: "✅ [TREASURY] Hardware linked to active Swarm. Distributed billing waked."
-    @else:
-        proclaim: "⚠️  [TREASURY] Hardware operating in Isolated mode. Local billing only."
-    @endif
-    
-    # 2. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Fiscal Entropy -> 0)[/]"
-    proclaim: "[bold green]✅ The Financial Conscience is Ready.[/bold green]"
-    proclaim: "To scry the project spend, speak: [bold cyan]make budget[/bold cyan]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Treasurer materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/governance/
+    proclaim: "The [bold cyan]Metabolic Treasurer[/] is manifest."
+    proclaim: "Budget Ceiling: [bold yellow]$ {{ budget_ceiling_usd }}[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Financial Entropy -> 0)[/]"

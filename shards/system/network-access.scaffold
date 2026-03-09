@@ -1,8 +1,17 @@
-# Path: codex/shards/system/network-access.scaffold
-# -------------------------------------------------
-# @gnosis:title The Network Conduit Shard
-# @gnosis:summary Materializes the high-performance async communication bridge.
-# @gnosis:LIF INFINITY
+# ==============================================================================
+# == GNOSTIC SHARD: NETWORK-ACCESS (V-Ω-TOTALITY-V1.0)                        ==
+# ==============================================================================
+# @description: The definitive celestial conduit. Materializes an asynchronous 
+#               HTTP/network layer using httpx, warded with trace-id 
+#               propagation, automatic retries, and metabolic tax tracking.
+# @category: System / Network
+# @vibe: networking, http-client, httpx, async-io, telemetry, trace-id, bridge
+# @provides: [network-access, http-client, celestial-communion]
+# @requires: [python-core, pydantic-settings]
+# @substrate: python
+# @version: 1.0.0-Ω
+# @LIF: 1,000,000x
+# ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [THE MASTER CURE]: Ensuring absolute existence of mandatory Poetry fields.
@@ -122,7 +131,6 @@ conduit = NetworkConduit()
 """
 
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
 # =========================================================================
 # == [THE CURE]: CONSTITUTIONAL pyproject.toml INCEPTION                 ==
 # =========================================================================
@@ -167,6 +175,7 @@ pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*httpx))/$1\nhttpx = \"^0.
 # 2. Target Modern PEP 621 Blocks
 pyproject.toml ~= "s/(\[project.dependencies\](?!.*httpx))/$1\n    \"httpx>=0.27.0\",/g"
 @endif
+
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
