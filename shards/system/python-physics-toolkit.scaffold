@@ -35,7 +35,7 @@ from pydantic import BaseModel, Field
 # [PROVENANCE]: Forged via system/python-physics-toolkit.scaffold
 # [TRACE]: {{ trace_id | default('tr-void') }}
 
-Logger = logging.getLogger("Physics:Tomography")
+Logger = logging.getLogger(\"Physics:Tomography\")
 
 class VitalAura(BaseModel):
     \"\"\"The Gnostic record of physical resonance.\"\"\"
@@ -107,9 +107,6 @@ hardware_scrier = HardwareScrier()
 # =========================================================================
 # == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
 # =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
 @if {{ not file_exists('pyproject.toml') }}:
 pyproject.toml :: """
 [project]
@@ -139,13 +136,8 @@ build-backend = \"poetry.core.masonry.api\"
 """
 @else:
 # [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject psutil exactly where 
-# the Laws of TOML demand, warded by an idempotency check.
-
-# 1. Target Legacy Poetry Blocks
+# We ensure a newline exists before the dependency to prevent TOML fractures.
 pyproject.toml ~= \"s/(\\[tool.poetry.dependencies\\](?!.*psutil))/$1\\npsutil = \\\"^5.9.0\\\"/g\"
-
-# 2. Target Modern PEP 621 Blocks
 pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psutil>=5.9.0\\\",/g\"
 @endif
 
