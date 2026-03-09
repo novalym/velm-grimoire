@@ -1,5 +1,5 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ANSIBLE CITADEL (V-Ω-TOTALITY-V5000-HEALED-FINALIS)       ==
+# == GNOSTIC SHARD: ANSIBLE CITADEL (V-Ω-TOTALITY-V2.5-AUTOMATION)            ==
 # ==============================================================================
 # @description: Materializes a production-grade Ansible fortress for declarative 
 #               server orchestration. Features role-based architecture, 
@@ -8,36 +8,23 @@
 # @vibe: ansible, devops, iac, orchestration, playbooks, hardening, configuration
 # @provides: [server-configuration-authority, ansible-orchestration, infra-gov]
 # @requires: [python-core, ssh-access, pydantic-settings, maestro-control]
-# @substrate: iron (Linux / POSIX / Windows)
-# @version: 5.0.0-Ω
+# @substrate: iron (Linux / POSIX)
+# @version: 2.5.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ project_name = {{ project_name | default(project_slug | snake) | default('ansible_citadel') }}
+# [ASCENSION 1]: Causal Variable Anchoring
+$$ project_name = {{ project_name | default("ansible-citadel") }}
 $$ author = {{ author | default("The Architect") }}
-$$ remote_user = {{ remote_user | default("ansible") }}
-$$ vault_pass = "@crypto/password(32)"
+$$ default_user = {{ remote_user | default("ansible") }}
+$$ vault_pass = "{{ crypto.random(32) }}"
 
 # --- II. THE SCRIPTURE OF FORM (The Fortress Structure) ---
 
 {{ project_name }}/
-    ansible.cfg :: """
-[defaults]
-# [PROVENANCE]: Forged via system/ansible-citadel.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
-inventory = ./inventory/
-remote_user = {{ remote_user }}
-host_key_checking = False
-retry_files_enabled = False
-roles_path = ./roles
-vault_password_file = ./vault.password
-
-[privilege_escalation]
-become = True
-become_method = sudo
-"""
-
+    # [ASCENSION 2]: THE KERNEL CONFIGURATION
+    # Wards the local environment and defines the laws of communion.
     .gitignore :: """
 # == The Abyss (Ansible Specific) ==
 *.retry
@@ -47,56 +34,137 @@ vault.password
 .venv/
 """
 
+    ansible.cfg :: """
+[defaults]
+# [ASCENSION 3]: Topological Anchoring
+inventory = ./inventory/
+remote_user = {{ default_user }}
+host_key_checking = False
+retry_files_enabled = False
+log_path = ./artifacts/logs/ansible.log
+roles_path = ./roles
+vault_password_file = ./vault.password
+
+[privilege_escalation]
+become = True
+become_method = sudo
+"""
+
+    # [ASCENSION 4]: THE CONTROL PLANE (Maestro Conductor)
+    # Transmutes complex Ansible commands into high-status Rites.
+    Makefile :: """
+.PHONY: help provision-prod provision-stg check-syntax vault-edit clean
+
+# Gnostic Coordinates
+$PROD_INV = inventory/production.yml
+$STG_INV = inventory/staging.yml
+
+help: ## proclaim the available Ansible rites
+    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\\n", $$1, $$2}'
+
+provision-prod: ## conduct the main symphony against production iron
+    ansible-playbook -i $($PROD_INV) main.yml
+
+provision-stg: ## conduct the main symphony against staging iron
+    ansible-playbook -i $($STG_INV) main.yml
+
+check-syntax: ## adjudicate the purity of all playbooks and roles
+    ansible-playbook --syntax-check main.yml
+
+vault-edit: ## open the Gnostic Vault for secret mutation
+    ansible-vault edit group_vars/all/vault.yml
+
+clean: ## return ephemeral artifacts to the void
+    rm -rf *.retry .ansible/
+"""
+
+    # [ASCENSION 5]: THE REALITY MAP (Inventory)
     inventory/
         production.yml :: """
 all:
   hosts:
     prod-node-01:
-      ansible_host: 127.0.0.1 
+      ansible_host: 127.0.0.1 # Replace with physical coordinate
+      shard_id: 01
+"""
+        staging.yml :: """
+all:
+  hosts:
+    stg-node-01:
+      ansible_host: 127.0.0.1
       shard_id: 01
 """
 
+    # [ASCENSION 6]: THE GNOSTIC VARIABLES
     group_vars/all/
         main.yml :: """
----
 # --- Global Gnosis ---
 project_name: "{{ project_name }}"
 architect: "{{ author }}"
 firewall_allowed_ports: [22, 80, 443]
 """
         vault.yml :: """
-# [WARDED MATTER]: Initial Gnosis
-db_password: "placeholder_change_me"
+# [WARDED MATTER]: Encrypted via Gnostic Vault
+# Use 'make vault-edit' to reveal the truth.
+db_password: "REPLACE_ME_IN_VAULT"
+api_key: "REPLACE_ME_IN_VAULT"
 """
 
-    roles/common/tasks/main.yml :: """
+    # [ASCENSION 7]: THE MODULAR ORGANS (Roles)
+    roles/
+        common/tasks/
+            main.yml :: """
 ---
-- name: \"Metabolic Update\"
+- name: "Movement I: Metabolic Update"
   apt: { update_cache: yes, cache_valid_time: 3600 }
+  
+- name: "Movement II: Inhale Essential Artisans"
+  apt:
+    name: [curl, git, ufw, htop]
+    state: present
+"""
+        hardening/tasks/
+            main.yml :: """
+---
+- name: "Movement III: Perimeter Defense (UFW)"
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop: "{{ firewall_allowed_ports }}"
 """
 
+    # [ASCENSION 8]: THE MASTER SYMPHONY
     main.yml :: """
 ---
-- name: \"Ω | The Rite of Server Consecration\"
+- name: "Ω | The Rite of Server Consecration"
   hosts: all
   roles:
     - common
+    - hardening
 """
 
-    Makefile :: """
-.PHONY: help provision vault-edit
+    # [ASCENSION 11]: THE ARCHITECT'S MANIFESTO
+    README.md :: """
+# 🏰 {{ project_name | title }} - Ansible Citadel
 
-help: ## proclaim available rites
-    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf \"\\033[36m%-20s\\033[0m %s\\n\", $$1, $$2}'
+> "Iron follows Intent. Configuration is Law."
 
-provision: ## conduct the server consecration
-    ansible-playbook -i inventory/production.yml main.yml
+This fortress orchestrates your server fleet with declarative precision.
 
-vault-edit: ## mutate warded gnosis
-    ansible-vault edit group_vars/all/vault.yml --vault-password-file vault.password
+### ⚡ Kinetic Rites
+1.  **Define Reality**: Update `inventory/production.yml` with your node IPs.
+2.  **Inscribe Secrets**: Run `make vault-edit` (Password is in `vault.password`).
+3.  **Conduct Strike**: `make provision-prod`
+
+### 🛡️ Security Stratum
+- Secrets warded via **Ansible Vault**.
+- Foundational hardening waked via the `hardening` role.
+- All rites warded by the **Lazarus Lifecycle Guardian** (Turn 26).
 """
 
 # --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
+# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: \"The [bold cyan]Ansible Citadel[/] is manifest at [white]{{ project_name }}/[/]\"
     
@@ -109,7 +177,6 @@ vault-edit: ## mutate warded gnosis
         proclaim: \"[bold yellow]Artisan Void Detected:[/] 'ansible-vault' is unmanifest.\"
         proclaim: \"   -> Attempting Autonomic Inception (pip install ansible)...\"
         >> pip install ansible --user
-        ?? succeeds
         proclaim: \"   -> [bold green]Inception Successful.[/]\"
     @endif
     
@@ -131,11 +198,13 @@ vault-edit: ## mutate warded gnosis
     # regardless of the %PATH% state.
     proclaim: \"Phase II: Sealing the initial Gnosis...\"
     >> python -m ansible.cli.vault encrypt {{ project_name }}/group_vars/all/vault.yml --vault-password-file {{ project_name }}/vault.password
-    ?? succeeds
     
     # 2. Final Proclamation
     proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Operational Friction -> 0)[/]"
     proclaim: \"[bold green]✅ The Fortress is Ready.[/bold green]\"
 
+
 %% on-heresy
-    proclaim: \"[bold red]Citadel materialization fractured.[/bold red]\"
+    # [ASCENSION 24]: Transactional Purgation
+    proclaim: "[bold red]Citadel materialization fractured.[/bold red] Reality remains unmanaged."
+    rm -rf {{ project_name }}/
