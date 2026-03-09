@@ -13,6 +13,7 @@
 # @version: 1.0.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
+
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ ssh_key_name = {{ key_name | default("velm_sovereign_key") }}
@@ -124,7 +125,7 @@ ssh-key: ## proclaim the public soul of your remote access key
         _, pub_key = ssh_warden.ensure_identity()
         
         # [ASCENSION 3]: Hydraulic Flush
-        print(\"✅ Resonance check: Sovereign Identity is waked.\")
+        print(\" Resonance check: Sovereign Identity is waked.\")
         sys.stdout.flush()
 
     # 2. Final Proclamation
