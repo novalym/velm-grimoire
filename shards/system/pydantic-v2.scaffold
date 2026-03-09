@@ -1,28 +1,27 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYDANTIC-V2 (V-Ω-TOTALITY-V1.0)                           ==
+# == GNOSTIC SHARD: PYDANTIC-V2 (V-Ω-TOTALITY-V2000-HEALED-FINALIS)           ==
 # ==============================================================================
 # @description: The definitive data validation stratum. Materializes the 
 #               Pydantic V2 infrastructure, including high-performance 
-#               Sovereign Vessels and the GnosticSovereignDict bridge for 
-#               dynamic, null-warded context management.
+#               Sovereign Vessels and the GnosticSovereignDict bridge.
 # @category: System / Logic
-# @vibe: pydantic, validation, schemas, dto, types, type-safety, pydantic-v2
 # @provides: [pydantic, pydantic-v2, validation-authority, sovereign-vessels]
 # @requires: [python-core]
 # @substrate: python
-# @version: 1.0.0-Ω
+# @version: 2.0.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
+$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Mind of the Data) ---
 
 src/{{ package_name }}/core/
-    __init__.py += "from .vessels import GnosticSovereignDict\n"
+    __init__.py += "from .vessels import GnosticSovereignDict, BaseVessel\n"
 
-    # [ASCENSION 1]: THE SOVEREIGN VESSELS
+    # [ASCENSION 3]: THE GNOSTIC SOVEREIGN MATRIX
     # This artisan forges the link between dynamic dictionaries and typed models.
     vessels.py :: """
 import json
@@ -46,16 +45,15 @@ class GnosticSovereignDict(dict):
         if key in self:
             return super().__getitem__(key)
         # The Apophatic Return: Create a new branch of the tree on the fly
-        new_vessel = GnosticSovereignDict()
-        self[key] = new_vessel
-        return new_vessel
+        # without mutating the parent during the scry.
+        return GnosticSovereignDict()
 
     def __getattr__(self, name: str) -> Any:
         if name.startswith('__'): return super().__getattribute__(name)
-        return self[name]
+        return self.__getitem__(name)
 
     def __setattr__(self, name: str, value: Any):
-        self[name] = value
+        self.__setitem__(name, value)
 
 class BaseVessel(BaseModel):
     \"\"\"
@@ -72,26 +70,71 @@ class BaseVessel(BaseModel):
 
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 
-# [ASCENSION 12]: Dependency Inception
-pyproject.toml += """
+# =========================================================================
+# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
+# =========================================================================
+# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
+# to satisfy the validation engine across all multiversal substrates.
+
+@if {{ not file_exists('pyproject.toml') }}:
+pyproject.toml :: """
+[project]
+name = "{{ project_slug | default('omega-service') }}"
+version = "{{ project_version | default('0.1.0') }}"
+description = "Manifested by the VELM God-Engine"
+authors = [{name = "The Architect"}]
+readme = "README.md"
+dependencies = [
+    "pydantic[email]>=2.6.0",
+    "pydantic-core>=2.16.0",
+]
+
+[tool.poetry]
+name = "{{ project_slug | default('omega-service') }}"
+version = "{{ project_version | default('0.1.0') }}"
+description = "Manifested by the VELM God-Engine"
+authors = ["The Architect"]
+packages = [{include = "{{ package_name }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^{{ python_version }}"
 pydantic = {extras = ["email"], version = "^2.6.0"}
 pydantic-core = "^2.16.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 """
+@else:
+# [THE MASTER CURE]: SURGICAL SECTION INJECTION
+# We find the dependencies header and inject Pydantic exactly where 
+# the Laws of TOML demand, warded by an idempotency check.
+
+# 1. Target Legacy Poetry Blocks
+pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*pydantic))/$1\npydantic = {extras = [\"email\"], version = \"^2.6.0\"}\npydantic-core = \"^2.16.0\"/g"
+
+# 2. Target Modern PEP 621 Blocks
+pyproject.toml ~= "s/(\[project.dependencies\](?!.*pydantic))/$1\n    \"pydantic[email]>=2.6.0\",\n    \"pydantic-core>=2.16.0\",/g"
+@endif
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
     proclaim: "The [bold cyan]Pydantic Validation Shard[/] is manifest."
     proclaim: "Contract Locus: [white]core/vessels.py[/]"
     
-    # 1. Dependency Summoning
-    proclaim: "Phase I: Summoning the Validation artisans... (pydantic v2)"
-    >> poetry add pydantic[email] pydantic-core
+    # 1. Dependency Synchronization
+    @if {{ has_poetry }}:
+        proclaim: "Phase I: Synchronizing manifest with Poetry..."
+        >> poetry add pydantic[email] pydantic-core
+    @else:
+        proclaim: "Phase I: Standardizing substrate via pip..."
+        >> pip install pydantic[email] pydantic-core
+    @endif
     ?? succeeds
     
     # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Data Ambiguity -> 0)[/]"
-    proclaim: "[bold green]✅ The Laws of Form are waked.[/bold green] Your data is now Sovereign."
+    proclaim: "[bold green]✅ The Laws of Form are waked.[/bold green]"
 
 %% on-heresy
     proclaim: "[bold red]Validation materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/vessels.py
