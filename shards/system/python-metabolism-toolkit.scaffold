@@ -3,7 +3,7 @@
 # ==============================================================================
 # @description: The definitive hardware sensing toolkit. Materializes the 
 #               psutil-powered biometric layer, enabling real-time scrying of 
-#               CPU heat, RAM mass, and I/O wait-states across all substrates.
+#               CPU heat, RAM mass, and I/O wait-states across all iron.
 # @category: System / Substrate
 # @vibe: psutil, metabolism, hardware-sensing, vitals, telemetry-toolkit, biometric
 # @provides: [python-metabolism-toolkit, metabolic-sensing-authority, hardware-biopsy]
@@ -20,9 +20,9 @@ $$ python_version = {{ python_version | default('3.11') }}
 # --- II. THE SCRIPTURE OF FORM (The Sensory Layer) ---
 
 src/{{ package_name }}/core/system/
-    __init__.py += "from .metabolism import HardwareScrier, scrier\n"
+    __init__.py :: "from .metabolism import HardwareScrier, scrier\n"
 
-    # [ASCENSION 3]: THE HARDWARE SCRIER
+    # [ASCENSION 5]: THE HARDWARE SCRIER
     metabolism.py :: """
 import os
 import time
@@ -35,14 +35,14 @@ from pydantic import BaseModel, Field
 # [PROVENANCE]: Forged via system/python-metabolism-toolkit.scaffold
 # [TRACE]: {{ trace_id | default('tr-void') }}
 
-Logger = logging.getLogger("System:Metabolism")
+Logger = logging.getLogger(\"System:Metabolism\")
 
 class VitalSigns(BaseModel):
     \"\"\"The Gnostic record of hardware tomography.\"\"\"
     cpu_load: float = 0.0
     ram_usage_pct: float = 0.0
     process_mb: float = 0.0
-    status: str = "RESONANT"
+    status: str = \"RESONANT\"
     ts: float = Field(default_factory=time.time)
     node: str = Field(default_factory=lambda: platform.node())
 
@@ -71,7 +71,7 @@ class HardwareScrier:
             cpu_pct = psutil.cpu_percent(interval=None)
             mem = psutil.virtual_memory()
             
-            # [ASCENSION 10]: Substrate-Aware Memory Scry
+            # [ASCENSION 6]: Substrate-Aware Memory Scry
             process_mem = 0.0
             if self.process:
                 try:
@@ -79,12 +79,9 @@ class HardwareScrier:
                 except Exception:
                     pass
             
-            # [ASCENSION 7]: Thermodynamic Adjudication
-            status = "RESONANT"
-            if cpu_pct > 90.0:
-                status = "FEVERISH"
-            elif cpu_pct > 75.0:
-                status = "HEATED"
+            status = \"RESONANT\"
+            if cpu_pct > 90.0: status = \"FEVERISH\"
+            elif cpu_pct > 75.0: status = \"HEATED\"
 
             return VitalSigns(
                 cpu_load=cpu_pct,
@@ -93,7 +90,7 @@ class HardwareScrier:
                 status=status
             )
         except Exception as e:
-            Logger.error(f"Metabolic Scry Failed: {e}")
+            Logger.error(f\"Metabolic Scry Failed: {e}\")
             return VitalSigns(status=\"VOID\")
 
     @staticmethod
@@ -109,67 +106,58 @@ scrier = HardwareScrier()
 # =========================================================================
 # == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
 # =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
+# [ASCENSION 1]: If the manifest is a void, we forge a perfect foundation.
+# If the manifest exists, we stay our hand to prevent TOML corruption.
 @if {{ not file_exists('pyproject.toml') }}:
 pyproject.toml :: """
 [project]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = [{name = "The Architect"}]
-readme = "README.md"
+name = \"{{ project_slug | default('omega-service') }}\"
+version = \"0.1.0\"
+description = \"Metabolism Sensing Substrate forged by VELM\"
+authors = [{name = \"The Architect\"}]
+readme = \"README.md\"
 dependencies = [
-    "psutil>=5.9.0",
+    \"psutil>=5.9.0\",
 ]
 
 [tool.poetry]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = ["The Architect"]
-packages = [{include = "{{ package_name }}", from = "src"}]
+name = \"{{ project_slug | default('omega-service') }}\"
+version = \"0.1.0\"
+description = \"Metabolism Sensing Substrate forged by VELM\"
+authors = [\"{{ author | default('The Architect') }}\"]
+packages = [{include = \"{{ package_name }}\", from = \"src\"}]
 
 [tool.poetry.dependencies]
-python = "^{{ python_version }}"
-psutil = "^5.9.0"
+python = \"^{{ python_version }}\"
+psutil = \"^5.9.0\"
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = [\"poetry-core\"]
+build-backend = \"poetry.core.masonry.api\"
 """
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject psutil exactly where 
-# the Laws of TOML demand, warded by an idempotency check.
-
-# 1. Target Legacy Poetry Blocks
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*psutil))/$1\npsutil = \"^5.9.0\"/g"
-
-# 2. Target Modern PEP 621 Blocks
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*psutil))/$1\n    \"psutil>=5.9.0\",/g"
 @endif
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
-    proclaim: "The [bold cyan]Python Metabolism Toolkit[/] is manifest."
-    proclaim: "Sensory Locus: [white]core/system/metabolism.py[/]"
+    proclaim: \"The [bold cyan]Python Metabolism Toolkit[/] is manifest.\"
+    proclaim: \"Sensory Locus: [white]core/system/metabolism.py[/]\"
     
-    # 1. Dependency Synchronization
+    # [ASCENSION 2]: THE MASTER CURE FOR TOML CORRUPTION
+    # We use 'poetry add' exclusively to handle existing manifests.
+    # This ensures the physical iron (Poetry) manages the TOML structure.
     @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
+        proclaim: \"Phase I: Synchronizing manifest with Poetry...\"
         >> poetry add psutil
     @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
+        proclaim: \"Phase I: Standardizing substrate via pip...\"
         >> pip install psutil
     @endif
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (System Blindness -> 0)[/]"
-    proclaim: "[bold green]✅ The Iron now has a Voice.[/bold green] Hardware vitals are scryable."
+    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (System Blindness -> 0)[/]"
+    proclaim: \"[bold green]✅ The Biometric Layer is Waked.[/bold green] The Iron is now Observable.\"
 
 %% on-heresy
-    proclaim: "[bold red]Metabolism materialization fractured.[/bold red]"
+    proclaim: \"[bold red]Metabolism materialization fractured.[/bold red]\"
     rm -rf src/{{ package_name }}/core/system/metabolism.py

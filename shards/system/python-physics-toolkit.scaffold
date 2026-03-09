@@ -1,5 +1,5 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V5000-HEALED)        ==
+# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V5000-HEALED-FINALIS) ==
 # ==============================================================================
 # @description: The definitive hardware sensing toolkit. Materializes the 
 #               psutil-powered biometric layer, enabling real-time scrying of 
@@ -14,6 +14,7 @@
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default('omega-core') }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ python_version = {{ python_version | default('3.11') }}
 
@@ -22,7 +23,7 @@ $$ python_version = {{ python_version | default('3.11') }}
 src/{{ package_name }}/core/physics/
     __init__.py :: "from .tomography import HardwareScrier, hardware_scrier\n"
 
-    # [ASCENSION 3]: THE HARDWARE SCRYER
+    # [ASCENSION 7]: THE HARDWARE SCRYER
     tomography.py :: """
 import os
 import time
@@ -80,7 +81,7 @@ class HardwareScrier:
             if hasattr(psutil, \"cpu_times_percent\"):
                 io_wait = getattr(psutil.cpu_times_percent(), 'iowait', 0.0)
             
-            # [ASCENSION 7]: Thermodynamic Adjudication
+            # [ASCENSION 8]: Thermodynamic Adjudication
             status = \"RESONANT\"
             if cpu_pct > 85.0 or io_wait > 20.0:
                 status = \"FEVERISH\"
@@ -105,12 +106,16 @@ hardware_scrier = HardwareScrier()
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 
 # =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
+# == [THE CURE]: APOPHATIC IDENTITY SUTURE                               ==
 # =========================================================================
+# [ASCENSION 1]: We detect if 'name =' is absent from the manifest. 
+# If so, we forcefully inject the Constitutional Headers at the zenith.
+# This prevents Poetry from panicking over a nameless configuration.
+
 @if {{ not file_exists('pyproject.toml') }}:
 pyproject.toml :: """
 [project]
-name = \"{{ project_slug | default('omega-service') }}\"
+name = \"{{ project_slug }}\"
 version = \"0.1.0\"
 description = \"Hardware Sensing Substrate forged by VELM\"
 authors = [{name = \"The Architect\"}]
@@ -120,10 +125,10 @@ dependencies = [
 ]
 
 [tool.poetry]
-name = \"{{ project_slug | default('omega-service') }}\"
+name = \"{{ project_slug }}\"
 version = \"0.1.0\"
 description = \"Hardware Sensing Substrate forged by VELM\"
-authors = [\"The Architect\"]
+authors = [\"{{ author | default('The Architect') }}\"]
 packages = [{include = \"{{ package_name }}\", from = \"src\"}]
 
 [tool.poetry.dependencies]
@@ -135,8 +140,10 @@ requires = [\"poetry-core\"]
 build-backend = \"poetry.core.masonry.api\"
 """
 @else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We ensure a newline exists before the dependency to prevent TOML fractures.
+# [THE MASTER CURE]: IDENTITY RESONANCE
+# If the file exists but lacks a name, we prepend the identity block.
+# If it has a name, we just ensure the dependency section is present.
+pyproject.toml ~= \"s/^(?![\\s\\S]*name\\s*=)/[project]\\nname = \\\"{{ project_slug }}\\\"\\nversion = \\\"0.1.0\\\"\\n\\n/g\"
 pyproject.toml ~= \"s/(\\[tool.poetry.dependencies\\](?!.*psutil))/$1\\npsutil = \\\"^5.9.0\\\"/g\"
 pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psutil>=5.9.0\\\",/g\"
 @endif
@@ -146,7 +153,9 @@ pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psut
     proclaim: \"The [bold cyan]Python Physics Toolkit[/] is manifest.\"
     proclaim: \"Hardware Scrier Locus: [white]core/physics/tomography.py[/]\"
     
-    # 1. Dependency Synchronization
+    # [ASCENSION 2]: THE MASTER CURE FOR TOML CORRUPTION
+    # We use 'poetry add' to allow the binary to handle the final TOML merge.
+    # This guarantees structural integrity across the physical iron.
     @if {{ has_poetry }}:
         proclaim: \"Phase I: Synchronizing manifest with Poetry...\"
         >> poetry add psutil
@@ -157,7 +166,7 @@ pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psut
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Performance Blindness -> 0)[/]"
+    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Identity Drift -> 0)[/]"
     proclaim: \"[bold green]✅ The Physics Engine is Waked.[/bold green] The Iron is now Observable.\"
 
 %% on-heresy
