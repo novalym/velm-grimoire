@@ -143,7 +143,6 @@ scrier = HardwareScrier()
     
     
     >> pip install psutil
-    ?? succeeds
     
     # 2. Final Proclamation
     proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Architectural Stability -> ABSOLUTE)[/]"
