@@ -111,26 +111,9 @@ ssh-key: ## proclaim the public soul of your remote access key
     proclaim: \"The [bold cyan]SSH Access Shard[/] is manifest.\"
     proclaim: \"Identity Locus: [white]~/.ssh/{{ ssh_key_name }}[/]\"
     
-    # =========================================================================
-    # == [THE MASTER CURE]: THE ACHRONAL PATH SUTURE                         ==
-    # =========================================================================
-    # [ASCENSION 1]: We surgically inject the current root into sys.path.
-    # This annihilates the 'ModuleNotFoundError' in the isolated temp process.
-    py:
-        import sys, os
-        # Suture the project mind to the execution body
-        sys.path.insert(0, os.getcwd())
-        
-        from src.{{ package_name }}.core.security.ssh import ssh_warden
-        _, pub_key = ssh_warden.ensure_identity()
-        
-        # [ASCENSION 3]: Hydraulic Flush
-        print(\" Resonance check: Sovereign Identity is waked.\")
-        sys.stdout.flush()
 
-    # 2. Final Proclamation
-    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Remote Access Latency -> 0)[/]"
-    proclaim: \"[bold green]✅ The Multiversal Bridge is warded.[/bold green]\"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Remote Access Latency -> 0)[/]"
+    proclaim: "[bold green]✅ The Multiversal Bridge is warded.[/bold green]"
 
 %% on-heresy
     proclaim: \"[bold red]SSH materialization fractured.[/bold red]\"
