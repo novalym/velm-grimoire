@@ -14,7 +14,6 @@
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ project_slug = {{ project_slug | default('omega-core') }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ python_version = {{ python_version | default('3.11') }}
 
@@ -23,7 +22,7 @@ $$ python_version = {{ python_version | default('3.11') }}
 src/{{ package_name }}/core/physics/
     __init__.py :: "from .tomography import HardwareScrier, hardware_scrier\n"
 
-    # [ASCENSION 7]: THE HARDWARE SCRYER
+    # [ASCENSION 3]: THE HARDWARE SCRYER
     tomography.py :: """
 import os
 import time
@@ -81,7 +80,7 @@ class HardwareScrier:
             if hasattr(psutil, \"cpu_times_percent\"):
                 io_wait = getattr(psutil.cpu_times_percent(), 'iowait', 0.0)
             
-            # [ASCENSION 8]: Thermodynamic Adjudication
+            # [ASCENSION 7]: Thermodynamic Adjudication
             status = \"RESONANT\"
             if cpu_pct > 85.0 or io_wait > 20.0:
                 status = \"FEVERISH\"
@@ -106,16 +105,14 @@ hardware_scrier = HardwareScrier()
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 
 # =========================================================================
-# == [THE CURE]: APOPHATIC IDENTITY SUTURE                               ==
+# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
 # =========================================================================
-# [ASCENSION 1]: We detect if 'name =' is absent from the manifest. 
-# If so, we forcefully inject the Constitutional Headers at the zenith.
-# This prevents Poetry from panicking over a nameless configuration.
-
+# [ASCENSION 1]: If the manifest is a void, we forge a perfect foundation.
+# If the manifest exists, we stay our hand to prevent TOML corruption.
 @if {{ not file_exists('pyproject.toml') }}:
 pyproject.toml :: """
 [project]
-name = \"{{ project_slug }}\"
+name = \"{{ project_slug | default('omega-service') }}\"
 version = \"0.1.0\"
 description = \"Hardware Sensing Substrate forged by VELM\"
 authors = [{name = \"The Architect\"}]
@@ -125,7 +122,7 @@ dependencies = [
 ]
 
 [tool.poetry]
-name = \"{{ project_slug }}\"
+name = \"{{ project_slug | default('omega-service') }}\"
 version = \"0.1.0\"
 description = \"Hardware Sensing Substrate forged by VELM\"
 authors = [\"{{ author | default('The Architect') }}\"]
@@ -139,13 +136,6 @@ psutil = \"^5.9.0\"
 requires = [\"poetry-core\"]
 build-backend = \"poetry.core.masonry.api\"
 """
-@else:
-# [THE MASTER CURE]: IDENTITY RESONANCE
-# If the file exists but lacks a name, we prepend the identity block.
-# If it has a name, we just ensure the dependency section is present.
-pyproject.toml ~= \"s/^(?![\\s\\S]*name\\s*=)/[project]\\nname = \\\"{{ project_slug }}\\\"\\nversion = \\\"0.1.0\\\"\\n\\n/g\"
-pyproject.toml ~= \"s/(\\[tool.poetry.dependencies\\](?!.*psutil))/$1\\npsutil = \\\"^5.9.0\\\"/g\"
-pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psutil>=5.9.0\\\",/g\"
 @endif
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
@@ -154,8 +144,8 @@ pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psut
     proclaim: \"Hardware Scrier Locus: [white]core/physics/tomography.py[/]\"
     
     # [ASCENSION 2]: THE MASTER CURE FOR TOML CORRUPTION
-    # We use 'poetry add' to allow the binary to handle the final TOML merge.
-    # This guarantees structural integrity across the physical iron.
+    # We use 'poetry add' exclusively to handle existing manifests.
+    # This ensures the physical iron (Poetry) manages the TOML structure.
     @if {{ has_poetry }}:
         proclaim: \"Phase I: Synchronizing manifest with Poetry...\"
         >> poetry add psutil
@@ -166,7 +156,7 @@ pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psut
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Identity Drift -> 0)[/]"
+    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Performance Blindness -> 0)[/]"
     proclaim: \"[bold green]✅ The Physics Engine is Waked.[/bold green] The Iron is now Observable.\"
 
 %% on-heresy

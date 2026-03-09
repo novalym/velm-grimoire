@@ -1,5 +1,5 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-METABOLISM-TOOLKIT (V-Ω-TOTALITY-V5000-HEALED)     ==
+# == GNOSTIC SHARD: PYTHON-METABOLISM-TOOLKIT (V-Ω-TOTALITY-V7000-HEALED)     ==
 # ==============================================================================
 # @description: The definitive hardware sensing toolkit. Materializes the 
 #               psutil-powered biometric layer, enabling real-time scrying of 
@@ -9,11 +9,12 @@
 # @provides: [python-metabolism-toolkit, metabolic-sensing-authority, hardware-biopsy]
 # @requires: [python-core, pydantic-v2]
 # @substrate: python
-# @version: 5.0.0-Ω
+# @version: 7.0.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default('omega-core') }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ python_version = {{ python_version | default('3.11') }}
 
@@ -104,60 +105,69 @@ scrier = HardwareScrier()
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 
 # =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
+# == [THE CURE]: THE OMNISCIENT CONSTITUTIONAL SCRY                      ==
 # =========================================================================
-# [ASCENSION 1]: If the manifest is a void, we forge a perfect foundation.
-# If the manifest exists, we stay our hand to prevent TOML corruption.
-@if {{ not file_exists('pyproject.toml') }}:
+# We read the TOML. If it lacks an identity (name), we forge the foundation.
+# This handles monorepo sub-projects perfectly without clobbering the mono-root.
+
+{% set toml_soul = read_text('pyproject.toml') | default('') %}
+
+@if {{ 'name =' not in toml_soul }}:
 pyproject.toml :: """
 [project]
-name = \"{{ project_slug | default('omega-service') }}\"
-version = \"0.1.0\"
-description = \"Metabolism Sensing Substrate forged by VELM\"
-authors = [{name = \"The Architect\"}]
-readme = \"README.md\"
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "Hardware Sensing Substrate forged by VELM"
+authors = [{name = "The Architect"}]
+readme = "README.md"
 dependencies = [
-    \"psutil>=5.9.0\",
+    "psutil>=5.9.0",
+    "pydantic>=2.6.0",
 ]
 
 [tool.poetry]
-name = \"{{ project_slug | default('omega-service') }}\"
-version = \"0.1.0\"
-description = \"Metabolism Sensing Substrate forged by VELM\"
-authors = [\"{{ author | default('The Architect') }}\"]
-packages = [{include = \"{{ package_name }}\", from = \"src\"}]
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "Hardware Sensing Substrate forged by VELM"
+authors = ["{{ author | default('The Architect') }}"]
+packages = [{include = "{{ package_name }}", from = "src"}]
 
 [tool.poetry.dependencies]
-python = \"^{{ python_version }}\"
-psutil = \"^5.9.0\"
+python = "^{{ python_version }}"
+psutil = "^5.9.0"
+pydantic = "^2.6.0"
 
 [build-system]
-requires = [\"poetry-core\"]
-build-backend = \"poetry.core.masonry.api\"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 """
+@else:
+# [THE MASTER CURE]: SURGICAL SECTION INJECTION
+# If the file exists and has a name, we just ensure psutil is present.
+pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*psutil))/$1\npsutil = \"^5.9.0\"/g"
+pyproject.toml ~= "s/(\[project.dependencies\](?!.*psutil))/$1\n    \"psutil>=5.9.0\",/g"
 @endif
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
-    proclaim: \"The [bold cyan]Python Metabolism Toolkit[/] is manifest.\"
-    proclaim: \"Sensory Locus: [white]core/system/metabolism.py[/]\"
+    proclaim: "The [bold cyan]Python Metabolism Toolkit[/] is manifest."
+    proclaim: "Identity Status: [bold green]{{ 'CONSECRATED' if 'name =' not in toml_soul else 'RESONANT' }}[/]"
     
     # [ASCENSION 2]: THE MASTER CURE FOR TOML CORRUPTION
-    # We use 'poetry add' exclusively to handle existing manifests.
-    # This ensures the physical iron (Poetry) manages the TOML structure.
+    # We use 'poetry add' to allow the binary to handle the final TOML merge.
     @if {{ has_poetry }}:
-        proclaim: \"Phase I: Synchronizing manifest with Poetry...\"
+        proclaim: "Phase I: Synchronizing manifest with Poetry..."
         >> poetry add psutil
     @else:
-        proclaim: \"Phase I: Standardizing substrate via pip...\"
+        proclaim: "Phase I: Standardizing substrate via pip..."
         >> pip install psutil
     @endif
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (System Blindness -> 0)[/]"
-    proclaim: \"[bold green]✅ The Biometric Layer is Waked.[/bold green] The Iron is now Observable.\"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Identity Drift -> 0)[/]"
+    proclaim: "[bold green]✅ The Biometric Mind is waked.[/bold green] The Iron is now Observable."
 
 %% on-heresy
-    proclaim: \"[bold red]Metabolism materialization fractured.[/bold red]\"
+    proclaim: "[bold red]Metabolism materialization fractured.[/bold red]"
     rm -rf src/{{ package_name }}/core/system/metabolism.py
