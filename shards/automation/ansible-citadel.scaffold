@@ -166,43 +166,25 @@ This fortress orchestrates your server fleet with declarative precision.
 # --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
 # [ASCENSION 12]: Cinematic Guidance
 %% post-run
-    proclaim: \"The [bold cyan]Ansible Citadel[/] is manifest at [white]{{ project_name }}/[/]\"
+    proclaim: "The [bold cyan]Ansible Citadel[/bold cyan] is manifest."
+    proclaim: "Fortress Locus: [white]{{ project_name }}/[/]"
     
-    # [ASCENSION 1]: Substrate Sensing
-    # We check if the artisan is manifest in the physical iron.
-    {% set has_vault = shell('ansible-vault --version > /dev/null 2>&1 && echo \"yes\" || echo \"no\"') == 'yes' %}
+    # 1. Initialize the Chronicle
+    @if {{ use_git | lower == "true" }} -> git init
     
-    # [ASCENSION 10]: THE LAZARUS INSTALLATION RITE
-    @if {{ not has_vault }}:
-        proclaim: \"[bold yellow]Artisan Void Detected:[/] 'ansible-vault' is unmanifest.\"
-        proclaim: \"   -> Attempting Autonomic Inception (pip install ansible)...\"
-        >> pip install ansible --user
-        proclaim: \"   -> [bold green]Inception Successful.[/]\"
-    @endif
+    # 2. Forge the Vault Secret
+    proclaim: "Phase I: Forging the Gnostic Vault Password..."
+    >> echo "{{ vault_pass }}" > {{ project_name }}/vault.password
     
-    # [ASCENSION 6]: Idempotent Git Suture
-    @if {{ not dir_exists(project_name + '/.git') }}:
-        >> cd {{ project_name }} && git init
-    @endif
+    # 3. Encrypt the initial vault
+    proclaim: "Phase II: Sealing the initial Gnosis..."
+    >> pip install ansible --user
+    >> ansible-vault encrypt {{ project_name }}/group_vars/all/vault.yml --vault-password-file {{ project_name }}/vault.password
     
-    # 1. Forge the Vault Password
-    @if {{ not file_exists(project_name + '/vault.password') }}:
-        proclaim: \"Phase I: Forging the Gnostic Vault Password...\"
-        >> echo \"{{ vault_pass }}\" > {{ project_name }}/vault.password
-    @endif
-    
-    # =========================================================================
-    # == [ASCENSION 2]: THE PYTHON CONDUIT STRIKE (THE MASTER CURE)          ==
-    # =========================================================================
-    # We execute via 'python -m' to guarantee the OS finds the tool 
-    # regardless of the %PATH% state.
-    proclaim: \"Phase II: Sealing the initial Gnosis...\"
-    >> python -m ansible.cli.vault encrypt {{ project_name }}/group_vars/all/vault.yml --vault-password-file {{ project_name }}/vault.password
-    
-    # 2. Final Proclamation
-    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Operational Friction -> 0)[/]"
-    proclaim: \"[bold green]✅ The Fortress is Ready.[/bold green]\"
-
+    # 4. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Configuration Drift -> 0)[/]"
+    proclaim: "[bold green]✅ The Fortress is Waked.[/bold green]"
+    proclaim: "To begin orchestration: [bold cyan]cd {{ project_name }} && make help[/bold cyan]"
 
 %% on-heresy
     # [ASCENSION 24]: Transactional Purgation
