@@ -1,27 +1,31 @@
 # ==============================================================================
-# == GNOSTIC SHARD: NETWORK-ACCESS (V-Ω-TOTALITY-V1.0)                        ==
+# == GNOSTIC SHARD: NETWORK-ACCESS (V-Ω-TOTALITY-V2.0-INDESTRUCTIBLE)         ==
 # ==============================================================================
 # @description: The definitive celestial conduit. Materializes an asynchronous 
 #               HTTP/network layer using httpx, warded with trace-id 
 #               propagation, automatic retries, and metabolic tax tracking.
+#               [ASCENDED]: Substrate-aware pyproject.toml initialization.
 # @category: System / Network
 # @vibe: networking, http-client, httpx, async-io, telemetry, trace-id, bridge
 # @provides: [network-access, http-client, celestial-communion]
-# @requires: [python-core, pydantic-settings]
+# @requires: [pydantic-settings]
 # @substrate: python
-# @version: 1.0.0-Ω
+# @version: 2.0.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_name = {{ project_name | default("omega_reality") }}
+$$ project_slug = {{ project_slug | default("omega-reality") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ project_version = {{ version | default("0.1.0") }}
 $$ default_timeout_sec = {{ timeout | default(10.0) }}
 $$ user_agent = "Velm-God-Engine/{{ version | default('2.5.0') }} (Sovereign Node)"
 
 # --- II. THE SCRIPTURE OF FORM (The Celestial Bridge) ---
 
 src/{{ package_name }}/core/network/
-    __init__.py += "from .conduit import NetworkConduit, ResponseVessel\n"
+    __init__.py :: "from .conduit import NetworkConduit, ResponseVessel\n"
 
     # [ASCENSION 1]: THE NETWORK CONDUIT
     # This artisan manages the lifecycle of asynchronous connections, 
@@ -50,20 +54,6 @@ class NetworkConduit:
     == THE NETWORK CONDUIT (V-Ω-TOTALITY)                                     ==
     =============================================================================
     LIF: ∞ | ROLE: CELESTIAL_MESSENGER | RANK: OMEGA
-    
-    [ASCENSIONS]:
-    1. Async-Await Purity: Uses `httpx` for zero-blocking I/O.
-    2. Trace-ID Propagation: Automatically injects X-Gnostic-Trace headers.
-    3. NoneType Sarcophagus: Gracefully handles connection timeouts and fractures.
-    4. Metabolic Tomography: Captures and reports Round-Trip Time (RTT).
-    5. User-Agent Sovereignty: Proclaims the machine's identity to the void.
-    6. Redirect Jurisprudence: Limits hops to prevent infinite loops.
-    7. Retries with Jitter: (Prophecy) Integrated exponential backoff.
-    8. Circuit Breaker Suture: (Prophecy) Ties into Turn 12 Breakers.
-    9. Content-Type Adjudication: Auto-parses JSON, XML, and Plaintext.
-    10. Connection Pool Tomography: Reuses sockets to minimize handshake tax.
-    11. Substrate-Aware Timeouts: Adjusts based on project DNA.
-    12. Finality Vow: Guaranteed valid ResponseVessel or meaningful failure.
     \"\"\"
     def __init__(self, timeout: float = {{ default_timeout_sec }}):
         self.timeout = timeout
@@ -81,9 +71,6 @@ class NetworkConduit:
         headers: Optional[Dict] = None,
         **kwargs
     ) -> ResponseVessel:
-        \"\"\"
-        Conducts a kinetic strike against a remote reality.
-        \"\"\"
         start_ts = time.perf_counter()
         
         # [ASCENSION 2]: Suture the Silver Cord
@@ -105,7 +92,6 @@ class NetworkConduit:
                 
                 duration_ms = (time.perf_counter() - start_ts) * 1000
                 
-                # [ASCENSION 9]: Semantic Unpacking
                 try:
                     data = response.json()
                 except:
@@ -141,7 +127,27 @@ conduit = NetworkConduit()
 
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 
-# [ASCENSION 12]: Dependency Inception
+# =========================================================================
+# == [THE CURE]: SUBSTRATE-AWARE pyproject.toml INCEPTION                ==
+# =========================================================================
+# We check if the file exists. If not, we forge the necessary identity 
+# headers to prevent Poetry from fracturing.
+@if {{ not file_exists('pyproject.toml') }}:
+pyproject.toml :: """
+[tool.poetry]
+name = "{{ project_slug }}"
+version = "{{ project_version }}"
+description = "Manifested by the VELM God-Engine"
+authors = ["The Architect"]
+packages = [{include = "{{ package_name }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+"""
+@endif
+
+# [ASCENSION 12]: Safe Dependency Injection
+# We use the '+=' operator to add httpx without clobbering existing deps.
 pyproject.toml += """
 httpx = "^0.27.0"
 """
@@ -151,10 +157,16 @@ httpx = "^0.27.0"
     proclaim: "The [bold cyan]Network Access Shard[/] (Celestial Conduit) is manifest."
     proclaim: "Conduit Locus: [white]core/network/conduit.py[/]"
     
-    # 1. Dependency Summoning
-    proclaim: "Phase I: Summoning the Network artisans... (httpx)"
-    >> poetry add httpx
-    ?? succeeds
+    # 1. Resilient Dependency Synchronization
+    # [THE CURE]: We avoid 'poetry add' which requires a fully locked state.
+    # We use 'lock --no-update' to refresh the manifest safely.
+    @if {{ has_poetry }}:
+        proclaim: "Phase I: Synchronizing manifest with Poetry..."
+        >> poetry lock --no-update
+    @else:
+        proclaim: "Phase I: Standardizing substrate via pip..."
+        >> pip install httpx
+    @endif
     
     # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (I/O Impedance -> 0)[/]"
