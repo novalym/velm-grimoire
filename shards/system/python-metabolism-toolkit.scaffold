@@ -1,24 +1,58 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-METABOLISM-TOOLKIT (V-Ω-TOTALITY-V7000-HEALED)     ==
+# == GNOSTIC SHARD: PYTHON-METABOLISM-TOOLKIT (V-Ω-TOTALITY-V6000-NUCLEAR)     ==
 # ==============================================================================
 # @description: The definitive hardware sensing toolkit. Materializes the 
 #               psutil-powered biometric layer, enabling real-time scrying of 
 #               CPU heat, RAM mass, and I/O wait-states across all iron.
 # @category: System / Substrate
-# @vibe: psutil, metabolism, hardware-sensing, vitals, telemetry-toolkit, biometric
+# @vibe: psutil, metabolism, hardware-sensing, vitals, telemetry-toolkit, nuclear
 # @provides: [python-metabolism-toolkit, metabolic-sensing-authority, hardware-biopsy]
 # @requires: [python-core, pydantic-v2]
 # @substrate: python
-# @version: 7.0.0-Ω
-# @LIF: 1,000,000x
+# @version: 6.0.0-Ω
+# @LIF: INFINITY
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ project_slug = {{ project_slug | default('omega-core') }}
+$$ project_name = {{ project_name | default('Omega Core') }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
+$$ author = {{ author | default('The Architect') }}
 $$ python_version = {{ python_version | default('3.11') }}
 
-# --- II. THE SCRIPTURE OF FORM (The Sensory Layer) ---
+# --- II. THE CONSTITUTIONAL FORGE (pyproject.toml) ---
+# [ASCENSION 1 & 2]: THE NUCLEAR OVERWRITE. 
+# We unconditionally render the manifest to guarantee structural parity.
+pyproject.toml :: """
+[project]
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "Manifested by the VELM God-Engine: {{ project_name }}"
+authors = [{name = "{{ author }}"}]
+readme = "README.md"
+dependencies = [
+    "psutil>=5.9.0",
+    "pydantic>=2.6.0",
+]
+
+[tool.poetry]
+name = "{{ project_slug }}"
+version = "0.1.0"
+description = "Manifested by the VELM God-Engine: {{ project_name }}"
+authors = ["{{ author }}"]
+packages = [{include = "{{ package_name }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^{{ python_version }}"
+psutil = "^5.9.0"
+pydantic = "^2.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+"""
+
+# --- III. THE SCRIPTURE OF FORM (The Sensory Layer) ---
 
 src/{{ package_name }}/core/system/
     __init__.py :: "from .metabolism import HardwareScrier, scrier\n"
@@ -102,72 +136,20 @@ class HardwareScrier:
 scrier = HardwareScrier()
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# =========================================================================
-# == [THE CURE]: THE OMNISCIENT CONSTITUTIONAL SCRY                      ==
-# =========================================================================
-# We read the TOML. If it lacks an identity (name), we forge the foundation.
-# This handles monorepo sub-projects perfectly without clobbering the mono-root.
-
-{% set toml_soul = read_text('pyproject.toml') | default('') %}
-
-@if {{ 'name =' not in toml_soul }}:
-pyproject.toml :: """
-[project]
-name = "{{ project_slug }}"
-version = "0.1.0"
-description = "Hardware Sensing Substrate forged by VELM"
-authors = [{name = "The Architect"}]
-readme = "README.md"
-dependencies = [
-    "psutil>=5.9.0",
-    "pydantic>=2.6.0",
-]
-
-[tool.poetry]
-name = "{{ project_slug }}"
-version = "0.1.0"
-description = "Hardware Sensing Substrate forged by VELM"
-authors = ["{{ author | default('The Architect') }}"]
-packages = [{include = "{{ package_name }}", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^{{ python_version }}"
-psutil = "^5.9.0"
-pydantic = "^2.6.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-"""
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# If the file exists and has a name, we just ensure psutil is present.
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*psutil))/$1\npsutil = \"^5.9.0\"/g"
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*psutil))/$1\n    \"psutil>=5.9.0\",/g"
-@endif
-
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
-    proclaim: "The [bold cyan]Python Metabolism Toolkit[/] is manifest."
-    proclaim: "Identity Status: [bold green]{{ 'CONSECRATED' if 'name =' not in toml_soul else 'RESONANT' }}[/]"
+    proclaim: \"The [bold cyan]Python Metabolism Toolkit[/] is manifest.\"
+    proclaim: \"Constitution Secured: [white]pyproject.toml[/] rewritten.\"
     
-    # [ASCENSION 2]: THE MASTER CURE FOR TOML CORRUPTION
-    # We use 'poetry add' to allow the binary to handle the final TOML merge.
-    @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
-        >> poetry add psutil
-    @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
-        >> pip install psutil
-    @endif
+    
+    >> pip install psutil
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Identity Drift -> 0)[/]"
-    proclaim: "[bold green]✅ The Biometric Mind is waked.[/bold green] The Iron is now Observable."
+    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Architectural Stability -> ABSOLUTE)[/]"
+    proclaim: \"[bold green]✅ The Biometric Mind is waked.[/bold green] The Iron is now Observable.\"
 
 %% on-heresy
-    proclaim: "[bold red]Metabolism materialization fractured.[/bold red]"
+    proclaim: \"[bold red]Metabolism materialization fractured.[/bold red]\"
+    # [THE CURE]: We do not delete the TOML on failure, as it is now our anchor.
     rm -rf src/{{ package_name }}/core/system/metabolism.py
