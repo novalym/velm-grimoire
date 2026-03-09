@@ -1,15 +1,15 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V5000-HEALED)        ==
+# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V6000-HEALED-ULTIMA) ==
 # ==============================================================================
 # @description: The definitive hardware sensing toolkit. Materializes the 
 #               psutil-powered biometric layer, enabling real-time scrying of 
 #               CPU load, memory mass, and I/O wait-states across all iron.
 # @category: System / Physics
-# @vibe: psutil, metabolism, hardware-sensing, vitals, tomography, substrate
+# @vibe: psutil, metabolism, hardware-sensing, vitals, tomography, substrate, bio
 # @provides: [python-physics-toolkit, hardware-scrier, metabolic-oracle]
 # @requires: [python-core, pydantic-v2]
 # @substrate: python
-# @version: 5.0.0-Ω
+# @version: 6.0.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
@@ -105,9 +105,15 @@ hardware_scrier = HardwareScrier()
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 
 # =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
+# == [THE MASTER CURE]: THE GREAT SCRY (O(1) PERCEPTION)                 ==
 # =========================================================================
-@if {{ not file_exists('pyproject.toml') }}:
+# We read the existing file content. If it is a void or missing the heart,
+# we CREATE. Otherwise, we MUTATE.
+
+{% set pyproj = read_text('pyproject.toml') | default('') %}
+
+{% if pyproj | length < 10 or '[tool.poetry]' not in pyproj %}
+# --- BRANCH A: PRIMORDIAL INCEPTION (REWRITE) ---
 pyproject.toml :: """
 [project]
 name = \"{{ project_slug | default('omega-service') }}\"
@@ -134,12 +140,12 @@ psutil = \"^5.9.0\"
 requires = [\"poetry-core\"]
 build-backend = \"poetry.core.masonry.api\"
 """
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We ensure a newline exists before the dependency to prevent TOML fractures.
+{% else %}
+# --- BRANCH B: SURGICAL MUTATION (APPEND) ---
+# [THE FIX]: We use a multi-line safe replacement that ensures a valid section anchor.
 pyproject.toml ~= \"s/(\\[tool.poetry.dependencies\\](?!.*psutil))/$1\\npsutil = \\\"^5.9.0\\\"/g\"
 pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psutil>=5.9.0\\\",/g\"
-@endif
+{% endif %}
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
@@ -157,8 +163,8 @@ pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psut
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Performance Blindness -> 0)[/]"
-    proclaim: \"[bold green]✅ The Physics Engine is Waked.[/bold green] The Iron is now Observable.\"
+    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Metabolic Blindness -> 0)[/]"
+    proclaim: \"[bold green]✅ The Physics Engine is Resonant.[/bold green] The Iron is now Observable.\"
 
 %% on-heresy
     proclaim: \"[bold red]Physics materialization fractured.[/bold red]\"
