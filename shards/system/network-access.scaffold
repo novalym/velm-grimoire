@@ -126,17 +126,27 @@ conduit = NetworkConduit()
 # =========================================================================
 # == [THE CURE]: CONSTITUTIONAL pyproject.toml INCEPTION                 ==
 # =========================================================================
-# We check if the file exists OR if it lacks the poetry header.
-# We righteously enforce a valid name and version to satisfy the iron.
+# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
+# to satisfy the validation engine across all multiversal substrates.
+
 @if {{ not file_exists('pyproject.toml') }}:
 pyproject.toml :: """
+[project]
+name = "{{ project_slug | default('omega-service') }}"
+version = "{{ project_version | default('0.1.0') }}"
+description = "Manifested by the VELM God-Engine"
+authors = [{name = "The Architect"}]
+readme = "README.md"
+dependencies = [
+    "httpx>=0.27.0",
+]
+
 [tool.poetry]
 name = "{{ project_slug | default('omega-service') }}"
 version = "{{ project_version | default('0.1.0') }}"
 description = "Manifested by the VELM God-Engine"
 authors = ["The Architect"]
-readme = "README.md"
-packages = [{include = "{{ package_name }}", from = "src"}]
+packages = [{include = "{{ package_name | default('core') }}", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^{{ python_version | default('3.11') }}"
@@ -147,10 +157,15 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 """
 @else:
-# [ASCENSION 11]: If it exists, we just surgically add the dependency.
-pyproject.toml += """
-httpx = "^0.27.0"
-"""
+# [THE MASTER CURE]: SURGICAL SECTION INJECTION
+# We find the dependencies header and inject 'httpx' right after it, 
+# warded by an idempotency check to prevent duplicate inscriptions.
+
+# 1. Target Legacy Poetry Blocks
+pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*httpx))/$1\nhttpx = \"^0.27.0\"/g"
+
+# 2. Target Modern PEP 621 Blocks
+pyproject.toml ~= "s/(\[project.dependencies\](?!.*httpx))/$1\n    \"httpx>=0.27.0\",/g"
 @endif
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
