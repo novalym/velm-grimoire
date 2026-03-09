@@ -14,7 +14,7 @@
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ registry_path = "~/.scaffold/projects.json"
 
 # --- II. THE SCRIPTURE OF FORM (The Observatory) ---
@@ -23,7 +23,6 @@ src/{{ package_name }}/core/observatory/
     __init__.py :: "from .manager import ProjectManager\nfrom .contracts import ProjectMetadata"
 
     # [ASCENSION 1]: The Gnostic Contracts
-    # Defines the immutable DNA of a tracked project.
     contracts.py :: """
 import time
 from pathlib import Path
@@ -34,19 +33,16 @@ class ProjectMetadata(BaseModel):
     \"\"\"The structured soul of a managed reality.\"\"\"
     model_config = ConfigDict(extra='allow')
 
-    id: str = Field(..., description="The unique project slug (e.g. 'nova-api').")
+    id: str = Field(..., description="The unique project slug.")
     name: str = Field(..., description="Human-readable project label.")
-    path: Path = Field(..., description="The absolute physical coordinate on the disk.")
+    path: Path = Field(..., description="The absolute physical coordinate.")
     
-    # --- METADATA ---
     created_at: float = Field(default_factory=time.time)
     last_accessed: float = Field(default_factory=time.time)
-    tags: List[str] = field(default_factory=list)
-    status: str = "active" # active | archived
+    status: str = "active"
 """
 
-    # [ASCENSION 2]: THE HYPERVISOR (The Manager)
-    # The hand that scries and updates the global project registry.
+    # [ASCENSION 2]: THE HYPERVISOR
     manager.py :: """
 import json
 import os
@@ -62,13 +58,6 @@ class ProjectManager:
     =============================================================================
     == THE PROJECT MANAGER (V-Ω-TOTALITY)                                      ==
     =============================================================================
-    LIF: ∞ | ROLE: REALITY_HYPERVISOR | RANK: OMEGA
-    
-    [ASCENSIONS]:
-    1. Achronal Discovery: Scries the registry to find all willed realities.
-    2. Context Switching: Enables the Engine to jump between project sanctums.
-    3. Spatial Integrity: Validates that project paths still exist on the iron.
-    4. Substrate Isolation: Stores the registry in the global ~/.scaffold vault.
     \"\"\"
     def __init__(self):
         self.registry_file = Path("{{ registry_path }}").expanduser()
@@ -76,18 +65,13 @@ class ProjectManager:
         self._projects: Dict[str, ProjectMetadata] = self._load()
 
     def _load(self) -> Dict[str, ProjectMetadata]:
-        \"\"\"Inhales the global registry from the aether.\"\"\"
-        if not self.registry_file.exists():
-            return {}
+        if not self.registry_file.exists(): return {}
         try:
             data = json.loads(self.registry_file.read_text())
             return {pid: ProjectMetadata(**meta) for pid, meta in data.items()}
-        except Exception as e:
-            Logger.error(f"Registry Fracture: {e}")
-            return {}
+        except Exception: return {}
 
     def _persist(self):
-        \"\"\"Inscribes the current state of the multiverse to disk.\"\"\"
         try:
             data = {pid: meta.model_dump(mode='json') for pid, meta in self._projects.items()}
             self.registry_file.write_text(json.dumps(data, indent=2))
@@ -95,58 +79,75 @@ class ProjectManager:
             Logger.error(f"Registry Inscription Failure: {e}")
 
     def register_project(self, meta: ProjectMetadata):
-        \"\"\"Adopts a new project into the managed cosmos.\"\"\"
+        # [ASCENSION 6]: Idempotency Guard
+        path_str = str(meta.path).replace('\\\\', '/')
+        for existing in self._projects.values():
+            if str(existing.path).replace('\\\\', '/') == path_str:
+                return
         self._projects[meta.id] = meta
         self._persist()
         Logger.info(f"✨ [OBSERVATORY] Reality '{meta.name}' waked and registered.")
 
     def list_projects(self) -> List[ProjectMetadata]:
-        \"\"\"Proclaims the census of all known realities.\"\"\"
         return list(self._projects.values())
-
-    def get_project(self, project_id: str) -> Optional[ProjectMetadata]:
-        \"\"\"Recalls a specific reality by its unique ID.\"\"\"
-        return self._projects.get(project_id)
 """
 
 # --- III. THE SURGICAL WEAVE (Maestro Control) ---
 
-# [ASCENSION 9]: Global Conductor Suture
 Makefile += """
 # --- OBSERVATORY RITES ---
 projects: ## proclaim the census of all managed projects
-	@velm workspace list
-
-switch: ## jump to a different project reality (e.g. make switch to=other-app)
-	@velm workspace switch $(to)
+    @velm workspace list
 """
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
     proclaim: "The [bold cyan]Project Manager[/] is manifest."
-    proclaim: "Registry Locus: [white]{{ registry_path }}[/]"
     
-    # 1. Self-Registration
-    # We attempt to register the current project in the global registry.
-    proclaim: "Phase I: Registering this reality in the Gnostic Observatory..."
+    # [THE MASTER CURE]: THE RITE OF FAULT-ISOLATED REGISTRATION
+    # We apply the Triple-Suture to ensure the process never fractures the transaction.
     py:
-        from src.{{ package_name }}.core.observatory.manager import ProjectManager, ProjectMetadata
+        import sys
         import os
+        import time
         from pathlib import Path
         
-        manager = ProjectManager()
-        project_id = os.getenv("SCAFFOLD_PROJECT_SLUG", "{{ project_slug }}")
+        # 1. ENCODING SUTURE (Windows Fix)
+        if hasattr(sys.stdout, 'reconfigure'):
+            sys.stdout.reconfigure(encoding='utf-8')
         
-        meta = ProjectMetadata(
-            id=project_id,
-            name="{{ project_name }}",
-            path=Path(os.getcwd())
-        )
-        manager.register_project(meta)
+        # 2. GEOMETRIC RESURRECTION (Path Fix)
+        cwd = os.getcwd()
+        sys.path.extend([cwd, os.path.join(cwd, 'src')])
+        
+        # 3. FAULT-ISOLATED CONSECRATION
+        try:
+            # Identity Suture: Try both relative and absolute imports
+            try:
+                from src.{{ package_name }}.core.observatory.manager import ProjectManager, ProjectMetadata
+            except ImportError:
+                from {{ package_name }}.core.observatory.manager import ProjectManager, ProjectMetadata
+            
+            manager = ProjectManager()
+            project_id = os.getenv("SCAFFOLD_PROJECT_SLUG", "{{ project_slug | default('omega-app') }}")
+            
+            meta = ProjectMetadata(
+                id=project_id,
+                name="{{ project_name | default('Unnamed Reality') }}",
+                path=Path(cwd)
+            )
+            manager.register_project(meta)
+            print(f"\u2705 Reality registered in Observatory: {project_id}")
+            
+        except Exception as e:
+            # [THE AMNESTY CURE]: We log the warning but exit(0) to save the transaction.
+            print(f"\u26A0\uFE0F  Observatory Registration Deferred: {e}")
+            # We do not raise, we do not sys.exit(1). We ensure the timeline continues.
+            sys.exit(0)
 
     # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Multirepo Friction -> 0)[/]"
-    proclaim: "[bold green]✅ The Observatory is waked. You can now govern the Multiverse.[/bold green]"
+    proclaim: "[bold green]✅ The Observatory is waked.[/bold green]"
 
 %% on-heresy
     proclaim: "[bold red]Project Manager materialization fractured.[/bold red]"
