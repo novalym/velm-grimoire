@@ -1,36 +1,52 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V1.0)                ==
+# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V5000-HEALED)        ==
 # ==============================================================================
-# @description: The definitive metabolic sensory array. Materializes a suite of
-#               high-precision profilers and hardware scryers powered by psutil 
-#               and cProfile for deep performance tomography and emulation.
-# @category: System / Substrate
-# @vibe: physics, metabolism, profiler, performance, hardware-tomography, psutil
-# @provides: [python-physics-toolkit, metabolic-profiler, hardware-tomography]
-# @requires: [python-core]
+# @description: The definitive hardware sensing toolkit. Materializes the 
+#               psutil-powered biometric layer, enabling real-time scrying of 
+#               CPU load, memory mass, and I/O wait-states across all iron.
+# @category: System / Physics
+# @vibe: psutil, metabolism, hardware-sensing, vitals, tomography, substrate
+# @provides: [python-physics-toolkit, hardware-scrier, metabolic-oracle]
+# @requires: [python-core, pydantic-v2]
 # @substrate: python
-# @version: 1.0.0-Ω
-# @LIF: INFINITY
+# @version: 5.0.0-Ω
+# @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
+$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Physics Engine) ---
 
 src/{{ package_name }}/core/physics/
-    __init__.py :: "from .tomography import HardwareScrier\nfrom .profiler import GnosticProfiler, profile_rite"
+    __init__.py :: "from .tomography import HardwareScrier, hardware_scrier\n"
 
-    # [ASCENSION 1]: THE HARDWARE SCRYER
-    # This artisan performs a deep-tissue biopsy of the host iron.
+    # [ASCENSION 3]: THE HARDWARE SCRYER
     tomography.py :: """
 import os
-import psutil
+import time
 import platform
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
+import psutil
+from pydantic import BaseModel, Field
+
+# [PROVENANCE]: Forged via system/python-physics-toolkit.scaffold
+# [TRACE]: {{ trace_id | default('tr-void') }}
 
 Logger = logging.getLogger("Physics:Tomography")
+
+class VitalAura(BaseModel):
+    \"\"\"The Gnostic record of physical resonance.\"\"\"
+    cpu_cores: int = Field(default_factory=lambda: os.cpu_count() or 1)
+    cpu_load_pct: float = 0.0
+    ram_total_gb: float = 0.0
+    ram_used_pct: float = 0.0
+    io_wait_pct: float = 0.0
+    status: str = \"RESONANT\"
+    ts: float = Field(default_factory=time.time)
+    substrate: str = Field(default_factory=lambda: platform.system())
 
 class HardwareScrier:
     \"\"\"
@@ -44,96 +60,114 @@ class HardwareScrier:
     2. Cache-Line Profiling: Divines memory latency of the host iron.
     3. Achronal Signature: Forges the 'Metabolic Passport' for the throttler.
     \"\"\"
-    @staticmethod
-    def capture_aura() -> Dict[str, Any]:
-        \"\"\"Performs a high-fidelity scan of the physical substrate.\"\"\"
+    def __init__(self):
         try:
-            return {
-                "cpu_cores": psutil.cpu_count(logical=True),
-                "cpu_load_avg": psutil.getloadavg(),
-                "total_ram_gb": psutil.virtual_memory().total / (1024**3),
-                "os_platform": platform.system(),
-                "os_release": platform.release(),
-                "python_version": platform.python_version()
-            }
-        except Exception as e:
-            Logger.warn(f"Hardware Scry faltered: {e}")
-            return {"error": str(e)}
+            self.process = psutil.Process(os.getpid())
+        except Exception:
+            self.process = None
 
+    def capture_aura(self) -> VitalAura:
+        \"\"\"Performs a high-fidelity scan of the physical iron.\"\"\"
+        try:
+            # 1. CPU Metabolism
+            cpu_pct = psutil.cpu_percent(interval=None)
+            
+            # 2. Memory Mass
+            mem = psutil.virtual_memory()
+            
+            # 3. I/O Wait State (Substrate Aware)
+            io_wait = 0.0
+            if hasattr(psutil, \"cpu_times_percent\"):
+                io_wait = getattr(psutil.cpu_times_percent(), 'iowait', 0.0)
+            
+            # [ASCENSION 7]: Thermodynamic Adjudication
+            status = \"RESONANT\"
+            if cpu_pct > 85.0 or io_wait > 20.0:
+                status = \"FEVERISH\"
+            elif cpu_pct > 60.0:
+                status = \"HEATED\"
+
+            return VitalAura(
+                cpu_load_pct=cpu_pct,
+                ram_total_gb=round(mem.total / (1024**3), 2),
+                ram_used_pct=mem.percent,
+                io_wait_pct=io_wait,
+                status=status
+            )
+        except Exception as e:
+            Logger.warn(f\"Hardware Scry faltered: {e}\")
+            return VitalAura(status=\"VOID\")
+
+# Global Singleton
 hardware_scrier = HardwareScrier()
 """
 
-    # [ASCENSION 2]: THE GNOSTIC PROFILER
-    # The hand that measures the metabolic tax of individual functions.
-    profiler.py :: """
-import cProfile
-import pstats
-import io
-import time
-import functools
-import asyncio
-from typing import Callable, Any
-
-class GnosticProfiler:
-    \"\"\"
-    [ASCENSION 3]: The Stopwatch of the God-Engine.
-    Wraps cProfile for surgical performance inquisition.
-    \"\"\"
-    def profile(self, func: Callable) -> Callable:
-        @functools.wraps(func)
-        def sync_wrapper(*args, **kwargs):
-            pr = cProfile.Profile()
-            pr.enable()
-            result = func(*args, **kwargs)
-            pr.disable()
-            self._proclaim(pr, func.__name__)
-            return result
-
-        @functools.wraps(func)
-        async def async_wrapper(*args, **kwargs):
-            pr = cProfile.Profile()
-            pr.enable()
-            result = await func(*args, **kwargs)
-            pr.disable()
-            self._proclaim(pr, func.__name__)
-            return result
-
-        return async_wrapper if asyncio.iscoroutinefunction(func) else sync_wrapper
-        
-    def _proclaim(self, pr: cProfile.Profile, name: str):
-        s = io.StringIO()
-        sortby = pstats.SortKey.CUMULATIVE
-        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-        ps.print_stats()
-        print(f"--- METABOLIC REPORT: {name} ---")
-        print(s.getvalue())
-
-# Global Singleton
-profiler = GnosticProfiler()
-profile_rite = profiler.profile
-"""
-
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-# [ASCENSION 12]: Dependency Inception
-pyproject.toml += """
-psutil = "^5.9.0"
+
+# =========================================================================
+# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
+# =========================================================================
+# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
+# to satisfy the validation engine across all multiversal substrates.
+
+@if {{ not file_exists('pyproject.toml') }}:
+pyproject.toml :: """
+[project]
+name = \"{{ project_slug | default('omega-service') }}\"
+version = \"0.1.0\"
+description = \"Hardware Sensing Substrate forged by VELM\"
+authors = [{name = \"The Architect\"}]
+readme = \"README.md\"
+dependencies = [
+    \"psutil>=5.9.0\",
+]
+
+[tool.poetry]
+name = \"{{ project_slug | default('omega-service') }}\"
+version = \"0.1.0\"
+description = \"Hardware Sensing Substrate forged by VELM\"
+authors = [\"The Architect\"]
+packages = [{include = \"{{ package_name }}\", from = \"src\"}]
+
+[tool.poetry.dependencies]
+python = \"^{{ python_version }}\"
+psutil = \"^5.9.0\"
+
+[build-system]
+requires = [\"poetry-core\"]
+build-backend = \"poetry.core.masonry.api\"
 """
+@else:
+# [THE MASTER CURE]: SURGICAL SECTION INJECTION
+# We find the dependencies header and inject psutil exactly where 
+# the Laws of TOML demand, warded by an idempotency check.
+
+# 1. Target Legacy Poetry Blocks
+pyproject.toml ~= \"s/(\\[tool.poetry.dependencies\\](?!.*psutil))/$1\\npsutil = \\\"^5.9.0\\\"/g\"
+
+# 2. Target Modern PEP 621 Blocks
+pyproject.toml ~= \"s/(\\[project.dependencies\\](?!.*psutil))/$1\\n    \\\"psutil>=5.9.0\\\",/g\"
+@endif
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
-    proclaim: "The [bold cyan]Python Physics Toolkit[/] is manifest."
-    proclaim: "Hardware Scrier: [white]core/physics/tomography.py[/]"
-    proclaim: "Gnostic Profiler: [white]core/physics/profiler.py[/]"
+    proclaim: \"The [bold cyan]Python Physics Toolkit[/] is manifest.\"
+    proclaim: \"Hardware Scrier Locus: [white]core/physics/tomography.py[/]\"
     
-    # 1. Dependency Summoning
-    proclaim: "Phase I: Summoning the Sensory artisans... (psutil)"
-    >> poetry add psutil
+    # 1. Dependency Synchronization
+    @if {{ has_poetry }}:
+        proclaim: \"Phase I: Synchronizing manifest with Poetry...\"
+        >> poetry add psutil
+    @else:
+        proclaim: \"Phase I: Standardizing substrate via pip...\"
+        >> pip install psutil
+    @endif
     ?? succeeds
     
     # 2. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Performance Blindness -> 0)[/]"
-    proclaim: "[bold green]✅ The Engine is now aware of its own physical form.[/bold green]"
+    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Performance Blindness -> 0)[/]"
+    proclaim: \"[bold green]✅ The Physics Engine is Waked.[/bold green] The Iron is now Observable.\"
 
 %% on-heresy
-    proclaim: "[bold red]Physics Toolkit materialization fractured.[/bold red]"
+    proclaim: \"[bold red]Physics materialization fractured.[/bold red]\"
     rm -rf src/{{ package_name }}/core/physics

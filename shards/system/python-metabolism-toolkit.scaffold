@@ -1,37 +1,50 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-METABOLISM-TOOLKIT (V-Ω-TOTALITY-V1.0)             ==
+# == GNOSTIC SHARD: PYTHON-METABOLISM-TOOLKIT (V-Ω-TOTALITY-V5000-HEALED)     ==
 # ==============================================================================
 # @description: The definitive hardware sensing toolkit. Materializes the 
 #               psutil-powered biometric layer, enabling real-time scrying of 
 #               CPU heat, RAM mass, and I/O wait-states across all substrates.
 # @category: System / Substrate
-# @vibe: psutil, metabolism, hardware-sensing, vitals, telemetry-toolkit
+# @vibe: psutil, metabolism, hardware-sensing, vitals, telemetry-toolkit, biometric
 # @provides: [python-metabolism-toolkit, metabolic-sensing-authority, hardware-biopsy]
-# @requires: [python-core]
+# @requires: [python-core, pydantic-v2]
 # @substrate: python
-# @version: 1.0.0-Ω
+# @version: 5.0.0-Ω
 # @LIF: 1,000,000x
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
+$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Sensory Layer) ---
 
 src/{{ package_name }}/core/system/
-    __init__.py += "from .metabolism import HardwareScrier\n"
+    __init__.py += "from .metabolism import HardwareScrier, scrier\n"
 
-    # [ASCENSION 1]: THE HARDWARE SCRIER
-    # This artisan performs the actual deep-tissue biopsy of the OS resources.
+    # [ASCENSION 3]: THE HARDWARE SCRIER
     metabolism.py :: """
 import os
 import time
 import platform
-import psutil
 import logging
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
+import psutil
+from pydantic import BaseModel, Field
+
+# [PROVENANCE]: Forged via system/python-metabolism-toolkit.scaffold
+# [TRACE]: {{ trace_id | default('tr-void') }}
 
 Logger = logging.getLogger("System:Metabolism")
+
+class VitalSigns(BaseModel):
+    \"\"\"The Gnostic record of hardware tomography.\"\"\"
+    cpu_load: float = 0.0
+    ram_usage_pct: float = 0.0
+    process_mb: float = 0.0
+    status: str = "RESONANT"
+    ts: float = Field(default_factory=time.time)
+    node: str = Field(default_factory=lambda: platform.node())
 
 class HardwareScrier:
     \"\"\"
@@ -46,39 +59,46 @@ class HardwareScrier:
     3. Forensic Signatures: Identifies thermalthrottling risk.
     \"\"\"
     def __init__(self):
-        self.process = psutil.Process(os.getpid())
-        self._boot_time = psutil.boot_time()
+        try:
+            self.process = psutil.Process(os.getpid())
+            self._boot_time = psutil.boot_time()
+        except Exception:
+            self.process = None
 
-    def conduct_biopsy(self) -> Dict[str, Any]:
+    def conduct_biopsy(self) -> VitalSigns:
         \"\"\"Performs a high-fidelity scan of the physical iron.\"\"\"
         try:
-            # 1. CPU Tomography
             cpu_pct = psutil.cpu_percent(interval=None)
-            
-            # 2. RAM Mass
             mem = psutil.virtual_memory()
-            process_mem = self.process.memory_info().rss / (1024 * 1024)
             
-            # 3. I/O Pressure
-            io_counters = psutil.disk_io_counters()
+            # [ASCENSION 10]: Substrate-Aware Memory Scry
+            process_mem = 0.0
+            if self.process:
+                try:
+                    process_mem = self.process.memory_info().rss / (1024 * 1024)
+                except Exception:
+                    pass
             
-            return {
-                "cpu_load": cpu_pct,
-                "ram_usage_pct": mem.percent,
-                "process_mb": round(process_mem, 2),
-                "os": platform.system(),
-                "node": platform.node(),
-                "ts": time.time(),
-                "status": "RESONANT" if cpu_pct < 85 else "FEVERISH"
-            }
+            # [ASCENSION 7]: Thermodynamic Adjudication
+            status = "RESONANT"
+            if cpu_pct > 90.0:
+                status = "FEVERISH"
+            elif cpu_pct > 75.0:
+                status = "HEATED"
+
+            return VitalSigns(
+                cpu_load=cpu_pct,
+                ram_usage_pct=mem.percent,
+                process_mb=round(process_mem, 2),
+                status=status
+            )
         except Exception as e:
             Logger.error(f"Metabolic Scry Failed: {e}")
-            return {"status": "VOID", "error": str(e)}
+            return VitalSigns(status=\"VOID\")
 
     @staticmethod
     def list_artifacts() -> List[str]:
-        \"\"\"Proclaims the census of hardware sensors available.\"\"\"
-        return ["cpu", "memory", "disk", "network", "threads"]
+        return [\"cpu\", \"memory\", \"disk\", \"network\", \"threads\"]
 
 # Global Singleton
 scrier = HardwareScrier()
@@ -86,19 +106,64 @@ scrier = HardwareScrier()
 
 # --- III. THE SURGICAL WEAVE (Metadata Suture) ---
 
-# [ASCENSION 12]: Dependency Inception
-pyproject.toml += """
+# =========================================================================
+# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
+# =========================================================================
+# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
+# to satisfy the validation engine across all multiversal substrates.
+
+@if {{ not file_exists('pyproject.toml') }}:
+pyproject.toml :: """
+[project]
+name = "{{ project_slug | default('omega-service') }}"
+version = "{{ project_version | default('0.1.0') }}"
+description = "Manifested by the VELM God-Engine"
+authors = [{name = "The Architect"}]
+readme = "README.md"
+dependencies = [
+    "psutil>=5.9.0",
+]
+
+[tool.poetry]
+name = "{{ project_slug | default('omega-service') }}"
+version = "{{ project_version | default('0.1.0') }}"
+description = "Manifested by the VELM God-Engine"
+authors = ["The Architect"]
+packages = [{include = "{{ package_name }}", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^{{ python_version }}"
 psutil = "^5.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 """
+@else:
+# [THE MASTER CURE]: SURGICAL SECTION INJECTION
+# We find the dependencies header and inject psutil exactly where 
+# the Laws of TOML demand, warded by an idempotency check.
+
+# 1. Target Legacy Poetry Blocks
+pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*psutil))/$1\npsutil = \"^5.9.0\"/g"
+
+# 2. Target Modern PEP 621 Blocks
+pyproject.toml ~= "s/(\[project.dependencies\](?!.*psutil))/$1\n    \"psutil>=5.9.0\",/g"
+@endif
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
     proclaim: "The [bold cyan]Python Metabolism Toolkit[/] is manifest."
     proclaim: "Sensory Locus: [white]core/system/metabolism.py[/]"
     
-    # 1. Dependency Summoning
-    proclaim: "Phase I: Summoning the Metabolic artisans... (psutil)"
-    >> poetry add psutil
+    # 1. Dependency Synchronization
+    @if {{ has_poetry }}:
+        proclaim: "Phase I: Synchronizing manifest with Poetry..."
+        >> poetry add psutil
+    @else:
+        proclaim: "Phase I: Standardizing substrate via pip..."
+        >> pip install psutil
+    @endif
     ?? succeeds
     
     # 2. Final Proclamation
@@ -107,3 +172,4 @@ psutil = "^5.9.0"
 
 %% on-heresy
     proclaim: "[bold red]Metabolism materialization fractured.[/bold red]"
+    rm -rf src/{{ package_name }}/core/system/metabolism.py
