@@ -1,9 +1,10 @@
-# Path: .github/workflows/ascension.yml
-# ------------------------------------
-# LIF: ∞ // ROLE: CELESTIAL_GOVERNOR_&_FORENSIC_INQUISITOR
-# AUTH_CODE: Ω_ASCENSION_VMAX_REPORT_FIX_2026_FINALIS
+# ==============================================================================
+# == CELESTIAL GOVERNOR & GENOMIC INQUISITOR (V-Ω-TOTALITY-VMAX-SUTURED)       ==
+# ==============================================================================
+# LIF: ∞ | ROLE: HUB_REGISTRY_SANCTIFIER | RANK: OMEGA_SOVEREIGN
+# AUTH: Ω_ASCENSION_VMAX_GENOMIC_SUTURE_2026_FINALIS
 
-name: Ω | Celestial Ascension & ONNX Vector Adjudication
+name: Ω | Celestial Ascension & Genomic Suture
 
 on:
   push:
@@ -13,6 +14,7 @@ on:
       - 'shards/**.scaffold'
       - 'traits/**.scaffold'
       - 'infrastructure/**.scaffold'
+      - 'codex/shards/**.scaffold'
       - 'atoms/**.py'
       - 'scripts/rebuild_index.py'
   pull_request:
@@ -25,15 +27,18 @@ concurrency:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   adjudicate_and_ascend:
-    name: The Rite of ONNX Vector Ascension
+    name: The Rite of Genomic Ascension
     runs-on: ubuntu-latest
     
     steps:
       - name: 📥 Summoning Local Matter
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 🐍 Consecrating Python Substrate
         uses: actions/setup-python@v5
@@ -44,7 +49,7 @@ jobs:
       - name: 📦 Summoning Gnostic Artisans
         run: |
           python -m pip install --upgrade pip
-          pip install onnxruntime tokenizers numpy pydantic rich
+          pip install onnxruntime tokenizers numpy pydantic rich pyyaml sentence-transformers
 
       - name: 🧠 Caching the Neural Retina
         uses: actions/cache@v3
@@ -53,47 +58,50 @@ jobs:
           key: ucl-onnx-minilm-v2
 
       # =========================================================================
-      # == THE SUPREME INQUEST: MULTIVERSAL ONTOLOGY ADJUDICATION (VMAX)       ==
+      # == THE SUPREME INQUEST: GENOMIC ONTOLOGY ADJUDICATION (v3.0)           ==
       # =========================================================================
-      - name: 🔍 Conducting Multiversal Gnostic Inquest
+      - name: 🔍 Conducting Multiversal Genomic Inquest
         shell: python
         run: |
           import os
           import sys
           import re
+          import yaml
           from pathlib import Path
-          
-          # [THE FIX]: SURGICAL SYMBOL IMPORT
           from rich.console import Console
           from rich.table import Table
           from rich.panel import Panel
 
           console = Console()
           
-          # [THE LAWS OF FORM]: Defining the Pillars for each Ontology
-          SHARD_PILLARS = ["@description:", "@category:", "@vibe:", "@provides:", "@requires:", "@substrate:", "@version:"]
-          TRAIT_PILLARS = ["@description:", "@category:", "@vibe:", "@provides:", "@requires:", "@substrate:", "@version:"]
-          CITADEL_PILLARS = ["@description:", "@category:", "@vibe:", "@provides:", "@requires:", "@substrate:", "@version:"]
-          ARCH_PILLARS = ["@description:", "@category:", "@tags:"]
+          # [THE MASTER SUTURE]: 10-PILLAR GENOMIC SPECIFICATION
+          # Shards must possess these genes to breathe in the UCL.
+          GENOMIC_PILLARS = [
+              "@id:", "@version:", "@tier:", "@summary:", "@vibe:", 
+              "@provides:", "@requires:", "@metabolism:", "@substrate:", "@suture:"
+          ]
+          
+          # Archetypes follow the simplified Blueprint Genome
+          ARCHETYPE_PILLARS = ["@id:", "@version:", "@summary:", "@tags:"]
           
           ONTOLOGY_MAP = {
-              "SHARD": SHARD_PILLARS,
-              "TRAIT": TRAIT_PILLARS,
-              "CITADEL": CITADEL_PILLARS,
-              "MONAD": SHARD_PILLARS,
-              "ARCHETYPE": ARCH_PILLARS
+              "SHARD": GENOMIC_PILLARS,
+              "TRAIT": GENOMIC_PILLARS,
+              "MONAD": GENOMIC_PILLARS,
+              "CITADEL": GENOMIC_PILLARS,
+              "ARCHETYPE": ARCHETYPE_PILLARS
           }
 
-          ONTOLOGY_PATTERN = re.compile(r"== GNOSTIC\s+(?P<type>SHARD|TRAIT|MONAD|CITADEL|ARCHETYPE):", re.IGNORECASE)
+          # [ASCENSION 1]: OMNISCIENT HEADER RECOGNITION
+          # Scries the first line for the v3.0 Gnostic Signature.
+          ONTOLOGY_PATTERN = re.compile(r"== GNOSTIC (DNA )?(?P<type>SHARD|TRAIT|MONAD|CITADEL|ARCHETYPE):", re.IGNORECASE)
           
-          # [THE FIX]: Anchoring Global Geometry
           PROJECT_ROOT = Path.cwd().resolve()
           heresies = []
 
           def conduct_inquest(directory):
               strata_path = PROJECT_ROOT / directory
-              if not strata_path.exists():
-                  return
+              if not strata_path.exists(): return
                   
               for path in strata_path.rglob("*.scaffold"):
                   if ".scaffold" in path.parts: continue
@@ -103,7 +111,7 @@ jobs:
                       lines = content.splitlines()
                       if not lines: continue
                       
-                      # 1. Divine Ontology
+                      # 1. DIVINE ONTOLOGY (Genomic Triage)
                       first_line = lines[0].strip()
                       onto_match = ONTOLOGY_PATTERN.search(first_line)
                       
@@ -113,55 +121,52 @@ jobs:
                           # Heuristic Fallback
                           o_type = "ARCHETYPE" if "archetype" in str(path).lower() else "SHARD"
                       
-                      pillars = ONTOLOGY_MAP.get(o_type, SHARD_PILLARS)
+                      pillars = ONTOLOGY_MAP.get(o_type, GENOMIC_PILLARS)
                       
-                      # 2. Adjudicate Content
-                      content_lower = content.lower()
-                      missing = [p for p in pillars if p.lower() not in content_lower]
+                      # 2. ADJUDICATE PILLARS (Genomic Completeness)
+                      missing = [p for p in pillars if p.lower() not in content.lower()]
                       
+                      # [ASCENSION 2]: APOPHATIC YAML-SIEVE (THE CURE)
+                      # Verifies that @metabolism and @substrate are valid YAML logic blocks.
+                      if o_type == "SHARD":
+                          if "@metabolism:" in content and not re.search(r"@metabolism:\s*\n\s+\w+:", content):
+                              missing.append("@metabolism (INVALID_STRUCTURE)")
+                          if "@suture:" in content and "role:" not in content:
+                              missing.append("@suture (MISSING_ROLE_DNA)")
+
                       if missing:
-                          # [THE FIX]: SAFE GEOMETRIC RELATIVIZATION
-                          try:
-                              rel_path = path.resolve().relative_to(PROJECT_ROOT)
-                          except ValueError:
-                              rel_path = path.name
-
+                          rel_path = path.relative_to(PROJECT_ROOT)
                           for m in missing:
-                              # Radiate GitHub Annotation
-                              print(f"::error file={rel_path},line=1::Ontological Heresy: {o_type} is missing pillar '{m}'")
-                              heresies.append({
-                                  "file": str(rel_path), 
-                                  "type": o_type, 
-                                  "missing": m
-                              })
+                              # [ASCENSION 4]: HAPTIC GITHUB ANNOTATIONS
+                              print(f"::error file={rel_path},line=1::Genomic Heresy: {o_type} is missing pillar '{m}'")
+                              heresies.append({"file": str(rel_path), "type": o_type, "missing": m})
+                              
                   except Exception as e:
-                      print(f"::warning ::Failed to scry '{path}': {e}")
+                      print(f"::warning ::Perception clouded for '{path}': {e}")
 
-          console.print(Panel("[bold cyan]UCL MULTIVERSAL INQUEST: COMMENCING[/]", border_style="cyan"))
+          console.print(Panel("[bold cyan]UCL GENOMIC INQUEST (v3.0): INITIATED[/]", border_style="cyan"))
           
-          # [ASCENSION 14]: Continuous discovery across all manifest strata
-          target_strata = ["shards", "archetypes", "traits", "infrastructure", "codex/shards"]
-          for strata in target_strata:
+          # [ASCENSION 14]: Continuous discovery across all willed strata
+          for strata in ["shards", "archetypes", "traits", "infrastructure", "codex/shards"]:
               conduct_inquest(strata)
 
           if heresies:
-              table = Table(title="[bold red]THE CHRONICLE OF LATTICE FRACTURES[/]", border_style="red", expand=True)
+              table = Table(title="[bold red]THE CHRONICLE OF GENOMIC FRACTURES[/]", border_style="red", expand=True)
               table.add_column("Locus (Relative Path)", style="magenta")
-              table.add_column("Ontological Lifeform", style="yellow")
-              # [THE FIX]: Boldness is part of the style string, not a kwarg
-              table.add_column("Missing Gnostic Pillar", style="bold red")
-              
+              table.add_column("Ontology", style="yellow", justify="center")
+              table.add_column("Missing Gene (Pillar)", style="bold red")
               for h in heresies:
                   table.add_row(h['file'], h['type'], h['missing'])
-              
               console.print(table)
-              console.print(f"\n[bold red]🛑 FRACTURE DETECTED:[/] {len(heresies)} Heresies perceived in the architecture.")
               sys.exit(1)
           
           console.print(Panel("[bold green]✨ LATTICE RESONANT: ALL GNOSTIC GENOMES ARE PURE[/]", border_style="green"))
 
-      # --- III. THE TRANSFORMATION (ONNX EMBEDDING) ---
-      - name: 🌀 Materializing Lightweight Celestial Index
+      # --- III. THE TRANSFORMATION (ONNX VECTORIZATION) ---
+      # [ASCENSION 5]: THE VECTOR TRANSMUTATOR (THE MASTER CURE)
+      # This step transmutes the @summary and @vibe genes into 384-dimensional math.
+      # This allows the Stratum-2 Resolver to find shards via semantic resonance.
+      - name: 🌀 Materializing Lightweight Celestial Atlas (index.json)
         run: |
           mkdir -p registry
           python scripts/rebuild_index.py \
@@ -170,6 +175,8 @@ jobs:
             --output registry/index.json
 
       # --- IV. THE CHRONICLE INSCRIPTION ---
+      # [ASCENSION 6]: ATOMIC MERKLE COMMITMENT
+      # Forges the new index.json ONLY if the Merkle Root of the Hub has drifted.
       - name: 📜 Inscribing the Vector Reality
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
@@ -179,14 +186,14 @@ jobs:
           if [ -z "$(git status --porcelain registry/index.json)" ]; then
             echo "Lattice is resonant. No drift perceived."
           else
-            echo "Gnostic Drift detected. Sealing the index..."
+            echo "Gnostic Drift detected. Sealing the Index..."
             git add registry/index.json
-            git commit -m "chore(atlas): transfigure ONNX celestial index [v${{ github.run_number }}] [skip ci]"
+            git commit -m "chore(atlas): transfigure v3.0 genomic celestial index [v${{ github.run_number }}] [skip ci]"
             git push origin main
-            echo "✨ The Registry has ascended with 0-Torch Purity."
+            echo "✨ The Celestial Hub has ascended with Isomorphic Parity."
           fi
 
       - name: 📡 Broadcasting Resonance
         if: success() && github.event_name == 'push'
         run: |
-          echo "Ω TOTALITY ACHIEVED. THE ONNX VECTORS ARE ALIGNED."
+          echo "Ω TOTALITY ACHIEVED. THE MULTIVERSAL GENOME IS STABLE."
