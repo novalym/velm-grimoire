@@ -1,20 +1,29 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ELASTIC SENTRY (V-Ω-TOTALITY-V2.5-GOVERNOR)               ==
+# == GNOSTIC DNA SHARD: infrastructure/elastic-sentry
 # ==============================================================================
-# @description: Materializes an autonomic observability and scaling citadel. 
-#               Integrates Traefik, Prometheus, and Grafana with a Pythonic 
-#               Governor that scales services based on real-time metabolic load.
-# @category: Infrastructure / Autonomics
-# @vibe: autoscaling, governor, sentry, traefik, prometheus, grafana, autonomic
-# @provides: [autonomic-scaling-authority, observability-citadel, metabolic-governor]
-# @requires: [docker-swarm-substrate, pydantic-settings, python-core]
-# @substrate: docker-compose
-# @version: 2.5.0-Ω
-# @LIF: INFINITY
+# @id:           infrastructure/elastic-sentry
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Autonomic governor that scales Docker services based on Prometheus metrics and latency thresholds.
+# @vibe:         [prometheus, grafana, auto-scaling, traefik, governor, sentry, infrastructure]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:auto-scaling, capability:monitoring-governor]
+# @requires:     [capability:docker-engine, capability:monitoring-stack]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      [] # Dependencies managed internally by Governor Dockerfile
+#   env:         ["MAX_REPLICAS", "LATENCY_THRESHOLD"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "governor": { "build": "infra/monitoring/governor" }, "traefik": { "image": "traefik:v3.0" } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-compose"
+#   priority:    970
+#   alias:       "elastic_sentry"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ project_slug = {{ project_slug | default('nebula-stack') }}
 $$ service_name = {{ service_name | default("api") }} 
 $$ max_replicas = {{ max_replicas | default(5) }}
@@ -28,7 +37,6 @@ $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 infra/monitoring/
     # [ASCENSION 2]: THE INGRESS GATEKEEPER (Traefik)
-    # The self-discovering proxy that anchors the mesh.
     traefik/
         traefik.yml :: """
         # == Traefik Gnostic Constitution ==
@@ -66,7 +74,6 @@ infra/monitoring/
               - targets: ['localhost:9090']
 
           # [ASCENSION 10]: The Recursive Gaze
-          # Scries the target service, assuming it radiates /metrics.
           - job_name: '{{ service_name }}'
             metrics_path: '/metrics'
             static_configs:
@@ -74,7 +81,6 @@ infra/monitoring/
         """
 
     # [ASCENSION 4]: THE AUTONOMIC GOVERNOR (The Brain)
-    # The sentient core of the elastic response.
     governor/
         Dockerfile.governor :: """
         FROM python:3.12-slim-bookworm
@@ -153,7 +159,6 @@ networks:
 """
 
 # --- IV. THE CONTROL PLANE (Makefile Integration) ---
-# [ASCENSION 9]: Global Conductor Suture
 Makefile += """
 
 # --- SENTINEL RITES ---
@@ -170,23 +175,16 @@ sentry-logs: ## gaze upon the chronicles of the Governor
 """
 
 # --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Elastic Sentry Citadel[/bold cyan] is materializing."
     proclaim: "Governor Locus: [white]infra/monitoring/governor/governor.py[/]"
     
-    # 1. Initialize the Sanctums
-    proclaim: "Forging the Monitoring Sanctums..."
-    >> mkdir -p infra/monitoring/traefik
-    >> mkdir -p infra/monitoring/prometheus
-    >> mkdir -p infra/monitoring/governor
+    >> mkdir -p infra/monitoring/traefik infra/monitoring/prometheus infra/monitoring/governor
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]INFINITY (Manual Scaling -> 0)[/]"
     proclaim: "[bold green]✅ The System is now Elastic.[/bold green] Your infrastructure has a nervous system."
     proclaim: "To ignite the Sentry: [bold cyan]make sentry-up[/bold cyan]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
     proclaim: "[bold red]Sentry materialization fractured.[/bold red] Reality remains static."
-    rm -rf infra/monitoring/ docker-compose.sentry.yml
+    >> rm -rf infra/monitoring/ docker-compose.sentry.yml

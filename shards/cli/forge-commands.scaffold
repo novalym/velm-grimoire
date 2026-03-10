@@ -20,7 +20,7 @@
 #   priority:    500
 #   alias:       "forge_cli"
 # ==============================================================================
-#
+
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ project_slug = {{ project_slug | default("omega-cli") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
