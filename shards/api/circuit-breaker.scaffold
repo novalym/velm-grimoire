@@ -17,6 +17,8 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["FAILURE_THRESHOLD", "HEALING_TIMEOUT", "RESILIENCE_LOG_LEVEL"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    3

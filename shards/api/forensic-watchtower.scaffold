@@ -17,6 +17,8 @@
 #   python:      ["fastapi>=0.109.0", "pydantic>=2.6.0"]
 #   env:         ["FORENSIC_LOG_CHANNEL", "SCAFFOLD_TRACE_ID"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    5

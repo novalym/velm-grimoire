@@ -17,6 +17,8 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["SCAFFOLD_INTERNAL_KEY", "LEDGER_RETENTION_DAYS"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    0

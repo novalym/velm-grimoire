@@ -17,6 +17,8 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["EVENT_BUS_LOG_LEVEL", "DLQ_RETENTION_COUNT"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        lifecycle-pulse
 #   priority:    1

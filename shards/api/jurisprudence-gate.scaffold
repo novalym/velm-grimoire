@@ -17,6 +17,8 @@
 #   python:      ["fastapi>=0.109.0", "pydantic>=2.6.0"]
 #   env:         ["ENFORCE_STRICT_MIME", "MAX_PAYLOAD_SIZE_MB"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    10

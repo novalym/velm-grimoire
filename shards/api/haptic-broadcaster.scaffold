@@ -17,6 +17,8 @@
 #   python:      ["fastapi>=0.109.0"]
 #   env:         ["HUD_ACCENT_COLOR", "HAPTIC_INTENSITY"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    1000

@@ -17,6 +17,8 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["SCAFFOLD_CHAOS_SECRET", "CHAOS_LOG_LEVEL"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    4

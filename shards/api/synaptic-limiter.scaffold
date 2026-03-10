@@ -17,6 +17,8 @@
 #   python:      ["redis>=5.0.1"]
 #   env:         ["RATE_LIMIT_RPM", "REDIS_URL", "LIMITER_WINDOW"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    2

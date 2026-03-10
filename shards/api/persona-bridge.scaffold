@@ -17,6 +17,8 @@
 #   python:      ["fastapi>=0.109.0", "pydantic>=2.6.0"]
 #   env:         ["DEFAULT_PERSONA_MASK", "STRICT_PERSONA_ENFORCEMENT"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    50

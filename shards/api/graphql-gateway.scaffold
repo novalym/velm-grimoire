@@ -17,6 +17,8 @@
 #   python:      ["strawberry-graphql[fastapi]>=0.219.0"]
 #   env:         ["GRAPHQL_PATH", "MAX_QUERY_COMPLEXITY"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        fastapi-router
 #   priority:    20

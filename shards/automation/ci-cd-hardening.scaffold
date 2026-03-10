@@ -14,7 +14,7 @@
 #   python:      ["pytest>=8.0.0", "pytest-cov>=4.1.0", "ruff>=0.3.0", "mypy>=1.8.0", "bandit>=1.7.7"]
 #   env:         ["CODECOV_TOKEN"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "github-actions-pipeline"

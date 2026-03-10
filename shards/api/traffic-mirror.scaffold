@@ -16,6 +16,8 @@
 #   python:      ["httpx>=0.27.0"]
 #   env:         ["SHADOW_TARGET_URL", "MIRROR_TIMEOUT"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    1000

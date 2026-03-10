@@ -17,6 +17,8 @@
 #   python:      ["fastapi>=0.109.0", "pydantic>=2.6.0"]
 #   env:         ["TENANT_HEADER_NAME", "STRICT_TENANCY_ENFORCEMENT"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        dependency-provider
 #   priority:    10

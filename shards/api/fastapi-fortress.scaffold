@@ -16,6 +16,8 @@
 #   python:      ["fastapi>=0.109.0", "uvicorn[standard]>=0.27.0", "loguru>=0.7.0"]
 #   env:         ["DEBUG", "PORT", "SCAFFOLD_ENV"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        fastapi-heart
 #   priority:    1

@@ -17,6 +17,8 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["STRICT_SCHEMA_VALIDATION"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        schema-authority
 #   priority:    10

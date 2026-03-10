@@ -17,6 +17,8 @@
 #   python:      ["psutil>=5.9.0"]
 #   env:         ["CPU_THRESHOLD", "METABOLIC_CHECK_INTERVAL"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        middleware-shield
 #   priority:    1

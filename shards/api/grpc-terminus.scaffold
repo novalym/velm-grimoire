@@ -17,6 +17,8 @@
 #   python:      ["grpcio>=1.62.0", "grpcio-reflection>=1.62.0"]
 #   env:         ["GRPC_PORT", "MAX_RPC_WORKERS", "GRPC_GRACE_PERIOD"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        lifecycle-pulse
 #   priority:    5

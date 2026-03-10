@@ -14,7 +14,7 @@
 #   python:      ["cryptography>=42.0.0", "pydantic-settings>=2.2.0"]
 #   env:         ["SCAFFOLD_ENCRYPTION_KEYS", "SCAFFOLD_BLIND_INDEX_PEPPER"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "crypto-module"
