@@ -22,7 +22,7 @@
 #   priority:    1
 #   alias:       "event_bus"
 # ==============================================================================
-
+#
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 

@@ -1,8 +1,8 @@
 # ==============================================================================
-# == CELESTIAL GOVERNOR & GENOMIC INQUISITOR (V-Ω-TOTALITY-VMAX-SUTURED)       ==
+# == CELESTIAL GOVERNOR & GENOMIC INQUISITOR (V-Ω-TOTALITY-V3.2-0-TORCH)       ==
 # ==============================================================================
-# LIF: ∞ | ROLE: HUB_REGISTRY_SANCTIFIER | RANK: OMEGA_SOVEREIGN
-# AUTH: Ω_ASCENSION_VMAX_GENOMIC_SUTURE_2026_FINALIS
+# LIF: ∞^2 | ROLE: HUB_REGISTRY_SANCTIFIER | RANK: OMEGA_SOVEREIGN
+# AUTH: Ω_ASCENSION_VMAX_ABSOLUTE_ALIGNMENT_2026_FINALIS
 
 name: Ω | Celestial Ascension & Genomic Suture
 
@@ -46,10 +46,12 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      # [ASCENSION 2 - THE CURE]: 0-TORCH METABOLISM SUTURE
+      # We no longer summon the heavy 'sentence-transformers'.
       - name: 📦 Summoning 0-Torch Artisans
         run: |
           python -m pip install --upgrade pip
-          pip install onnxruntime tokenizers numpy pydantic rich pyyaml sentence-transformers
+          pip install onnxruntime tokenizers numpy pydantic rich pyyaml
 
       - name: 🧠 Caching the Neural Retina
         uses: actions/cache@v3
@@ -58,7 +60,7 @@ jobs:
           key: ucl-onnx-minilm-v6-quantized
 
       # =========================================================================
-      # == THE SUPREME INQUEST: GENOMIC ONTOLOGY ADJUDICATION (v3.0)           ==
+      # == THE SUPREME INQUEST: GENOMIC ONTOLOGY ADJUDICATION (V3.2)           ==
       # =========================================================================
       - name: 🔍 Conducting Multiversal Genomic Inquest
         shell: python
@@ -74,7 +76,8 @@ jobs:
 
           console = Console()
           
-          # [THE MASTER SUTURE]: 10-PILLAR GENOMIC SPECIFICATION
+          # [ASCENSION 1 - THE CURE]: GNOSTIC UNIFICATION V3.2
+          # The pillars now match the v3.0 Specification with 100% fidelity.
           GENOMIC_PILLARS = [
               "@id:", "@version:", "@tier:", "@summary:", "@vibe:", 
               "@provides:", "@requires:", "@metabolism:", "@substrate:", "@suture:"
@@ -95,13 +98,7 @@ jobs:
           PROJECT_ROOT = Path.cwd().resolve()
           heresies = []
 
-          # =========================================================================
-          # == THE CURE: THE LUMINOUS SUTURE V3.1 (COMMENT-AWARE)                  ==
-          # =========================================================================
-          # This regex now perceives the optional '#' and whitespace, ensuring it
-          # can validate the YAML structure WITHIN the Gnostic comment block.
           METABOLISM_STRUCTURE_PATTERN = re.compile(r"(?:#\s*)?@metabolism:\s*\n(?:#\s*)?\s+\w+:")
-          # =========================================================================
 
           def conduct_inquest(directory):
               strata_path = PROJECT_ROOT / directory
@@ -124,7 +121,6 @@ jobs:
                       content_lower = content.lower()
                       missing = [p for p in pillars if p.lower() not in content_lower]
                       
-                      # [THE HEALED SIEVE]: Using the new, ascended pattern.
                       if o_type == "SHARD":
                           if "@metabolism:" in content and not METABOLISM_STRUCTURE_PATTERN.search(content):
                               missing.append("@metabolism (INVALID_STRUCTURE)")
@@ -140,7 +136,7 @@ jobs:
                   except Exception as e:
                       print(f"::warning ::Perception clouded for '{path}': {e}")
 
-          console.print(Panel("[bold cyan]0-TORCH GENOMIC INQUEST (v3.1): INITIATED[/]", border_style="cyan"))
+          console.print(Panel("[bold cyan]0-TORCH GENOMIC INQUEST (v3.2): INITIATED[/]", border_style="cyan"))
           
           for strata in ["shards", "archetypes", "traits", "infrastructure", "codex/shards"]:
               conduct_inquest(strata)
@@ -158,6 +154,8 @@ jobs:
           console.print(Panel("[bold green]✨ LATTICE RESONANT: ALL GNOSTIC GENOMES ARE PURE[/]", border_style="green"))
 
       # --- III. THE TRANSFORMATION (ONNX VECTORIZATION) ---
+      # [ASCENSION 3 - THE CURE]: THE ISOMORPHIC ENGINE SUTURE
+      # We explicitly command the Scribe to use the ONNX Engine.
       - name: 🌀 Materializing 0-Torch Celestial Atlas (index.json)
         run: |
           mkdir -p registry
@@ -179,7 +177,7 @@ jobs:
           else
             echo "Gnostic Drift detected. Sealing the Index..."
             git add registry/index.json
-            git commit -m "chore(atlas): transfigure v3.1 comment-aware index [v${{ github.run_number }}] [skip ci]"
+            git commit -m "chore(atlas): transfigure v3.2 0-torch genomic index [v${{ github.run_number }}] [skip ci]"
             git push origin main
             echo "✨ The Celestial Hub has ascended with Isomorphic Parity."
           fi
