@@ -16,7 +16,7 @@ unmanifest, it righteously materializes it from the Aether JIT.
 It guarantees 384-dimensional vector resonance with 0-Torch purity.
 =================================================================================
 """
-
+import collections
 import json
 import os
 import sys
