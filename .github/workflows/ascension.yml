@@ -1,10 +1,10 @@
 # ==============================================================================
-# == CELESTIAL GOVERNOR & GENOMIC INQUISITOR (V-Ω-TOTALITY-V3.3-SELECTIVE)     ==
+# == CELESTIAL GOVERNOR & GENOMIC INQUISITOR (V-Ω-0-TORCH-TOTALITY)            ==
 # ==============================================================================
-# LIF: ∞^2 | ROLE: HUB_REGISTRY_SANCTIFIER | RANK: OMEGA_SOVEREIGN
-# AUTH: Ω_ASCENSION_VMAX_STRATEGIC_ADJUDICATION_2026_FINALIS
+# LIF: ∞ | ROLE: HUB_REGISTRY_SANCTIFIER | RANK: OMEGA_SOVEREIGN
+# AUTH: Ω_ASCENSION_VMAX_0_TORCH_2026_FINALIS
 
-name: Ω | Celestial Ascension & Genomic Suture
+name: Ω | Celestial Ascension & 0-Torch Vector Suture
 
 on:
   push:
@@ -31,7 +31,7 @@ permissions:
 
 jobs:
   adjudicate_and_ascend:
-    name: The Rite of Genomic Ascension
+    name: The Rite of 0-Torch Ascension
     runs-on: ubuntu-latest
     
     steps:
@@ -46,6 +46,9 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      # [ASCENSION 1 - THE CURE]: 0-TORCH METABOLISM
+      # We physically banish 'torch' and 'sentence-transformers'.
+      # We only summon the leanest artisans for ONNX inference.
       - name: 📦 Summoning 0-Torch Artisans
         run: |
           python -m pip install --upgrade pip
@@ -58,7 +61,7 @@ jobs:
           key: ucl-onnx-minilm-v6-quantized
 
       # =========================================================================
-      # == THE SUPREME INQUEST: GENOMIC ONTOLOGY ADJUDICATION (V3.3)           ==
+      # == THE SUPREME INQUEST: GENOMIC ONTOLOGY ADJUDICATION (v3.4)           ==
       # =========================================================================
       - name: 🔍 Conducting Multiversal Genomic Inquest
         id: inquest
@@ -75,27 +78,31 @@ jobs:
 
           console = Console()
           
-          # [THE GNOSTIC LAW V3.2]
+          # [THE MASTER SUTURE]: 10-PILLAR GENOMIC SPECIFICATION
           GENOMIC_PILLARS = [
               "@id:", "@version:", "@tier:", "@summary:", "@vibe:", 
               "@provides:", "@requires:", "@metabolism:", "@substrate:", "@suture:"
           ]
+          # Archetypes follow a separate, non-enforced track in this ascension
           ARCHETYPE_PILLARS = ["@id:", "@version:", "@summary:", "@tags:"]
           
           ONTOLOGY_MAP = {
-              "SHARD": GENOMIC_PILLARS, "TRAIT": GENOMIC_PILLARS,
-              "MONAD": GENOMIC_PILLARS, "CITADEL": GENOMIC_PILLARS,
+              "SHARD": GENOMIC_PILLARS,
+              "TRAIT": GENOMIC_PILLARS,
+              "MONAD": GENOMIC_PILLARS,
+              "CITADEL": GENOMIC_PILLARS,
               "ARCHETYPE": ARCHETYPE_PILLARS
           }
 
+          # [THE FIX]: Scan first 20 lines for the signature (Bypass borders)
           ONTOLOGY_PATTERN = re.compile(r"== GNOSTIC (DNA )?(?P<type>SHARD|TRAIT|MONAD|CITADEL|ARCHETYPE):", re.IGNORECASE)
           PROJECT_ROOT = Path.cwd().resolve()
           
-          # [THE BICAMERAL LEDGER]: We now track critical vs. advisory heresies.
           critical_heresies = []
           advisory_heresies = []
 
-          METABOLISM_STRUCTURE_PATTERN = re.compile(r"(?:#\s*)?@metabolism:\s*\n(?:#\s*)?\s+\w+:")
+          # [THE FIX]: Flexible Comment-Aware Regex
+          METABOLISM_PATTERN = re.compile(r"(?:#\s*)?@metabolism:\s*\n(?:#\s*)?\s+\w+:")
 
           def conduct_inquest(directory):
               strata_path = PROJECT_ROOT / directory
@@ -108,63 +115,72 @@ jobs:
                       content = path.read_text(encoding='utf-8', errors='ignore')
                       if not content.strip(): continue
                       
-                      first_line = content.splitlines()[0].strip()
-                      onto_match = ONTOLOGY_PATTERN.search(first_line)
+                      # [THE CURE]: Deep Header Search (Top 20 lines)
+                      lines = content.splitlines()
+                      o_type = None
+                      for line in lines[:20]:
+                          match = ONTOLOGY_PATTERN.search(line)
+                          if match:
+                              o_type = match.group("type").upper()
+                              break
                       
-                      o_type = onto_match.group("type").upper() if onto_match else ("ARCHETYPE" if "archetype" in str(path).lower() else "SHARD")
+                      if not o_type:
+                          o_type = "ARCHETYPE" if "archetype" in str(path).lower() else "SHARD"
                       
                       pillars = ONTOLOGY_MAP.get(o_type, GENOMIC_PILLARS)
                       content_lower = content.lower()
-                      missing = [p for p in pillars if p.lower() not in content_lower]
                       
+                      # [THE FIX]: Surgical Pillar Presence Check
+                      missing = []
+                      for p in pillars:
+                          if p.lower() not in content_lower:
+                              missing.append(p)
+                      
+                      # [THE FIX]: Verify Shard-specific structure
                       if o_type == "SHARD":
-                          if "@metabolism:" in content and not METABOLISM_STRUCTURE_PATTERN.search(content):
-                              missing.append("@metabolism (INVALID_STRUCTURE)")
-                          if "@suture:" in content and "role:" not in content:
+                          if "@metabolism:" in content and not METABOLISM_PATTERN.search(content):
+                              missing.append("@metabolism (INVALID_YAML_STRUCTURE)")
+                          if "@suture:" in content and "role:" not in content_lower:
                               missing.append("@suture (MISSING_ROLE_DNA)")
 
                       if missing:
                           rel_path = path.relative_to(PROJECT_ROOT)
-                          heresy_record = {"file": str(rel_path), "type": o_type, "missing": ", ".join(missing)}
-
-                          # =============================================================
-                          # == [THE CURE]: THE RITE OF SELECTIVE ADJUDICATION          ==
-                          # =============================================================
-                          # Shards are CRITICAL. Archetypes are ADVISORY.
+                          h_record = {"file": str(rel_path), "type": o_type, "missing": ", ".join(missing)}
+                          
                           if o_type == "ARCHETYPE":
-                              print(f"::warning file={rel_path},line=1::Advisory Heresy: {o_type} is missing pillars: {', '.join(missing)}")
-                              advisory_heresies.append(heresy_record)
+                              print(f"::warning file={rel_path},line=1::Advisory Heresy: Archetype is evolving. Missing: {h_record['missing']}")
+                              advisory_heresies.append(h_record)
                           else:
-                              print(f"::error file={rel_path},line=1::Critical Heresy: {o_type} is missing pillars: {', '.join(missing)}")
-                              critical_heresies.append(heresy_record)
-
+                              print(f"::error file={rel_path},line=1::Critical Heresy: {o_type} is missing pillars: {h_record['missing']}")
+                              critical_heresies.append(h_record)
+                              
                   except Exception as e:
                       print(f"::warning ::Perception clouded for '{path}': {e}")
 
-          console.print(Panel("[bold cyan]0-TORCH GENOMIC INQUEST (v3.3 - SELECTIVE ADJUDICATION): INITIATED[/]", border_style="cyan"))
+          console.print(Panel("[bold cyan]0-TORCH GENOMIC INQUEST (v3.4): INITIATED[/]", border_style="cyan"))
           
           for strata in ["shards", "archetypes", "traits", "infrastructure", "codex/shards"]:
               conduct_inquest(strata)
 
+          if critical_heresies:
+              table = Table(title="[bold red]CRITICAL GENOMIC FRACTURES (SHARDS)[/]", border_style="red", expand=True)
+              table.add_column("Locus", style="magenta")
+              table.add_column("Type", style="yellow", justify="center")
+              table.add_column("Missing Pillars", style="bold red")
+              for h in critical_heresies:
+                  table.add_row(h['file'], h['type'], h['missing'])
+              console.print(table)
+              sys.exit(1)
+          
           if advisory_heresies:
-              table = Table(title="[bold yellow]ADVISORY LEDGER: Archetype Genomic Drift[/]", border_style="yellow", expand=True)
-              table.add_column("Locus (Archetype)", style="magenta")
-              table.add_column("Missing Gnostic Pillar(s)", style="bold yellow")
+              table = Table(title="[bold yellow]ADVISORY GENOMIC DRIFT (ARCHETYPES)[/]", border_style="yellow", expand=True)
+              table.add_column("Locus", style="magenta")
+              table.add_column("Missing Pillars", style="bold yellow")
               for h in advisory_heresies:
                   table.add_row(h['file'], h['missing'])
               console.print(table)
 
-          if critical_heresies:
-              table = Table(title="[bold red]CRITICAL LEDGER: Shard Genomic Fractures[/]", border_style="red", expand=True)
-              table.add_column("Locus (Shard)", style="magenta")
-              table.add_column("Missing Gene (Pillar)", style="bold red")
-              for h in critical_heresies:
-                  table.add_row(h['file'], h['missing'])
-              console.print(table)
-              console.print(f"\n[bold red]🛑 LATTICE FRACTURE DETECTED:[/] {len(critical_heresies)} critical heresies must be healed.")
-              sys.exit(1)
-          
-          console.print(Panel("[bold green]✨ LATTICE RESONANT: ALL CRITICAL GENOMES ARE PURE[/]", border_style="green"))
+          console.print(Panel("[bold green]✨ LATTICE RESONANT: ALL CORE GENOMES ARE PURE[/]", border_style="green"))
 
       # --- III. THE TRANSFORMATION (ONNX VECTORIZATION) ---
       - name: 🌀 Materializing 0-Torch Celestial Atlas (index.json)
@@ -189,9 +205,9 @@ jobs:
           else
             echo "Gnostic Drift detected. Sealing the Index..."
             git add registry/index.json
-            git commit -m "chore(atlas): transfigure v3.3 0-torch genomic index [v${{ github.run_number }}] [skip ci]"
+            git commit -m "chore(atlas): transfigure v3.4 0-torch genomic index [v${{ github.run_number }}] [skip ci]"
             git push origin main
-            echo "✨ The Celestial Hub has ascended with Isomorphic Parity."
+            echo "✨ The Celestial Hub has ascended with 0-Torch Isomorphic Parity."
           fi
 
       - name: 📡 Broadcasting Resonance

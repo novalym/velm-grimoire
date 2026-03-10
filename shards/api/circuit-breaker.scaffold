@@ -24,7 +24,7 @@
 #   priority:    3
 #   alias:       "breaker"
 # ==============================================================================
-
+#
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ threshold    = {{ failure_threshold | default(5) }}
