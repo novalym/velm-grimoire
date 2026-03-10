@@ -1,17 +1,20 @@
-# Path: packages/velm-grimoire/scripts/rebuild_index.py
+# Path: scripts/rebuild_index.py
 # ---------------------------------------------------
 
 """
 =================================================================================
-== THE MASTER LIBRARIAN (V-Ω-TOTALITY-V500-VECTOR-EMBEDDER)                    ==
+== THE MASTER LIBRARIAN: OMEGA (V-Ω-TOTALITY-V3.0-0-TORCH-VECTOR-FINALIS)      ==
 =================================================================================
-LIF: ∞ | ROLE: CELESTIAL_INDEX_CONDUCTOR | RANK: OMEGA_SUPREME
-AUTH_CODE: @#()@(#()@#)(()!!!!
+LIF: ∞ | ROLE: CELESTIAL_INDEX_CONDUCTOR | RANK: OMEGA_SOVEREIGN
+AUTH: Ω_LIBRARIAN_VMAX_0_TORCH_2026_FINALIS
 
-This divine artisan performs the Rite of the Global Census. It scries the
-Archetypes, Shards, and Atoms, extracts their 7-Pillar Gnostic DNA,
-calculates their High-Dimensional Semantic Vectors using Sentence Transformers,
-and materializes the Master Index for the Deterministic Dream Engine.
+[THE MANIFESTO]
+The supreme definitive authority for Registry materialization. It has been
+transfigured to achieve 0-Torch Purity, utilizing the ONNX Runtime to
+transmute Gnostic DNA into 384-dimensional mathematical souls.
+
+It righteously enforces the v3.0 Genomic Specification, ensuring every
+shard arriving in the Hub is genetically whole.
 =================================================================================
 """
 
@@ -23,15 +26,18 @@ import hashlib
 import re
 import argparse
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple, Set, Final
 
-# --- THE NEURAL UPLINK ---
+# --- THE 0-TORCH NEURAL UPLINK ---
+import numpy as np
+
 try:
-    from sentence_transformers import SentenceTransformer
+    import onnxruntime as ort
+    from tokenizers import Tokenizer
 
-    HAS_TRANSFORMERS = True
+    HAS_NEURAL = True
 except ImportError:
-    HAS_TRANSFORMERS = False
+    HAS_NEURAL = False
 
 # --- THE VISUAL UPLINK ---
 try:
@@ -46,33 +52,57 @@ except ImportError:
 
 
 class MasterLibrarian:
-    """
-    The Sovereign Cartographer and Neural Embedder of the Grimoire.
-    """
+    """The Sovereign Cartographer of the Multiversal Registry."""
 
-    INDEX_VERSION = "3.0.0-VECTOR"
+    # [ASCENSION 3]: v3.0 GENOMIC SPECIFICATION
+    # The 10 Pillars of Gnosis
+    GENOMIC_PILLARS: Final[List[str]] = [
+        "id", "version", "tier", "summary", "vibe",
+        "provides", "requires", "metabolism", "substrate", "suture"
+    ]
 
-    # The 7 Sacred Pillars
-    HEADER_REGEX = re.compile(r"^#\s*@([a-zA-Z0-9_]+):\s*(.*)$")
+    HEADER_REGEX: Final[re.Pattern] = re.compile(r"^#\s*@([a-zA-Z0-9_]+):\s*(.*)$")
 
-    def __init__(self, repo: str, branch: str, output_file: str, vaults: List[str]):
+    def __init__(self, repo: str, branch: str, output_file: str, vaults: List[str], engine: str = "onnx"):
+        """[THE RITE OF INCEPTION]"""
         self.repo = repo
         self.branch = branch
         self.vaults = [Path(v).resolve() for v in vaults]
         self.output_path = Path(output_file).resolve()
+        self.engine = engine
 
         self.console = Console() if HAS_RICH else None
         self.index: List[Dict[str, Any]] = []
         self.heresies: List[str] = []
 
-        # Load the Semantic Cortex (Sentence Transformer)
-        self.model = None
-        if HAS_TRANSFORMERS:
-            self.proclaim("Awakening the Neural Cortex (all-MiniLM-L6-v2)...", "yellow")
-            # 384-dimensional vector space, extremely fast and lightweight
-            self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        # --- MOVEMENT I: NEURAL CORTEX AWAKENING ---
+        self.tokenizer = None
+        self.session = None
+
+        if engine == "onnx" and HAS_NEURAL:
+            self._load_onnx_retina()
         else:
-            self.proclaim("WARNING: SentenceTransformers unmanifest. Vectors will be void.", "bold red")
+            self.proclaim("Engine: LEXICAL (Vector generation deferred).", "yellow")
+
+    def _load_onnx_retina(self):
+        """[ASCENSION 2]: THE 0-TORCH METABOLISM SUTURE."""
+        model_dir = Path.home() / ".scaffold" / "models" / "all-MiniLM-L6-v2"
+
+        try:
+            self.proclaim(f"Awakening 0-Torch Retina: {model_dir.name}", "yellow")
+            self.tokenizer = Tokenizer.from_file(str(model_dir / "tokenizer.json"))
+
+            opts = ort.SessionOptions()
+            opts.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+
+            self.session = ort.InferenceSession(
+                str(model_dir / "model_quantized.onnx"),
+                sess_options=opts,
+                providers=["CPUExecutionProvider"]
+            )
+        except Exception as e:
+            self.proclaim(f"Neural Fracture: {e}. Defaulting to Lexical Mode.", "bold red")
+            self.engine = "lexical"
 
     def proclaim(self, msg: str, style: str = "cyan"):
         if self.console:
@@ -81,12 +111,13 @@ class MasterLibrarian:
             print(f">> {msg}")
 
     def conduct_census(self):
-        """The Grand Rite of the Census and Embedding."""
+        """[THE GRAND RITE OF THE CENSUS]"""
         if self.console:
             self.console.print(Panel(
-                f"Librarian Awakening. Scrying[bold magenta]{self.repo}[/] ({self.branch})\n"
-                f"Vaults: {', '.join([v.name for v in self.vaults])}",
-                title="[bold white]Ω_CELESTIAL_VECTOR_CENSUS[/]",
+                f"Librarian Awakening. Scrying [bold magenta]{self.repo}[/] ({self.branch})\n"
+                f"Engine: [bold green]{self.engine.upper()}[/] | Substrate: [bold blue]0-TORCH[/]\n"
+                f"Vaults: {', '.join([v.name for v in self.vaults if v.exists()])}",
+                title="[bold white]Ω_CELESTIAL_GENOMIC_CENSUS[/]",
                 border_style="cyan"
             ))
 
@@ -94,7 +125,7 @@ class MasterLibrarian:
         for vault in self.vaults:
             if vault.exists():
                 all_shards.extend(list(vault.rglob("*.scaffold")))
-                all_shards.extend(list(vault.rglob("*.py")))  # Capture Atoms
+                all_shards.extend(list(vault.rglob("*.py")))
 
         if HAS_RICH:
             with Progress(
@@ -105,7 +136,7 @@ class MasterLibrarian:
                     console=self.console,
                     transient=True
             ) as progress:
-                task = progress.add_task("[cyan]Extracting DNA & Calculating Vectors...", total=len(all_shards))
+                task = progress.add_task("[cyan]Materializing Genome...", total=len(all_shards))
                 for shard in all_shards:
                     self._perceive_and_embed(shard)
                     progress.update(task, advance=1)
@@ -116,94 +147,134 @@ class MasterLibrarian:
         self._finalize_and_inscribe()
 
     def _perceive_and_embed(self, path: Path):
-        """
-        [THE NEURAL GAZE]
-        Extracts the 7 Pillars and generates the mathematical soul (Vector).
-        """
-        # Determine which vault this belongs to (archetypes, shards, or atoms)
+        """[THE NEURAL GAZE] Extracts DNA and forges the mathematical soul."""
+        # Detect Vault Parent
         vault_parent = next((v for v in self.vaults if str(path).startswith(str(v))), None)
-        if not vault_parent:
-            return
+        if not vault_parent: return
 
         rel_path = path.relative_to(vault_parent.parent).as_posix()
         slug = path.stem
 
         try:
-            content = path.read_text(encoding="utf-8")
+            content = path.read_text(encoding="utf-8", errors='ignore')
+            content = content.replace('\x00', '')  # Null-byte exorcism
 
-            # 1. EXTRACT THE 7 PILLARS
-            dna = self._extract_7_pillars(content, slug)
+            # 1. GENOMIC EXTRACTION
+            dna = self._extract_genome(content, slug)
             dna["file_path"] = rel_path
-            dna["type"] = vault_parent.name  # 'archetypes', 'shards', or 'atoms'
+            dna["tier"] = dna.get("tier", "mind")
 
-            # 2. VALIDATION
-            if not dna.get("description") or not dna.get("vibe"):
-                self.heresies.append(f"Void Pillars in {rel_path}: Missing @description or @vibe.")
-                return  # We do not index profane matter
+            # [THE MASTER SUTURE]: Map Path relative to Hub
+            dna["type"] = "atom" if path.suffix == ".py" else "shard"
+            if "archetype" in str(path).lower(): dna["type"] = "archetype"
 
-            # 3. THE SEMANTIC EMBEDDING (THE MAGIC)
-            # We combine the description and the vibe to create the Semantic String
-            semantic_string = f"{dna['description']} {dna['vibe']}"
+            # 2. VALIDATION OF THE PILLARS
+            if not dna.get("summary") or not dna.get("vibe"):
+                self.heresies.append(f"Genomic Drift in {rel_path}: Missing @summary or @vibe.")
+                return
 
-            if self.model:
-                # Transmute the string into a 384-dimensional mathematical array
-                vector = self.model.encode(semantic_string).tolist()
-                dna["semantic_vector"] = vector
+            # 3. THE 0-TORCH MATH STRIKE (VECTORIZATION)
+            if self.engine == "onnx" and self.session:
+                semantic_string = f"{dna['summary']} {dna['vibe']}"
+                dna["semantic_vector"] = self._embed_onnx(semantic_string)
             else:
                 dna["semantic_vector"] = []
 
             # 4. CHRONICLING
-            hasher = hashlib.sha256(content.encode('utf-8'))
-            dna["sha256"] = hasher.hexdigest()
+            dna["sha256"] = hashlib.sha256(content.encode('utf-8')).hexdigest()
             dna["bytes"] = len(content)
-
-            clean_repo = self.repo.rstrip('/')
-            dna["url"] = f"https://raw.githubusercontent.com/{clean_repo}/{self.branch}/{rel_path}"
+            dna["url"] = f"https://raw.githubusercontent.com/{self.repo.rstrip('/')}/{self.branch}/{rel_path}"
 
             self.index.append(dna)
 
         except Exception as e:
-            self.heresies.append(f"Fracture in {rel_path}: {type(e).__name__} - {str(e)}")
+            self.heresies.append(f"Fracture in {rel_path}: {str(e)}")
 
-    def _extract_7_pillars(self, content: str, slug: str) -> Dict[str, Any]:
-        """Parses the Universal Gnostic Header."""
+    def _embed_onnx(self, text: str) -> List[float]:
+        """
+        =============================================================================
+        == THE ONNX REACTOR (V-Ω-MEAN-POOLING-FINALIS)                             ==
+        =============================================================================
+        Perges the 384-dimensional vector soul without Torch.
+        """
+        # 1. Tokenization
+        encoded = self.tokenizer.encode(text)
+        input_ids = np.array([encoded.ids], dtype=np.int64)
+        attention_mask = np.array([encoded.attention_mask], dtype=np.int64)
+        token_type_ids = np.array([encoded.type_ids], dtype=np.int64)
+
+        # 2. Inference
+        outputs = self.session.run(None, {
+            "input_ids": input_ids,
+            "attention_mask": attention_mask,
+            "token_type_ids": token_type_ids
+        })
+
+        # 3. [THE CURE]: Manual Mean-Pooling
+        token_embeddings = outputs[0]
+        mask = np.expand_dims(attention_mask, -1)
+
+        sum_embeddings = np.sum(token_embeddings * mask, axis=1)
+        sum_mask = np.clip(np.sum(mask, axis=1), a_min=1e-9, a_max=None)
+
+        sentence_embedding = sum_embeddings / sum_mask
+
+        # 4. L2 Normalization
+        norm = np.linalg.norm(sentence_embedding, axis=1, keepdims=True)
+        normalized = (sentence_embedding / norm)[0]
+
+        return normalized.tolist()
+
+    def _extract_genome(self, content: str, slug: str) -> Dict[str, Any]:
+        """[FACULTY 11]: Sovereign Header Sieve."""
         dna = {
             "id": slug,
-            "description": "",
+            "summary": "",
             "category": "System",
             "vibe": "",
             "provides": [],
             "requires": [],
-            "substrate": [],
+            "substrate": {},
+            "metabolism": {},
+            "suture": {},
             "version": "1.0.0"
         }
 
-        lines = content.splitlines()[:50]  # Headers must be at the top
+        # Scan the first 100 lines for the genome
+        lines = content.splitlines()[:100]
         for line in lines:
             match = self.HEADER_REGEX.match(line.strip())
             if match:
                 key, val = match.group(1).lower(), match.group(2).strip()
 
-                if key in ["description", "category", "vibe", "version"]:
+                # [THE FIX]: Support both v2.0 'description' and v3.0 'summary'
+                if key == "description": key = "summary"
+
+                if key in ["summary", "category", "vibe", "version", "tier"]:
                     dna[key] = val
-                elif key in ["provides", "requires", "substrate"]:
-                    # Parse YAML-style arrays: [auth, db]
-                    clean_val = val.strip("[]")
-                    dna[key] = [v.strip().lower() for v in clean_val.split(",") if v.strip()]
+                elif key in ["provides", "requires"]:
+                    dna[key] = [v.strip().lower() for v in val.strip("[]").split(",") if v.strip()]
+                elif key in ["substrate", "metabolism", "suture"]:
+                    # [ASCENSION 3]: Parse JSON/YAML-style fragments in headers
+                    try:
+                        dna[key] = json.loads(val.replace("'", '"'))
+                    except:
+                        dna[key] = {"raw": val}
 
         return dna
 
     def _finalize_and_inscribe(self):
-        """The Rite of Final Inscription."""
+        """[ASCENSION 18]: Atomic Finality."""
         self.index.sort(key=lambda x: x["id"])
 
         manifest = {
-            "version": self.INDEX_VERSION,
+            "version": "3.0.0-UCL-TOTALITY",
             "timestamp": time.time(),
             "repo": self.repo,
             "branch": self.branch,
             "total_shards": len(self.index),
-            "vector_dimensions": 384 if self.model else 0,
+            "engine": self.engine,
+            "vector_dimensions": 384 if self.engine == "onnx" else 0,
             "registry": self.index
         }
 
@@ -215,62 +286,61 @@ class MasterLibrarian:
                 json.dump(manifest, f, indent=2)
 
             os.replace(temp_file, self.output_path)
-
-            if self.console:
-                self._render_final_report()
-            else:
-                print(f"✨ Vector Index Materialized at {self.output_path}")
+            self._render_final_report()
 
         except Exception as e:
             self.proclaim(f"Inscription Paradox: {e}", "bold red")
 
     def _render_final_report(self):
-        table = Table(title="Celestial Vector Census", box=None, expand=True)
-        table.add_column("Type", style="bold magenta")
-        table.add_column("Count", justify="right", style="white")
-        table.add_column("Vectors Embedded", justify="center", style="bold green")
+        if not self.console:
+            print(f"✨ Registry Ascended: {self.output_path}")
+            return
 
-        # Group by Type (Archetype, Shard, Atom)
-        counts = {}
-        for item in self.index:
-            t = item["type"]
-            counts[t] = counts.get(t, 0) + 1
+        table = Table(title="Ω | CELESTIAL ATLAS CONVERGENCE", box=None, expand=True)
+        table.add_column("Locus", style="bold cyan")
+        table.add_column("Mass", justify="right", style="white")
+        table.add_column("Status", justify="center", style="bold green")
 
+        counts = collections.Counter(item["type"] for item in self.index)
         for t, count in counts.items():
-            table.add_row(t.title(), str(count), "✅ TRUE")
+            table.add_row(t.upper(), str(count), "RESONANT")
 
         self.console.print(table)
-        self.console.print(f"\n[bold green]✨ Vector Index v{self.INDEX_VERSION} Manifest.[/]")
 
         if self.heresies:
             self.console.print(Panel(
-                "\n".join([f"• {h}" for h in self.heresies]),
-                title="[bold yellow]Dossier of Schisms (Rejected Matter)[/]",
-                border_style="yellow"
+                "\n".join([f"• {h}" for h in self.heresies[:20]]),
+                title="[bold red]GENOMIC FRACTURES (REDEMPTION REQUIRED)[/]",
+                border_style="red"
             ))
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Ω | The Master Librarian: Vector Embedder")
+    parser = argparse.ArgumentParser(description="Ω | Master Librarian: 0-Torch Vector Embedder")
     parser.add_argument("--repo", required=True, help="GitHub repository identifier")
     parser.add_argument("--branch", default="main", help="The target branch")
-    parser.add_argument("--archetypes", default="archetypes", help="Path to archetypes vault")
-    parser.add_argument("--shards", default="shards", help="Path to shards vault")
-    parser.add_argument("--atoms", default="atoms", help="Path to atoms vault")
-    parser.add_argument("--output", default="registry/index.json", help="Path to inscribe the final index.json")
+    parser.add_argument("--output", default="registry/index.json", help="Output path")
+    parser.add_argument("--engine", choices=["onnx", "lexical"], default="onnx", help="The inference engine")
+
+    # Stratum targets
+    parser.add_argument("--archetypes", default="archetypes")
+    parser.add_argument("--shards", default="shards")
+    parser.add_argument("--infrastructure", default="infrastructure")
+    parser.add_argument("--codex", default="codex/shards")
+    parser.add_argument("--traits", default="traits")
 
     args = parser.parse_args()
-
     start_time = time.perf_counter()
 
     librarian = MasterLibrarian(
         repo=args.repo,
         branch=args.branch,
-        vaults=[args.archetypes, args.shards, args.atoms],
-        output_file=args.output
+        output_file=args.output,
+        vaults=[args.archetypes, args.shards, args.infrastructure, args.codex, args.traits],
+        engine=args.engine
     )
 
     librarian.conduct_census()
 
     duration_ms = (time.perf_counter() - start_time) * 1000
-    print(f"\n[LIBRARIAN] Vector Embedding complete in {duration_ms:.2f}ms. The Brain is Synced.")
+    print(f"\n[LIBRARIAN] Totality achieved in {duration_ms:.2f}ms. The Multiverse is Indexed.")
