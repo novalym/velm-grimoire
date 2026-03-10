@@ -1,20 +1,27 @@
 # ==============================================================================
-# == GNOSTIC SHARD: SOVEREIGN USER SERVICE (V-Ω-TOTALITY-V2.5-LOGIC)          ==
+# == GNOSTIC DNA SHARD: logic/user-service
 # ==============================================================================
-# @description: Materializes the Sovereign User Logic Stratum. Implements the 
-#               User Lifecycle Authority via clean-interface inversion, 
-#               achronal event emission, and Pydantic V2 validation.
-# @category: Logic / Services
-# @vibe: service, logic, user, account, lifecycle, clean-architecture, di, ioc
-# @provides: [user-logic-service, user-lifecycle-authority, business-mind]
-# @requires: [user-repository, identity-authority, event-bus, pydantic-models]
-# @substrate: python (Apophatic Logic)
-# @version: 2.5.0
-# @LIF: 1,000,000x
+# @id:           logic/user-service
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      A sovereign Domain-Driven Design (DDD) service for managing User lifecycles and activation.
+# @vibe:         [ddd, logic, user, service, domain, lifecycle, activation]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:user-domain-logic, capability:business-logic]
+# @requires:     [capability:python-core, capability:persistence-layer, capability:distributed-event-bus]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "service-logic"
+#   priority:    500
+#   alias:       "user_service"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ enable_event_broadcasting = {{ broadcast_events | default(true) }}
 
@@ -29,7 +36,7 @@ src/{{ package_name }}/services/
 import logging
 import time
 from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import Dict, Any
 from uuid import UUID
 from pydantic import BaseModel, Field
 
@@ -43,7 +50,7 @@ class UserActivationSignal(BaseModel):
 class IUserService(ABC):
     \"\"\"
     =============================================================================
-    == THE USER LIFECYCLE INTERFACE (V-Ω-CONTRACT)                            ==
+    == THE USER LIFECYCLE INTERFACE (V-Ω-CONTRACT)                             ==
     =============================================================================
     Defines the sacred rites allowed upon the User Domain.
     \"\"\"
@@ -56,13 +63,12 @@ class IUserService(ABC):
         pass
 
 # [ASCENSION 6]: AUTOMATIC DI SUTURE
-# The DISovereignStrategy scries this marker and righteously binds 
+# The DISovereignStrategy scries this role and righteously binds 
 # the interface to this implementation in the Application Container.
-# @scaffold:service(interface="IUserService", scope="singleton")
 class GnosticUserService(IUserService):
     \"\"\"
     =============================================================================
-    == THE GNOSTIC USER SERVICE (V-Ω-TOTALITY)                                ==
+    == THE GNOSTIC USER SERVICE (V-Ω-TOTALITY)                                 ==
     =============================================================================
     LIF: ∞ | ROLE: BUSINESS_MIND | RANK: MASTER
     
@@ -72,16 +78,12 @@ class GnosticUserService(IUserService):
     \"\"\"
     def __init__(self, repository: Any, event_bus: Any):
         # [ASCENSION 36]: Dependency Injection Suture
-        # These are willed by the 'user-repository' and 'event-bus' requirements.
         self.repository = repository
         self.event_bus = event_bus
         self.logger = logging.getLogger("Logic:UserService")
 
     async def activate_user(self, user_id: UUID, trace_id: str) -> bool:
-        \"\"\"
-        The Rite of Awakening. 
-        Transmutes a PENDING user into a RESONANT actor.
-        \"\"\"
+        \"\"\"The Rite of Awakening.\"\"\"
         self.logger.info(f"🌀 [LOGIC] Initiating user activation: {user_id} [Trace: {trace_id}]")
         
         # --- MOVEMENT I: PERCEPTION ---
@@ -91,12 +93,10 @@ class GnosticUserService(IUserService):
             return False
 
         # --- MOVEMENT II: TRANSMUTATION ---
-        # [ASCENSION 8]: Transactional Domain Mutation
         user.is_active = True
         await self.repository.save(user)
 
         # --- MOVEMENT III: RADIATION ---
-        # [ASCENSION 4]: Achronal Event Emission
         if {{ enable_event_broadcasting | lower }} == "true":
             signal = UserActivationSignal(user_id=user_id, trace_id=trace_id)
             await self.event_bus.broadcast("identity.user_activated", signal.model_dump())
@@ -105,11 +105,7 @@ class GnosticUserService(IUserService):
         return True
 
     async def scry_user_status(self, user_id: UUID) -> Dict[str, Any]:
-        \"\"\"
-        The Gaze of the Oracle. 
-        Returns the resonance parameters of a specific user.
-        \"\"\"
-        # [ASCENSION 9]: Metabolic Tomography
+        \"\"\"The Gaze of the Oracle.\"\"\"
         user = await self.repository.get_by_id(user_id)
         return {
             "id": str(user_id),
@@ -118,30 +114,8 @@ class GnosticUserService(IUserService):
         }
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: High-Status Automatic Integration
-# We ensure the Service Layer is waked and warded in the DI Container.
-@if {{ project_type in ['python', 'poetry', 'fastapi'] }}
-    pyproject.toml += """
-pydantic = "^2.6.0"
-"""
-@endif
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Sovereign User Service[/bold cyan] is manifest."
-    proclaim: "Mind Locus: [white]src/{{ package_name }}/services/user_service.py[/]"
     proclaim: "Interface: [bold yellow]IUserService[/]"
-    
-    # 1. Verification Strike
-    proclaim: "Conducting Integrity check on Interface Inversion..."
-    # (Prophecy: The DISovereignStrategy will have already waked the link)
-    
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Logic Entanglement -> 0)[/]"
-    proclaim: "[bold green]The Mind of the Domain is now warded and self-aware.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Logic materialization fractured.[/bold red] Reality remains entropic."
-    rm -rf src/{{ package_name }}/services/user_service.py

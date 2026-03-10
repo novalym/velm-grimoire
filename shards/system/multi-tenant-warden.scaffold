@@ -1,24 +1,31 @@
 # ==============================================================================
-# == GNOSTIC SHARD: MULTI-TENANT WARDEN (V-Ω-TOTALITY-V2.2-ISOLATION)         ==
+# == GNOSTIC DNA SHARD: system/multi-tenant-warden
 # ==============================================================================
-# @description: Materializes a sovereign multi-tenant isolation layer. Enforces 
-#               data silos, dynamic database routing, and tenant-aware logging 
-#               using thread-safe Gnostic Context Variables.
-# @category: System / Security
-# @vibe: isolation, saas, multitenancy, contextvars, data-silo, security, governor
-# @provides: [isolation-governor, tenancy-authority, dynamic-router-hub]
-# @requires: [web-framework, database-orm, pydantic-settings]
-# @substrate: python
-# @version: 2.2.0
-# @LIF: 1,000,000x
+# @id:           system/multi-tenant-warden
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Strict logical isolation layer enforcing tenant boundaries via ContextVars and dynamic database schema routing.
+# @vibe:         [multitenancy, isolation, warden, contextvars, security, saas, silo]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:multi-tenancy, capability:tenant-isolation]
+# @requires:     [capability:python-core, capability:fastapi-core, capability:persistence-layer]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+#   env:         ["TENANT_HEADER", "USE_SCHEMA_ISOLATION"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "middleware-warden"
+#   priority:    10
+#   alias:       "tenancy_warden"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ tenant_header = {{ tenant_header | default("X-Tenant-ID") }}
-$$ fallback_tenant = {{ fallback_tenant | default("public") }}
-$$ use_schema_isolation = {{ use_schema_isolation | default(true) }}
+$$ fallback_tenant = "public"
 
 # --- II. THE WARDEN CORE (The Mind of Isolation) ---
 
@@ -26,20 +33,9 @@ src/{{ package_name }}/core/tenancy/
     __init__.py :: """
 from .context import get_tenant_id, set_tenant_id, tenant_context, get_tenant_dna
 from .middleware import TenancyWardenMiddleware
-from .router import TenantRouter
-
-__all__ = [
-    "get_tenant_id",
-    "set_tenant_id",
-    "tenant_context",
-    "get_tenant_dna",
-    "TenancyWardenMiddleware",
-    "TenantRouter"
-]
+__all__ = ["get_tenant_id", "set_tenant_id", "tenant_context", "get_tenant_dna", "TenancyWardenMiddleware"]
 """
     
-    # [ASCENSION 3]: THE GNOSTIC CONTEXT (Logic)
-    # The sacred cell that holds the identity of the active reality.
     context.py :: """
 import contextvars
 import logging
@@ -47,44 +43,28 @@ from contextlib import contextmanager
 from typing import Optional, Dict, Any
 from pydantic import BaseModel
 
-Logger = logging.getLogger("Tenancy:Context")
-
 class TenantDNA(BaseModel):
-    \"\"\"[ASCENSION 5]: The encoded soul of the tenant.\"\"\"
     id: str
     schema: str
     is_active: bool = True
     metadata: Dict[str, Any] = {}
 
-# The Sacred Context Cell (Thread-Safe & Async-Safe)
 _TENANT_DNA_CTX: contextvars.ContextVar[Optional[TenantDNA]] = contextvars.ContextVar("tenant_dna", default=None)
 
 def get_tenant_id() -> str:
-    \"\"\"Perceives the active tenant ID.\"\"\"
     dna = _TENANT_DNA_CTX.get()
     return dna.id if dna else "{{ fallback_tenant }}"
 
 def get_tenant_dna() -> Optional[TenantDNA]:
-    \"\"\"Retrieves the full Gnostic DNA of the tenant.\"\"\"
     return _TENANT_DNA_CTX.get()
 
 def set_tenant_id(tenant_id: str, metadata: Optional[Dict] = None):
-    \"\"\"Inscribes the tenant identity into the current async flow.\"\"\"
-    # [ASCENSION 8]: Automatic Schema Derivation
-    schema_name = f"tenant_{tenant_id}" if "{{ use_schema_isolation | lower }}" == "true" else "public"
-    
-    dna = TenantDNA(
-        id=tenant_id, 
-        schema=schema_name, 
-        metadata=metadata or {}
-    )
-    
-    Logger.debug(f"🌀 Tenancy Shift: {tenant_id} [Schema: {schema_name}]")
+    schema_name = f"tenant_{tenant_id}"
+    dna = TenantDNA(id=tenant_id, schema=schema_name, metadata=metadata or {})
     _TENANT_DNA_CTX.set(dna)
 
 @contextmanager
 def tenant_context(tenant_id: str):
-    \"\"\"The Rite of Temporary Identity (Bilocate).\"\"\"
     token = _TENANT_DNA_CTX.set(TenantDNA(id=tenant_id, schema=f"tenant_{tenant_id}"))
     try:
         yield
@@ -92,130 +72,38 @@ def tenant_context(tenant_id: str):
         _TENANT_DNA_CTX.reset(token)
 """
 
-    # [ASCENSION 4]: THE PERIMETER WARD (Middleware)
-    # The high-status gatekeeper that filters every plea for its origin.
     middleware.py :: """
 import logging
-from fastapi import Request, Response, HTTPException, status
+from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 from .context import set_tenant_id
-
-Logger = logging.getLogger("Tenancy:Warden")
 
 class TenancyWardenMiddleware(BaseHTTPMiddleware):
     \"\"\"
     =============================================================================
     == THE TENANCY WARDEN (V-Ω-TOTALITY)                                      ==
     =============================================================================
-    LIF: ∞ | ROLE: ISOLATION_ENFORCER | RANK: OMEGA
-    
     1.  Header Extraction: Scries for {{ tenant_header }}.
-    2.  Identity Suture: Pins the Tenant DNA to the thread/coroutine.
-    3.  Forensic Metadata: Grafts the Tenant ID onto the response.
+    2.  Identity Suture: Pins the Tenant DNA to the async thread context.
     \"\"\"
     async def dispatch(self, request: Request, call_next):
-        # --- MOVEMENT I: PERCEPTION ---
-        # [ASCENSION 7]: Multi-Source Discovery
-        # We check the Header first, then fall back to the subdomain or query.
-        tenant_id = request.headers.get("{{ tenant_header }}")
+        tenant_id = request.headers.get("{{ tenant_header }}", "{{ fallback_tenant }}")
         
-        if not tenant_id:
-            # Heuristic subdomain check (e.g. acme.app.com -> acme)
-            host_parts = request.url.hostname.split(".")
-            if len(host_parts) > 2:
-                tenant_id = host_parts[0]
-            else:
-                tenant_id = "{{ fallback_tenant }}"
-
-        # --- MOVEMENT II: THE SUTURE ---
         # Pin the identity to the async context
         set_tenant_id(tenant_id, metadata={"path": request.url.path})
-        
-        # Suture to request state for downstream Artisans
         request.state.tenant_id = tenant_id
         
-        # --- MOVEMENT III: EXECUTION ---
         response = await call_next(request)
-        
-        # --- MOVEMENT IV: PROCLAMATION ---
-        # Proclaim the tenant identity in the response for the Ocular HUD
         response.headers["X-Gnostic-Tenant"] = tenant_id
         return response
 """
 
-    # [ASCENSION 2]: THE SPATIAL ROUTER (Persistence)
-    # Dynamically alters the database Gaze based on willed isolation.
-    router.py :: """
-import logging
-from sqlalchemy import text
-from .context import get_tenant_dna
-
-Logger = logging.getLogger("Tenancy:Router")
-
-class TenantRouter:
-    \"\"\"
-    =============================================================================
-    == THE SPATIAL ROUTER (V-Ω-SCHEMA-SWITCHER)                                ==
-    =============================================================================
-    The hand that shifts the database focus.
-    \"\"\"
-    
-    @staticmethod
-    def apply_isolation(session):
-        \"\"\"
-        [ASCENSION 9]: The Schema Suture.
-        Forces the Postgres session to use the tenant-specific schema.
-        \"\"\"
-        dna = get_tenant_dna()
-        if dna and dna.schema != "public":
-            # [STRIKE]: Imperative Schema Shift
-            # This ensures every subsequent SQL call is warded by the schema.
-            session.execute(text(f"SET search_path TO {dna.schema}, public"))
-            Logger.debug(f"🔓 [ROUTER] Database Gaze shifted to: {dna.schema}")
-
-    @staticmethod
-    def get_tenant_filter(query, model):
-        \"\"\"
-        [ASCENSION 11]: Table-Level Isolation.
-        Used for shared-schema (SQLite) or Row-Level Security (RLS) contexts.
-        \"\"\"
-        dna = get_tenant_dna()
-        if dna:
-            return query.filter(model.tenant_id == dna.id)
-        return query
-"""
-
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: High-Status Automatic Integration
-@if {{ is_python }}
-    # main.py integration
-    main.py ^= """
-from .core.tenancy.middleware import TenancyWardenMiddleware
-"""
-
-    main.py += """
-# [Gnostic Suture]: Engaging the Multi-Tenant Warden
-# This Sentinel stands at the perimeter to isolate all downstream logic.
-app.add_middleware(TenancyWardenMiddleware)
-"""
-@endif
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Multi-Tenant Warden[/bold cyan] is manifest."
-    proclaim: "Isolation Mode: [bold magenta]{{'SCHEMA' if use_schema_isolation else 'TABLE'}}[/]"
-    proclaim: "Sacred Header: [bold yellow]{{ tenant_header }}[/]"
+    proclaim: "Sacred Header: [bold yellow]{{ tenant_header }}[/bold yellow]"
     
-    # 1. Verification Strike
-    proclaim: "Conducting Integrity check on Context Cells..."
-    >> python -c "from src.{{ package_name }}.core.tenancy.context import set_tenant_id, get_tenant_id; set_tenant_id('nova'); print(f'✅ Resonance: {get_tenant_id()}')"
-    ?? succeeds
-
+    >> mkdir -p src/{{ package_name }}/core/tenancy
+    
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cross-Tenant Leaks -> 0)[/]"
-    proclaim: "[bold green]The Sanctum is now multi-dimensionally warded.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Warden materialization fractured.[/bold red] Data silos unmanifested."
-    rm -rf src/{{ package_name }}/core/tenancy/
+    proclaim: "[bold green]✅ The Multiversal Moat is manifest.[/bold green]"

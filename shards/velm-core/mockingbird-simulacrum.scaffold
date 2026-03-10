@@ -1,52 +1,49 @@
 # ==============================================================================
-# == GNOSTIC SHARD: MOCKINGBIRD SIMULACRUM (V-Ω-TOTALITY-V2.5-PROTOTYPER)     ==
+# == GNOSTIC DNA SHARD: velm-core/mockingbird-simulacrum
 # ==============================================================================
-# @description: Materializes the "Mimicry Stratum". Autonomously scries Python 
-#               schemas to forge high-fidelity, relational mock data factories. 
-#               Enables the Eye to breathe before the Mind is manifest.
-# @category: Velm-Core / Prototyping
-# @vibe: mocking, prototyping, frontend-sync, simulation, data-generation, faker, schema-aware
-# @provides: [mock-data-service, ephemeral-prototype-engine, schema-mirror]
-# @requires: [pydantic-models, python-core, faker-lib, pydantic-settings]
-# @substrate: python (Achronal)
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           velm-core/mockingbird-simulacrum
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      AST-driven data mimicry engine that automatically generates mock JSON data based on Pydantic/SQLAlchemy models.
+# @vibe:         [mocking, faker, testing, simulacrum, data-generation, ast]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:data-mocking-engine, capability:prototype-generator]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["faker>=23.0.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "testing-tool"
+#   priority:    600
+#   alias:       "mockingbird_engine"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ tool_name = "mockingbird"
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ mock_depth = {{ mock_depth | default(3) }}
-$$ output_format = {{ format | default("json") }} # [json, csv, sql, pydantic]
 $$ artifact_dir = "artifacts/mock_vault"
 
-# --- II. THE SIMULACRUM ENGINE (The Mind of the Mimic) ---
+# --- II. THE SIMULACRUM ENGINE ---
 
 scripts/intelligence/
-    # [ASCENSION 2]: THE DATA MIMIC (Logic)
-    # This artisan performs a deep AST biopsy of your models to forge a 
-    # self-aware data factory.
     mock_forge.py :: """
 import ast
 import os
-import re
 import logging
 from pathlib import Path
-from typing import Dict, List, Any, Optional
 
 Logger = logging.getLogger("Mockingbird:Forge")
 
 class MockingbirdForge:
     \"\"\"
     =============================================================================
-    == THE MOCKINGBIRD FORGE (V-Ω-TOTALITY)                                     ==
+    == THE MOCKINGBIRD FORGE (V-Ω-TOTALITY)                                    ==
     =============================================================================
     LIF: ∞ | ROLE: SCHEMA_MIRROR_ARTISAN | RANK: OMEGA
-    
-    1.  AST Inquest: Surgically extracts fields and types from Pydantic/SQLA.
-    2.  Relational Gravity: Maps links between 'User' and 'Organization' models.
-    3.  Pacing: Generates 10k+ rows in sub-second cycles.
     \"\"\"
     def __init__(self, source_dir: str = "src"):
         self.root = Path(os.getcwd())
@@ -56,10 +53,8 @@ class MockingbirdForge:
     def conduct_biopsy(self):
         Logger.info("🔍 [MOCKINGBIRD] Scrying schemas for multiversal mimicry...")
         
-        # [ASCENSION 3]: Multimodal Target Scrying
         targets = list(self.source_dir.rglob("*models.py")) + \
-                  list(self.source_dir.rglob("*schemas.py")) + \
-                  list(self.source_dir.rglob("*vessels.py"))
+                  list(self.source_dir.rglob("*schemas.py"))
 
         for target in targets:
             self._parse_file(target)
@@ -71,70 +66,52 @@ class MockingbirdForge:
         self._materialize_factory_logic()
 
     def _parse_file(self, path: Path):
-        \"\"\"Uses the AST Scalpel to extract the soul of the data.\"\"\"
         try:
             tree = ast.parse(path.read_text())
             for node in ast.walk(tree):
                 if isinstance(node, ast.ClassDef):
-                    # Scry for Pydantic or SQLAlchemy inheritance
                     bases = [b.id for b in node.bases if isinstance(b, ast.Name)]
                     if any(b in ["BaseModel", "Base", "DeclarativeBase"] for b in bases):
                         self._extract_class_dna(node)
-        except Exception as e:
-            Logger.debug(f"Failed to parse {path.name}: {e}")
+        except Exception:
+            pass
 
     def _extract_class_dna(self, node: ast.ClassDef):
         fields = {}
         for item in node.body:
-            # Pydantic V2 / PEP 526 Annotation check
             if isinstance(item, ast.AnnAssign) and isinstance(item.target, ast.Name):
-                field_name = item.target.id
-                # [ASCENSION 8]: Type Tomography
-                # Resolves 'str', 'int', 'datetime', 'EmailStr'
-                type_hint = ast.unparse(item.annotation)
-                fields[field_name] = type_hint
-        
+                fields[item.target.id] = ast.unparse(item.annotation)
         self.models_manifest[node.name] = fields
 
     def _materialize_factory_logic(self):
-        \"\"\"Forges the 'generate_mock_data.py' scripture.\"\"\"
         output_script = Path("scripts/intelligence/generate_mock_data.py")
         output_script.parent.mkdir(parents=True, exist_ok=True)
 
         lines = [
             "import json, uuid, random, time",
-            "from datetime import datetime, timedelta",
+            "from datetime import datetime",
             "from faker import Faker",
             "from pathlib import Path",
             "fake = Faker()",
             "",
             "def generate_mock_reality():",
-            "    print('🏗️ [MIMIC] Building Holographic Dataset...')",
             "    vault = Path('{{ artifact_dir }}')",
             "    vault.mkdir(parents=True, exist_ok=True)",
             "    data = {}"
         ]
 
         for model_name, fields in self.models_manifest.items():
-            lines.append(f"    # --- Forge: {model_name} ---")
             lines.append(f"    data['{model_name.lower()}s'] = []")
             lines.append(f"    for i in range(10):")
             lines.append(f"        obj = {{")
-            
             for f_name, f_type in fields.items():
-                # [ASCENSION 1]: Semantic Type Mapping
                 val = "None"
                 ft = f_type.lower()
                 if "str" in ft: val = "fake.name()" if "name" in f_name else "fake.word()"
                 if "email" in ft: val = "fake.email()"
                 if "int" in ft: val = "random.randint(1, 1000)"
                 if "uuid" in ft: val = "str(uuid.uuid4())"
-                if "datetime" in ft: val = "datetime.now().isoformat()"
-                if "bool" in ft: val = "random.choice([True, False])"
-                if "phone" in f_name: val = "fake.phone_number()"
-                
                 lines.append(f"            '{f_name}': {val},")
-            
             lines.append(f"        }}")
             lines.append(f"        data['{model_name.lower()}s'].append(obj)")
 
@@ -153,72 +130,31 @@ if __name__ == '__main__':
     MockingbirdForge().conduct_biopsy()
 """
 
-# --- III. THE KINETIC SYMPHONY (Workflows) ---
-
-# [ASCENSION 5]: THE PROTOTYPING SYMPHONY
-# An automated rite that scries, forges, and executes the simulation.
+# --- III. THE KINETIC SYMPHONY ---
 symphonies/prototype-reality.symphony :: """
 # == Symphony: The Rite of the Mockingbird ==
-# @description: Autonomically generates a prototype data stratum.
-# @LIF: 1,000,000x
-
 @task main
-    %% let: proto_phase = "INITIATING"
     %% proclaim: "🐦 [MOCKINGBIRD] Awakening the Prototyping Engine..."
-
     @try:
-        # 1. THE INQUEST (Scry models)
         >> python3 scripts/intelligence/mock_forge.py
         ?? succeeds
-
-        # 2. THE STRIKE (Generate data)
-        %% proclaim: "🧬 Materializing Holographic Data Shards..."
         >> python3 scripts/intelligence/generate_mock_data.py
         ?? succeeds
-
-        # 3. THE REVELATION
-        %% proclaim: "[bold green]✅ PROTOTYPE RESONANT.[/bold green] Eye and Mind are synchronized."
-        >> ls -lh {{ artifact_dir }}/
-        
+        %% proclaim: "[bold green]✅ PROTOTYPE RESONANT.[/bold green]"
     @catch Exception as e:
-        %% error: "Prototyping fractured: {{ e }}. Ensure models inherit from BaseModel."
+        %% error: "Prototyping fractured: {{ e }}."
     @end
 """
 
 # --- IV. THE CONTROL PLANE ---
-# [ASCENSION 9]: Global Conductor Integration
 Makefile += """
 # --- PROTOTYPING RITES ---
-mock-forge: ## scry the project models and forge the data mimic logic
-    @poetry run python scripts/intelligence/mock_forge.py
-
-mock-run: ## strike the iron to generate high-fidelity mock data
-    @poetry run python scripts/intelligence/generate_mock_data.py
-
 prototype: ## conduct the full mockingbird symphony
     @velm run symphonies/prototype-reality.symphony
 """
 
 # --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Mockingbird Simulacrum[/bold cyan] is waked and warded."
-    proclaim: "Forge Locus: [white]scripts/intelligence/mock_forge.py[/]"
-    proclaim: "Artifact Vault: [bold yellow]{{ artifact_dir }}[/]"
-    
-    # 1. Initialize the Mockingbird Sanctum
-    proclaim: "Forging the Intelligence Lab..."
     >> mkdir -p scripts/intelligence {{ artifact_dir }}
-    
-    # 2. Dependency Suture
-    proclaim: "Summoning the Mimicry Artisans... (faker)"
-    >> poetry add faker --group dev
-    ?? succeeds
-
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Frontend Lag -> 0)[/]"
-    proclaim: "[bold green]The Eye can now see even when the Mind is silent.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Mockingbird failed to hatch.[/bold red] Prototyping remains manual."
-    rm -rf scripts/intelligence/mock_forge.py

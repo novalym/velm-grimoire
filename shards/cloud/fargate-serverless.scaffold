@@ -1,26 +1,33 @@
 # ==============================================================================
-# == GNOSTIC SHARD: FARGATE SERVERLESS (V-Ω-TOTALITY-VMAX)                    ==
+# == GNOSTIC DNA SHARD: cloud/fargate-serverless
 # ==============================================================================
-# @description: A zero-management, serverless compute layer. Forges an AWS ECS 
-#               Fargate cluster, Task Definition, and Application Auto-Scaling 
-#               via pure Terraform modules.
-# @category: Cloud / Substrate
-# @vibe: aws, ecs, fargate, serverless, terraform, compute, container
-# @provides: [serverless-compute, auto-scaling-group]
-# @requires: [terraform-binary, vpc-network]
-# @substrate: terraform
-# @version: 3.5.0-Ω
-# @LIF: INFINITY
+# @id:           cloud/fargate-serverless
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      AWS ECS Fargate serverless container orchestration via Terraform, featuring autonomic CPU scaling and CloudWatch tomography.
+# @vibe:         [aws, ecs, fargate, serverless, container, terraform, auto-scaling, cloudwatch]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:aws-fargate, capability:serverless-containers]
+# @requires:     [capability:terraform-core, capability:aws-credentials]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+#   env:         ["AWS_REGION", "VPC_ID", "SUBNET_IDS"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   terraform:   ["resource 'aws_ecs_cluster' 'main'", "resource 'aws_ecs_service' 'main'"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-terraform"
+#   priority:    900
+#   alias:       "fargate_citadel"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ project_name = {{ project_name | default("fargate-citadel") }}
+$$ project_slug = {{ project_slug | default("fargate-citadel") }}
 $$ aws_region = {{ aws_region | default("us-east-1") }}
 $$ container_port = {{ port | default(8000) }}
 $$ image_repo = {{ image | default("registry.gitlab.com/my-org/my-image:latest") }}
-
-# Derived Gnosis
-$$ project_slug = {{ project_name | slug }}
 
 # --- II. THE SCRIPTURE OF FORM ---
 

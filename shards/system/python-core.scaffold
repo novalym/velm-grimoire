@@ -1,112 +1,131 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-CORE (V-Ω-TOTALITY-V3.0)                           ==
+# == GNOSTIC DNA SHARD: system/docker-orchestration
 # ==============================================================================
-# @description: The primordial Python substrate. Materializes the build system 
-#               (Poetry), the core directory topography, and the foundational 
-#               Gnostic DNA for all Python-based microservices.
-# @category: System / Substrate
-# @vibe: python, poetry, src-layout, pep621, fundamental, substrate, base
-# @provides: [python-core, logic-substrate, web-framework-base, pydantic-v2]
-# @requires: [python-binary]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: INFINITY
+# @id:           system/docker-orchestration
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Production-grade multi-stage Docker build system and Docker Compose orchestration for microservices.
+# @vibe:         [docker, compose, multi-stage, container, orchestration, iron, asgi]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:containerization, capability:infrastructure-vessel]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["DOCKER_BUILDKIT", "COMPOSE_PROJECT_NAME"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "app": { "build": "." } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-orchestrator"
+#   priority:    1000
+#   alias:       "docker_conductor"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ project_slug = {{ project_slug | default("resonant-core") }}
-$$ author = {{ author | default("The Architect") }}
-$$ python_version = {{ python_v | default("3.11") }}
+$$ project_slug = {{ project_slug | default("omega-vessel") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ app_port = {{ port | default(8000) }}
+$$ python_v = {{ python_version | default("3.11") }}
 
-# --- II. THE SCRIPTURE OF FORM (The Base Topography) ---
+# --- II. THE SCRIPTURE OF FORM (The Physical Vessel) ---
 
-# [ASCENSION 1]: The Build System (Poetry/PEP-621)
-pyproject.toml :: """
-[tool.poetry]
-name = "{{ project_slug }}"
-version = "0.1.0"
-description = "A warded reality manifest by the VELM God-Engine."
-authors = ["{{ author }}"]
-packages = [{include = "{{ package_name }}", from = "src"}]
+# [ASCENSION 1]: The Multi-Stage Production Vessel
+# This is the "Body" of the application. It is warded against 
+# high-entropy build tools, leaving only the pure runtime.
+Dockerfile :: """
+# --- Stage I: The Forge (Builder) ---
+FROM python:{{ python_v }}-slim-bookworm AS builder
+WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 \\
+    PYTHONUNBUFFERED=1
 
-[tool.poetry.dependencies]
-python = "^{{ python_version }}"
-pydantic = "^2.6.0"
-loguru = "^0.7.0"
-rich = "^13.7.0"
+RUN apt-get update && apt-get install -y --no-install-recommends gcc curl && \\
+    rm -rf /var/lib/apt/lists/*
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
-ruff = "^0.3.0"
-mypy = "^1.8.0"
+COPY pyproject.toml poetry.lock* ./
+RUN pip install poetry && poetry config virtualenvs.create false && \\
+    poetry install --no-root --only main
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+# --- Stage II: The Celestial Vessel (Runtime) ---
+FROM python:{{ python_v }}-slim-bookworm
+RUN groupadd -r gnostic && useradd -r -g gnostic scaf_artisan
+WORKDIR /app
 
-[tool.ruff]
-line-length = 120
-target-version = "py311"
+# Inhale the consecrated dependencies from the builder
+COPY --from=builder /usr/local/lib/python{{ python_v }}/site-packages /usr/local/lib/python{{ python_v }}/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Inhale the Soul (Source Code)
+COPY --chown=scaf_artisan:gnostic src /app/src
+COPY --chown=scaf_artisan:gnostic .env.example /app/.env.example
+
+USER scaf_artisan
+EXPOSE {{ app_port }}
+
+# [ASCENSION 3]: Metabolic Health Tomography
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \\
+    CMD curl -f http://localhost:{{ app_port }}/health || exit 1
+
+CMD ["uvicorn", "src.{{ package_name }}.main:app", "--host", "0.0.0.0", "--port", "{{ app_port }}"]
 """
 
-# [ASCENSION 2]: The Root Sanctums
-src/{{ package_name }}/
-    __init__.py :: """
-\"\"\"
-=============================================================================
-== {{ project_slug | upper }} (V-Ω-TOTALITY)
-=============================================================================
-Auto-consecrated by the Velm God-Engine.
-\"\"\"
-__version__ = "0.1.0"
-"""
-    
-    # [ASCENSION 3]: Fundamental Gnostic Constants
-    constants.py :: """
-import os
-from pathlib import Path
+# [ASCENSION 2]: THE SYNAPTIC MESH (Docker Compose)
+docker-compose.yml :: """
+version: '3.8'
 
-PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
-ENVIRONMENT = os.getenv("SCAFFOLD_ENV", "development")
+services:
+  app:
+    build: .
+    container_name: {{ project_slug }}-core
+    ports:
+      - "{{ app_port }}:{{ app_port }}"
+    env_file: .env
+    networks:
+      - gnostic_mesh
+    restart: always
+
+networks:
+  gnostic_mesh:
+    name: {{ project_slug }}_gnostic_mesh
+    driver: bridge
 """
 
-# [ASCENSION 4]: The Universal Ignore Sieve
-.gitignore :: """
-# == The Abyss (Python) ==
+# [ASCENSION 4]: The Abyssal Filter (.dockerignore)
+.dockerignore :: """
+# == The Abyss (Docker Specific) ==
 __pycache__/
 *.py[cod]
-*$py.class
 .venv/
-env/
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
-.coverage
-dist/
-build/
-*.egg-info/
 .env
+.git/
+.scaffold/
+scaffold.lock
+*.scaffold
+*.symphony
+tests/
 """
 
-# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
-%% post-run
-    proclaim: "The [bold cyan]Python Core Substrate[/] is manifest."
-    proclaim: "Package: [white]src/{{ package_name }}/[/]"
-    
-    # 1. Initialize the Chronicle
-    @if {{ not dir_exists('.git') }} -> >> git init
-    
-    # 2. Summon the dependencies
-    proclaim: "Phase I: Summoning build-system artisans (Poetry)..."
-    @if {{ not file_exists('poetry.lock') }}
-        >> poetry lock
-    @endif
-    
-    # 3. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]INFINITY (Foundation Established)[/]"
-    proclaim: "[bold green]✅ The Base Substrate is RESONANT.[/bold green]"
+# --- III. THE SURGICAL WEAVE (Control Plane Suture) ---
 
-%% on-heresy
-    proclaim: "[bold red]Substrate materialization fractured.[/bold red]"
-    # Rollback is handled by the Transactional Kernel
+Makefile += """
+
+# --- CONTAINER RITES ---
+up: ## ignite the physical vessels in the background
+    @docker-compose up -d
+
+down: ## return the vessels to the void
+    @docker-compose down
+
+vessel-logs: ## gaze into the heart of the running containers
+    @docker-compose logs -f
+"""
+
+# --- IV. THE MAESTRO'S WILL ---
+%% post-run
+    proclaim: "The [bold cyan]Docker Orchestration Shard[/] is manifest."
+    proclaim: "Vessel Locus: [white]docker-compose.yml[/]"
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Infrastructure Chaos -> 0)[/]"
+    proclaim: "[bold green]✅ The Project now possesses a Physical Vessel.[/bold green]"
+    proclaim: "To ignite your vessels, speak: [bold cyan]make up[/bold cyan]"

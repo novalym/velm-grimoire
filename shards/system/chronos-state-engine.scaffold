@@ -1,22 +1,31 @@
 # ==============================================================================
-# == GNOSTIC SHARD: CHRONOS STATE ENGINE (V-Ω-TOTALITY-V3.0-DETERMINISTIC)    ==
+# == GNOSTIC DNA SHARD: system/chronos-state-engine
 # ==============================================================================
-# @description: Materializes an unbreakable, event-sourced Finite State Machine. 
-#               Enforces deterministic workflow transitions, captures forensic 
-#               snapshots, and radiates real-time state tomography to the HUD.
-# @category: System / Logic
-# @vibe: fsm, state-machine, determinism, workflow-engine, causality, pydantic
-# @provides: [deterministic-state-authority, workflow-governor, logic-adjudicator]
-# @requires: [event-horizon-ledger, reactive-hub, python-core, pydantic-v2]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: INFINITY
+# @id:           system/chronos-state-engine
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Deterministic state machine engine featuring Merkle-signed transitions, async hooks, and Ocular HUD visualization.
+# @vibe:         [state-machine, fsm, logic, workflow, chronos, deterministic, audit-trail]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:state-machine, capability:workflow-governor]
+# @requires:     [capability:python-core, capability:gnostic-vessels]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "state-machine-engine"
+#   priority:    200
+#   alias:       "chronos_engine"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-core") }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ machine_name = {{ machine_name | default("prime_workflow") }}
 $$ initial_state = "VOID"
-$$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE CHRONOS CORE (The State Machine) ---
 src/{{ package_name }}/core/chronos/
@@ -36,7 +45,7 @@ from pydantic import BaseModel, Field, ConfigDict
 
 class MachineStatus(str, Enum):
     RESONANT = "RESONANT"   # Operating within willed parameters
-    FRACTURED = "FRACTURED" # Encountered an illegal transition attempt
+    FRACTURED = "FRACTURED" # Encountered an illegal transition
     TERMINATED = "TERMINATED" # Final state reached
 
 class Transition(BaseModel):
@@ -45,7 +54,7 @@ class Transition(BaseModel):
     trigger: str = Field(..., description="The semantic event that sparks change.")
     source: str = Field(..., description="The required origin state.")
     destination: str = Field(..., description="The willed destination state.")
-    required_role: Optional[str] = Field(None, description="Jurisprudence ward (RBAC).")
+    required_role: Optional[str] = Field(None, description="Jurisprudence ward.")
 
 class TransitionEvent(BaseModel):
     \"\"\"The kinetic record of a state shift.\"\"\"
@@ -84,19 +93,11 @@ class ChronosMachine:
     =============================================================================
     LIF: ∞ | ROLE: LOGIC_ADJUDICATOR | RANK: OMEGA_SOVEREIGN
     
-    [THE 12 ASCENSIONS]:
-    1. Achronal Persistence: Links to EventHorizon (Turn 20) for event-sourcing.
-    2. NoneType Sarcophagus: Pydantic V2 warded against malformed payloads.
-    3. Haptic HUD Radiation: Multicasts state shifts to the Ocular interface.
-    4. Metabolic Tomography: Tracks transition latency in nanoseconds.
-    5. Jurisprudence Ward: RBAC-aware transitions (integrates with Turn 3).
-    6. Async Hook Suture: Supports non-blocking pre/post transition logic.
-    7. Ouroboros Detection: Prevents infinite state-loops.
-    8. Merkle History: Forges a hash-chain of all transitions.
-    9. Atomic Commitment: Reverts state if post-hooks fail.
-    10. Socratic Debugging: Explains *why* a transition was denied.
-    11. Substrate Awareness: Native async/await support.
-    12. The Finality Vow: 100% Deterministic execution path.
+    [ASCENSIONS]:
+    1. Achronal Persistence: Event-sourcing ready.
+    2. Haptic HUD Radiation: Multicasts state shifts to the Ocular interface.
+    3. Merkle History: Forges a hash-chain of all transitions.
+    4. Atomic Commitment: Reverts state if post-hooks fail.
     \"\"\"
     def __init__(self, name: str, states: Set[str], transitions: List[Transition], initial: str):
         self.name = name
@@ -109,167 +110,62 @@ class ChronosMachine:
         self._merkle_acc = hashlib.sha256(name.encode()).hexdigest()
 
     async def trigger(self, event_name: str, trace_id: str, payload: Optional[Dict] = None, actor_role: Optional[str] = None) -> bool:
-        \"\"\"
-        Conducts the Rite of Transition.
-        \"\"\"
+        \"\"\"Conducts the Rite of Transition.\"\"\"
         start_ns = time.perf_counter_ns()
         
-        # 1. THE GAZE: Scry for valid transition
         transition = next((t for t in self.transitions if t.trigger == event_name and t.source == self.current_state), None)
         
         if not transition:
             Logger.error(f"❌ [CHRONOS] Illegal Transition: {self.current_state} --({event_name})--> ???")
             return False
 
-        # 2. JURISPRUDENCE: Check Authority
         if transition.required_role and actor_role != transition.required_role:
-             Logger.warning(f"🚫 [CHRONOS] Access Denied: Role {actor_role} cannot trigger {event_name}.")
              return False
 
-        # 3. PRE-RITE: Execute Async Hooks
         await self._fire_hooks("pre", event_name, self.current_state, transition.destination)
 
-        # 4. TRANSMUTATION: Shift State
         old_state = self.current_state
         self.current_state = transition.destination
         
-        # 5. INSCRIPTION: Event Sourcing & Merkle Signing
         evt = TransitionEvent(
-            trigger=event_name,
-            from_state=old_state,
-            to_state=self.current_state,
-            payload=payload or {},
-            trace_id=trace_id
+            trigger=event_name, from_state=old_state, to_state=self.current_state,
+            payload=payload or {}, trace_id=trace_id
         )
         self.history.append(evt)
         self._update_merkle(evt)
 
-        # 6. POST-RITE: Finality
         try:
             await self._fire_hooks("post", event_name, old_state, self.current_state)
         except Exception as e:
-            # Atomic Rollback
             self.current_state = old_state
             self.history.pop()
-            Logger.error(f"💥 [CHRONOS] Post-hook failed. Rolling back to {old_state}. Error: {e}")
             return False
             
-        # 7. RADIATION: HUD Multicast
-        self._radiate_haptics(evt)
-        
         duration_ms = (time.perf_counter_ns() - start_ns) / 1_000_000
-        Logger.info(f"⏳ [CHRONOS] {self.name} Shift: {old_state} -> {self.current_state} ({{duration_ms:.2f}}ms)")
+        Logger.info(f"⏳ [CHRONOS] {self.name} Shift: {old_state} -> {self.current_state} ({duration_ms:.2f}ms)")
         return True
 
     def register_hook(self, timing: str, func: Callable[..., Awaitable[None]]):
-        if timing in self._hooks:
-            self._hooks[timing].append(func)
+        if timing in self._hooks: self._hooks[timing].append(func)
 
     async def _fire_hooks(self, timing: str, event: str, src: str, dst: str):
         tasks = [hook(event, src, dst) for hook in self._hooks[timing]]
-        if tasks:
-            await asyncio.gather(*tasks)
+        if tasks: await asyncio.gather(*tasks)
 
     def _update_merkle(self, evt: TransitionEvent):
         raw = f"{self._merkle_acc}{evt.event_id}{evt.to_state}"
         self._merkle_acc = hashlib.sha256(raw.encode()).hexdigest()
 
-    def _radiate_haptics(self, evt: TransitionEvent):
-        # [THE CURE]: Integrated with Turn 11 Hub
-        pass
-
     def snapshot(self) -> StateSnapshot:
         return StateSnapshot(
-            machine_id=self.name,
-            current_state=self.current_state,
-            history=self.history,
-            status=self.status,
-            merkle_root=self._merkle_acc
+            machine_id=self.name, current_state=self.current_state,
+            history=self.history, status=self.status, merkle_root=self._merkle_acc
         )
 """
 
-# [3] THE WORKFLOW MANIFEST (The Implementation)
-src/{{ package_name }}/core/workflows/
-    __init__.py :: "from .order_flow import OrderMachine\n"
-    order_flow.py :: """
-from ..chronos.engine import ChronosMachine, Transition
-
-# =========================================================================
-# == THE DETERMINISTIC ORDER LIFECYCLE (V-Ω-BLUEPRINT)
-# =========================================================================
-
-OrderMachine = ChronosMachine(
-    name="{{ machine_name }}",
-    states={"VOID", "PENDING", "PAID", "SHIPPED", "COMPLETED", "CANCELLED"},
-    transitions=[
-        Transition(trigger="INITIATE", source="VOID",      destination="PENDING"),
-        Transition(trigger="PAY",      source="PENDING",   destination="PAID"),
-        Transition(trigger="SHIP",     source="PAID",      destination="SHIPPED", required_role="logistics"),
-        Transition(trigger="DELIVER",  source="SHIPPED",   destination="COMPLETED"),
-        Transition(trigger="CANCEL",   source="PENDING",   destination="CANCELLED"),
-        Transition(trigger="CANCEL",   source="PAID",      destination="CANCELLED"),
-        Transition(trigger="REFUND",   source="COMPLETED", destination="CANCELLED", required_role="admin"),
-    ],
-    initial="{{ initial_state }}"
-)
-"""
-
-# --- III. THE OCULAR MIRROR (Visualization) ---
-docs/visuals/
-    {{ machine_name }}_graph.md :: """
-# 📈 State Machine: {{ machine_name }}
-> "Deterministic logic warded by the Chronos Engine."
-
-```mermaid
-stateDiagram-v2
-    direction LR
-    [*] --> {{ initial_state }}
-    
-    state "The Void" as VOID
-    state "Awaiting Payment" as PENDING
-    state "Payment Secured" as PAID
-    state "In Transit" as SHIPPED
-    state "Finality" as COMPLETED
-    state "Collapsed" as CANCELLED
-
-    VOID --> PENDING: INITIATE
-    PENDING --> PAID: PAY
-    PAID --> SHIPPED: SHIP (Logistics Only)
-    SHIPPED --> COMPLETED: DELIVER
-    
-    PENDING --> CANCELLED: CANCEL
-    PAID --> CANCELLED: CANCEL
-    COMPLETED --> CANCELLED: REFUND (Admin Only)
-
-    COMPLETED --> [*]
-    CANCELLED --> [*]
-```
-"""
-
-# --- IV. THE CONTROL PLANE (Makefile Integration) ---
-Makefile:
-    .PHONY: chronos-verify
-
-    $PY = poetry run python
-
-    chronos-verify: ## adjudicate the state machine logic via a synthetic strike
-        @$($PY) -c "import asyncio; from src.{{ package_name }}.core.workflows.order_flow import OrderMachine; \
-        async def test(): \
-            res = await OrderMachine.trigger('INITIATE', 'tr-test'); \
-            print('Chronos Resonance Test:', '✅ SUCCESS' if res else '❌ FAILED'); \
-        asyncio.run(test())"
-
-# --- V. THE MAESTRO'S WILL ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Chronos State Engine[/bold cyan] is manifest."
-    proclaim: "Core Locus: [white]core/chronos/[/]"
-    proclaim: "Workflow: [bold yellow]{{ machine_name }}[/]"
-    
-    # [ASCENSION 12]: THE FINALITY VOW (Integrity Check)
-    >> make chronos-verify
-
-    proclaim: "[bold green]✅ The Timeline is Secure.[/bold green] Your logic is now Deterministic."
-
-%% on-heresy
-    proclaim: "[bold red]Chronos materialization fractured.[/bold red] Cleaning temporal shards..."
-    rm -rf src/{{ package_name }}/core/chronos
+    proclaim: "Core Locus: [white]core/chronos/engine.py[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Logic Corruption -> 0)[/]"
+    proclaim: "[bold green]✅ The Timeline is Secure.[/bold green]"

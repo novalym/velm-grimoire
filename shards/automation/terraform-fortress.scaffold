@@ -1,23 +1,32 @@
 # ==============================================================================
-# == GNOSTIC SHARD: TERRAFORM FORTRESS (V-Ω-TOTALITY-V2.1-CLOUD-IRON)         ==
+# == GNOSTIC DNA SHARD: automation/terraform-fortress
 # ==============================================================================
-# @description: A legendary Terraform foundation for immutable AWS infrastructure. 
-#               Features S3 remote state, DynamoDB locking, and a modular, 
-#               environment-aware architecture.
-# @category: Automation / Infrastructure
-# @vibe: terraform, iac, aws, cloud, immutable-infra, s3-backend, fortress
-# @provides: [cloud-orchestration, terraform-authority, aws-foundation]
-# @requires: [aws-cli, terraform-cli, pydantic-settings, maestro-control]
-# @substrate: aws
-# @version: 2.1.0-Ω
-# @LIF: 1,000,000x
+# @id:           automation/terraform-fortress
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      AWS Cloud provisioning using HashiCorp Terraform with S3 remote state and KMS locking.
+# @vibe:         [terraform, aws, iac, infrastructure, cloud, provisioning, fortress]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:cloud-provisioning, capability:terraform-core]
+# @requires:     [capability:aws-credentials]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["AWS_REGION", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   terraform:   ["backend 's3'", "provider 'aws'"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-terraform"
+#   priority:    1000
+#   alias:       "terraform_fortress"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ project_name = "celestial-fortress"
-$$ aws_region = "us-east-1"
-$$ state_bucket_name = "my-app-tf-state-{{ crypto.hex(8) }}"
-$$ state_lock_table = "my-app-tf-lock"
+$$ project_slug = {{ project_slug | default("celestial-fortress") }}
+$$ aws_region = {{ aws_region | default("us-east-1") }}
+$$ state_bucket_name = "{{ project_slug }}-tf-state-{{ crypto.hex(6) }}"
+$$ state_lock_table = "{{ project_slug }}-tf-lock"
 
 # --- II. THE SCRIPTURE OF FORM (The Celestial Iron) ---
 

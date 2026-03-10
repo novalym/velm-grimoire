@@ -1,165 +1,100 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ACHRONAL DEPENDENCY ALCHEMIST (V-Ω-TOTALITY-V2.1)         ==
+# == GNOSTIC DNA SHARD: system/achronal-dependency-alchemist
 # ==============================================================================
-# @description: Materializes an autonomic dependency governor. Scries registries
-#               for updates, conducts Shadow-Clone trials, and uses the Neural
-#               Cortex to self-heal breaking API changes in real-time.
-# @category: Intelligence
-# @vibe: alchemist, upgrader, self-healing, modernity, eternity, autonomous, debt-free
-# @provides: [dependency-autonomy, autonomic-upgrader, debt-liquidator]
-# @requires: [shadow-clone, neural-cortex, web-framework, pydantic-settings]
-# @substrate: python
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           system/achronal-dependency-alchemist
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Autonomic governor for dependency lifecycle management; scries registries for evolution and conducts self-healing shadow trials.
+# @vibe:         [alchemy, dependencies, upgrade, self-healing, shadow-mode, security, evolution]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:dependency-alchemy, capability:eternal-modernity]
+# @requires:     [capability:python-core, capability:shadow-engine, capability:architectural-reflection]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["packaging>=23.0", "requests>=2.31.0"]
+#   env:         ["SCAF_AUTO_HEAL_MODE", "SCAF_PACKAGE_MANAGER"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "evolution-governor"
+#   priority:    200
+#   alias:       "dependency_alchemist"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
-# These variables define the aggression of the Alchemist's evolution.
-$$ auto_heal_mode = {{ auto_heal_mode | default("STRICT") }}
-$$ package_manager = {{ package_manager | default("poetry") }}
-$$ safety_threshold = {{ safety_threshold | default(0.95) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ package_manager = {{ package_manager | default("poetry") }}
 
 # --- II. THE ALCHEMICAL CORE (Logic Stratum) ---
 
 src/{{ package_name }}/core/alchemy/
-    # [ASCENSION 2]: THE DEP-SCRYER (The Oracle)
-    # This artisan scries the celestial registries (PyPI/NPM) and extracts 
-    # the "Breaking Change Gnosis" to guide the surgeon.
+    __init__.py :: "from .oracle import DependencyOracle\nfrom .surgeon import EvolutionarySurgeon\n"
+
     oracle.py :: """
-    import requests
-    import json
-    import logging
-    from pathlib import Path
-    from packaging import version
+import requests
+import logging
+from packaging import version
 
-    Logger = logging.getLogger("Alchemy:Oracle")
+Logger = logging.getLogger("Alchemy:Oracle")
 
-    class DependencyOracle:
-        \"\"\"
-        =============================================================================
-        == THE DEPENDENCY ORACLE (V-Ω-TOTALITY)                                   ==
-        =============================================================================
-        LIF: ∞ | ROLE: CELESTIAL_REGISTRY_SCRIER | RANK: OMEGA_SURVEYOR
-        \"\"\"
-        def scry_for_ascension(self):
-            Logger.info("🔭 [ORACLE] Scrying the celestial registries for library evolution...")
-            # 1. Read local lockfile
-            # 2. Query PyPI/NPM for latest versions
-            # 3. Download 'Breaking Change' manifests for AI ingestion
-            
-            # [PROPHETIC MOCK]: Returning target for strike
-            return {"target": "pydantic", "from": "1.10.0", "to": "2.6.0"}
+class DependencyOracle:
+    \"\"\"
+    =============================================================================
+    == THE DEPENDENCY ORACLE (V-Ω-TOTALITY)                                   ==
+    =============================================================================
+    ROLE: CELESTIAL_REGISTRY_SCRIER
+    \"\"\"
+    def scry_for_ascension(self):
+        Logger.info("🔭 [ORACLE] Scrying the celestial registries for evolution...")
+        # [MOCK]: Returning target for strike
+        return {"target": "pydantic", "from": "1.10.0", "to": "2.6.0"}
+"""
 
-        def scry_metabolic_tax(self, package: str, new_version: str):
-            \"\"\"[ASCENSION 11]: Predictive Hardware Impact Analysis.\"\"\"
-            # Heuristic: Does the new version increase dependency weight?
-            return {"predicted_mass_increase_mb": 4.2}
-    """
-
-    # [ASCENSION 3]: THE REFACTOR-SURGEON (The Surgeon)
-    # This is the hand of the ADA. It uses the @ai/refactor atom to 
-    # surgically heal the code after a breaking update.
     surgeon.py :: """
-    import os
-    import logging
-    from velm.core.runtime.engine.execution.dispatcher import QuantumDispatcher
+import os
+import logging
 
-    Logger = logging.getLogger("Alchemy:Surgeon")
+Logger = logging.getLogger("Alchemy:Surgeon")
 
-    class EvolutionarySurgeon:
-        \"\"\"
-        =============================================================================
-        == THE EVOLUTIONARY SURGEON (V-Ω-TOTALITY)                                ==
-        =============================================================================
-        \"\"\"
-        def __init__(self):
-            self.dispatcher = QuantumDispatcher()
+class EvolutionarySurgeon:
+    \"\"\"
+    =============================================================================
+    == THE EVOLUTIONARY SURGEON (V-Ω-TOTALITY)                                ==
+    =============================================================================
+    \"\"\"
+    def heal_breaking_change(self, lib_name: str, new_v: str):
+        Logger.warning(f"💉 [SURGEON] Healing fractures caused by {lib_name} -> {new_v}...")
+        # [STRIKE]: Calling the Neural Cortex to refactor call-sites
+        os.system(f"velm refactor . --prompt 'Heal breaking changes for {lib_name}' --shadow")
+"""
 
-        def heal_breaking_change(self, lib_name: str, old_v: str, new_v: str):
-            Logger.info(f"💉 [SURGEON] Healing fractures caused by {lib_name} {old_v} -> {new_v}...")
-            
-            # [STRIKE]: Calling the Neural Cortex to map the API shift.
-            # We provide the AI with the local 'context.md' and the library's changelog.
-            prompt = f\"\"\"
-            UPGRADE_CONTEXT: {lib_name} from {old_v} to {new_v}
-            
-            MISSION:
-            The library {lib_name} has evolved with breaking changes. 
-            Scan the project and refactor all call-sites to ensure parity with the new API.
-            Maintain 100% logic resonance.
-            \"\"\"
-            
-            # [ASCENSION 21]: SHADOW STRIKE ISOLATION.
-            # The Surgeon only ever strikes the Shadow Reality.
-            os.system(f"velm refactor . --prompt '{prompt}' --shadow")
-    """
+# --- III. THE KINETIC SYMPHONY ---
 
-# --- III. THE KINETIC SYMPHONY (Automation) ---
-
-# [ASCENSION 5]: THE ETERNAL UPGRADE SYMPHONY
-# This is the staple workflow. It prevents "Technical Rot" from ever setting in.
-symphonies/upgrade-eternity.symphony :: """
+symphonies/
+    upgrade_eternity.symphony :: """
 # == Symphony: The Rite of Eternal Modernity ==
-# @description: Autonomic dependency upgrading and self-healing.
-# @LIF: 1,000,000x
-
 @task main
-    %% let: upgrade_phase = "SCRYING"
     %% proclaim: "🧪 [ADA] Initiating Achronal Dependency Inquest..."
-
     @try:
-        # 1. Scry for updates
-        %% let: delta = python: DependencyOracle().scry_for_ascension()
-        
+        %% let delta = python: DependencyOracle().scry_for_ascension()
         @if {{ delta }}:
-            %% proclaim: "🚀 [ADA] Ascension detected: {{ delta.target }} -> {{ delta.to }}."
-            
-            # 2. Spawn Shadow Reality (Fission)
-            # We create a 100% isolated sandbox for the trial.
             >> velm shadow spawn --label "upgrade-trial" --mode lab
-            
-            # 3. Strike the Shadow Iron (The actual upgrade)
-            %% proclaim: "📦 Striking the Shadow Iron..."
             >> {{ package_manager }} add {{ delta.target }}@{{ delta.to }}
-            
-            # 4. Heal the Fractures (The Neural Surgeon)
-            %% proclaim: "🧠 Summoning the Surgeon to heal breaking changes..."
             >> python3 -m {{ package_name }}.core.alchemy.surgeon --lib {{ delta.target }}
-            
-            # 5. Adjudicate Purity (The Trial)
-            %% proclaim: "⚖️ Adjudicating reality purity in the Shadow..."
             >> velm verify --strict --shadow
             ?? succeeds
-            
-            # 6. Collapse Wavefunction (Merge back to Prime)
-            %% proclaim: "🔗 Purity Verified. Merging Modernity into Prime Timeline..."
             >> velm shadow merge --label "upgrade-trial"
-            
-            %% proclaim: "[bold green]✅ ASCENSION SUCCESSFUL.[/bold green] The project has evolved."
-        @else:
-            %% proclaim: "✨ [ADA] Reality is already at its peak. No drift detected."
+            %% proclaim: "[bold green]✅ ASCENSION SUCCESSFUL.[/bold green]"
         @endif
-        
     @catch Exception as e:
-        %% error: "Ascension failed: {{ e }}. Reverting to stable state hash..."
+        %% error: "Ascension failed: {{ e }}."
         >> velm undo
     @end
 """
 
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
-    proclaim: "The [bold cyan]Achronal Dependency Alchemist[/] has been manifest."
-    proclaim: "Role: [bold green]ETERNAL MODERNITY GOVERNOR[/]"
+    proclaim: "The [bold cyan]Achronal Dependency Alchemist[/bold cyan] is manifest."
+    >> mkdir -p src/{{ package_name }}/core/alchemy symphonies
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Technical Debt -> 0)[/]"
-    
-    # 1. Set up the Vigil
-    proclaim: "To keep the project eternally young, speak:"
-    proclaim: "  [bold magenta]velm run symphonies/upgrade-eternity.symphony[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Alchemist materialization fractured.[/bold red] Technical rot continues."
-    rm -rf src/{{ package_name }}/core/alchemy

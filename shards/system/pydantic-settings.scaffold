@@ -1,16 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ENVIRONMENT-SEALER (V-Ω-TOTALITY-V3.0)                    ==
+# == GNOSTIC DNA SHARD: system/pydantic-settings
 # ==============================================================================
-# @description: The Gnostic Conscience for configuration. Materializes the 
-#               Pydantic BaseSettings infrastructure, enforces environment 
-#               validation, and forges the warded .env.example scripture.
-# @category: System / Config
-# @vibe: pydantic-settings, config, env, validation, pydantic-v2, settings
-# @provides: [pydantic-settings, environment-authority, secret-warden]
-# @requires: [python-core]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/pydantic-settings
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Centralized environment configuration hub utilizing Pydantic-Settings for validation, secret masking, and dotenv integration.
+# @vibe:         [config, settings, environment, pydantic, validation, secrets, dotenv]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:environment-management, capability:config-engine]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic-settings>=2.2.0", "python-dotenv>=1.0.1"]
+#   env:         ["ENVIRONMENT", "DEBUG", "SECRET_KEY"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "config-module"
+#   priority:    100
+#   alias:       "config_oracle"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -24,6 +33,7 @@ src/{{ package_name }}/core/
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
+from pathlib import Path
 
 class Settings(BaseSettings):
     \"\"\"
@@ -45,12 +55,11 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = Field("development", pattern="^(development|staging|production)$")
     DEBUG: bool = True
     
-    # --- Persistence Stratum ---
-    DATABASE_URL: Optional[str] = None
-    
     # [ASCENSION 2]: Secret Masking
-    # SecretStr prevents the value from being printed to logs.
-    SECRET_KEY: SecretStr = Field("change-this-in-production", min_length=16)
+    SECRET_KEY: SecretStr = Field(default=SecretStr("{{ crypto.random(64, 'hex') }}"))
+    
+    # Geometric Anchor
+    PROJECT_ROOT: Path = Path(__file__).parent.parent.parent.resolve()
 
 # Global Singleton
 settings = Settings()
@@ -64,33 +73,19 @@ settings = Settings()
 PROJECT_NAME="{{ project_name }}"
 ENVIRONMENT=development
 DEBUG=True
-DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/db
-SECRET_KEY="{{ crypto.random(64) }}"
+SECRET_KEY=
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# [ASCENSION 4]: Dependency Inception
-# We surgically append the required library to the project manifest.
-pyproject.toml += """
-pydantic-settings = "^2.2.0"
-python-dotenv = "^1.0.1"
-"""
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
     proclaim: "The [bold cyan]Environment Sealer[/] is manifest."
     proclaim: "Conscience Locus: [white]src/{{ package_name }}/core/config.py[/]"
     
-    # 1. Materialize local .env if it doesn't exist
+    # Materialize local .env if it doesn't exist
     @if {{ not file_exists('.env') }}
         proclaim: "Phase I: Forging local Vault (.env) from example DNA..."
         >> cp .env.example .env
     @endif
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Configuration Drift -> 0)[/]"
     proclaim: "[bold green]✅ The Project now possesses a Conscience.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Sealer materialization fractured.[/bold red]"

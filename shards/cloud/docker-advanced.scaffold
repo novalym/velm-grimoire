@@ -1,15 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: DOCKER-ADVANCED (V-Ω-TOTALITY-VMAX)                       ==
+# == GNOSTIC DNA SHARD: cloud/docker-advanced
 # ==============================================================================
-# @description: A cybernetic fortress. Implements a multi-stage BuildKit-optimized 
-#               Dockerfile, Worker Fission (Celery), and Nginx Aperture Proxy.
-# @category: Cloud / Substrate
-# @vibe: docker, buildkit, production, nginx, celery, multi-stage, worker
-# @provides: [fortress-substrate, async-worker-mesh, reverse-proxy]
-# @requires: [docker-buildkit, python-core]
-# @substrate: docker
-# @version: 5.0.0-Ω
-# @LIF: 50,000x
+# @id:           cloud/docker-advanced
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Production-grade multi-stage Docker orchestration with Celery workers, Nginx, and Redis/Postgres.
+# @vibe:         [docker, production, multi-stage, celery, nginx, redis, postgres, architecture]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:docker-production, capability:container-orchestration]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["API_PORT", "PYTHON_VERSION", "REGISTRY_URL"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "api": {"build": "."}, "worker": {"command": "celery..."}, "nginx": {} } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-compose"
+#   priority:    900
+#   alias:       "docker_advanced"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---

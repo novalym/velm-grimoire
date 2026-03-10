@@ -1,17 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: DOCKER-SWARM-SUBSTRATE (V-Ω-TOTALITY-V2.2-INDESTRUCTIBLE)  ==
+# == GNOSTIC DNA SHARD: system/docker-swarm-substrate
 # ==============================================================================
-# @description: The definitive high-availability substrate. Materializes the 
-#               Docker Swarm cluster logic. 
-#               [ULTIMA-HEALED]: Employs the Grep-Phalanx Suture to bypass 
-#               recursive alchemical logic loops entirely.
-# @category: System / Substrate
-# @vibe: docker-swarm, HA, clustering, zero-downtime
-# @provides: [docker-swarm-substrate, cluster-authority]
-# @requires: [docker-engine]
-# @substrate: docker / shell
-# @version: 2.2.0-Ω (TITANIUM-FINALIS)
-# @LIF: INFINITY
+# @id:           system/docker-swarm-substrate
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Automated Docker Swarm cluster orchestration featuring the Grep-Phalanx ignition rite and replicated stack manifests.
+# @vibe:         [docker, swarm, orchestration, high-availability, replication, cluster, iron]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:docker-swarm, capability:replicated-substrate]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["MANAGER_IP", "REPLICA_COUNT"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "stack": "docker-stack.yml" }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-orchestrator"
+#   priority:    1000
+#   alias:       "swarm_substrate"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -19,7 +27,7 @@ $$ project_slug   = {{ project_slug | default("resonant-swarm") }}
 $$ replica_count  = {{ replicas | default(3) }}
 $$ manager_ip     = {{ manager_ip | default("127.0.0.1") }}
 
-# --- II. THE SCRIPTURE OF FORM ---
+# --- II. THE SCRIPTURE OF FORM (The Replicated Body) ---
 
 docker-stack.yml :: """
 version: '3.8'
@@ -33,6 +41,9 @@ services:
       replicas: {{ replica_count }}
       restart_policy:
         condition: on-failure
+      update_config:
+        parallelism: 1
+        delay: 10s
 networks:
   gnostic_overlay:
     driver: overlay
@@ -52,8 +63,8 @@ echo "🐝 [SWARM] Adjudicating Node State..."
 # =========================================================================
 # == [THE MASTER CURE]: THE GREP-PHALANX                                 ==
 # =========================================================================
-# We no longer use Go-Templates because they leak into the Engine's 
-# recursive parsing passes. We use a raw text-stream probe instead.
+# We no longer use Go-Templates for discovery because they leak into the 
+# Engine's recursive parsing passes. We use a raw text-stream probe instead.
 # This is 100% Jinja-safe and substrate-robust.
 # =========================================================================
 LOCAL_NODE_STATE=$(docker info 2>&1 | grep "Swarm: " | cut -d' ' -f2 | tr -d '[:space:]')
@@ -85,7 +96,7 @@ echo "✅ [TOTALITY] Swarm Substrate is resonant."
 """
     %% 755
 
-# --- III. THE SURGICAL WEAVE (Control Plane Integration) ---
+# --- III. THE CONTROL PLANE ---
 Makefile += """
 
 # --- SWARM RITES ---
@@ -100,12 +111,5 @@ swarm-deploy: ## materialize the replicated stack upon the swarm iron
 # --- IV. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Docker Swarm Substrate[/bold cyan] is manifest."
-    
-    # 1. Substrate Sensing
-    @if {{ has_docker }}:
-        proclaim: "✅ Docker Iron detected."
-    @else:
-        proclaim: "⚠️  [WARNING] Docker unmanifested on this substrate."
-    @endif
-    
-    proclaim: "[bold green]✅ The Cluster Substrate is Ready.[/bold green]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cluster Complexity -> 0)[/]"
+    proclaim: "[bold green]✅ The Replicated Multiverse is Ready.[/bold green]"

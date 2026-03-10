@@ -1,22 +1,32 @@
 # ==============================================================================
-# == GNOSTIC SHARD: REDIS-CLIENT (V-Ω-TOTALITY-V5000-HEALED-FINALIS)          ==
+# == GNOSTIC DNA SHARD: system/redis-client
 # ==============================================================================
-# @description: The definitive ephemeral memory substrate. Materializes a 
-#               high-performance Redis client with async support, connection 
-#               pooling, and a resilient Ghost-Client fallback.
-# @category: System / Substrate
-# @vibe: redis, cache, memory, distributed-lock, rate-limit, async-io
-# @provides: [redis-client, ephemeral-memory-substrate, caching-authority]
-# @requires: [python-core, pydantic-settings]
-# @substrate: python
-# @version: 5.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/redis-client
+# @version:      3.0.0
+# @tier:         body
+# @summary:      Substrate-aware, asynchronous Redis client with built-in connection pooling and 'Phantom' fallback mode.
+# @vibe:         [redis, cache, database, memory, async, connection-pool, hiredis]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:redis-client, capability:ephemeral-memory]
+# @requires:     [capability:python-core, capability:environment-management]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["redis[hiredis]>=5.0.0"]
+#   env:         ["REDIS_URL"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "redis": { "image": "redis:7-alpine", "ports": ["6379:6379"] } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "network-client"
+#   priority:    50
+#   alias:       "redis_vault"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-cache") }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ default_redis_url = {{ redis_url | default("redis://localhost:6379/0") }}
-$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Ephemeral Mind) ---
 
@@ -27,12 +37,10 @@ src/{{ package_name }}/core/network/
     redis.py :: """
 import os
 import logging
-from typing import Optional, Any, Dict, Union
+from typing import Optional, Any, Union
 import redis.asyncio as redis
-from ..config import settings
-
-# [PROVENANCE]: Forged via system/redis-client.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
+# The Causal Linker ensures this configuration module exists
+from ...core.config import settings
 
 Logger = logging.getLogger("Substrate:Redis")
 
@@ -43,11 +51,8 @@ class RedisVault:
     =============================================================================
     LIF: ∞ | ROLE: EPHEMERAL_MEMORY_WARDEN | RANK: MASTER
     
-    [ASCENSIONS]:
     1. Achronal Connection Pool: Manages a warded async connection pool.
     2. Graceful Degradation: Returns a 'Ghost Client' if Redis is unmanifest.
-    3. Substrate-Aware URI: Scries settings for production connection strings.
-    4. Health Scrying: Provides a 'ping()' for liveness probes.
     \"\"\"
     _client: Optional[redis.Redis] = None
 
@@ -63,10 +68,10 @@ class RedisVault:
         redis_url = getattr(settings, 'REDIS_URL', '{{ default_redis_url }}')
         
         try:
-            Logger.info(f"🧠 [REDIS] Awakening synaptic link to ephemeral vault...")
+            Logger.info("🧠 [REDIS] Awakening synaptic link to ephemeral vault...")
             client = redis.from_url(
                 redis_url, 
-                encoding=\"utf-8\", 
+                encoding="utf-8", 
                 decode_responses=True,
                 socket_timeout=5.0,
                 retry_on_timeout=True
@@ -100,84 +105,12 @@ redis_vault = RedisVault()
 async def get_redis_client() -> Union[redis.Redis, Any]:
     \"\"\"DI-Friendly Getter for the active memory link.\"\"\"
     return redis_vault.client
-
-# [ASCENSION 12]: Graceful Dissolution
-# @scaffold:lifecycle(event="shutdown")
-async def dissolve_redis_link():
-    if redis_vault._client:
-        await redis_vault.client.close()
-        Logger.info(\"🌑 [REDIS] Synaptic link dissolved.\")
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
-# =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
-@if {{ not file_exists('pyproject.toml') }}:
-pyproject.toml :: """
-[project]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = [{name = "The Architect"}]
-readme = "README.md"
-dependencies = [
-    "redis[hiredis]>=5.0.0",
-]
-
-[tool.poetry]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = ["The Architect"]
-packages = [{include = "{{ package_name }}", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^{{ python_version }}"
-redis = {extras = ["hiredis"], version = "^5.0.0"}
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-"""
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject Redis exactly where 
-# the Laws of TOML demand, warded by an idempotency check.
-
-# 1. Target Legacy Poetry Blocks
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*redis))/$1\nredis = {extras = [\"hiredis\"], version = \"^5.0.0\"}/g"
-
-# 2. Target Modern PEP 621 Blocks
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*redis))/$1\n    \"redis[hiredis]>=5.0.0\",/g"
-@endif
-
-# [ASCENSION 5]: THE ENVIRONMENT DNA
-.env.example ~= "s/(# --- Persistence Stratum ---)/$1\nREDIS_URL={{ default_redis_url }}/g"
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Redis Client Substrate[/] is manifest."
     proclaim: "Default Vault: [bold yellow]{{ default_redis_url }}[/]"
     
-    # 1. Dependency Synchronization
-    @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
-        >> poetry add "redis[hiredis]"
-    @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
-        >> pip install "redis[hiredis]"
-    @endif
-    ?? succeeds
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Memory Latency -> 0)[/]"
     proclaim: "[bold green]✅ The Ephemeral Mind is waked.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Memory substrate materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/network/redis.py

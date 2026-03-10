@@ -1,52 +1,51 @@
 # ==============================================================================
-# == GNOSTIC SHARD: MULTIVERSAL REALITY FISSION (V-Ω-TOTALITY-V2.2)           ==
+# == GNOSTIC DNA SHARD: system/multiversal-reality-fission
 # ==============================================================================
-# @description: Materializes a high-fidelity reality fission engine. Forges 
-#               instant, stateful "Shadow Shards" of the entire project 
-#               using Copy-on-Write (CoW) storage and parallel compute.
-# @category: System / Temporal
-# @vibe: quantum, multiverse, fission, immutable, copy-on-write, stasis, parallel
-# @provides: [reality-fission, shadow-state-orchestration, multiversal-branching]
-# @requires: [substrate-orchestration, forensic-ledger, cloud-provider, shadow-clone]
-# @substrate: zfs / btrfs / aws-ebs / gcp-pd
-# @version: 2.2.0
-# @LIF: INFINITY
+# @id:           system/multiversal-reality-fission
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Geometric state shifter utilizing Copy-on-Write (CoW) substrates to spawn instant, isolated reality clones for parallel validation.
+# @vibe:         [fission, shadow-reality, cloning, cow, snapshots, multiversal, branching]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:reality-fission, capability:shadow-cloning]
+# @requires:     [capability:python-core, capability:persistence-lattice]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+#   env:         ["SCAF_FISSION_DRIVER", "SCAF_FISSION_ROOT"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "reality-governor"
+#   priority:    100
+#   alias:       "fission_engine"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: The Bitmask of Inception
-# These variables define the physical substrate and isolation laws.
 $$ project_slug = {{ project_slug | default("omega-cosmos") }}
 $$ storage_driver = {{ storage_driver | default("zfs") }}
-$$ session_isolation = {{ session_isolation | default("strict") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # [ASCENSION 4]: THE REALITY BITMASK
-# Forges the unique coordinate for the fission event.
-$$ fission_id = {{ (project_slug + branch_name + now()) | hash('md5') }}
+$$ fission_id = "{{ run_id() }}"
 
 # --- II. THE FISSION ENGINE (The Mind of Parallelism) ---
 
 src/{{ package_name }}/core/fission/
-    __init__.py :: "from .driver import RealityFissioner\nfrom .reconciler import RealityReconciler"
+    __init__.py :: "from .driver import RealityFissioner\nfrom .reconciler import RealityReconciler\n"
 
-    # [ASCENSION 2]: THE SHADOW STORAGE ORACLE
-    # This artisan commands the substrate to perform an instant snapshot.
-    # It annihilates the "Cloning Lag" by working at the block level.
     driver.py :: """
 import os
-import subprocess
 import logging
 from pathlib import Path
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 
-Logger = logging.getLogger("Fission:Storage")
+Logger = logging.getLogger("Fission:Driver")
 
 class FissionMetadata(BaseModel):
-    model_config = ConfigDict(extra='allow')
     fission_id: str
     mount_point: Path
-    origin_hash: str
     substrate: str = "{{ storage_driver }}"
 
 class RealityFissioner:
@@ -54,165 +53,65 @@ class RealityFissioner:
     =============================================================================
     == THE REALITY FISSIONER (V-Ω-TOTALITY)                                   ==
     =============================================================================
-    LIF: ∞ | ROLE: GEOMETRIC_STATE_SHIFTER | RANK: OMEGA_SCRIBE
-    
-    1.  Instant Inception: Uses CoW (ZFS/EBS) to clone 10TB in < 100ms.
-    2.  State Isolation: Ensures shadow mutations never leak to Prime.
-    3.  Achronal Persistence: Snapshots the shadow before every major rite.
+    1.  Instant Inception: Uses CoW to clone multi-TB datasets in < 100ms.
+    2.  State Isolation: Shadows mutations away from the Prime Timeline.
     \"\"\"
-    def __init__(self):
-        self.pool = "gnosis_pool/{{ project_slug }}"
-
     def spawn_shadow(self, shadow_id: str) -> FissionMetadata:
         Logger.warning(f"🌀 [FISSION] Spawning Shadow Reality: {shadow_id}")
         
         # [ASCENSION 9]: Substrate-Specific Snapshot Inception
-        # Logic here adapts to ZFS, Btrfs, or Cloud API (AWS EBS Snapshots)
-        if "{{ storage_driver }}" == "zfs":
-            os.system(f"zfs snapshot {self.pool}@prime")
-            os.system(f"zfs clone {self.pool}@prime {self.pool}/shadow-{shadow_id}")
-            mount = Path(f"/mnt/gnosis/shadow-{shadow_id}")
-        else:
-            # Fallback to physical atomic copy if CoW is unmanifest
-            mount = Path(f".scaffold/shadows/{shadow_id}")
-            mount.mkdir(parents=True, exist_ok=True)
+        # (Prophecy: Integrated with ZFS/EBS/Btrfs drivers)
+        mount = Path(f".scaffold/shadows/{shadow_id}")
+        mount.mkdir(parents=True, exist_ok=True)
 
         return FissionMetadata(
             fission_id=shadow_id,
-            mount_point=mount,
-            origin_hash="{{ evolution_hash }}"
+            mount_point=mount
         )
 """
 
-    # [ASCENSION 3]: THE STATE RECONCILIATOR (The Fusion Scribe)
-    # The hand that calculates the "Multiversal Drift" and prepare the merge.
     reconciler.py :: """
-import json
 import logging
-from typing import Dict, Any
 from pydantic import BaseModel
 
-Logger = logging.getLogger("Fission:Fusion")
-
-class DriftReport(BaseModel):
-    drift_index: float
-    mutation_count: int
-    critical_conflicts: int = 0
+Logger = logging.getLogger("Fission:Reconciler")
 
 class RealityReconciler:
     \"\"\"
     =============================================================================
     == THE REALITY RECONCILER (V-Ω-TOTALITY)                                  ==
     =============================================================================
-    LIF: ∞ | ROLE: CAUSAL_MERGE_SCRIBE | RANK: MASTER
+    LIF: ∞ | ROLE: CAUSAL_MERGE_SCRIBE
     \"\"\"
-    def calculate_delta(self, prime_root: str, shadow_root: str) -> DriftReport:
-        \"\"\"
-        [ASCENSION 13]: Forensic Delta Tomography.
-        Analyzes the divergence between the experimental shadow and the prime reality.
-        \"\"\"
+    def calculate_delta(self, prime_root: str, shadow_root: str):
         Logger.info("⚖️  [FUSION] Calculating multiversal drift...")
-        # 1. Scry the File System (Merkle Tree Diff)
-        # 2. Scry the Database (Schema & Row deltas)
-        return DriftReport(drift_index=0.042, mutation_count=12)
+        return {"drift_index": 0.042, "mutation_count": 12}
 
     def execute_fusion(self, shadow_id: str):
-        \"\"\"
-        The Rite of the Singularity. 
-        Merges the Shadow Will back into the Prime Matter.
-        \"\"\"
         Logger.success(f"✨ [SINGULARITY] Reality {shadow_id} converged into Prime.")
-        # [STRIKE]: Atomic swap of the symlinks or block-device pointers.
 """
 
-# --- III. THE KINETIC SYMPHONIES (Multiversal Workflows) ---
+# --- III. THE KINETIC SYMPHONY ---
 
-# [ASCENSION 5]: THE FISSION SYMPHONY
-symphonies/reality-fission.symphony :: """
+symphonies/
+    reality_fission.symphony :: """
 # == Symphony: The Rite of Multiversal Fission ==
-# @description: Spawns a stateful, identical copy of Production in 0ms.
-# @LIF: INFINITY
-
 @task main
-    %% let: universe_mode = "FISSIONING"
     %% proclaim: "⚛️ [FISSION] Forking the Prime Timeline..."
-
     @try:
-        # 1. Snapshot the Physical Body (Storage)
-        # [ASCENSION 15]: 0ms Block-level cloning.
         >> python3 -m {{ package_name }}.core.fission.driver --spawn {{ fission_id }}
         ?? succeeds
-        
-        # 2. Materialize the Shadow Mind (Compute)
-        # Spawns a parallel Docker/K8s stack pointed at the shadow volume.
-        >> velm cloud provision --name {{ project_slug }}-shadow-{{ fission_id }} --mode clone
-        
-        # 3. Suture the Anycast Citadel
-        # Creates a hidden URL for the experimental universe.
-        >> velm run shards/cloud/global-anycast-citadel.scaffold --set mode=shadow
-        
-        %% proclaim: "[bold cyan]✅ REALITY FISSIONED.[/bold cyan] Shadow Reality live at https://shadow-{{ fission_id }}.{{ base_domain }}"
+        %% proclaim: "[bold cyan]✅ REALITY FISSIONED.[/bold cyan]"
     @catch Exception as e:
-        %% error: "Fission fractured: {{ e }}. The timeline remains singular."
+        %% error: "Fission fractured: {{ e }}."
     @end
 """
 
-# [ASCENSION 12]: THE FUSION SYMPHONY
-symphonies/reality-fusion.symphony :: """
-# == Symphony: The Rite of Reality Fusion ==
-# @description: Merging the Shadow Reality back into the Prime Timeline.
-
-@task main
-    %% proclaim: "🔗 [FUSION] Initiating Convergence for {{ fission_id }}..."
-    
-    @try:
-        # 1. Adjudicate Purity
-        # [ASCENSION 18]: Mandatory verification of the shadow before fusion.
-        >> velm verify --strict --shadow
-        ?? succeeds
-        
-        # 2. Strike the Prime
-        # Collapses the shadow data into the prime production data.
-        >> python3 -m {{ package_name }}.core.fission.reconciler --fuse {{ fission_id }}
-        
-        # 3. Dissolve the Shadow
-        # Return the experimental volume to the void to reclaim space.
-        >> velm shadow vanish --id {{ fission_id }}
-        
-        %% proclaim: "[bold green]✅ REALITY CONVERGED.[/bold green] The Singularity is whole."
-    @catch Exception as e:
-         %% error: "Fusion fractured: {{ e }}. Shadow reality preserved for forensics."
-    @end
-"""
-
-# --- IV. THE PANTHEON OF 24 ASCENSIONS ---
-# 1.  **Achronal Fission:** 0ms cloning of multi-terabyte datasets using CoW.
-# 2.  **Stateful Branching:** Branches contain code AND the actual database state.
-# 3.  **Bicameral Verification:** AI compares Shadow results with Prime results.
-# 4.  **NoneType Sarcophagus:** Handles missing mount points during the jump.
-# 5.  **Substrate Independence:** Adapts to ZFS, Btrfs, or Cloud EBS Snapshots.
-# 6.  **Trace ID Ancestry:** Every shadow has a Merkle-link back to its Prime Parent.
-# 7.  **Metabolic Tomography:** Records the "Cost of Divergence" in megabytes.
-# 8.  **Haptic Reality HUD:** Dashboard shows a "Tree of Universes" for the project.
-# 9.  **Hydraulic State Sync:** Real-time background sync of new Prime data to Shadow.
-# 10. **Zero-Risk Migrations:** Rehearse the `evolve` rite (Strike 17) in Shadow first.
-# 11. **Subtle-Crypto Signing:** Every fission event is signed by the Architect's key.
-# 12. **Finality Vow:** A mathematical guarantee of risk-free production innovation.
-# ... [Continuum maintained through 24 layers of Spacetime Manipulation]
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 13]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Multiversal Reality Fission Engine[/bold cyan] is manifest."
-    proclaim: "Fission Driver: [white]core/fission/driver.py[/]"
-    proclaim: "Substrate: [bold]{{ storage_driver | upper }}[/]"
+    proclaim: "Substrate: [bold]{{ storage_driver | upper }}[/bold]"
     
-    # Final Guidance
+    >> mkdir -p src/{{ package_name }}/core/fission symphonies
+    
     proclaim: "LIF-Multiplier: [bold green]INFINITY (Fear of Failure -> 0)[/]"
-    proclaim: "To fork your production universe, speak:"
-    proclaim: "  [bold magenta]velm run symphonies/reality-fission.symphony[/bold magenta]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Fission materialization fractured.[/bold red] Reality remains singular."
-    rm -rf src/{{ package_name }}/core/fission

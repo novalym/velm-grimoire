@@ -1,21 +1,30 @@
 # ==============================================================================
-# == GNOSTIC SHARD: DOCKER COMPOSE SWARM (V-Ω-TOTALITY-V2.1-ORCHESTRATION)     ==
+# == GNOSTIC DNA SHARD: automation/docker-compose-swarm
 # ==============================================================================
-# @description: A legendary Docker Compose stack for orchestrating a polyglot 
-#               microservice reality. Features health checks, mesh networking, 
-#               and persistent named volumes for local development.
-# @category: Automation / Infrastructure
-# @vibe: docker, compose, orchestration, microservices, local-dev, swarm
-# @provides: [local-orchestration, container-runtime, dev-environment]
-# @requires: [docker-engine, pydantic-settings, maestro-control]
-# @substrate: docker
-# @version: 2.1.0-Ω
-# @LIF: 1,000,000x
+# @id:           automation/docker-compose-swarm
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Local multiversal orchestration using Docker Compose for APIs, Postgres, and Redis.
+# @vibe:         [docker, compose, orchestration, local-dev, swarm, containers]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:local-multiverse, capability:docker-compose]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["API_PORT", "DB_HOST", "POSTGRES_USER", "POSTGRES_PASSWORD", "POSTGRES_DB", "REDIS_HOST"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "db": { "image": "postgres:16-alpine" }, "cache": { "image": "redis:7-alpine" } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-compose"
+#   priority:    1000
+#   alias:       "docker_compose_swarm"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: Causal Variable Anchoring
-$$ project_name = "microservice-swarm"
+$$ project_slug = {{ project_slug | default("microservice-swarm") }}
 $$ api_port = 8000
 $$ db_port = 5432
 $$ cache_port = 6379
@@ -49,7 +58,7 @@ services:
   # --- The Intelligence Layer ---
   api:
     build: ./services/api
-    container_name: {{ project_name }}-api
+    container_name: {{ project_slug }}-api
     ports: ["{{ api_port }}:8000"]
     env_file: .env
     networks: [internal_mesh]
@@ -65,7 +74,7 @@ services:
   # --- The Persistence Layer ---
   db:
     image: postgres:16-alpine
-    container_name: {{ project_name }}-db
+    container_name: {{ project_slug }}-db
     environment:
       - POSTGRES_USER=$${POSTGRES_USER}
       - POSTGRES_PASSWORD=$${POSTGRES_PASSWORD}
@@ -79,7 +88,7 @@ services:
   # --- The Caching Layer ---
   cache:
     image: redis:7-alpine
-    container_name: {{ project_name }}-cache
+    container_name: {{ project_slug }}-cache
     networks: [internal_mesh]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -124,8 +133,8 @@ This project is warded by a Docker Compose Swarm for local development.
     # 1. Forge the placeholder service soul
     proclaim: "Forging placeholder service matter..."
     >> mkdir -p services/api
-    >> echo "fastapi\\nuvicorn" > services/api/requirements.txt
-    >> echo "from fastapi import FastAPI\\napp=FastAPI()\\n@app.get('/health')\\ndef r():return{'status':'resonant'}" > services/api/main.py
+    >> echo "fastapi\nuvicorn" > services/api/requirements.txt
+    >> echo "from fastapi import FastAPI\napp=FastAPI()\n@app.get('/health')\ndef r():return{'status':'resonant'}" > services/api/main.py
     
     # 2. Materialize .env
     proclaim: "Materializing local Vault (.env)..."

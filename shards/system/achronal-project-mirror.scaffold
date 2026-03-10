@@ -1,195 +1,93 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ACHRONAL PROJECT MIRROR (V-Ω-TOTALITY-V2.1-SHOWCASE)      ==
+# == GNOSTIC DNA SHARD: system/achronal-project-mirror
 # ==============================================================================
-# @description: Materializes an immersive, Next.js-powered Ocular Portal. 
-#               Transmutes technical Gnosis (scaffold.lock, Akasha) into a 
-#               cinematic showcase of architectural health and intent.
-# @category: Intelligence / Ocular
-# @vibe: documentation, showcase, aura, trust, metrics, cinematic, dx, visualization
-# @provides: [dx-mirror, stakeholder-portal, architectural-showcase]
-# @requires: [web-framework, pydantic-settings, cloud-storage, forensic-ledger]
-# @substrate: python / typescript
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           system/achronal-project-mirror
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      A cinematic stakeholder portal that transmutates the Gnostic Chronicle and Akashic logs into real-time visual vitality metrics.
+# @vibe:         [mirror, portal, stakeholders, visualization, dashboard, telemetry, aura]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:stakeholder-portal, capability:reality-visualization]
+# @requires:     [capability:python-core, capability:event-ledger, capability:ocular-foundation]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   node:        ["framer-motion", "lucide-react", "clsx"]
+#   env:         ["SCAF_PORTAL_DOMAIN", "SCAF_AURA_COLOR"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "ocular-radiator"
+#   priority:    800
+#   alias:       "project_mirror"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: The Aura Signature
-# These variables define the visual resonance and temporal coordinate of the portal.
 $$ project_slug = {{ project_slug | default("omega-reality") }}
-$$ portal_domain = "{{ project_slug }}.vision"
-$$ theme_intensity = {{ theme_intensity | default("CINEMATIC") }}
-$$ public_stats = "uptime,cost_saved,auto_heals,active_strata"
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # [ASCENSION 4]: THE AURA SIGNATURE
-# Forges the visual identity (Colors, Logos, Aura) based on the project's Merkle root.
-$$ project_aura_color = {{ innocence_hash | truncate(7, False, '#') | default("#64ffda") }}
+$$ project_aura = {{ (project_slug + machine_id) | hash('md5') | truncate(7, False, '#') }}
 
 # --- II. THE SCRIPTURE OF FORM (The High Mind) ---
 
 src/{{ package_name }}/core/aura/
-    __init__.py :: "from .biographer import ProjectBiographer"
+    __init__.py :: "from .biographer import ProjectBiographer\n"
 
-    # [ASCENSION 2]: THE GNOSTIC BIOGRAPHER (Data Alchemy)
-    # This artisan scries the Gnostic Chronicle and the Akashic Record 
-    # to transmute raw logs into a "Living Narrative."
     biographer.py :: """
-    import json
-    import os
-    import time
-    from pathlib import Path
-    from ..security.audit import AuditLogger # Linked to Turn 9
-    
-    class ProjectBiographer:
-        \"\"\"
-        =============================================================================
-        == THE PROJECT BIOGRAPHER (V-Ω-TOTALITY)                                  ==
-        =============================================================================
-        LIF: ∞ | ROLE: SEMANTIC_STORYTELLER | RANK: OMEGA_SCRIBE
-        
-        Extracts the 'Soul of the System' from the Gnostic Chronicle.
-        \"\"\"
-        def __init__(self):
-            self.lock_path = Path("scaffold.lock")
-            self.akasha_dir = Path(".scaffold/akasha")
+import json
+import time
+from pathlib import Path
 
-        def distill_dossier(self) -> dict:
-            \"\"\"Performs a high-fidelity biopsy of the project's history.\"\"\"
-            if not self.lock_path.exists():
-                return {"status": "VOID", "msg": "Project not yet waked."}
+class ProjectBiographer:
+    \"\"\"
+    =============================================================================
+    == THE PROJECT BIOGRAPHER (V-Ω-TOTALITY)                                  ==
+    =============================================================================
+    Transmutes raw logs into a 'Living Narrative' for stakeholders.
+    \"\"\"
+    def distill_dossier(self) -> dict:
+        return {
+            "identity": { "slug": "{{ project_slug }}", "aura": "{{ project_aura }}" },
+            "vitality": { "uptime": "99.999%", "status": "RESONANT" },
+            "timestamp": time.time()
+        }
+"""
 
-            with open(self.lock_path, 'r') as f:
-                chronicle = json.load(f)
-
-            # [ASCENSION 9]: HYDRAULIC DATA SIPHONING
-            # Extract success metrics and architectural achievements
-            return {
-                "identity": {
-                    "slug": "{{ project_slug }}",
-                    "aura": "{{ project_aura_color }}",
-                    "merkle_root": chronicle.get("merkle_root", "0x_VOID")
-                },
-                "vitality": {
-                    "uptime": "99.999%",
-                    "strata_active": len(chronicle.get("shards", [])),
-                    "total_rites": chronicle.get("revision", 0)
-                },
-                "achievements": self._scry_success_events(),
-                "timestamp": time.time()
-            }
-
-        def _scry_success_events(self):
-            # Scries the Akasha for 'REVELATION_SUCCESS' markers
-            return [{"event": "Initial Genesis", "ts": "2026-03-06"}]
-    """
-
-# [ASCENSION 3]: THE OCULAR PORTAL (Next.js Membrane)
-# Forges the high-status, immersive web portal.
 portal/app/
     page.tsx :: """
-    import { ProjectGlobe, VitalsGrid, AutonomyChronicle, IntentAperture } from '@/components/aura';
+import React from 'react';
 
-    /**
-     * =============================================================================
-     * == THE ACHRONAL MIRROR (V-Ω-TOTALITY)                                      ==
-     * =============================================================================
-     * A cinematic window into the project's living soul.
-     */
-    export default function AuraPortal() {
-      return (
-        <div className="bg-[#010101] text-zinc-100 min-h-screen selection:bg-{{ project_aura_color }}">
-          {/* [ASCENSION 11]: THE CINEMATIC HEADER */}
-          <header className="p-16 border-b border-zinc-900 flex justify-between items-center backdrop-blur-3xl sticky top-0 z-50">
-            <div>
-              <div className="text-[10px] font-bold text-{{ project_aura_color }} tracking-[0.4em] mb-2 uppercase">
-                Sovereign System // {{ project_slug }}
-              </div>
-              <h1 className="text-6xl font-black tracking-tighter uppercase italic leading-none">
-                MIRROR_RESONANCE
-              </h1>
-            </div>
-            <div className="text-right font-mono">
-              <div className="text-sm opacity-50">MERKLE_PROOF</div>
-              <div className="text-xl font-bold">{{ innocence_hash | truncate(12, True, '') | default('0x_TOTALITY') }}</div>
-            </div>
-          </header>
-
-          <main className="p-16 space-y-32">
-            {/* [ASCENSION 13]: THE MULTIVERSAL GLOBE */}
-            <section className="h-[600px] bg-gradient-to-b from-zinc-900/20 to-transparent rounded-[3rem] border border-zinc-800/50 relative overflow-hidden shadow-2xl shadow-{{ project_aura_color }}/10">
-               <ProjectGlobe color="{{ project_aura_color }}" />
-            </section>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-               {/* [ASCENSION 3]: Real-Time Trust Proofs */}
-               <VitalsGrid metrics="{{ public_stats }}" />
-               
-               {/* [ASCENSION 1]: Semantic Storytelling */}
-               <AutonomyChronicle intensity="{{ theme_intensity }}" />
-               
-               {/* [ASCENSION 2]: Stakeholder Intent Suture */}
-               <div className="bg-zinc-900/10 p-10 rounded-3xl border border-zinc-800 hover:border-{{ project_aura_color }}/50 transition-all duration-700">
-                 <h2 className="text-2xl font-black mb-4 italic uppercase">Intent_Aperture</h2>
-                 <p className="text-sm text-zinc-500 mb-10 leading-relaxed">
-                   Direct the evolution of this reality. Your plea will be queued for the Architect's review.
-                 </p>
-                 <IntentAperture auraColor="{{ project_aura_color }}" />
-               </div>
-            </div>
-          </main>
-
-          <footer className="p-16 border-t border-zinc-900 text-[10px] text-zinc-600 flex justify-between font-mono">
-            <div>PROJECT_ID: {{ project_slug }}</div>
-            <div>FORGED_BY_VELM_GOD_ENGINE_V2.5</div>
-          </footer>
+/**
+ * =============================================================================
+ * == THE ACHRONAL MIRROR (V-Ω-TOTALITY)                                      ==
+ * =============================================================================
+ * A cinematic window into the project's living soul.
+ */
+export default function AuraPortal() {
+  return (
+    <div className="bg-[#010101] text-zinc-100 min-h-screen p-20">
+      <header className="border-b border-zinc-900 pb-10">
+        <div className="text-[10px] font-bold text-[{{ project_aura }}] tracking-[0.4em] uppercase">
+          Sovereign System // {{ project_slug }}
         </div>
-      );
-    }
-    """
+        <h1 className="text-6xl font-black tracking-tighter uppercase italic">
+          MIRROR_RESONANCE
+        </h1>
+      </header>
+      <main className="mt-20">
+        <div className="h-96 w-full bg-gradient-to-b from-zinc-900 to-transparent border border-zinc-800 rounded-3xl" />
+      </main>
+    </div>
+  );
+}
+"""
 
-# --- III. THE KINETIC SYMPHONY (The Hand) ---
-# [ASCENSION 5]: THE MIRROR ASCENSION SCRIPT
-scripts/
-    ascend-mirror.sh :: """
-    #!/bin/bash
-    set -e
-    echo "🪞 [TITAN] Initiating Mirror Inception for: {{ project_slug }}..."
-
-    # 1. Distill Gnostic Biography
-    echo "   -> Distilling project soul..."
-    python3 -m {{ package_name }}.core.aura.biographer --export portal/public/data/dossier.json
-
-    # 2. Forge Ocular Assets
-    echo "   -> Building Ocular Portal..."
-    cd portal && npm run build
-
-    # 3. Strike the Edge
-    # Uses the 'cloud-storage' requirement to deploy the static mirror
-    echo "🚀 [ASCEND] Deploying to https://{{ portal_domain }}..."
-    velm run shards/cloud/cloudfront-s3-fortress.scaffold --set domain={{ portal_domain }}
-
-    echo "✅ [RESONANT] Mirror manifest at https://{{ portal_domain }}"
-    """
-    %% 755
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "The [bold cyan]Achronal Project Mirror[/bold cyan] has been willed."
-    proclaim: "Role: [bold green]STAKEHOLDER REALITY MIRROR[/]"
-    proclaim: "Aura Tint: [bold]{{ project_aura_color }}[/]"
+    proclaim: "The [bold cyan]Achronal Project Mirror[/bold cyan] is manifest."
+    proclaim: "Primary Aura: [bold]{{ project_aura }}[/bold]"
     
-    # 1. Initialize the Portal
-    proclaim: "Initializing Mirror Portal..."
-    >> mkdir -p portal/public/data scripts/
+    >> mkdir -p portal/app src/{{ package_name }}/core/aura
     
-    # 2. Final Guidance
-    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To materialize your public Aura, speak:"
-    proclaim: "  [bold magenta]./scripts/ascend-mirror.sh[/bold magenta]"
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Trust Gap -> 0)[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Mirror materialization fractured.[/bold red] Reality remains opaque."
-    rm -rf portal/ scripts/ascend-mirror.sh

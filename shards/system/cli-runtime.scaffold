@@ -1,19 +1,28 @@
 # ==============================================================================
-# == GNOSTIC SHARD: CLI-RUNTIME (V-Ω-TOTALITY-V3.0)                           ==
+# == GNOSTIC DNA SHARD: system/cli-runtime
 # ==============================================================================
-# @description: The definitive terminal interface runtime. Materializes the 
-#               Typer-powered CLI entrypoint and the Gnostic Bridge, enabling 
-#               direct communication between human intent and the Engine Core.
-# @category: System / Interface
-# @vibe: cli, typer, terminal, interface, command-line, bridge, runtime
-# @provides: [cli-runtime, typer-substrate, command-bridge]
-# @requires: [python-core, pydantic-settings, engine-core, rich-telemetry]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/cli-runtime
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      The command-line bridge utilizing Typer and Rich to transmute human terminal intent into Engine dispatches.
+# @vibe:         [cli, typer, commands, bridge, dispatch, terminal, ui]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:cli-bridge, capability:command-orchestrator]
+# @requires:     [capability:python-core, capability:rich-logging]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["typer[rich]>=0.12.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "cli-runtime-heart"
+#   priority:    0
+#   alias:       "cli_runtime"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-app") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ cli_name = {{ cli_name | default(project_slug | slug) }}
 
@@ -22,17 +31,14 @@ $$ cli_name = {{ cli_name | default(project_slug | slug) }}
 src/{{ package_name }}/cli/
     __init__.py :: "from .main import app\n"
 
-    # [ASCENSION 1]: THE SOVEREIGN ENTRYPOINT
-    # This file materializes the primary CLI application.
     main.py :: """
 import typer
 import sys
 from typing import Optional
 from .bridge import conduct_rite
-from ..core.engine import engine
+# The Causal Linker ensures the Engine exists
+from ..core.engine import engine 
 
-# [ASCENSION 2]: THE TYPER PANTHEON
-# We forge the main app with Rich-enabled help formatting.
 app = typer.Typer(
     name="{{ cli_name }}",
     help="Sovereign CLI manifest by the VELM God-Engine.",
@@ -40,17 +46,12 @@ app = typer.Typer(
     rich_markup_mode="rich"
 )
 
-# [ASCENSION 3]: THE DISPATCH SUTURE
-# Every command in this project will eventually flow through this bridge.
 @app.callback()
 def global_vows(
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable luminous logging."),
     trace_id: Optional[str] = typer.Option(None, "--trace", help="Attach a specific Trace ID.")
 ):
-    \"\"\"
-    Universal Vows for the {{ cli_name }} cosmos.
-    \"\"\"
-    # (Prophecy: Contextual metadata initialization)
+    \"\"\"Universal Vows for the {{ cli_name }} cosmos.\"\"\"
     pass
 
 @app.command()
@@ -62,71 +63,37 @@ if __name__ == "__main__":
     app()
 """
 
-    # [ASCENSION 4]: THE GNOSTIC BRIDGE
-    # Translates CLI events into Engine Dispatch pleas.
     bridge.py :: """
 import logging
 from typing import Dict, Any
 from ..core.engine import engine
 from ..core.telemetry.rich_scribe import scribe
-from ..interfaces import requests # Dynamically scried by Registry
 
 Logger = logging.getLogger("CLI:Bridge")
 
 def conduct_rite(request_name: str, params: Dict[str, Any]):
-    \"\"\"
-    The primary bridge between the Terminal and the Kernel.
-    \"\"\"
+    \"\"\"The primary bridge between the Terminal and the Kernel.\"\"\"
     try:
-        # 1. Materialize the Request Vessel
-        RequestClass = getattr(requests, request_name)
-        request = RequestClass(**params)
+        # [STRIKE]: The Dispatch
+        result = engine.dispatch_by_name(request_name, params)
         
-        # 2. Dispatch to the Engine
-        result = engine.dispatch(request)
-        
-        # 3. Proclaim the Revelation
         if result.success:
             scribe.proclaim_panel(result.message, title="SUCCESS", style="green")
         else:
             scribe.proclaim_panel(result.message, title="FRACTURED", style="red")
-            if result.details:
-                print(f"[dim]{result.details}[/dim]")
                 
     except Exception as e:
         scribe.proclaim_panel(f"Bridge Fracture: {e}", title="CRITICAL", style="bold red")
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# [ASCENSION 12]: Dependency Inception
-pyproject.toml += """
-typer = {extras = ["rich"], version = "^0.9.0"}
-"""
-
-# [ASCENSION 13]: Entrypoint Registration
-# Registers the CLI command in the Python environment.
-pyproject.toml += """
-[tool.poetry.scripts]
-{{ cli_name }} = "{{ package_name }}.cli.main:app"
-"""
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]CLI Runtime Shard[/] is manifest."
-    proclaim: "Command Locus: [white]src/{{ package_name }}/cli/main.py[/]"
-    proclaim: "Command Name: [bold yellow]{{ cli_name }}[/]"
+    proclaim: "Command Name: [bold yellow]{{ cli_name }}[/bold yellow]"
     
-    # 1. Dependency Summoning
-    proclaim: "Phase I: Summoning the Interface artisans... (typer)"
-    >> poetry add typer[rich]
-    ?? succeeds
+    # [THE CURE]: We no longer manually edit pyproject.toml. 
+    # The `ApotheosisParser` aggregates the @metabolism.typer and 
+    # the Suture strategy will handle the [tool.poetry.scripts] entry.
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Command-to-Logic Impedance -> 0)[/]"
-    proclaim: "[bold green]✅ THE FOUNDATION IS COMPLETE.[/bold green] Your project now has a Voice and a Mind."
-    proclaim: "To test your new mouth, speak: [bold cyan]poetry run {{ cli_name }} --help[/bold cyan]"
-
-%% on-heresy
-    proclaim: "[bold red]CLI Runtime materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/cli
+    proclaim: "[bold green]✅ THE FOUNDATION IS COMPLETE. Your project now has a Voice.[/bold green]"

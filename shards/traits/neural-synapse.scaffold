@@ -1,31 +1,35 @@
 # ==============================================================================
-# == GNOSTIC TRAIT: NEURAL SYNAPSE (V-Ω-TOTALITY-V2.5-CONTEXT)               ==
+# == GNOSTIC DNA TRAIT: traits/neural-synapse
 # ==============================================================================
-# @description: Materializes an AI-optimized context stratum. Injects an 
-#               autonomic background scryer that maintains a high-status 
-#               '.scaffold/context.md' as a holographic lens for LLMs.
-# @category: Intelligence / Metadata
-# @vibe: ai, context, rag, documentation, retina, llm-optimized, self-aware
-# @provides: [semantic-retina, gnostic-context-anchor, prompt-navigator]
-# @requires: [gnostic-cortex, vector-librarian, python-ast-toolkit]
-# @substrate: python (Achronal Sync)
-# @version: 2.5.0
-# @LIF: 1,000,000x
+# @id:           traits/neural-synapse
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      A self-updating Markdown constitution and symbol table that anchors LLM context across the project.
+# @vibe:         [trait, ai, context, markdown, llm, constitution, documentation]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:ai-context-anchor]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      [] # Leverages internal Engine Cortex logic
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "system-trait"
+#   priority:    0
+#   alias:       "neural_synapse"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ project_title = {{ project_name | title | default(" omega-reality") }}
 $$ context_depth = {{ context_depth | default("forensic") }} # [skeletal, balanced, forensic]
-$$ update_on_save = {{ update_on_save | default(true) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE SCRIPTURE OF FORM (The AI's Retina) ---
 
 .scaffold/
     # [ASCENSION 2]: THE CONSTITUTIONAL ANCHOR
-    # This is the "God-View" that LLMs inhale. It uses specific XML-like 
-    # markers to guide the AI's attention mechanism to high-status symbols.
     context.md :: """
 # 🧠 GNOSTIC CONSTITUTION: {{ project_title }}
 > [!IMPORTANT]
@@ -52,18 +56,15 @@ $$ package_name = {{ package_name | default(project_slug | snake) }}
 ## IV. ALCHEMICAL DIRECTIVES
 - **Naming:** Enforce `snake_case` for logic, `PascalCase` for types.
 - **Persistence:** All data souls must flow through the `Bicameral Evolution Engine`.
-- **Defense:** Perimeter is warded by the `Identity Ward` (Strike 16).
 """
 
 scripts/intelligence/
     # [ASCENSION 3]: THE SYNAPTIC SCRYER (Logic)
-    # This artisan performs the high-order AST biopsy to refresh the mirror.
     update_synapse.py :: """
 import os
-import json
 import logging
 from pathlib import Path
-from velm.core.cortex.engine import GnosticCortex # Linked to Strike 18
+from velm.core.cortex.engine import GnosticCortex # Internal engine capability
 
 Logger = logging.getLogger("Synapse:Scryer")
 
@@ -73,11 +74,6 @@ class SynapticScryer:
     == THE SYNAPTIC SCRYER (V-Ω-TOTALITY)                                     ==
     =============================================================================
     LIF: ∞ | ROLE: CONTEXT_SYNCHRONIZER | RANK: OMEGA
-    
-    The hand that cleans the lens.
-    1.  Causal Analysis: Scries the project's dependency graph.
-    2.  Symbol Ranking: Identifies the most central 'Brain' modules.
-    3.  Markdown Inception: Surgically replaces tags in .scaffold/context.md.
     \"\"\"
     def __init__(self, root: Path):
         self.root = root
@@ -106,17 +102,15 @@ class SynapticScryer:
             Logger.success("✨ [SYNAPSE] AI Retina synchronized with Physical Iron.")
 
     def _suture(self, content, tag, new_matter):
+        import re
         pattern = f"<!-- @scaffold:{tag}_start -->.*?<!-- @scaffold:{tag}_end -->"
         replacement = f"<!-- @scaffold:{tag}_start -->\\n{new_matter}\\n<!-- @scaffold:{tag}_end -->"
-        import re
         return re.sub(pattern, replacement, content, flags=re.DOTALL)
 
     def _forge_causal_mermaid(self, graph):
-        # Transmutes the graph into a Mermaid.js flowchart for the LLM
         return "```mermaid\\ngraph TD\\n  ... # Causal Web Projection\\n```"
 
     def _forge_symbol_table(self, symbols):
-        # Forges the Markdown table of central symbols
         rows = []
         for s in symbols:
             rows.append(f"| {s.name} | {s.locus} | {s.summary} | OMEGA |")
@@ -126,40 +120,22 @@ if __name__ == "__main__":
     SynapticScryer(Path(os.getcwd())).refresh()
 """
 
-# --- III. THE CONTROL PLANE (Makefile) ---
-# [ASCENSION 9]: Global Conductor Integration
+# --- III. THE CONTROL PLANE ---
 Makefile += """
 # --- INTELLIGENCE RITES ---
 sync-context: ## update the AI context mirror with latest AST gnosis
-    @poetry run python3 scripts/intelligence/update_synapse.py
+    @poetry run python scripts/intelligence/update_synapse.py
 
 observe-brain: ## gaze into the project's prefrontal cortex
     @cat .scaffold/context.md
 """
 
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
-    proclaim: "The [bold cyan]Neural Synapse[/bold cyan] has been incepted."
+    proclaim: "The [bold cyan]Neural Synapse Trait[/bold cyan] has been wove."
     proclaim: "Context Anchor: [white].scaffold/context.md[/]"
-    proclaim: "Scribe Locus: [white]scripts/intelligence/update_synapse.py[/]"
     
-    # 1. Initialize the Intelligence Sanctum
-    proclaim: "Initializing AI Retina..."
     >> mkdir -p .scaffold scripts/intelligence
     
-    # 2. Conduct initial Inception
-    proclaim: "Conducting initial Gaze... (Synthesizing Map)"
-    @try:
-        >> make sync-context
-    @catch:
-        proclaim: "[yellow]Initial sync deferred. Mirror will hydrate on first save.[/yellow]"
-    @end
-
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (AI Hallucination -> 0)[/]"
     proclaim: "[bold green]Context Anchored. The AI now shares your Gnosis.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Synapse materialization fractured.[/bold red] AI Co-Pilot remains blind."
-    rm -rf .scaffold/context.md scripts/intelligence/update_synapse.py

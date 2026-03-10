@@ -1,172 +1,102 @@
 # ==============================================================================
-# == GNOSTIC SHARD: METABOLIC REAPER DAEMON (V-Ω-TOTALITY-V2.3)               ==
+# == GNOSTIC DNA SHARD: system/metabolic-reaper-daemon
 # ==============================================================================
-# @description: Materializes an autonomic resource reclaimer. Scries the 
-#               manifold for "Gnostic Decay"—identifying unused Docker matter, 
-#               stagnant caches, and orphaned shards to protect metabolism.
-# @category: System / Maintenance
-# @vibe: reaper, gc, maintenance, purity, reclaimer, forensics, autonomic, cleanup
-# @provides: [metabolic-reaper, entropy-reclaimer, resource-gc-authority]
-# @requires: [docker, python, pydantic-settings, metabolic-visibility]
-# @substrate: python (Docker-Aware)
-# @version: 2.3.0
-# @LIF: 1,000,000x
+# @id:           system/metabolic-reaper-daemon
+# @version:      3.0.0
+# @tier:         body
+# @summary:      Autonomic maintenance daemon that purges stagnant caches, orphaned artifacts, and Docker volumes to prevent system entropy.
+# @vibe:         [reaper, cleanup, maintenance, entropy, daemon, lustration, background]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:metabolic-reclamation, capability:entropy-warden]
+# @requires:     [capability:python-core, capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["docker>=7.0.0", "psutil>=5.9.0", "pydantic>=2.6.0"]
+#   env:         ["REAP_INTERVAL_SECONDS", "STAGNATION_THRESHOLD_DAYS"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "maintenance-daemon"
+#   priority:    900
+#   alias:       "reaper"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Entropy Threshold Anchoring
 $$ package_name = {{ package_name | default(project_slug | snake) }}
-$$ reaper_interval_seconds = {{ interval | default(3600) }}
-$$ stagnation_threshold_days = {{ threshold_days | default(7) }}
-$$ auto_reap_enabled = {{ auto_reap | default(false) }}
+$$ reaper_interval = {{ interval | default(3600) }}
+$$ stagnation_days = {{ threshold_days | default(7) }}
 
 # --- II. THE REAPER CORE (The Mind of Purity) ---
 
 src/{{ package_name }}/core/system/
-    __init__.py :: "from .reaper import GnosticReaper, ReaperReport"
+    __init__.py :: "from .reaper import GnosticReaper\n"
     
-    # [ASCENSION 3]: THE REAPER ENGINE (Logic)
-    # The hand that reaches into the Abyss to reclaim lost energy.
     reaper.py :: """
 import os
 import time
 import shutil
 import logging
+import docker
 from pathlib import Path
-from typing import List, Set, Dict, Any, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 Logger = logging.getLogger("System:Reaper")
-
-class ReaperReport(BaseModel):
-    \"\"\"The forensic record of a lustration rite.\"\"\"
-    reaped_bytes: int = 0
-    reaped_items_count: int = 0
-    docker_reclaimed_bytes: int = 0
-    timestamp: float = Field(default_factory=time.time)
-    status: str = "RESONANT"
 
 class GnosticReaper:
     \"\"\"
     =============================================================================
     == THE METABOLIC REAPER (V-Ω-ENTROPY-RECLAIMER)                            ==
     =============================================================================
-    LIF: ∞ | ROLE: PURITY_ENFORCER | RANK: MASTER
+    LIF: ∞ | ROLE: PURITY_ENFORCER
     
-    The engine of reclamation.
-    1.  Abyssal Scrying: Locates stagnant matter in caches and temp folders.
-    2.  Docker Purgation: Identifies and removes orphaned images and volumes.
-    3.  Lustration Rite: Transactionally returns matter to the void.
+    1.  Abyssal Scrying: Locates stagnant matter in .scaffold/cache.
+    2.  Docker Purgation: Reclaims orphaned images and volumes.
     \"\"\"
     def __init__(self, root: Path):
         self.root = root
-        self.trash_can = root / ".scaffold" / "trash"
         self.cache_dir = root / ".scaffold" / "cache"
-        self.log_dir = root / "artifacts" / "logs"
+        self.docker_client = docker.from_env()
 
-    def scry_decay(self) -> List[Path]:
-        \"\"\"
-        [ASCENSION 2]: Forensic Entropy Scrying.
-        Identifies scriptures and sanctums that have lost their kinetic resonance.
-        \"\"\"
-        decayed: List[Path] = []
+    def scry_decay(self):
         now = time.time()
-        max_age_sec = {{ stagnation_threshold_days }} * 86400
-
-        # --- MOVEMENT I: THE CACHE INQUEST ---
+        max_age = {{ stagnation_days }} * 86400
+        decayed = []
+        
         if self.cache_dir.exists():
             for item in self.cache_dir.rglob("*"):
-                if item.is_file() and (now - item.stat().st_atime) > max_age_sec:
+                if item.is_file() and (now - item.stat().st_atime) > max_age:
                     decayed.append(item)
-
-        # --- MOVEMENT II: THE TEMPORAL VOID (TEMP FILES) ---
-        # Scan for 'tmp_' and '.tmp' shards older than 1 hour.
-        for item in self.root.rglob("tmp_*"):
-            if item.is_file() and (now - item.stat().st_mtime) > 3600:
-                decayed.append(item)
-
         return decayed
 
-    def conduct_lustration(self, targets: List[Path]) -> ReaperReport:
-        \"\"\"
-        [ASCENSION 5]: THE RITE OF PURGATION.
-        Returns the matter to the void.
-        \"\"\"
-        report = ReaperReport()
+    def conduct_lustration(self):
+        targets = self.scry_decay()
         for path in targets:
             try:
-                size = path.stat().st_size if path.is_file() else 0
-                if path.is_dir():
-                    shutil.rmtree(path)
-                else:
-                    path.unlink()
-                
-                report.reaped_bytes += size
-                report.reaped_items_count += 1
-                Logger.info(f"💀 Reaped stagnant soul: {path.name} ({size} bytes)")
-            except Exception as e:
-                Logger.error(f"Reaping failed for {path}: {e}")
-                report.status = "FRACTURED"
-
-        # [ASCENSION 15]: DOCKER SUBSTRATE RECLAMATION
-        report.docker_reclaimed_bytes = self._purgate_docker()
+                path.unlink()
+                Logger.info(f"💀 Reaped stagnant soul: {path.name}")
+            except Exception: pass
         
-        return report
-
-    def _purgate_docker(self) -> int:
-        \"\"\"[ASCENSION 9]: Communicates with the Docker Daemon to reap orphans.\"\"\"
+        # [ASCENSION 15]: DOCKER SUBSTRATE RECLAMATION
         try:
-            import docker
-            client = docker.from_env()
-            # Reap unused volumes (The primary cause of disk bloat)
-            reclaimed = client.volumes.prune()
-            bytes_freed = reclaimed.get('SpaceReclaimed', 0)
-            if bytes_freed > 0:
-                Logger.success(f"🐳 Docker: Reclaimed {bytes_freed} bytes from orphaned volumes.")
-            return bytes_freed
-        except Exception as e:
-            Logger.debug(f"Docker scry skipped: {e}")
-            return 0
+            reclaimed = self.docker_client.volumes.prune()
+            Logger.info(f"🐳 Docker: Reclaimed {reclaimed.get('SpaceReclaimed', 0)} bytes.")
+        except Exception: pass
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 13]: Automatic dependency injection for the Alchemist.
-@if {{ project_type in ['python', 'poetry', 'fastapi'] }}
-    pyproject.toml += """
-docker = "^7.0.0"
-"""
-@endif
-
-# --- IV. THE CONTROL PLANE (Makefile) ---
+# --- III. THE CONTROL PLANE ---
 Makefile += """
 # --- MAINTENANCE RITES ---
 reap: ## execute a manual lustration of project entropy
-    @poetry run python -c "from src.{{ package_name }}.core.system.reaper import GnosticReaper; from pathlib import Path; r = GnosticReaper(Path('.')); r.conduct_lustration(r.scry_decay())"
-
-clean-cache: ## explicitly evaporate all local cache shards
-    @rm -rf .scaffold/cache/*
-    @echo "✨ Cache purified."
+    @poetry run python -c "from src.{{ package_name }}.core.system.reaper import GnosticReaper; from pathlib import Path; GnosticReaper(Path('.')).conduct_lustration()"
 """
 
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Metabolic Reaper Daemon[/bold cyan] is manifest."
-    proclaim: "Purgation Engine: [white]core/system/reaper.py[/]"
-    proclaim: "Entropy Threshold: [bold yellow]{{ stagnation_threshold_days }} Days[/]"
+    proclaim: "Stagnation Threshold: [bold yellow]{{ stagnation_days }} Days[/bold yellow]"
     
-    # 1. Dependency Inception
-    proclaim: "Summoning the Purity Artisans... (docker)"
-    >> pip install docker
-    ?? succeeds
+    >> mkdir -p .scaffold/cache src/{{ package_name }}/core/system
     
-    # 2. Preparation of the Trash Sanctum
-    >> mkdir -p .scaffold/trash .scaffold/cache
-
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Technical Rot -> 0)[/]"
-    proclaim: "[bold green]The Manifold is now protected against Gnostic Decay.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Reaper materialization fractured.[/bold red] Entropy wins this round."
-    rm -rf src/{{ package_name }}/core/system/reaper.py
+    proclaim: "[bold green]✅ The Manifold is warded against Gnostic Decay.[/bold green]"

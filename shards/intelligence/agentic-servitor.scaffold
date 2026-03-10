@@ -1,16 +1,24 @@
 # ==============================================================================
-# == GNOSTIC SHARD: AGENTIC SERVITOR (V-Ω-TOTALITY-V2.5-AGENCY)               ==
+# == GNOSTIC DNA SHARD: intelligence/agentic-servitor
 # ==============================================================================
-# @description: Materializes a transcendental autonomous worker. Executes 
-#               multi-step AI plans using a structured ReAct loop with 
-#               tool-use, Merkle-signed history, and Guardian's Veto.
-# @category: Intelligence / Autonomics
-# @vibe: agent, worker, autonomous, reasoning, react, tool-use, cognitive
-# @provides: [agentic-intelligence, autonomous-worker, tool-orchestrator, agency]
-# @requires: [neural-cortex, pydantic-settings, forensic-ledger, python-core]
-# @substrate: python (Achronal Agent)
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           intelligence/agentic-servitor
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      ReAct-based autonomous agent engine with structured Pydantic reasoning and tool registries.
+# @vibe:         [agent, react, autonomous, pydantic, reasoning, tools, servitor]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:autonomous-agent, capability:reasoning-engine]
+# @requires:     [capability:python-core, capability:neural-cortex]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["openai>=1.12.0", "pydantic>=2.6.0", "structlog>=24.1.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "agentic-mind"
+#   priority:    400
+#   alias:       "agent_servitor"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -50,6 +58,7 @@ class AgentPlan(BaseModel):
     # The tools the Agent uses to touch the mortal realm.
     tools/
         __init__.py :: "from .base import tool_registry, GnosticTool"
+        
         base.py :: """
 import functools
 from typing import Callable, Dict, List, Any
@@ -109,7 +118,8 @@ import json
 from typing import List, Optional
 from .contracts import AgentPlan, AgentAction
 from .tools.base import tool_registry
-from ..ai.gateway import neural_gateway # Linked to Strike 11
+# [THE CURE]: Links directly to the Neural Cortex Shard
+from ..core.ai.gateway import neural_gateway 
 
 Logger = logging.getLogger("Agency:Mind")
 
@@ -155,10 +165,10 @@ class AgenticMind:
 
     async def _forge_plan(self) -> AgentPlan:
         # [ASCENSION 4]: Schema-Aware Reasoning
-        response = neural_gateway.invoke(
-            messages=self.history,
+        # The Neural Cortex handles the LiteLLM invocation
+        response = await neural_gateway.think(
+            prompt=json.dumps(self.history),
             model="{{ agent_model }}",
-            json_mode=True
         )
         return AgentPlan.model_validate_json(response.content)
 
@@ -167,45 +177,24 @@ class AgenticMind:
         if not tool: return f"Error: Tool {action.tool_name} unmanifest."
         
         Logger.info(f"🛠️ [ACTION] Executing {action.tool_name}...")
-        # [ASCENSION 11]: Isomorphic Logging to HUD
         return tool.func(**action.arguments)
 
     async def _seek_architect_approval(self, plan: AgentPlan):
-        # (Prophecy: Wait for WebSocket signal from Turn 11 Hub)
         print(f"⚠️ [VETO] Agent wants to: {plan.thought}")
         input("Press Enter to grant the Vow of Execution...")
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: Dependency Inception
-@if {{ is_python }}
-    pyproject.toml += """
-openai = "^1.12.0"
-structlog = "^24.1.0"
-pydantic = "^2.6.0"
-"""
-@endif
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold magenta]Agentic Servitor[/bold magenta] is manifest."
     proclaim: "Mind Locus: [white]src/{{ package_name }}/agents/engine.py[/]"
     proclaim: "Tool Locus: [white]src/{{ package_name }}/agents/tools/[/]"
     
-    # 1. Initialize the Sanctum
-    proclaim: "Materializing Cognitive Substrate..."
-    >> mkdir -p src/{{ package_name }}/agents/tools
+    # The Parser aggregates 'openai', 'pydantic', 'structlog' automatically.
     
-    # 2. Dependency Suture
-    proclaim: "Summoning AI Artisans... (openai, structlog)"
-    >> poetry install
-    ?? succeeds
-
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cognitive Friction -> 0)[/]"
     proclaim: "[bold green]The Agent is now waked. Feed it a mission to begin the conquest.[/bold green]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
     proclaim: "[bold red]Agency materialization fractured.[/bold red] Reality remains manual."
-    rm -rf src/{{ package_name }}/agents
+    >> rm -rf src/{{ package_name }}/agents

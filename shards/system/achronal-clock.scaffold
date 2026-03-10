@@ -1,19 +1,28 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ACHRONAL-CLOCK (V-Ω-TOTALITY-V3.0)                        ==
+# == GNOSTIC DNA SHARD: system/achronal-clock
 # ==============================================================================
-# @description: The definitive temporal anchor. Materializes a high-precision 
-#               monotonic clock stratum, enabling nanosecond-level tracing, 
-#               distributed event ordering, and metabolic drift detection.
-# @category: System / Logic
-# @vibe: chronos, time, monotonic, tracing, nanosecond-precision, causality
-# @provides: [achronal-clock, temporal-authority, monotonic-time]
-# @requires: [python-core]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: INFINITY
+# @id:           system/achronal-clock
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Nanosecond-precision temporal governor for distributed system synchronization and metabolic tax auditing.
+# @vibe:         [time, chronos, precision, drift-detection, telemetry, audit]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:temporal-governor, capability:system-clock]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "system-module"
+#   priority:    0
+#   alias:       "achronal_clock"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Temporal Mind) ---
@@ -21,16 +30,11 @@ $$ package_name = {{ package_name | default(project_slug | snake) | default('cor
 src/{{ package_name }}/core/chronos/
     __init__.py :: "from .clock import achronal_clock, SpacetimeCoordinate\n"
 
-    # [ASCENSION 1]: THE ACHRONAL CLOCK
-    # This artisan manages the flow of time within the Mind.
     clock.py :: """
 import time
 import logging
-from typing import Dict, Any, Optional
+from typing import Optional
 from pydantic import BaseModel, Field
-
-# [PROVENANCE]: Forged via system/achronal-clock.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
 
 Logger = logging.getLogger("Chronos:Clock")
 
@@ -46,86 +50,30 @@ class AchronalClock:
     == THE ACHRONAL CLOCK (V-Ω-TOTALITY)                                      ==
     =============================================================================
     LIF: ∞ | ROLE: TEMPORAL_GOVERNOR | RANK: OMEGA
-    
-    [ASCENSIONS]:
-    1. Nanosecond Resolution: Uses perf_counter_ns for internal tomography.
-    2. Drift Tomography: Calculates the delta between wall-clock and monotonic time.
-    3. Trace Suture: Injects temporal coordinates into distributed headers.
-    4. Substrate Aware: Automatically handles platform-specific clock precision.
     \"\"\"
     def __init__(self):
         self._boot_ts = time.time()
         self._boot_ns = time.perf_counter_ns()
 
     def now(self, trace_id: Optional[str] = None) -> SpacetimeCoordinate:
-        \"\"\"
-        Captures the current moment in the spacetime continuum.
-        \"\"\"
         return SpacetimeCoordinate(trace_id=trace_id)
 
     def measure_tax(self, start_ns: int) -> float:
-        \"\"\"
-        Calculates the metabolic tax (latency) since a past coordinate.
-        Returns duration in milliseconds.
-        \"\"\"
+        \"\"\"Returns duration in milliseconds.\"\"\"
         return (time.perf_counter_ns() - start_ns) / 1_000_000
 
     def scry_drift(self) -> float:
-        \"\"\"
-        Perceives the drift between System Time and the Monotonic Truth.
-        \"\"\"
+        \"\"\"Perceives the drift between System Time and the Monotonic Truth.\"\"\"
         wall_elapsed = time.time() - self._boot_ts
         mono_elapsed = (time.perf_counter_ns() - self._boot_ns) / 1_000_000_000
         return abs(wall_elapsed - mono_elapsed)
 
-# Global Singleton
 achronal_clock = AchronalClock()
 """
 
-# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Achronal Clock[/] is manifest."
     proclaim: "Temporal Locus: [white]core/chronos/clock.py[/]"
-    
-    # [THE MASTER CURE]: THE RITE OF PATH RESURRECTION
-    # We surgically inject the project root and src/ into sys.path
-    # within the polyglot block to annihilate the ModuleNotFoundError.
-    py:
-        import sys
-        import os
-        import time
-        from pathlib import Path
-        
-        # 1. GEOMETRIC RESURRECTION
-        # Add CWD (Project Root) and src/ to the search lattice.
-        cwd = os.getcwd()
-        sys.path.extend([cwd, os.path.join(cwd, 'src')])
-        
-        try:
-            # 2. THE SUMMONS
-            # We attempt both absolute and src-relative imports to survive layout drift.
-            try:
-                from src.{{ package_name }}.core.chronos.clock import achronal_clock
-            except ImportError:
-                from {{ package_name }}.core.chronos.clock import achronal_clock
-                
-            # 3. VERIFICATION STRIKE
-            t0 = time.perf_counter_ns()
-            # [ASCENSION 2]: Quick Strike Yield
-            if os.environ.get("SCAFFOLD_QUICK_STRIKE") != "1":
-                time.sleep(0.01)
-            
-            duration = achronal_clock.measure_tax(t0)
-            print(f"✅ Clock Resonant. Precision check: {duration:.2f}ms latency perceived.")
-            
-        except Exception as e:
-            # [ASCENSION 5]: NoneType Sarcophagus
-            print(f"⚠️  Temporal Verification Deferred: {e}")
-            sys.exit(0) # We exit with success to prevent blocking the transaction for non-critical checks.
-
-    # Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Temporal Entropy -> 0)[/]"
-    proclaim: "[bold green]✅ The Heartbeat of the system is synchronized.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Clock materialization fractured.[/bold red]"
+    proclaim: "[bold green]✅ The Heartbeat of the project is warded.[/bold green]"

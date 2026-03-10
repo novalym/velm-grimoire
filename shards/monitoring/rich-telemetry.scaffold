@@ -1,21 +1,28 @@
 # ==============================================================================
-# == GNOSTIC SHARD: RICH-TELEMETRY (V-Ω-TOTALITY-V5000-HEALED-FINALIS)         ==
+# == GNOSTIC DNA SHARD: monitoring/rich-telemetry
 # ==============================================================================
-# @description: High-fidelity terminal observability. Materializes the 
-#               Rich-powered Luminous Scribe, providing progress bars, 
-#               status panels, and syntax-aware forensic logging.
-# @category: Monitoring / UI
-# @vibe: rich, terminal-ui, telemetry, progress, logs, visual-gnosis, haptic
-# @provides: [rich-telemetry, terminal-observability, visual-scribe, ocular-hud]
-# @requires: [python-core]
-# @substrate: python
-# @version: 5.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           monitoring/rich-telemetry
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      High-status visual telemetry engine using the Rich library for cinematic terminal rendering.
+# @vibe:         [rich, terminal, telemetry, visuals, logging, progress, colors]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:rich-logging, capability:ocular-telemetry]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["rich>=13.7.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "telemetry-provider"
+#   priority:    0
+#   alias:       "rich_scribe"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
-$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Ocular Mind) ---
 
@@ -27,23 +34,17 @@ src/{{ package_name }}/core/telemetry/
     rich_scribe.py :: """
 import sys
 import os
-import time
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TimeElapsedColumn
-from rich.syntax import Syntax
-from rich.live import Live
 from rich.text import Text
-
-# [PROVENANCE]: Forged via monitoring/rich-telemetry.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
 
 class LuminousScribe:
     \"\"\"
     =============================================================================
-    == THE LUMINOUS SCRIBE (V-Ω-TOTALITY)                                     ==
+    == THE LUMINOUS SCRIBE (V-Ω-TOTALITY)                                      ==
     =============================================================================
     LIF: ∞ | ROLE: VISUAL_REVELATOR | RANK: MASTER
     
@@ -55,39 +56,38 @@ class LuminousScribe:
     \"\"\"
     def __init__(self):
         # [ASCENSION 4]: Substrate Sensing
-        # Force color if in WASM or explicit env, else detect
         use_color = os.environ.get("FORCE_COLOR") == "1" or os.environ.get("SCAFFOLD_ENV") == "WASM"
         self.console = Console(force_terminal=use_color if use_color else None)
 
-    def proclaim_panel(self, content: str, title: str = \"Revelation\", style: str = \"cyan\"):
+    def proclaim_panel(self, content: str, title: str = "Revelation", style: str = "cyan"):
         \"\"\"Inscribes a message within a warded visual boundary.\"\"\"
         self.console.print(Panel(
             Text.from_markup(content), 
-            title=f\"[bold]{title}[/]\", 
+            title=f"[bold]{title}[/]", 
             border_style=style, 
             padding=(1, 2)
         ))
 
-    def scry_data(self, data: Dict[str, Any], title: str = \"Gnostic Dossier\"):
+    def scry_data(self, data: Dict[str, Any], title: str = "Gnostic Dossier"):
         \"\"\"Renders a structured dictionary as a bit-perfect table.\"\"\"
-        table = Table(title=title, border_style=\"dim\", expand=True)
-        table.add_column(\"Key\", style=\"bold yellow\")
-        table.add_column(\"Matter\", style=\"white\")
+        table = Table(title=title, border_style="dim", expand=True)
+        table.add_column("Key", style="bold yellow")
+        table.add_column("Matter", style="white")
         
         # [ASCENSION 8]: NoneType Sarcophagus
         for k, v in data.items():
-            val_str = str(v) if v is not None else \"[dim]0xVOID[/]\"
+            val_str = str(v) if v is not None else "[dim]0xVOID[/]"
             table.add_row(str(k), val_str)
         
         self.console.print(table)
 
-    def conduct_progress(self, task_name: str, total: int = 100):
+    def conduct_progress(self, task_name: str):
         \"\"\"Forges a high-status progress context for kinetic operations.\"\"\"
         return Progress(
             SpinnerColumn(),
-            TextColumn(\"[progress.description]{task.description}\"),
-            BarColumn(bar_width=None, pulse_style=\"magenta\"),
-            TextColumn(\"[progress.percentage]{task.percentage:>3.0f}%\"),
+            TextColumn("[progress.description]{task.description}"),
+            BarColumn(bar_width=None, pulse_style="magenta"),
+            TextColumn("[progress.percentage]{task.percentage:>3.0f}%"),
             TimeElapsedColumn(),
             console=self.console,
             transient=True
@@ -97,72 +97,12 @@ class LuminousScribe:
 scribe = LuminousScribe()
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
-# =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
-@if {{ not file_exists('pyproject.toml') }}:
-pyproject.toml :: """
-[project]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = [{name = "The Architect"}]
-readme = "README.md"
-dependencies = [
-    "rich>=13.7.0",
-]
-
-[tool.poetry]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = ["The Architect"]
-packages = [{include = "{{ package_name }}", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^{{ python_version }}"
-rich = "^13.7.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-"""
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject rich exactly where 
-# the Laws of TOML demand, warded by an idempotency check.
-
-# 1. Target Legacy Poetry Blocks
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*rich))/$1\nrich = \"^13.7.0\"/g"
-
-# 2. Target Modern PEP 621 Blocks
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*rich))/$1\n    \"rich>=13.7.0\",/g"
-@endif
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Rich Telemetry Shard[/] is manifest."
     proclaim: "Visual Locus: [white]core/telemetry/rich_scribe.py[/]"
     
-    # 1. Dependency Synchronization
-    @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
-        >> poetry add rich
-    @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
-        >> pip install rich
-    @endif
-    ?? succeeds
+    # Notice: No pyproject.toml injection needed. The Genome handles `rich`.
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Visual Friction -> 0)[/]"
     proclaim: "[bold green]✅ The Eye is open.[/bold green] Your project is now Ocular."
-
-%% on-heresy
-    proclaim: "[bold red]Telemetry materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/telemetry/rich_scribe.py

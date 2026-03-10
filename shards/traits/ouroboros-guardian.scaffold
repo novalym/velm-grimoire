@@ -1,21 +1,28 @@
 # ==============================================================================
-# == GNOSTIC TRAIT: OUROBOROS GUARDIAN (V-Ω-TOTALITY-V2.5-INTEGRITY)          ==
+# == GNOSTIC DNA TRAIT: traits/ouroboros-guardian
 # ==============================================================================
-# @description: Enforces absolute architectural discipline via Git-Hook 
-#               interception. Mandates bit-perfect Merkle-resonance before 
-#               committing matter to the chronicle.
-# @category: Integrity / Governance
-# @vibe: discipline, sentinel, gatekeeper, git-hooks, law, verified, unbreakable
-# @provides: [integrity-enforcement, git-warden, drift-prevention, commit-gate]
-# @requires: [git-chronicle, velm-core, maestro-control]
-# @substrate: cross-platform (POSIX/NT)
-# @version: 2.5.0
-# @LIF: 1,000,000x
+# @id:           traits/ouroboros-guardian
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Substrate-aware Git pre-commit hook that enforces structural integrity via Velm verification.
+# @vibe:         [trait, git, hooks, pre-commit, integrity, validation, security]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:git-hook, capability:commit-warden]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+#   env:         ["SCAFFOLD_BYPASS"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "git-hook-installer"
+#   priority:    0
+#   alias:       "ouroboros_guardian"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Achronal Guard Parameters
-$$ strict_mode = {{ strict_mode | default(true) }}
 $$ bypass_token = {{ bypass_key | default("GNOSTIC_OVERRIDE") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
@@ -23,11 +30,10 @@ $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 .scaffold/hooks/
     # [ASCENSION 2]: THE POSIX INQUISITOR (Shell)
-    # A warded script that intercepts the 'git commit' intent on Linux/Mac/WSL.
     pre-commit.sh :: """
 #!/bin/bash
 # =============================================================================
-# == THE OUROBOROS GUARDIAN: POSIX SENTINEL (V-Ω-TOTALITY)                  ==
+# == THE OUROBOROS GUARDIAN: POSIX SENTINEL (V-Ω-TOTALITY)                   ==
 # =============================================================================
 # LIF: ∞ | ROLE: INTEGRITY_ADJUDICATOR | RANK: OMEGA
 
@@ -40,7 +46,6 @@ fi
 echo "🔍 [GUARDIAN] Adjudicating reality before commitment..."
 
 # [ASCENSION 3]: THE RITE OF VERIFICATION
-# We command the Velm Engine to perform a deep Merkle-Inquest.
 velm verify --strict --silent
 
 if [ $? -ne 0 ]; then
@@ -55,15 +60,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# [ASCENSION 7]: HAPTIC HUD FEEDBACK
-# (Prophecy: Signal Turn 24 Cockpit of successful seal)
 echo "✅ [RESONANT] Matter matches Law. Proceeding to enshrine."
 exit 0
 """
     %% 755
 
     # [ASCENSION 5]: THE NT INQUISITOR (PowerShell)
-    # Ensures the same absolute discipline on Windows Iron.
     GnosticWarden.ps1 :: """
 # =============================================================================
 # == THE OUROBOROS GUARDIAN: WINDOWS SENTINEL (V-Ω-TOTALITY)                 ==
@@ -88,8 +90,6 @@ exit 0
 """
 
 # --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 9]: Global Control Plane Integration
-# Sutures the 'protect' rite into the project's Makefile.
 Makefile += """
 # --- INTEGRITY RITES ---
 protect: ## install the Ouroboros Guardian to prevent architectural drift
@@ -98,19 +98,19 @@ protect: ## install the Ouroboros Guardian to prevent architectural drift
     @ln -sf ../../.scaffold/hooks/pre-commit.sh .git/hooks/pre-commit
     @echo "🛡️  Ouroboros Guardian waked and warded at .git/hooks/pre-commit"
 
-unprotect: ## return the chronicle to an unwarded state (Emergency only)
+unprotect: ## return the chronicle to an unwarded state
     @rm -f .git/hooks/pre-commit
     @echo "🌑 Guardian entering dormancy. Reality is now vulnerable."
 """
 
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
-    proclaim: "The [bold cyan]Ouroboros Guardian[/bold cyan] is manifest."
-    proclaim: "Sentinel Locus: [white].scaffold/hooks/[/]"
-    proclaim: "Bypass Key: [dim]Warded in .env (SCAFFOLD_BYPASS={{ bypass_token }})[/]"
+    # Inject bypass key to vault
+    >> echo "SCAFFOLD_BYPASS={{ bypass_token }}" >> .env
     
-    # 1. Initialize the Protection
+    proclaim: "The [bold cyan]Ouroboros Guardian Trait[/bold cyan] is manifest."
+    proclaim: "Sentinel Locus: [white].scaffold/hooks/[/]"
+    
     # [ASCENSION 2]: Automatic Consecration
     @if {{ dir_exists('.git') }}:
         proclaim: "Phase I: Consecrating the Git Hooks..."
@@ -118,14 +118,7 @@ unprotect: ## return the chronicle to an unwarded state (Emergency only)
         ?? succeeds
     @else:
         proclaim: "[bold yellow]WARNING:[/bold yellow] .git sanctum not found. Guardian is latent."
-        proclaim: "Run 'git init' and then 'make protect' to lock reality."
     @endif
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]INFINITY (Accidental Drift -> 0)[/]"
     proclaim: "✅ [bold red]REALITY LOCKED[/bold red]. The circle is closed."
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Guardian failed to anchor.[/bold red] Reality remains vulnerable."
-    rm -rf .scaffold/hooks/

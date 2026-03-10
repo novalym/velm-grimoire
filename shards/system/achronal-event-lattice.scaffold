@@ -1,185 +1,86 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ACHRONAL EVENT-LATTICE (V-Ω-TOTALITY-V2.1-P2P-MESH)       ==
+# == GNOSTIC DNA SHARD: system/achronal-event-lattice
 # ==============================================================================
-# @description: Materializes a decentralized, brokerless P2P nervous system. 
-#               Enables real-time, cross-cloud signal propagation and 
-#               Strongly Typed Gnostic Events warded by ChaCha20-Poly1305.
-# @category: System
-# @vibe: p2p, mesh, zenoh, distributed, event-bus, synapse, low-latency, decentralized
-# @provides: [neural-backbone, p2p-bus, distributed-signals, multiversal-link]
-# @requires: [docker, python, pydantic-settings]
-# @substrate: agnostic
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           system/achronal-event-lattice
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Brokerless P2P event fabric utilizing Zenoh to propagate strongly-typed signals across a distributed multiversal grid.
+# @vibe:         [p2p, event-lattice, mesh, reactive, zenoh, distributed, signaling]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:event-fabric, capability:neural-backbone]
+# @requires:     [capability:python-core, capability:gnostic-vessels]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["eclipse-zenoh>=0.10.1", "pydantic>=2.6.0"]
+#   env:         ["SCAF_LATTICE_PORT", "SCAF_MESH_ID"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "network-backbone"
+#   priority:    10
+#   alias:       "event_lattice"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Identity Suture
-# These variables define the frequency of the mesh.
 $$ mesh_id = {{ org_name | default("nova-mesh") }}
-$$ node_identity = "{{ project_slug }}-{{ machine_id | truncate(8, True, '') | lower }}"
-$$ lattice_port = {{ lattice_port | default(7447) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ node_identity = "{{ project_slug }}-{{ machine_id | truncate(8, True, '') | lower }}"
 
-# [ASCENSION 4]: THE SOVEREIGN FREQUENCY
-# Forges the unique HMAC-key for the mesh identity.
-$$ mesh_frequency = {{ (mesh_id + "RESONANCE") | hash('sha256') }}
+# --- II. THE NEURAL EMISSARY (Logic Stratum) ---
 
-# --- II. THE SCRIPTURE OF FORM (The Peer Router) ---
-
-lattice/
-    # [ASCENSION 2]: THE BROKERLESS ROUTER (Zenoh)
-    # This manifest forges a peer node. It does not need a master.
-    # It scries the Anycast Citadel to find siblings automatically.
-    router/
-        config.json :: """
-        {
-          "mode": "peer",
-          "identifier": "{{ node_identity }}",
-          "networking": {
-            "listen": ["tcp/0.0.0.0:{{ lattice_port }}"],
-            # [ASCENSION 9]: Geodesic Discovery
-            "scouting": { "multicast": { "enabled": true } }
-          },
-          "plugins": {
-             "rest": { "port": 8003 }
-          },
-          "security": {
-            "permissions": [
-              { "action": "pub", "path": "{{ mesh_id }}/**" },
-              { "action": "sub", "path": "{{ mesh_id }}/**" }
-            ]
-          }
-        }
-        """
-
-# --- III. THE NEURAL EMISSARY (Logic Stratum) ---
 src/{{ package_name }}/core/lattice/
-    __init__.py :: "from .emissary import LatticeEmissary, GnosticEvent"
+    __init__.py :: "from .emissary import LatticeEmissary, GnosticEvent\n"
     
-    # [ASCENSION 3]: THE NEURAL EMISSARY
-    # The Python interface for "Strongly Typed Thoughts".
     emissary.py :: """
-    import json
-    import time
-    import logging
-    from typing import Dict, Any, Callable, Optional
-    from pydantic import BaseModel, Field
-    import zenoh # Gnostic Requirement: pip install eclipse-zenoh
+import json
+import time
+import logging
+from typing import Dict, Any, Callable
+from pydantic import BaseModel, Field
+import zenoh
 
-    Logger = logging.getLogger("Lattice:Emissary")
+Logger = logging.getLogger("Lattice:Emissary")
 
-    class GnosticEvent(BaseModel):
-        \"\"\"The structured soul of a multiversal signal.\"\"\"
-        origin: str = "{{ node_identity }}"
-        trace_id: str
-        timestamp: float = Field(default_factory=time.time)
-        payload: Dict[str, Any]
-        type: str
+class GnosticEvent(BaseModel):
+    \"\"\"The structured soul of a multiversal signal.\"\"\"
+    origin: str = "{{ node_identity }}"
+    trace_id: str
+    timestamp: float = Field(default_factory=time.time)
+    payload: Dict[str, Any]
+    type: str
 
-    class LatticeEmissary:
-        \"\"\"
-        =============================================================================
-        == THE LATTICE EMISSARY (V-Ω-TOTALITY)                                    ==
-        =============================================================================
-        LIF: ∞ | ROLE: NEURAL_SIGNAL_PROPAGATOR | RANK: OMEGA
-        \"\"\"
-        def __init__(self, config_path: str = "lattice/router/config.json"):
-            self.conf = zenoh.Config.from_file(config_path)
-            self.session = zenoh.open(self.conf)
-            self.base_path = "{{ mesh_id }}/synapse"
+class LatticeEmissary:
+    \"\"\"
+    =============================================================================
+    == THE LATTICE EMISSARY (V-Ω-TOTALITY)                                    ==
+    =============================================================================
+    LIF: ∞ | ROLE: NEURAL_SIGNAL_PROPAGATOR
+    \"\"\"
+    def __init__(self):
+        self.session = zenoh.open()
+        self.base_path = "{{ mesh_id }}/synapse"
 
-        def broadcast(self, topic: str, event_type: str, data: dict, trace: str):
-            \"\"\"
-            Projects a thought across the multiversal lattice.
-            LIF: 100x | MODE: NON_BLOCKING
-            \"\"\"
-            path = f"{self.base_path}/{topic}"
-            event = GnosticEvent(
-                trace_id=trace,
-                payload=data,
-                type=event_type
-            )
-            
-            Logger.info(f"📡 [LATTICE] Radiating {event_type} to {path}")
-            self.session.put(path, event.model_dump_json())
+    def broadcast(self, topic: str, event_type: str, data: dict, trace: str):
+        path = f"{self.base_path}/{topic}"
+        event = GnosticEvent(trace_id=trace, payload=data, type=event_type)
+        self.session.put(path, event.model_dump_json())
+        Logger.info(f"📡 [LATTICE] Radiating {event_type} to {path}")
 
-        def subscribe(self, topic: str, callback: Callable[[GnosticEvent], None]):
-            \"\"\"
-            Awakens a listener for thoughts in the mesh.
-            \"\"\"
-            path = f"{self.base_path}/{topic}"
-            def _internal_handler(sample):
-                try:
-                    data = json.loads(sample.payload.decode('utf-8'))
-                    event = GnosticEvent(**data)
-                    callback(event)
-                except Exception as e:
-                    Logger.error(f"Lattice Perception Error: {e}")
-
-            Logger.info(f"👁️  [LATTICE] Subscribed to {path}")
-            return self.session.declare_subscriber(path, _internal_handler)
-            
-        def close(self):
-            self.session.close()
-    """
-
-# --- IV. THE KINETIC SYMPHONY (The Link) ---
-symphonies/link-lattice.symphony :: """
-# == Symphony: The Rite of Neural Resonance ==
-# @description: Linking the local node to the multiversal event fabric.
-
-@task main
-    %% let: lattice_status = "CONNECTING"
-    %% proclaim: "🔌 [LATTICE] Probing the Ethereal Plane for siblings..."
-
-    @try:
-        # 1. Ignite the Peer Router (Brokerless)
-        >> docker run -d --name {{ node_identity }}-router \
-           --restart always \
-           -v $(pwd)/lattice:/etc/zenoh \
-           -p {{ lattice_port }}:{{ lattice_port }} \
-           eclipse/zenoh:latest
-        
-        # 2. Verify Mesh Resonance
-        %% proclaim: "🛰️  Verifying P2P Handshake..."
-        >> python3 -m {{ package_name }}.core.lattice.emissary --ping
-        ?? stdout_contains: "RESONANCE_STABLE"
-        
-        %% proclaim: "[bold cyan]✅ LATTICE LINKED.[/bold cyan] Node ID: {{ node_identity }}"
-    @catch Exception as e:
-        %% error: "Lattice fracture: {{ e }}. Node is currently isolated."
-    @end
+    def subscribe(self, topic: str, callback: Callable):
+        path = f"{self.base_path}/{topic}"
+        def _internal_handler(sample):
+            event = GnosticEvent(**json.loads(sample.payload.decode('utf-8')))
+            callback(event)
+        return self.session.declare_subscriber(path, _internal_handler)
 """
 
-# --- V. THE PANTHEON OF 24 ASCENSIONS ---
-# 1.  **Brokerless Sovereignty:** Zero dependency on central servers (Annihilates Kafka tax).
-# 2.  **Multiversal Flow:** Seamlessly bridges AWS Lambda to local Raspberry Pi.
-# 3.  **Achronal Discovery:** Nodes find each other via mDNS, gossip, or Anycast IP.
-# 4.  **NoneType Sarcophagus:** Handles network partitions via automatic re-linking.
-# 5.  **Substrate Independence:** Runs on anything that speaks TCP/UDP/QUIC.
-# 6.  **Trace ID Persistence:** The Silver-Cord survives the jump across physical machines.
-# 7.  **Strongly Typed Thoughts:** Integrated Pydantic V2 validation for all mesh signals.
-# 8.  **Haptic Mesh HUD:** (Prophecy) Dashboard shows real-time "Synapse firing" animations.
-# 9.  **Hydraulic Backpressure:** Throttles event storms if the node CPU heat spikes.
-# 10. **Zero-Knowledge Privacy:** Encrypts payloads at the edge using the `mesh_frequency`.
-# 11. **Semantic Routing:** Direct mapping of "Blueprint Intent" to "Mesh Topics".
-# 12. **Finality Vow:** A mathematical guarantee of an indestructible nervous system.
-# ... [Continuum maintained through 24 layers of Gnostic Mesh]
-
-# --- VI. THE MAESTRO'S WILL ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Achronal Event-Lattice[/bold cyan] is manifest."
-    proclaim: "Mesh Frequency: [bold]{{ mesh_id }}[/]"
-    proclaim: "Node Identity: [white]{{ node_identity }}[/]"
+    proclaim: "Node Identity: [white]{{ node_identity }}[/white]"
     
-    # Dependencies
-    proclaim: "Summoning the Neural Artisans... (eclipse-zenoh)"
-    >> pip install eclipse-zenoh
+    >> mkdir -p src/{{ package_name }}/core/lattice
     
-    proclaim: "To join the multiversal fabric, speak:"
-    proclaim: "  [bold magenta]velm run symphonies/link-lattice.symphony[/bold magenta]"
-
-%% on-heresy
-    proclaim: "[bold red]Lattice materialization fractured.[/bold red] Node isolated."
-    rm -rf src/{{ package_name }}/core/lattice
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Multiversal Latency -> 0)[/]"
+    proclaim: "[bold green]✅ The Multiversal Fabric is Resonant.[/bold green]"

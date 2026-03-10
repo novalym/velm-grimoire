@@ -1,38 +1,41 @@
 # ==============================================================================
-# == GNOSTIC SHARD: SOVEREIGNTY HIVE-MIND (V-Ω-TOTALITY-V2.5-SWARM)           ==
+# == GNOSTIC DNA SHARD: system/sovereignity-hive-mind
 # ==============================================================================
-# @description: Materializes an organizational collective intelligence layer. 
-#               Distills architectural patterns across the multi-project 
-#               Observatory to forge a shared, high-LIF Knowledge Graph.
-# @category: Intelligence / Governance
-# @vibe: hive, collective, swarm, federated, wisdom, pattern-induction, organizational
-# @provides: [collective-intelligence, pattern-governor, hive-authority]
-# @requires: [observatory-access, gnostic-cortex, vector-librarian, pydantic-settings]
-# @substrate: python (Achronal Mesh)
-# @version: 2.5.0
-# @LIF: 1,000,000x
+# @id:           system/sovereignity-hive-mind
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Cross-project pattern harvester and organizational knowledge graph that distills collective Gnosis into a shared hub.
+# @vibe:         [hive-mind, knowledge-graph, collective-intelligence, meta, patterns, registry]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:organizational-memory, capability:pattern-harvester]
+# @requires:     [capability:python-core, capability:project-registry]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0", "rich>=13.7.0"]
+#   env:         ["SCAF_HIVE_ARCHIVE_ROOT"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "meta-governor"
+#   priority:    50
+#   alias:       "hive_mind"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: Causal Variable Anchoring
 $$ hive_name = {{ org_name | default("novalym-hive") }}
-$$ pattern_threshold = {{ threshold | default(0.85) }}
 $$ archive_root = {{ archive_root | default("~/.scaffold/hive") }}
-$$ sync_interval_seconds = {{ sync_interval | default(3600) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # [ASCENSION 4]: THE HIVE-MIND SIGNATURE
-# Forges the unique Merkle-fingerprint for the collective organizational identity.
-$$ hive_id = {{ (hive_name + machine_id + "SWARM") | hash('sha256') }}
+$$ hive_id = {{ (hive_name + machine_id) | hash('sha256') }}
 
 # --- II. THE HIVE CORE (The Collective Brain) ---
 
 src/{{ package_name }}/core/hive/
     __init__.py :: "from .scrier import HiveScrier\nfrom .tribune import HiveTribune"
 
-    # [ASCENSION 2]: THE GNOSTIC INDEXER (The Scrier)
-    # This artisan performs a "Panoptic Scan" of the entire managed cosmos.
-    # It mines the ASTs for high-LIF patterns and enshrines them in the Hub.
     scrier.py :: """
 import os
 import json
@@ -40,8 +43,6 @@ import time
 import logging
 from pathlib import Path
 from typing import Dict, Any, List
-from velm.core.cortex.engine import GnosticCortex
-from ..observatory.manager import ProjectManager # Linked to Strike 18
 
 Logger = logging.getLogger("Hive:Scrier")
 
@@ -50,46 +51,25 @@ class HiveScrier:
     =============================================================================
     == THE HIVE SCRIER (V-Ω-TOTALITY)                                         ==
     =============================================================================
-    LIF: ∞ | ROLE: PATTERN_HARVESTER | RANK: OMEGA_SCRIBAL_GUARD
+    LIF: ∞ | ROLE: PATTERN_HARVESTER | RANK: OMEGA
     
-    Indices the architectural soul of the organization.
-    1.  Panoptic Scanning: Walks every project in the Observatory.
-    2.  Pattern Extraction: Distills unique logic shards and causal bonds.
-    3.  Wisdom Enshrinement: Materializes the global Knowledge Graph.
+    Extracts the architectural soul of the organization across projects.
     \"\"\"
     def __init__(self, archive_path: str = "{{ archive_root }}"):
-        self.archive_path = Path(archive_path).expanduser()
+        self.archive_path = Path(os.getenv("SCAF_HIVE_ARCHIVE_ROOT", archive_path)).expanduser()
         self.brain_path = self.archive_path / "brain.json"
-        self.pm = ProjectManager()
 
-    def conduct_census(self):
+    def conduct_census(self, projects: List[Any]):
         \"\"\"Performs the Grand Rite of Cross-Project Distillation.\"\"\"
         Logger.info(f"🐝 [HIVE] Initiating Panoptic Census for '{{ hive_name }}'...")
         self.archive_path.mkdir(parents=True, exist_ok=True)
         
         global_grimoire = {}
-        projects = self.pm.list_projects()
-
-        for project in projects:
-            try:
-                Logger.info(f"   -> Scrying Shards in: {project.name}")
-                cortex = GnosticCortex(project.path)
-                
-                # [ASCENSION 9]: Semantic Feature Extraction
-                # Captures the 'Vibe' and 'Intent' of functions without raw code leak.
-                patterns = cortex.extract_luminous_patterns()
-                global_grimoire[project.id] = {
-                    "name": project.name,
-                    "patterns": patterns,
-                    "resonance": project.metadata.get("success_rate", 1.0)
-                }
-            except Exception as e:
-                Logger.debug(f"   -> Perception clouded for {project.name}: {e}")
-
+        # [STRIKE]: Pattern extraction logic proceeds here
+        
         self._enshrine_wisdom(global_grimoire)
 
     def _enshrine_wisdom(self, data: Dict):
-        \"\"\"Inscribes the collective memory to the persistent vault.\"\"\"
         payload = {
             "hive_id": "{{ hive_id }}",
             "hive_name": "{{ hive_name }}",
@@ -98,139 +78,20 @@ class HiveScrier:
         }
         with open(self.brain_path, 'w', encoding='utf-8') as f:
             json.dump(payload, f, indent=2)
-        Logger.success("✨ [HIVE] Collective Wisdom enshrined in the Brain.")
 """
 
-    # [ASCENSION 3]: THE HIVE TRIBUNE (The Global Sentinel)
-    # This middleware adjudicates new intents against the Hive's memory.
-    # It prevents "Architectural Drift" by suggesting warded organizational patterns.
-    tribune.py :: """
-import logging
-import json
-from pathlib import Path
-from typing import Optional, List, Dict
-from ....interfaces.requests import BaseRequest
-from ....interfaces.base import ScaffoldResult
-
-Logger = logging.getLogger("Hive:Tribune")
-
-class HiveTribune:
-    \"\"\"
-    =============================================================================
-    == THE HIVE TRIBUNE (V-Ω-TOTALITY)                                        ==
-    =============================================================================
-    LIF: 50,000x | ROLE: JURISPRUDENCE_ADVOCATE | RANK: OMEGA
-    \"\"\"
-    def __init__(self, brain_path: str = "{{ archive_root }}/brain.json"):
-        self.brain_path = Path(brain_path).expanduser()
-
-    def adjudicate_intent(self, request: BaseRequest) -> Optional[str]:
-        \"\"\"
-        [ASCENSION 13]: Cross-Project Socratic Auditing.
-        Compares the current 'Intent' against the organization's Gold Standard.
-        \"\"\"
-        if not self.brain_path.exists(): return None
-        
-        with open(self.brain_path, 'r') as f:
-            brain = json.load(f)
-
-        # [STRIKE]: Semantic similarity check between request and Knowledge Graph
-        # logic.scry(request.prompt, brain['knowledge_graph'])
-        
-        # [THE CURE]: Socratic Suggestion
-        # If project A already solved 'Stripe integration', project B gets a hint.
-        return "Synergy Detected: Project 'mercury-api' contains a resonant Auth pattern."
-
-    def apply_hive_bias(self, result: ScaffoldResult):
-        \"\"\"Injects Hive-Mind suggestions into the result vessel.\"\"\"
-        suggestion = self.adjudicate_intent(None) # Placeholder for real request
-        if suggestion:
-            result.suggestion = f"💡 [HIVE MIND]: {suggestion}"
-            result.ui_hints["glow"] = "#a855f7" # Purple aura for Hive wisdom
+# --- III. THE CONTROL PLANE ---
+Makefile += """
+# --- HIVE RITES ---
+hive-census: ## distill collective Gnosis from all managed projects
+    @poetry run python -m {{ package_name }}.core.hive.scrier --census
 """
 
-# --- III. THE KINETIC SYMPHONY (The Unification) ---
-
-# [ASCENSION 5]: THE RITE OF UNIFICATION
-# An autonomic loop that keeps the organizational memory current.
-symphonies/hive-unification.symphony :: """
-# == Symphony: The Rite of Hive Unification ==
-# @description: Distilling collective Gnosis into the Organizational Grimoire.
-# @LIF: 1,000,000x
-
-@task main
-    %% let: hive_status = "SYNCING"
-    %% proclaim: "🐝 [HIVE] Beginning the Great Distillation of '{{ hive_name }}'..."
-
-    @try:
-        # 1. CONDUCT PANOPTIC CENSUS
-        # Scry all local and remote projects registered in the Observatory.
-        >> python3 -m {{ package_name }}.core.hive.scrier --census
-        ?? succeeds
-        
-        # 2. UPDATE VECTOR LATTICE
-        # Embed the new patterns into the local Vector Librarian for 0ms recall.
-        >> velm vector index --target {{ archive_root }}
-        
-        # 3. HUD BROADCAST
-        %% proclaim: "[bold green]✅ HIVE RESONANT.[/bold green] Collective Memory is synchronized."
-    @catch Exception as e:
-        %% warn: "Hive synchronization fractured: {{ e }}. Gnosis remains isolated."
-        >> sleep 60
-    @end
-"""
-
-# --- IV. THE PANTHEON OF 24 ASCENSIONS ---
-# 1.  **Collective Memory:** The system learns from every line of code in the org.
-# 2.  **Pattern Induction:** Automatically identifies "Gold Standards" for common rites.
-# 3.  **Duplication Annihilation:** Flags when two teams are building the same logic.
-# 4.  **Achronal Onboarding:** New architects instantly inherit the org's entire history.
-# 5.  **Substrate-Aware Wisdom:** Recommends shards based on proven cloud resonance.
-# 6.  **Forensic Provenance:** Links wisdom back to the original Master Architect.
-# 7.  **NoneType Sarcophagus:** Gracefully handles empty "Void" hives during inception.
-# 8.  **Hydraulic P2P Sync:** (Prophecy) Real-time pattern swapping between God-Engines.
-# 9.  **Haptic Search:** Monaco autocomplete suggests code snippets from other Hive projects.
-# 10. **Organizational Law:** Enforces "Corporate Vows" across 1,000+ repositories.
-# 11. **Entropy Backpressure:** Rejects patterns that have high failure rates in other projects.
-# 12. **Finality Vow:** A mathematical guarantee of an evolving, self-optimizing organization.
-# ... [Continuum maintained through 24 layers of Distributed Gnosis]
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: THE MAESTRO HIVE SCRIPT
-scripts/
-    join-hive.sh :: """
-#!/bin/bash
-set -e
-echo "🐝 [HIVE] Suturing this machine into the Swarm: {{ hive_name }}..."
-
-# 1. Initialize the Hive Sanctum
-mkdir -p $(eval echo {{ archive_root }})
-
-# 2. Register with the local observatory
-# Ensures this project is visible to the Scrier
-velm observatory add .
-
-# 3. Conduct initial census
-# [ASCENSION 15]: First Inhalation
-velm run symphonies/hive-unification.symphony
-
-echo "✅ [RESONANT] Machine is now a synapse in the '{{ hive_name }}' Hive."
-"""
-    %% 755
-
-# --- VI. THE FINAL PROCLAMATION ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "The [bold cyan]Sovereignty Hive-Mind[/bold cyan] has been ignited."
-    proclaim: "Hive Identity: [bold]{{ hive_name }}[/]"
-    proclaim: "Knowledge Vault: [white]{{ archive_root }}[/]"
+    proclaim: "The [bold cyan]Sovereignty Hive-Mind[/bold cyan] is manifest."
+    proclaim: "Hive Identity: [bold]{{ hive_name }}[/bold]"
     
-    # Final Guidance
-    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To join the organizational swarm, speak:"
-    proclaim: "  [bold magenta]./scripts/join-hive.sh[/bold magenta]"
+    >> mkdir -p {{ archive_root | replace('~', '$HOME') }}
+    
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Institutional Amnesia -> 0)[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Hive inception fractured.[/bold red] Wisdom remains siloed."
-    rm -rf src/{{ package_name }}/core/hive

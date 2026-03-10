@@ -1,23 +1,33 @@
-# =================================================================================
-# == GNOSTIC SHARD: CI/CD SYMPHONY (V-Ω-TOTALITY-VMAX-PIPELINE)                  ==
-# =================================================================================
-# @description: The Rite of Perpetual Ascension. Orchestrates Purity (Lint), 
-#               Verification (Test), Security (Trivy), and Ascension (Deploy) 
-#               using GitHub Actions.
-# @category: Automation / DevOps
-# @vibe: ci, cd, github-actions, deployment, security, trivy, testing, pipeline
-# @provides: [perpetual-ascension, continuous-integration, security-scanning]
-# @requires: [python-core, test-suite]
-# @substrate: github-actions
-# @version: 5.0.0-Ω
-# @LIF: INFINITY
-# =================================================================================
+# ==============================================================================
+# == GNOSTIC DNA SHARD: cloud/ci-cd-symphony
+# ==============================================================================
+# @id:           cloud/ci-cd-symphony
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Perpetual Ascension GitHub Actions pipeline with matrix testing, Trivy scans, and OIDC deployments.
+# @vibe:         [ci-cd, github-actions, pipeline, deployment, testing, security, trivy, oidc]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:ci-cd-pipeline, capability:automated-deployment]
+# @requires:     [capability:python-core, capability:testing-framework]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pytest>=8.0.0", "pytest-cov>=4.1.0", "ruff>=0.3.0", "black>=24.2.0", "mypy>=1.8.0"]
+#   env:         ["CODECOV_TOKEN"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "github-actions"
+#   priority:    900
+#   alias:       "ci_cd_symphony"
+# ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ project_slug = {{ project_slug | default("omega-engine") }}
 $$ python_v = {{ python_v | default("3.12") }}
 $$ registry = {{ registry | default("ghcr.io") }}
 $$ deployment_target = {{ target | default("k8s") }} # [k8s, docker, lambda]
+$$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE SCRIPTURE OF FORM ---
 

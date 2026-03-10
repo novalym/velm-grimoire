@@ -1,17 +1,26 @@
 # ==============================================================================
-# == GNOSTIC SHARD: GLOBAL ANYCAST CITADEL (V-Ω-TOTALITY-V2.5)                ==
+# == GNOSTIC DNA SHARD: cloud/global-anycast-citadel
 # ==============================================================================
-# @description: Materializes a global edge perimeter using AWS Global 
-#               Accelerator. Forges a static Anycast IP that announces the 
-#               project globally via BGP, providing automatic failover and 
-#               DDoS warding via WAF.
-# @category: Infrastructure / Network
-# @vibe: anycast, aws, global-accelerator, waf, edge, security, low-latency, bgp
-# @provides: [global-anycast-perimeter, edge-waf-protection, anycast-routing]
-# @requires: [aws-infrastructure-substrate, terraform-binary]
-# @substrate: terraform
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           cloud/global-anycast-citadel
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      AWS Global Accelerator and WAF provisioning for zero-latency, multi-region anycast routing.
+# @vibe:         [aws, anycast, global-accelerator, waf, edge, routing, multi-region, security]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:anycast-routing, capability:edge-security]
+# @requires:     [capability:terraform-core, capability:aws-credentials]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+#   env:         ["AWS_REGION", "DOMAIN_NAME"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   terraform:   ["resource 'aws_globalaccelerator_accelerator' 'citadel'"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-terraform"
+#   priority:    910
+#   alias:       "global_anycast"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -92,6 +101,11 @@ resource "aws_globalaccelerator_endpoint_group" "region_b" {
     client_ip_preservation_enabled = true
   }
 }
+
+# --- S3 VAULT (For Logs) ---
+resource "aws_s3_bucket" "forensic_logs" {
+  bucket = "{{ project_slug }}-anycast-logs-{{ global_id[:8] }}"
+}
     """
 
     # [ASCENSION 6]: THE WAF MALICE INQUISITOR
@@ -124,8 +138,14 @@ resource "aws_globalaccelerator_endpoint_group" "region_b" {
     """
 
     variables.tf :: """
-variable "region_a_lb_arn" { type = string }
-variable "region_b_lb_arn" { type = string }
+variable "region_a_lb_arn" { 
+  type = string 
+  description = "The ARN of the primary Application Load Balancer."
+}
+variable "region_b_lb_arn" { 
+  type = string 
+  description = "The ARN of the secondary Application Load Balancer."
+}
     """
 
 # --- III. THE SURGICAL WEAVE ---
@@ -144,4 +164,5 @@ anycast-status: ## scry the status of the global accelerator
     proclaim: "The [bold cyan]Global Anycast Citadel[/bold cyan] is manifest."
     proclaim: "Perimeter: [bold green]AWS Global Accelerator + WAF[/bold green]"
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Total Network Sovereignty)[/]"
+    proclaim: "[bold yellow]ACTION REQUIRED:[/bold yellow] You must provide the ARNs of your regional load balancers to Terraform."
     proclaim: "To strike the edge: [bold magenta]make anycast-up[/bold magenta]"

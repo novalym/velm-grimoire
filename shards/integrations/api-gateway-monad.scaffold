@@ -1,26 +1,36 @@
 # ==============================================================================
-# == GNOSTIC SHARD: API GATEWAY MONAD (V-Ω-TOTALITY-V2.5-INGRESS)             ==
+# == GNOSTIC DNA SHARD: integrations/api-gateway-monad
 # ==============================================================================
-# @description: Injects a sovereign unified ingress orchestrator using Caddy. 
-#               Manages automatic SSL, request normalization, and achronal 
-#               trace-id injection for microservice multiverses.
-# @category: Integrations / Networking
-# @vibe: gateway, ingress, caddy, ssl-auto, proxy, mesh, microservices, warded
-# @provides: [ingress-authority, ssl-manager, api-gateway, reverse-proxy]
-# @requires: [docker-orchestration, network-access]
-# @substrate: cross-platform (Iron / Cloud)
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           integrations/api-gateway-monad
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      A sovereign, unified ingress orchestrator using Caddy. Manages automatic SSL and achronal trace-id injection.
+# @vibe:         [gateway, ingress, caddy, ssl-auto, proxy, mesh, microservices, warded]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:ingress-authority, capability:api-gateway]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+#   env:         ["PUBLIC_DOMAIN", "API_VESSEL", "UI_VESSEL", "API_PORT", "UI_PORT"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "gateway": { "image": "caddy:2.7-alpine" } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-compose"
+#   priority:    800
+#   alias:       "caddy_ingress"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
-# We inherit project_slug and package_name from the active Mind.
+$$ project_slug  = {{ project_slug | default("omega-citadel") }}
 $$ public_domain = {{ domain | default("citadel.local") }}
-$$ api_vessel    = {{ api_host | default("api-service") }}
-$$ ui_vessel     = {{ ui_host | default("web-service") }}
+$$ api_vessel    = {{ api_host | default("api") }}
+$$ ui_vessel     = {{ ui_host | default("web") }}
 $$ api_port       = {{ api_port | default(8000) }}
 $$ ui_port        = {{ ui_port | default(3000) }}
+$$ package_name  = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE SCRIPTURE OF FORM (The Aperture Law) ---
 
@@ -89,7 +99,7 @@ version: '3.8'
 services:
   gateway:
     image: caddy:2.7-alpine
-    container_name: gnostic-gateway
+    container_name: {{ project_slug }}-gateway
     restart: unless-stopped
     ports:
       - "80:80"
@@ -175,14 +185,8 @@ gateway-check: ## conduct a health inquest on the ingress lattice
 """
 
 # --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]API Gateway Monad[/bold cyan] shard has been integrated."
-    
-    # [ASCENSION 13]: Recursive Directory Suture
-    # Ensure the target directories exist before the transaction commits.
-    >> mkdir -p infra/gateway src/{{ package_name }}/core/gateway
-    
     proclaim: "Aperture Domain: [bold yellow]http://{{ public_domain }}[/]"
     proclaim: "To ignite the Aperture: [bold cyan]make gateway-up[/bold cyan]"
 

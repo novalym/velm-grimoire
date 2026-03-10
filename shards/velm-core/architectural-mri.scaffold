@@ -1,57 +1,59 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ARCHITECTURAL MRI (V-Ω-TOTALITY-V2.5-LAYER-WARD)          ==
+# == GNOSTIC DNA SHARD: velm-core/architectural-mri
 # ==============================================================================
-# @description: Materializes a high-fidelity layer-enforcement engine. Scries 
-#               the dependency graph to detect "Layer Leaks" and Circularities, 
-#               enforcing Gnostic Jurisprudence upon the codebase topology.
-# @category: Velm-Core / Forensics
-# @vibe: mri, biopsy, architecture, clean-code, ddd, linting, hierarchy, warden
-# @provides: [layer-enforcement, topological-audit, dependency-jurisprudence]
-# @requires: [gnostic-graph, python-core, maestro-control, pydantic-settings]
-# @substrate: python (Achronal Scrier)
-# @version: 2.5.0
-# @LIF: 1,000,000x
+# @id:           velm-core/architectural-mri
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Deep-tissue topological linter that enforces directional import flows across application strata.
+# @vibe:         [mri, architecture, linter, topology, layers, hex-arch, forensics]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:architecture-linter, capability:topological-inquisitor]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["rich>=13.7.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "architecture-linter"
+#   priority:    100
+#   alias:       "architectural_mri"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Achronal Topology Anchoring
 $$ project_slug = {{ project_slug | default("omega-engine") }}
 $$ enforce_strict = {{ enforce_strict | default(true) }}
-$$ scan_depth = "infinite"
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE LAWS OF PHYSICS (Layer Configuration) ---
 .scaffold/
-    # [ASCENSION 2]: THE HIERARCHY OF SOULS (The Law)
-    # Defines the allowed directions of dependency flow via Gravitational Tiers.
     layers.json :: """
-    {
-      "hierarchy": [
-        { "name": "api", "level": 0, "alias": "Ocular", "desc": "The Outer Membrane" },
-        { "name": "services", "level": 1, "alias": "Mind", "desc": "The Orchestration Layer" },
-        { "name": "repositories", "level": 2, "alias": "Limb", "desc": "The Persistence Layer" },
-        { "name": "core", "level": 3, "alias": "Soul", "desc": "The Pure Invariants" },
-        { "name": "utils", "level": 4, "alias": "Substrate", "desc": "The Ground" }
-      ],
-      "laws": {
-        "gravity": "descending",
-        "allow_neighbor_communion": false,
-        "ouroboros_forbidden": true
-      }
-    }
-    """
+{
+  "hierarchy": [
+    { "name": "api", "level": 0, "alias": "Ocular", "desc": "The Outer Membrane" },
+    { "name": "services", "level": 1, "alias": "Mind", "desc": "The Orchestration Layer" },
+    { "name": "repositories", "level": 2, "alias": "Limb", "desc": "The Persistence Layer" },
+    { "name": "core", "level": 3, "alias": "Soul", "desc": "The Pure Invariants" },
+    { "name": "utils", "level": 4, "alias": "Substrate", "desc": "The Ground" }
+  ],
+  "laws": {
+    "gravity": "descending",
+    "allow_neighbor_communion": false,
+    "ouroboros_forbidden": true
+  }
+}
+"""
 
-# --- III. THE INQUISITOR'S EYE (Forensic Logic) ---
+# --- III. THE INQUISITOR'S EYE ---
 scripts/forensics/
-    # [ASCENSION 3]: THE CHRONOMANTIC MRI SCRIER (Logic)
-    # This artisan performs a deep-tissue biopsy of the GIR (Geometric IR).
     mri_scan.py :: """
 import json
 import os
 import sys
 import subprocess
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Optional
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
@@ -61,13 +63,9 @@ CONSOLE = Console()
 class ArchitecturalMRI:
     \"\"\"
     =============================================================================
-    == THE ARCHITECTURAL MRI (V-Ω-TOTALITY)                                   ==
+    == THE ARCHITECTURAL MRI (V-Ω-TOTALITY)                                    ==
     =============================================================================
     LIF: ∞ | ROLE: TOPOGRAPHICAL_INQUISITOR | RANK: OMEGA
-    
-    1.  Geometric Scrying: Inhales the Gnostic Graph from the Core.
-    2.  Layer Adjudication: Enforces the Law of Gravitational Flow.
-    3.  Heresy Projection: Radiates visual diagnostics to the HUD.
     \"\"\"
     def __init__(self):
         self.root = Path(os.getcwd())
@@ -80,11 +78,9 @@ class ArchitecturalMRI:
             CONSOLE.print("❌ [bold red]ERROR:[/] Layer Grimoire unmanifest.", style="red")
             sys.exit(1)
 
-        # 1. LOAD THE CONSTITUTION
         config = json.loads(self.layers_path.read_text())
         hierarchy = {l['name']: l['level'] for l in config["hierarchy"]}
         
-        # 2. SUMMON THE CORTEX (Topological Scry)
         try:
             result = subprocess.run(
                 ["velm", "graph", "--format", "json"],
@@ -95,17 +91,15 @@ class ArchitecturalMRI:
             CONSOLE.print(f"💥 [MRI] Gnostic Graph fractured: {e}", style="bold red")
             sys.exit(1)
 
-        # 3. ADJUDICATE BONDS
         heresies = []
         for node, deps in graph.get("nodes", {}).items():
-            src_layer = self._divine_layer(node, hierarchy.keys())
+            src_layer = self._divine_layer(node, list(hierarchy.keys()))
             if not src_layer: continue
 
             for dep in deps:
-                dst_layer = self._divine_layer(dep, hierarchy.keys())
+                dst_layer = self._divine_layer(dep, list(hierarchy.keys()))
                 if not dst_layer: continue
 
-                # THE LAW: Higher Level index (Soul) is lower integer (0).
                 # Law of Gravity: src_level <= dst_level
                 if hierarchy[src_layer] > hierarchy[dst_layer]:
                     heresies.append({
@@ -146,7 +140,6 @@ if __name__ == "__main__":
 """
 
 # --- IV. THE CONTROL PLANE ---
-# [ASCENSION 9]: Global Conductor Integration
 Makefile += """
 # --- ARCHITECTURAL RITES ---
 mri-scan: ## perform a deep-tissue biopsy of code layers
@@ -157,28 +150,7 @@ mri-graph: ## visualize the MRI layers as a Mermaid diagram
 """
 
 # --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Architectural MRI[/bold cyan] is waked and warded."
-    proclaim: "Constitution: [white].scaffold/layers.json[/]"
-    proclaim: "Inquisitor: [white]scripts/forensics/mri_scan.py[/]"
-    
-    # 1. Initialize the Forensic Sanctum
-    proclaim: "Preparing the Forensic Sanctum..."
     >> mkdir -p scripts/forensics
-    
-    # 2. Conduct the First Inception Strike
-    proclaim: "Phase I: Conducting initial layer inquest..."
-    @try:
-        >> make mri-scan
-    @catch:
-        proclaim: "[yellow]Initial drift detected. This is expected during inception.[/yellow]"
-
-    # 3. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Architectural Debt -> 0)[/]"
-    proclaim: "[bold green]✅ Layer Warden Active.[/bold green] Your hierarchy is now unbreakable."
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]MRI inception fractured.[/bold red] Reality remains entropic."
-    rm -rf scripts/forensics/mri_scan.py .scaffold/layers.json

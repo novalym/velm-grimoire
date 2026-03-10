@@ -1,15 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: K8S-FORTRESS (V-Ω-TOTALITY-VMAX)                          ==
+# == GNOSTIC DNA SHARD: cloud/k8s-fortress
 # ==============================================================================
-# @description: A Sovereign Kubernetes orchestration shard. Synthesizes Deployments,
-#               Services, Ingresses, and Secrets using atomic Gnostic directives.
-# @category: Cloud / Orchestration
-# @vibe: k8s, kubernetes, deployment, ingress, microservices, container-orchestration
-# @provides: [k8s-cluster-manifests, atomic-mesh, service-ingress]
-# @requires: [docker-registry, kubectl-artisan]
-# @substrate: kubernetes / yaml
-# @version: 4.0.0-Ω
-# @LIF: 100,000x
+# @id:           cloud/k8s-fortress
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Production-grade Kubernetes manifests featuring HPA, NetworkPolicies, and Ingress routing.
+# @vibe:         [kubernetes, k8s, orchestration, helm, containers, production, cluster]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:k8s-deployment, capability:container-orchestration]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["KUBE_CONFIG", "DOCKER_REGISTRY"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   k8s:         [{ "kind": "Deployment" }, { "kind": "Service" }, { "kind": "Ingress" }]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-k8s"
+#   priority:    950
+#   alias:       "k8s_fortress"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -18,63 +28,177 @@ $$ replica_count = {{ replicas | default(3) }}
 $$ container_image = "{{ image | default('ghcr.io/novalym/node:latest') }}"
 $$ service_port = {{ port | default(8000) }}
 $$ ingress_host = "{{ host | default('api.novalym.systems') }}"
+$$ namespace = {{ k8s_namespace | default("gnostic-production") }}
 
-# --- II. THE SCRIPTURE OF FORM ---
+# --- II. THE SCRIPTURE OF FORM (Raw Kubernetes Manifests) ---
 
 infra/k8s/
-    # [ASCENSION 1]: THE ATOMIC DEPLOYMENT
-    # Summons the @k8s/deployment atom. This ensures the manifest is forged 
-    # using the system's gold-standard for security and liveness.
-    deployment.yaml :: """
-{{ k8s.deployment(
-    name=app_name, 
-    image=container_image, 
-    replicas=replica_count, 
-    port=service_port,
-    env_vars={
-        "SCAFFOLD_TRACE": trace_id,
-        "METABOLIC_MODE": "RESONANT"
-    }
-) }}
+    # [ASCENSION 1]: THE NAMESPACE WARD
+    00-namespace.yaml :: """
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ namespace }}
+  labels:
+    app.kubernetes.io/name: {{ app_name }}
+    app.kubernetes.io/managed-by: velm-god-engine
     """
 
-    # [ASCENSION 2]: THE ATOMIC SERVICE
-    # Defines the network aperture via the @k8s/service directive.
-    service.yaml :: """
-{{ k8s.service(
-    name=app_name, 
-    port=80, 
-    target_port=service_port
-) }}
+    # [ASCENSION 2]: THE ATOMIC DEPLOYMENT
+    # Fully materialized with Probes, Resource Limits, and Security Contexts
+    01-deployment.yaml :: """
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ app_name }}
+  namespace: {{ namespace }}
+  labels:
+    app: {{ app_name }}
+    tier: mind
+spec:
+  replicas: {{ replica_count }}
+  selector:
+    matchLabels:
+      app: {{ app_name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: {{ app_name }}
+        tier: mind
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "{{ service_port }}"
+    spec:
+      # [ASCENSION 3]: Substrate Security Hardening
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: {{ app_name }}-container
+          image: {{ container_image }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ service_port }}
+              name: http
+          # [ASCENSION 4]: Metabolic Guardrails
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          # [ASCENSION 5]: Autonomous Vitality Probes
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          envFrom:
+            - secretRef:
+                name: {{ app_name }}-secrets
     """
 
-    # [ASCENSION 3]: THE ATOMIC INGRESS
-    # Forges the bridge to the public aether using the @k8s/ingress directive.
-    ingress.yaml :: """
-{{ k8s.ingress(
-    name=app_name + "-ingress", 
-    host=ingress_host, 
-    service=app_name, 
-    port=80
-) }}
+    # [ASCENSION 6]: THE ATOMIC SERVICE
+    02-service.yaml :: """
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ app_name }}-svc
+  namespace: {{ namespace }}
+  labels:
+    app: {{ app_name }}
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ app_name }}
+  ports:
+    - port: 80
+      targetPort: {{ service_port }}
+      protocol: TCP
+      name: http
     """
 
-    # [ASCENSION 4]: THE SECRET SARCOPHAGUS
-    # A warded container for sensitive Gnosis.
-    secrets.yaml :: """
+    # [ASCENSION 7]: THE ATOMIC INGRESS (NGINX)
+    03-ingress.yaml :: """
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ app_name }}-ingress
+  namespace: {{ namespace }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - {{ ingress_host }}
+      secretName: {{ app_name }}-tls
+  rules:
+    - host: {{ ingress_host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ app_name }}-svc
+                port:
+                  number: 80
+    """
+
+    # [ASCENSION 8]: THE HORIZONTAL POD AUTOSCALER (HPA)
+    04-hpa.yaml :: """
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ app_name }}-hpa
+  namespace: {{ namespace }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ app_name }}
+  minReplicas: {{ replica_count }}
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 75
+    """
+
+    # [ASCENSION 9]: THE SECRET SARCOPHAGUS (Template)
+    05-secrets.example.yaml :: """
 apiVersion: v1
 kind: Secret
 metadata:
   name: {{ app_name }}-secrets
+  namespace: {{ namespace }}
 type: Opaque
 stringData:
   # Secure entropy generated at materialization
-  SESSION_SECRET: "{{ crypto.random(64) }}"
-  VAULT_TOKEN: "latent"
+  SCAFFOLD_INTERNAL_KEY: "{{ crypto.random(64) }}"
+  DATABASE_URL: "REPLACE_ME_IN_PRODUCTION"
     """
 
-# [ASCENSION 5]: THE MAESTRO ASCENSION SCRIPT
-# This remains the kinetic limb that strikes the cluster.
+# [ASCENSION 10]: THE MAESTRO ASCENSION SCRIPT
 scripts/k8s-ascend.sh :: """
 #!/bin/bash
 set -e
@@ -84,16 +208,21 @@ echo "🚀 [TITAN] Conducting Kubernetes Ascension for: {{ app_name }}..."
 CONTEXT=$(kubectl config current-context)
 echo "🎯 Target Context: $CONTEXT"
 
+echo "Applying Namespaces and Secrets..."
+kubectl apply -f infra/k8s/00-namespace.yaml
+kubectl apply -f infra/k8s/05-secrets.example.yaml || echo "Secrets already exist."
+
+echo "Applying Workloads..."
 if ! kubectl apply -f infra/k8s/; then
     echo "❌ Heresy: Deployment failed. Initiating Forensic Check..."
-    kubectl get events --sort-by='.lastTimestamp' | tail -n 10
+    kubectl get events -n {{ namespace }} --sort-by='.lastTimestamp' | tail -n 10
     exit 1
 fi
 
-echo "✅ [RESONANT] Cluster states updated."
-kubectl get pods -l app={{ app_name }}
+echo "✅ [RESONANT] Cluster states updated in namespace: {{ namespace }}."
+kubectl get pods -n {{ namespace }} -l app={{ app_name }}
 """
-%% executable
+%% 755
 
 # --- III. THE SURGICAL WEAVE ---
 Makefile += """
@@ -102,11 +231,13 @@ k8s-deploy: ## strike the Kubernetes cluster with the new manifests
     @./scripts/k8s-ascend.sh
 
 k8s-status: ## scry the vitality of the deployed pods
-    @kubectl get pods -l app={{ app_name }} -o wide
+    @kubectl get pods -n {{ namespace }} -l app={{ app_name }} -o wide
 """
 
 # --- IV. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "The [bold cyan]Kubernetes Fortress[/] is manifest via Atomic Composition."
-    proclaim: "Atoms utilized: [magenta]k8s.deployment, k8s.service, k8s.ingress[/]"
+    proclaim: "The [bold cyan]Kubernetes Fortress[/] is manifest."
+    proclaim: "Namespace: [magenta]{{ namespace }}[/]"
+    proclaim: "Ingress Host: [bold yellow]{{ ingress_host }}[/]"
+    proclaim: "[bold red]ACTION REQUIRED:[/bold red] Copy 05-secrets.example.yaml to 05-secrets.yaml and inject real DB URLs before applying."
     proclaim: "To strike the cluster: [bold green]make k8s-deploy[/bold green]"

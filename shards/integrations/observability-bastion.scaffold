@@ -1,20 +1,29 @@
 # ==============================================================================
-# == GNOSTIC SHARD: OBSERVABILITY BASTION (V-Ω-TOTALITY-V2.5-PANOPTICON)      ==
+# == GNOSTIC DNA SHARD: integrations/observability-bastion
 # ==============================================================================
-# @description: Materializes a sovereign observability fortress. Orchestrates 
-#               OTel Collectors, Prometheus, Jaeger, and Loki into a unified 
-#               metabolic HUD for distributed system forensics.
-# @category: Infrastructure / Forensics
-# @vibe: telemetry, observability, tracing, metrics, logs, otel, panopticon
-# @provides: [observability-fortress, forensic-authority, metabolic-hud]
-# @requires: [docker-orchestration, pydantic-settings, network-access, python-core]
-# @substrate: docker-compose
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           integrations/observability-bastion
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      OpenTelemetry collector linked to a local Prometheus, Grafana, Jaeger, and Loki stack.
+# @vibe:         [observability, opentelemetry, otel, prometheus, grafana, jaeger, loki, monitoring, traces, logs]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:full-stack-observability, capability:tracing]
+# @requires:     [capability:docker-engine, capability:python-core, capability:fastapi-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["opentelemetry-api>=1.24.0", "opentelemetry-sdk>=1.24.0", "opentelemetry-exporter-otlp>=1.24.0", "opentelemetry-instrumentation-fastapi>=0.45b0", "opentelemetry-instrumentation-logging>=0.45b0"]
+#   env:         ["OTEL_EXPORTER_OTLP_ENDPOINT"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "otel-collector": { "image": "otel/opentelemetry-collector-contrib" }, "jaeger": {"image": "jaegertracing/all-in-one"} } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "fastapi-lifespan"
+#   priority:    10
+#   alias:       "ignite_telemetry"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ project_slug = {{ project_slug | default("nebula-bastion") }}
 $$ collector_port = {{ otel_port | default(4317) }}
 $$ prometheus_port = {{ prom_port | default(9090) }}
@@ -23,18 +32,12 @@ $$ jaeger_port = {{ jaeger_port | default(16686) }}
 $$ loki_port = {{ loki_port | default(3100) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
-# Contextual Triage (Substrate Detection)
-$$ is_python = {{ (project_type in ['python', 'poetry', 'fastapi']) | default(true) }}
-$$ is_node = {{ (project_type in ['node', 'nextjs', 'express']) | default(false) }}
-
 # --- II. THE BASTION INFRASTRUCTURE (The Block-Level Substrate) ---
 
 infra/monitoring/
     # [ASCENSION 2]: THE GNOSTIC COLLECTOR (OpenTelemetry)
-    # The central nervous system that ingests, processes, and radiates Gnosis.
     otel-collector/
         config.yml :: """
-# == OpenTelemetry Collector: Law of Ingestion ==
 receivers:
   otlp:
     protocols:
@@ -44,12 +47,9 @@ receivers:
         endpoint: 0.0.0.0:4318
 
 processors:
-  # [ASCENSION 9]: Metabolic Stability Processing
   batch:
     timeout: 5s
     send_batch_size: 1024
-  resourcedetection:
-    detectors: [env, system]
   memory_limiter:
     check_interval: 1s
     limit_mib: 512
@@ -83,7 +83,6 @@ service:
       exporters: [loki, logging]
 """
 
-    # [ASCENSION 3]: THE METRIC ORACLE (Prometheus)
     prometheus/
         prometheus.yml :: """
 global:
@@ -95,11 +94,9 @@ scrape_configs:
 """
 
     # [ASCENSION 4]: THE CELESTIAL MESH (Docker Compose)
-    # Materializes the full Panopticon in a single atomic strike.
     docker-compose.monitoring.yml :: """
 version: '3.8'
 services:
-  # --- The Ingestion Node ---
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
     container_name: {{ project_slug }}-otel-collector
@@ -108,11 +105,9 @@ services:
       - ./otel-collector/config.yml:/etc/otel-collector-config.yml
     ports:
       - "{{ collector_port }}:4317" # gRPC
-      - "4318:4318" # HTTP
     networks:
       - gnostic_mesh
 
-  # --- The Metric Oracle ---
   prometheus:
     image: prom/prometheus:latest
     container_name: {{ project_slug }}-prometheus
@@ -123,7 +118,6 @@ services:
     networks:
       - gnostic_mesh
 
-  # --- The Trace Dimension ---
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: {{ project_slug }}-jaeger
@@ -133,7 +127,6 @@ services:
     networks:
       - gnostic_mesh
 
-  # --- The Log Archive ---
   loki:
     image: grafana/loki:latest
     container_name: {{ project_slug }}-loki
@@ -142,15 +135,12 @@ services:
     networks:
       - gnostic_mesh
 
-  # --- The Ocular HUD ---
   grafana:
     image: grafana/grafana:latest
     container_name: {{ project_slug }}-grafana
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
     ports:
       - "{{ grafana_port }}:3000"
     depends_on:
@@ -168,10 +158,9 @@ networks:
 
 # --- III. THE LOGIC SUTURES (Instrumentation) ---
 
-# [PATH A]: PYTHON MIND (FastAPI)
-@if {{ is_python }}
 src/{{ package_name }}/core/
     telemetry.py :: """
+import os
 from opentelemetry import trace, metrics
 from opentelemetry.sdk.resources import SERVICE_NAME, Resource
 from opentelemetry.sdk.trace import TracerProvider
@@ -183,24 +172,25 @@ from opentelemetry.sdk.metrics import MeterProvider
 from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
 from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
 
-def ignite_telemetry(app, service_name: str = \"{{ project_slug }}\"):
+def ignite_telemetry(app, service_name: str = "{{ project_slug }}"):
     \"\"\"
     =============================================================================
     == THE NEURAL UPLINK (V-Ω-OTEL-SUTURE)                                     ==
     =============================================================================
     LIF: 50x | ROLE: METABOLIC_SENSOR
     \"\"\"
+    endpoint = os.getenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317")
     resource = Resource(attributes={SERVICE_NAME: service_name})
 
     # 1. TRACING SUTURE (Jaeger / OTLP)
     tracer_provider = TracerProvider(resource=resource)
-    span_exporter = OTLPSpanExporter(endpoint=\"http://otel-collector:4317\", insecure=True)
+    span_exporter = OTLPSpanExporter(endpoint=endpoint, insecure=True)
     tracer_provider.add_span_processor(BatchSpanProcessor(span_exporter))
     trace.set_tracer_provider(tracer_provider)
 
     # 2. METRICS SUTURE (Prometheus / OTLP)
     metric_reader = PeriodicExportingMetricReader(
-        OTLPMetricExporter(endpoint=\"http://otel-collector:4317\", insecure=True)
+        OTLPMetricExporter(endpoint=endpoint, insecure=True)
     )
     meter_provider = MeterProvider(resource=resource, metric_readers=[metric_reader])
     metrics.set_meter_provider(meter_provider)
@@ -209,80 +199,10 @@ def ignite_telemetry(app, service_name: str = \"{{ project_slug }}\"):
     LoggingInstrumentor().instrument(set_logging_format=True)
     FastAPIInstrumentor.instrument_app(app)
     
-    print(f\"📡 Telemetry Linked: {service_name} -> Panopticon\")
+    print(f"📡 Telemetry Linked: {service_name} -> Panopticon ({endpoint})")
 """
 
-    # THE SURGICAL WEAVE: Inject into main.py
-    main.py ^= """from .core.telemetry import ignite_telemetry\n"""
-
-    main.py += """
-# [Gnostic Suture]: Awakening the Bastion Eye
-# Connects the application's nervous system to the OTel Collector.
-ignite_telemetry(app)
-"""
-
-    # Alchemical Dependencies
-    pyproject.toml += """
-opentelemetry-api = "^1.24.0"
-opentelemetry-sdk = "^1.24.0"
-opentelemetry-exporter-otlp = "^1.24.0"
-opentelemetry-instrumentation-fastapi = "^0.45b0"
-opentelemetry-instrumentation-logging = "^0.45b0"
-"""
-@endif
-
-# [PATH B]: NODE EYE (Express)
-@if {{ is_node }}
-src/core/
-    telemetry.ts :: """
-import { NodeSDK } from '@opentelemetry/sdk-node';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-grpc';
-import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-grpc';
-import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
-import { Resource } from '@opentelemetry/resources';
-import { SEMRESATTRS_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
-import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
-import { ExpressInstrumentation } from '@opentelemetry/instrumentation-express';
-
-/**
- * [THE NEURAL UPLINK]: Node.js OTLP Manifest
- */
-const sdk = new NodeSDK({
-  resource: new Resource({
-    [SEMRESATTRS_SERVICE_NAME]: '{{ project_slug }}',
-  }),
-  traceExporter: new OTLPTraceExporter({
-    url: 'http://otel-collector:4317',
-  }),
-  metricReader: new PeriodicExportingMetricReader({
-    exporter: new OTLPMetricExporter({
-      url: 'http://otel-collector:4317',
-    }),
-  }),
-  instrumentations: [
-    new HttpInstrumentation(),
-    new ExpressInstrumentation(),
-  ],
-});
-
-export const igniteTelemetry = () => {
-    sdk.start();
-    console.log(\"📡 Telemetry Linked: {{ project_slug }} -> Panopticon\");
-};
-"""
-    
-    package.json:
-        dependencies += {
-            "@opentelemetry/sdk-node": "latest",
-            "@opentelemetry/exporter-trace-otlp-grpc": "latest",
-            "@opentelemetry/exporter-metrics-otlp-grpc": "latest",
-            "@opentelemetry/instrumentation-http": "latest",
-            "@opentelemetry/instrumentation-express": "latest"
-        }
-@endif
-
-# --- IV. THE CONTROL PLANE (Makefile Integration) ---
-# [ASCENSION 11]: Global Conductor Suture
+# --- IV. THE CONTROL PLANE ---
 Makefile += """
 
 # --- OBSERVABILITY RITES ---
@@ -294,35 +214,16 @@ bastion-up: ## ignite the Observability Bastion and forge the mesh
 
 bastion-down: ## return the Bastion to the void
   @docker-compose -f infra/monitoring/docker-compose.monitoring.yml down
-
-bastion-scry: ## conduct a forensic audit of the telemetry collector
-  @docker exec -it {{ project_slug }}-otel-collector ./otelcol-contrib --config /etc/otel-collector-config.yml check
 """
 
 # --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Observability Bastion[/bold cyan] has achieved Totality."
     proclaim: "Panopticon HUD: [bold yellow]http://localhost:{{ grafana_port }}[/]"
     proclaim: "Trace Dimension: [bold yellow]http://localhost:{{ jaeger_port }}[/]"
     
-    # 1. Initialize the Monitoring Sanctum
-    proclaim: "Forging the Monitoring Sanctum..."
-    >> mkdir -p infra/monitoring/otel-collector
-    >> mkdir -p infra/monitoring/prometheus
-    >> mkdir -p infra/monitoring/grafana/provisioning/datasources
-    >> mkdir -p infra/monitoring/grafana/provisioning/dashboards
+    >> mkdir -p infra/monitoring/otel-collector infra/monitoring/prometheus
     
-    # 2. Network Verification
-    proclaim: "Verifying Gnostic Mesh network..."
-    >> docker network create {{ project_slug }}_gnostic_mesh || true
-
-    # 3. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Opaque Failures -> 0)[/]"
     proclaim: "[bold green]The system is now OMNISCIENT. Every thought is chronicled.[/bold green]"
     proclaim: "To ignite the Eye: [bold cyan]make bastion-up[/bold cyan]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Bastion materialization fractured.[/bold red] Reality remains opaque."
-    rm -rf infra/monitoring/

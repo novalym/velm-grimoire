@@ -1,21 +1,32 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PRIVACY SHROUD (V-Ω-TOTALITY-V2.1-ASCENDED)               ==
+# == GNOSTIC DNA SHARD: security/privacy-shroud
 # ==============================================================================
-# @description: Materializes an advanced PII hardening stratum. Features 
-#               multi-key rotational encryption and deterministic Blind Indexing.
-# @category: Security
-# @vibe: cryptography, pii, gdpr, hardening, sqlalchemy, encryption, vault, search
-# @provides: [privacy-shroud, pii-encryption, searchable-ciphertext]
-# @requires: [web-framework, pydantic-settings, database-orm]
-# @substrate: python
-# @version: 2.1.0
-# @LIF: INFINITY
+# @id:           security/privacy-shroud
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      MultiFernet encryption module and SQLAlchemy TypeDecorators for seamless, rotated data encryption at rest.
+# @vibe:         [encryption, cryptography, fernet, privacy, pii, sqlalchemy, models, security]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:data-encryption, capability:crypto-utils]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["cryptography>=42.0.0", "pydantic-settings>=2.2.0"]
+#   env:         ["SCAFFOLD_ENCRYPTION_KEYS", "SCAFFOLD_BLIND_INDEX_PEPPER"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "crypto-module"
+#   priority:    10
+#   alias:       "privacy_shroud"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
-# These variables define the cryptographic soul of the project.
+$$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ init_key = "{{ crypto.random(43, 'base64') }}"
+$$ init_pepper = "{{ crypto.random(32, 'hex') }}"
 
 # --- II. THE CIPHER SANCTUM (Logic Core) ---
 src/{{ package_name }}/core/security/
@@ -23,96 +34,63 @@ src/{{ package_name }}/core/security/
 from .shroud import shroud_matter, resurrect_truth, forge_blind_index
 """
             
-    # [ASCENSION 2]: THE CRYPTOGRAPHIC CONSCIENCE
-    # Defines the laws of rotation and key management within the Mind.
     config.py += """
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List, Optional
+from typing import List
 from pydantic import SecretStr
 
 class ShroudSettings(BaseSettings):
-    \"\"\"
-    =============================================================================
-    == THE SHROUD SETTINGS (V-Ω-KEYRING)                                      ==
-    =============================================================================
-    \"\"\"
-    # A list of base64-encoded Fernet keys.
-    # The first key (Index 0) is the Active Inscriber.
-    # Subsequent keys are Legacy Resurrectors (for rotation).
     SCAFFOLD_ENCRYPTION_KEYS: List[SecretStr]
-    
-    # A high-entropy salt for deterministic hashing (Searching Encrypted Data).
     SCAFFOLD_BLIND_INDEX_PEPPER: SecretStr
-
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 security_config = ShroudSettings()
 """
 
-    # [ASCENSION 3]: THE SHROUD ENGINE (Logic)
-    # The hand that strikes the cleartext and transmutes it into the Veil.
     shroud.py :: """
 import hmac
 import hashlib
-import base64
 import logging
-from typing import Union, Optional
+from typing import Union
 from cryptography.fernet import Fernet, MultiFernet
 from .config import security_config
 
 Logger = logging.getLogger("Security:Shroud")
 
 # [ASCENSION 4]: Rotational Keyring Initialization
-# MultiFernet automatically tries keys in order for decryption, 
-# but uses the FIRST key for encryption.
 _keys = [k.get_secret_value().encode() for k in security_config.SCAFFOLD_ENCRYPTION_KEYS]
 _fernets = [Fernet(k) for k in _keys]
 _vault = MultiFernet(_fernets)
 
 def shroud_matter(cleartext: Union[str, bytes]) -> str:
-    \"\"\"
-    Encrypts a cleartext soul into a ciphered husk.
-    LIF: 100x | ROLE: INGRESS_TRANSFIGURATOR
-    \"\"\"
+    \"\"\"Encrypts a cleartext soul into a ciphered husk.\"\"\"
     if not cleartext: return ""
     data = cleartext.encode() if isinstance(cleartext, str) else cleartext
     return _vault.encrypt(data).decode()
 
 def resurrect_truth(ciphered_text: str) -> str:
-    \"\"\"
-    Restores the cleartext soul from the ciphered husk.
-    Supports seamless key rotation across temporal boundaries.
-    \"\"\"
+    \"\"\"Restores the cleartext soul from the ciphered husk.\"\"\"
     if not ciphered_text: return ""
     try:
         return _vault.decrypt(ciphered_text.encode()).decode()
     except Exception as e:
-        Logger.error(f"Resurrection Failure: Truth is lost or key is profane. {e}")
+        Logger.error(f"Resurrection Failure: {e}")
         return "[REDACTED_VOID]"
 
 def forge_blind_index(cleartext: str) -> str:
-    \"\"\"
-    [ASCENSION 5]: The Deterministic Shadow.
-    Forges a searchable HMAC-SHA256 hash. Allows O(1) lookups
-    on encrypted data without revealing the cleartext to the Database.
-    \"\"\"
+    \"\"\"Forges a searchable HMAC-SHA256 hash.\"\"\"
     if not cleartext: return ""
     key = security_config.SCAFFOLD_BLIND_INDEX_PEPPER.get_secret_value().encode()
     msg = str(cleartext).strip().lower().encode()
     return hmac.new(key, msg, hashlib.sha256).hexdigest()
 """
 
-    # [ASCENSION 6]: THE ORM SUTURE (SQLAlchemy Integration)
-    # High-status TypeDecorators for transparent, auto-healing security.
     types.py :: """
 from sqlalchemy import String, TypeDecorator
 from .shroud import shroud_matter, resurrect_truth
 
 class ShroudedString(TypeDecorator):
-    \"\"\"
-    A Gnostic TypeDecorator for SQLAlchemy.
-    Automatically shrouds data on Ingress and resurrects on Egress.
-    \"\"\"
+    \"\"\"A Gnostic TypeDecorator for SQLAlchemy. Shrouds on Ingress, resurrects on Egress.\"\"\"
     impl = String
     cache_ok = True
 
@@ -125,58 +103,10 @@ class ShroudedString(TypeDecorator):
         return resurrect_truth(value)
 """
 
-# --- III. THE KINETIC LIMBS (Utilities) ---
-scripts/security/
-    # [ASCENSION 7]: The Entropy Forge (Keygen)
-    keygen.py :: """
-from cryptography.fernet import Fernet
-import secrets
-
-def forge_entropy():
-    print("=========================================================")
-    print("== Ω GNOSTIC KEY FORGE                                 ==")
-    print("=========================================================")
-    print(f"SCAFFOLD_ENCRYPTION_KEYS=['{Fernet.generate_key().decode()}']")
-    print(f"SCAFFOLD_BLIND_INDEX_PEPPER='{secrets.token_urlsafe(32)}'")
-    print("=========================================================")
-
-if __name__ == "__main__":
-    forge_entropy()
-"""
-
-# --- IV. THE SURGICAL WEAVE ---
-# [ASCENSION 8]: Automatic dependency injection for the Alchemist.
-@if {{ project_type in ['python', 'poetry', 'fastapi'] }}
-    pyproject.toml += """
-    cryptography = "^42.0.0"
-    pydantic-settings = "^2.2.0"
-    """
-
-    # Inject Example into Models (The Ocular Mirror)
-    src/{{ package_name }}/models/base.py ^= """
-from ..core.security.types import ShroudedString
-from ..core.security.shroud import forge_blind_index
-"""
-@endif
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "The [bold cyan]Privacy Shroud[/bold cyan] is manifest and warded."
-    proclaim: "Cipher Core: [white]core/security/shroud.py[/]"
-    proclaim: "ORM Suture: [white]core/security/types.py[/]"
-    
-    # 1. Forge Entropy
-    proclaim: "Forging initial cryptographic entropy..."
-    >> python scripts/security/keygen.py
-    
-    # 2. Guidance
-    proclaim: "[bold yellow]ACTION REQUIRED:[/bold yellow]"
-    proclaim: "1. Inscribe the keys above into your [bold].env[/bold] file."
-    proclaim: "2. Apply [bold]ShroudedString[/bold] to your Model fields."
-    proclaim: "3. LIF-Multiplier: [bold green]100,000x (Compliance Debt -> 0)[/]"
+    # Pre-inject keys
+    >> echo "SCAFFOLD_ENCRYPTION_KEYS=['{{ init_key }}']\nSCAFFOLD_BLIND_INDEX_PEPPER='{{ init_pepper }}'" >> .env
 
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Shroud materialization fractured.[/bold red] Cleaning cryptographic debris..."
-    rm -rf src/{{ package_name }}/core/security/shroud.py
+    proclaim: "The [bold cyan]Privacy Shroud[/bold cyan] is manifest and warded."
+    proclaim: "LIF-Multiplier: [bold green]100,000x (Compliance Debt -> 0)[/]"

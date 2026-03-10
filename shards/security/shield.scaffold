@@ -1,138 +1,99 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ACTIVE SHIELD (V-Ω-TOTALITY-V2.1-ASCENDED)                ==
+# == GNOSTIC DNA SHARD: security/shield
 # ==============================================================================
-# @description: Materializes the Zenith Gatekeeper middleware. Provides 
-#               stateless rate-limiting, WAF pattern scrubbing, and 
-#               distributed forensic trace injection.
-# @category: Security
-# @vibe: security, shield, waf, headers, protection, middleware, fast-defense
-# @provides: [active-shield, ingress-shield, web-hardening]
-# @requires: [web-framework]
-# @substrate: python
-# @version: 2.1.0
-# @LIF: INFINITY
+# @id:           security/shield
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      High-speed, memory-resident stateless rate-limiting and WAF shielding.
+# @vibe:         [shield, waf, rate-limiting, stateless, memory, firewall, security]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:stateless-waf, capability:rate-limiting]
+# @requires:     [capability:fastapi-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "middleware-spine"
+#   priority:    1
+#   alias:       "stateless_shield"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Parameter Inception
-# These variables define the physics of the local shield.
+$$ project_slug = {{ project_slug | default("omega-citadel") }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ shield_limit = {{ shield_limit | default(100) }}
 $$ shield_window = {{ shield_window | default(60) }}
-$$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE SCRIPTURE OF FORM (The Logical Body) ---
 
 src/{{ package_name }}/core/security/
     shield.py :: """
-    import time
-    import re
-    import logging
-    from collections import defaultdict
-    from typing import Dict, List, Any, Final, Optional
-    from fastapi import FastAPI, Request, HTTPException, status
-    from starlette.middleware.base import BaseHTTPMiddleware
+import time
+import logging
+from collections import defaultdict
+from typing import Dict, List, Final
+from fastapi import FastAPI, Request, HTTPException, status
+from starlette.middleware.base import BaseHTTPMiddleware
 
-    Logger = logging.getLogger("Security:Shield")
+Logger = logging.getLogger("Security:Shield")
 
-    # [STRATUM: MEMORY]
-    # High-velocity local store for stateless rate limiting.
-    _rate_limit_vault: Dict[str, List[float]] = defaultdict(list)
-    _whitelist: Final[set] = {"127.0.0.1", "localhost"}
+# [STRATUM: MEMORY]
+_rate_limit_vault: Dict[str, List[float]] = defaultdict(list)
+_whitelist: Final[set] = {"127.0.0.1", "localhost"}
 
-    # [ASCENSION 3]: THE GRIMOIRE OF FORBIDDEN INTENT
-    # Signatures of common injection heresies.
-    PROFANE_SIGNATURES: Final[List[str]] = [
-        "../", "etc/passwd", "select ", "drop ", "truncate ", 
-        "<script", "union ", "eval(", "exec("
-    ]
+PROFANE_SIGNATURES: Final[List[str]] = [
+    "../", "etc/passwd", "select ", "drop ", "truncate ", 
+    "<script", "union ", "eval(", "exec("
+]
 
-    # [FACULTY 1]: THE INGRESS ADJUDICATOR
-    # [ASCENSION 4]: Suture Marker for the FastAPIStrategy.
-    # @scaffold:middleware(priority=1, anchor="ZENITH")
-    async def security_shield_middleware(request: Request, call_next):
-        \"\"\"
-        =============================================================================
-        == THE ACTIVE DEFENSE RADIATOR (V-Ω-TOTALITY)                              ==
-        =============================================================================
-        LIF: 1,000,000x | ROLE: INGRESS_GATEKEEPER | RANK: OMEGA
+async def security_shield_middleware(request: Request, call_next):
+    \"\"\"
+    =============================================================================
+    == THE ACTIVE DEFENSE RADIATOR (V-Ω-TOTALITY)                              ==
+    =============================================================================
+    LIF: 1,000,000x | ROLE: INGRESS_GATEKEEPER | RANK: OMEGA
+    \"\"\"
+    client_ip = request.client.host if request.client else "void"
+    trace_id = request.headers.get("X-Gnostic-Trace", f"tr-{int(time.time())}")
+    
+    # --- MOVEMENT I: RATE LIMIT ---
+    if client_ip not in _whitelist:
+        now = time.time()
+        _rate_limit_vault[client_ip] = [t for t in _rate_limit_vault[client_ip] if now - t < {{ shield_window }}]
         
-        1.  Forensic Trace Suture: Injects X-Gnostic-Trace for causal mapping.
-        2.  Metabolic Triage: Memory-resident rate-limiting (Stateless).
-        3.  The Anti-Matter Phalanx: Real-time WAF scrubbing of URI/Headers.
-        4.  The Veil of Privacy: Injects Titanium Security Headers.
-        \"\"\"
-        client_ip = request.client.host if request.client else "void"
-        
-        # [ASCENSION 6]: Trace ID Silver-Cord
-        # We ensure every request bears the mark of the Architect.
-        trace_id = request.headers.get("X-Gnostic-Trace", f"tr-{{int(time.time())}}")
-        
-        # --- MOVEMENT I: THE RITE OF ADJUDICATION (RATE LIMIT) ---
-        if client_ip not in _whitelist:
-            now = time.time()
-            # 1. PURGE: Evaporate stagnant records
-            _rate_limit_vault[client_ip] = [t for t in _rate_limit_vault[client_ip] if now - t < {{ shield_window }}]
-            
-            # 2. VETO: Adjudicate current load
-            if len(_rate_limit_vault[client_ip]) >= {{ shield_limit }}:
-                Logger.warning(f"[{trace_id}] Banishment: IP {client_ip} exceeded local metabolic budget.")
-                raise HTTPException(
-                    status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                    detail="Rate limit exceeded. The Oracle demands silence."
-                )
-            _rate_limit_vault[client_ip].append(now)
+        if len(_rate_limit_vault[client_ip]) >= {{ shield_limit }}:
+            Logger.warning(f"[{trace_id}] Banishment: IP {client_ip} exceeded local metabolic budget.")
+            raise HTTPException(status_code=429, detail="Rate limit exceeded.")
+        _rate_limit_vault[client_ip].append(now)
 
-        # --- MOVEMENT II: THE WARD OF MATTER (WAF SCRUBBING) ---
-        # [ASCENSION 7]: High-Speed Pattern Tomography
-        query_str = str(request.query_params).lower()
-        if any(sig in query_str for sig in PROFANE_SIGNATURES):
-             Logger.critical(f"[{trace_id}] Profane Intent Detected from {client_ip}. Gaze Stayed.")
-             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Profane Intent Perceived")
+    # --- MOVEMENT II: WAF SCRUBBING ---
+    query_str = str(request.query_params).lower()
+    if any(sig in query_str for sig in PROFANE_SIGNATURES):
+         Logger.critical(f"[{trace_id}] Profane Intent Detected. Gaze Stayed.")
+         raise HTTPException(status_code=403, detail="Profane Intent Perceived")
 
-        # --- MOVEMENT III: KINETIC EXECUTION ---
-        start_process = time.perf_counter()
-        try:
-            response = await call_next(request)
-        except Exception as e:
-            # [ASCENSION 13]: Forensic Crash Capture
-            Logger.error(f"[{trace_id}] Downstream Logic Fracture: {e}")
-            raise e
-        finally:
-            process_time = (time.perf_counter() - start_process) * 1000
+    start_process = time.perf_counter()
+    response = await call_next(request)
+    process_time = (time.perf_counter() - start_process) * 1000
 
-        # --- MOVEMENT IV: THE VEIL OF FORM (TITANIUM HEADERS) ---
-        # [ASCENSION 5]: Enforcing the Constitutional Headers
-        response.headers["X-Frame-Options"] = "DENY"
-        response.headers["X-Content-Type-Options"] = "nosniff"
-        response.headers["X-XSS-Protection"] = "1; mode=block"
-        response.headers["Content-Security-Policy"] = "default-src 'self'; frame-ancestors 'none'"
-        response.headers["X-Gnostic-Trace"] = trace_id
-        response.headers["X-Metabolic-Tax-MS"] = f"{process_time:.2f}"
-        
-        return response
+    # --- MOVEMENT IV: THE VEIL OF FORM (TITANIUM HEADERS) ---
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; frame-ancestors 'none'"
+    
+    return response
 
-    # =========================================================================
-    # == THE NEURAL SUTURE ENTRYPOINT                                        ==
-    # =========================================================================
-    # @scaffold:wire
-    def wire_shield(app: FastAPI):
-        \"\"\"
-        [AUTONOMIC SUTURE]: Injects the Active Shield into the FastAPI body.
-        The FastAPIStrategy righteously places this immediately after instantiation.
-        \"\"\"
-        app.add_middleware(BaseHTTPMiddleware, dispatch=security_shield_middleware)
-        Logger.info("🛡️  Active Shield (Zenith Gate) Sutured and Vigilant.")
-    """
+def wire_shield(app: FastAPI):
+    app.add_middleware(BaseHTTPMiddleware, dispatch=security_shield_middleware)
+    Logger.info("🛡️  Active Shield (Zenith Gate) Sutured and Vigilant.")
+"""
 
 # --- III. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Active Shield[/bold cyan] Zenith Gate is manifest."
-    proclaim: "Stateless Defense: [white]core/security/shield.py[/]"
     proclaim: "Protection Layer: [bold green]ZENITH (Line Zero)[/]"
     proclaim: "LIF-Multiplier: [bold green]10,000x (Ingress Latency -> 0ms)[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Shield materialization fractured.[/bold red] Reversing spatial drift..."
-    rm -rf src/{{ package_name }}/core/security/shield.py

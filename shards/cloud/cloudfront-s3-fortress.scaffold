@@ -1,16 +1,26 @@
 # ==============================================================================
-# == GNOSTIC SHARD: CLOUDFRONT-S3-FORTRESS (V-Ω-TOTALITY-V3.0)                ==
+# == GNOSTIC DNA SHARD: cloud/cloudfront-s3-fortress
 # ==============================================================================
-# @description: The definitive global distribution platform. Forges an S3 bucket
-#               with a CloudFront CDN, enforcing Origin Access Control (OAC) for
-#               zero-trust static hosting of any web application.
-# @category: Cloud / Edge
-# @vibe: aws, cloudfront, s3, cdn, static-site, security, terraform, edge
-# @provides: [global-cdn, static-asset-storage, edge-security]
-# @requires: [terraform-binary, aws-credentials]
-# @substrate: terraform
-# @version: 3.0.0-Ω
-# @LIF: 10,000x
+# @id:           cloud/cloudfront-s3-fortress
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Global CDN edge delivery via AWS CloudFront mapped to an S3 origin bucket with strict OAC.
+# @vibe:         [aws, cloudfront, s3, cdn, edge, static-hosting, fortress, global]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:cdn, capability:static-hosting, capability:global-edge]
+# @requires:     [capability:terraform-core, capability:aws-credentials]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+#   env:         ["AWS_REGION"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   terraform:   ["resource 'aws_cloudfront_distribution' 'cdn'", "resource 'aws_s3_bucket' 'asset_bucket'"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-terraform"
+#   priority:    900
+#   alias:       "cdn_fortress"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---

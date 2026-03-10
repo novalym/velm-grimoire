@@ -1,16 +1,30 @@
 # ==============================================================================
-# == GNOSTIC SHARD: VAULT GUARDIAN (V-Ω-TOTALITY)                             ==
+# == GNOSTIC DNA SHARD: security/vault-guardian
 # ==============================================================================
-# @description: An isomorphic secrets management facade with AWS/HCP/Local fallback.
-# @category: Security
-# @vibe: secrets, vault, keys, credentials, aws secrets manager, hashicorp, security, env
-# @provides:[secrets-manager, vault-guardian]
-# @requires: [pydantic-settings, web-framework]
-# @substrate: python
-# @version: 1.0.0
+# @id:           security/vault-guardian
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Universal secret provider abstraction connecting HashiCorp Vault, AWS Secrets Manager, and local environs.
+# @vibe:         [vault, hashicorp, aws-secrets, secrets, abstraction, security, guardian]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:secret-manager, capability:vault-abstraction]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic-settings>=2.2.0", "boto3>=1.34.0", "hvac>=2.1.0"]
+#   env:         ["SCAFFOLD_VAULT_PROVIDER", "VAULT_ADDR", "VAULT_TOKEN"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "vault": { "image": "hashicorp/vault:latest" } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "secret-provider"
+#   priority:    0
+#   alias:       "vault_guardian_core"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ vault_provider = "aws" #[aws, hashicorp, local]
 $$ strict_inception = true
 $$ package_name = {{ package_name | default(project_slug | snake) }}
@@ -19,203 +33,133 @@ $$ package_name = {{ package_name | default(project_slug | snake) }}
 @if {{ vault_provider == "hashicorp" }}:
 infra/security/
     docker-compose.vault.yml :: """
-    version: '3.8'
-    services:
-      # [THE BASTION]: Local HashiCorp Vault for development
-      vault:
-        image: hashicorp/vault:latest
-        container_name: {{ project_slug }}_vault
-        ports:
-          - "8200:8200"
-        environment:
-          - VAULT_DEV_ROOT_TOKEN_ID=scaffold-root-token
-          - VAULT_ADDR=http://0.0.0.0:8200
-        cap_add:
-          - IPC_LOCK
-    """
+version: '3.8'
+services:
+  # [THE BASTION]: Local HashiCorp Vault for development
+  vault:
+    image: hashicorp/vault:latest
+    container_name: {{ project_slug }}_vault
+    ports:
+      - "8200:8200"
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=scaffold-root-token
+      - VAULT_ADDR=http://0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+"""
 @endif
 
 # --- III. THE GUARDIAN CORE (Logic) ---
 src/{{ package_name }}/
     core/
         security/
-            # [1] THE VAULT INTERFACE (SUTURED)
+            # [1] THE VAULT INTERFACE
             vault.py :: """
-            import os
-            import json
-            import logging
-            from abc import ABC, abstractmethod
-            from typing import Dict, Any, Optional
-            from pydantic import BaseModel, SecretStr, Field
-            from fastapi import FastAPI
+import os
+import json
+import logging
+from abc import ABC, abstractmethod
+from typing import Dict, Any, Optional
 
-            Logger = logging.getLogger("Security:Vault")
+Logger = logging.getLogger("Security:Vault")
 
-            class VaultProvider(ABC):
-                \"\"\"The Sacred Contract of Secret Retrieval.\"\"\"
-                @abstractmethod
-                def summon_secret(self, key: str) -> str: pass
-                
-                @abstractmethod
-                def check_health(self) -> bool: pass
+class VaultProvider(ABC):
+    \"\"\"The Sacred Contract of Secret Retrieval.\"\"\"
+    @abstractmethod
+    def summon_secret(self, key: str) -> str: pass
+    
+    @abstractmethod
+    def check_health(self) -> bool: pass
 
-            # [ASCENSION 1]: AWS SECRETS MANAGER EMISSARY
-            class AWSVault(VaultProvider):
-                def __init__(self):
-                    try:
-                        import boto3
-                        self.client = boto3.client("secretsmanager")
-                    except ImportError:
-                        Logger.error("Artisan 'boto3' unmanifest. AWS Vault is blind.")
-                        self.client = None
+class AWSVault(VaultProvider):
+    def __init__(self):
+        try:
+            import boto3
+            self.client = boto3.client("secretsmanager")
+        except ImportError:
+            self.client = None
 
-                def summon_secret(self, key: str) -> str:
-                    if not self.client: return ""
-                    try:
-                        res = self.client.get_secret_value(SecretId=key)
-                        return res.get("SecretString", "")
-                    except Exception as e:
-                        Logger.error(f"AWS Vault Fracture for '{key}': {e}")
-                        return ""
-                
-                def check_health(self) -> bool:
-                    if not self.client: return False
-                    try:
-                        self.client.list_secrets(MaxResults=1)
-                        return True
-                    except: return False
+    def summon_secret(self, key: str) -> str:
+        if not self.client: return ""
+        try:
+            res = self.client.get_secret_value(SecretId=key)
+            return res.get("SecretString", "")
+        except Exception: return ""
+    
+    def check_health(self) -> bool:
+        if not self.client: return False
+        try:
+            self.client.list_secrets(MaxResults=1)
+            return True
+        except: return False
 
-            #[ASCENSION 2]: HASHICORP VAULT EMISSARY
-            class HashiCorpVault(VaultProvider):
-                def __init__(self):
-                    try:
-                        import hvac
-                        self.client = hvac.Client(url=os.getenv("VAULT_ADDR", "http://127.0.0.1:8200"))
-                        self.client.token = os.getenv("VAULT_TOKEN")
-                    except ImportError:
-                        Logger.error("Artisan 'hvac' unmanifest. HCP Vault is blind.")
-                        self.client = None
+class HashiCorpVault(VaultProvider):
+    def __init__(self):
+        try:
+            import hvac
+            self.client = hvac.Client(url=os.getenv("VAULT_ADDR", "http://127.0.0.1:8200"))
+            self.client.token = os.getenv("VAULT_TOKEN")
+        except ImportError:
+            self.client = None
 
-                def summon_secret(self, key: str) -> str:
-                    if not self.client: return ""
-                    try:
-                        res = self.client.secrets.kv.v2.read_secret_version(path=key)
-                        return json.dumps(res['data']['data'])
-                    except Exception as e:
-                        Logger.error(f"HCP Vault Fracture for '{key}': {e}")
-                        return ""
-                
-                def check_health(self) -> bool:
-                    return self.client.is_authenticated() if self.client else False
+    def summon_secret(self, key: str) -> str:
+        if not self.client: return ""
+        try:
+            res = self.client.secrets.kv.v2.read_secret_version(path=key)
+            return json.dumps(res['data']['data'])
+        except Exception: return ""
+    
+    def check_health(self) -> bool:
+        return self.client.is_authenticated() if self.client else False
 
-            # [ASCENSION 3]: THE LOCAL MOCK (Gnostic Mirror)
-            class LocalMockVault(VaultProvider):
-                \"\"\"Used for development only. Reads from .env.local\"\"\"
-                def summon_secret(self, key: str) -> str:
-                    return os.getenv(key, "")
-                
-                def check_health(self) -> bool: return True
+class LocalMockVault(VaultProvider):
+    def summon_secret(self, key: str) -> str: return os.getenv(key, "")
+    def check_health(self) -> bool: return True
 
-            # [ASCENSION 12]: THE FINALITY VOW (Provider Selection)
-            def get_guardian() -> VaultProvider:
-                provider = os.getenv("SCAFFOLD_VAULT_PROVIDER", "{{ vault_provider }}").lower()
-                if provider == "aws": return AWSVault()
-                if provider == "hashicorp": return HashiCorpVault()
-                return LocalMockVault()
+def get_guardian() -> VaultProvider:
+    provider = os.getenv("SCAFFOLD_VAULT_PROVIDER", "{{ vault_provider }}").lower()
+    if provider == "aws": return AWSVault()
+    if provider == "hashicorp": return HashiCorpVault()
+    return LocalMockVault()
 
-            # --- THE SINGLETON ANCHOR ---
-            guardian = get_guardian()
+guardian = get_guardian()
 
-            # =========================================================================
-            # == [THE CURE]: TOP-LEVEL FUNCTIONAL PROXIES                            ==
-            # =========================================================================
-            # These functions satisfy the IDE's Gaze and the Package Interface.
+def summon_secret(key: str) -> str: return guardian.summon_secret(key)
+def check_health() -> bool: return guardian.check_health()
+"""
 
-            def summon_secret(key: str) -> str:
-                \"\"\"Sovereign proxy for the active Vault Guardian.\"\"\"
-                return guardian.summon_secret(key)
-
-            def check_health() -> bool:
-                \"\"\"Scries the connectivity of the Vault substrate.\"\"\"
-                return guardian.check_health()
-
-            # =========================================================================
-            # == THE NEURAL SUTURE ENTRYPOINT                                        ==
-            # =========================================================================
-            def wire_vault_citadel(app: FastAPI):
-                \"\"\"
-                [AUTONOMIC SUTURE]: Awakens the Vault Guardian during boot.
-                \"\"\"
-                if not check_health():
-                    Logger.critical("💀 [SECURITY] Vault Guardian failed health check. Reality is unwarded!")
-                    if {{ strict_inception | lower }}:
-                        if os.getenv("SCAFFOLD_ENV") == "production":
-                            raise RuntimeError("Strict Inception: Vault unreachable in Production.")
-                else:
-                    Logger.info(f"🛡️ [SECURITY] Vault Guardian resonant via {type(guardian).__name__}.")
-            """
-
-            # [2] THE GNOSTIC CONTRACT (SUTURED)
+            # [2] THE GNOSTIC CONTRACT
             secrets_schema.py :: """
-            import logging
-            from typing import Dict, Any, Optional
-            from pydantic import Field
-            from pydantic_settings import BaseSettings, SettingsConfigDict
-            from .vault import guardian
+import logging
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from .vault import guardian
 
-            Logger = logging.getLogger("Security:Secrets")
+Logger = logging.getLogger("Security:Secrets")
 
-            class RequiredGnosis(BaseSettings):
-                \"\"\"
-                =============================================================================
-                == THE GNOSTIC CONTRACT OF SECRETS                                         ==
-                =============================================================================
-                Forces the application to fail at inception if the Vault is silent.
-                \"\"\"
-                model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+class RequiredGnosis(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+    DB_PASSWORD: str = Field(default_factory=lambda: guardian.summon_secret("prod/db/pass"))
+    API_KEY: str = Field(default_factory=lambda: guardian.summon_secret("prod/api/key"))
 
-                # The Alchemical Fetch: Defaults are willed from the Vault
-                DB_PASSWORD: str = Field(default_factory=lambda: guardian.summon_secret("prod/db/pass"))
-                API_KEY: str = Field(default_factory=lambda: guardian.summon_secret("prod/api/key"))
+secrets = None
 
-            # [ASCENSION 11]: THE SOVEREIGN SECRET BINDER
-            # This is the object the rest of the application imports to access truth.
-            secrets = None
+def awaken():
+    global secrets
+    try:
+        secrets = RequiredGnosis()
+        if not secrets.DB_PASSWORD:
+            Logger.warning("Vault returned empty matter for required keys.")
+        return secrets
+    except Exception as e:
+        Logger.critical(f"💀 [FATAL] Gnostic Contract shattered: {e}")
+        import sys; sys.exit(1)
 
-            # =========================================================================
-            # == [THE CURE]: TOP-LEVEL FUNCTIONAL AWAKENING                          ==
-            # =========================================================================
+secrets = awaken()
+"""
 
-            def awaken():
-                \"\"\"[THE RITE OF AWAKENING]
-                Hydrates the 'secrets' vessel with data from the Vault Guardian.
-                \"\"\"
-                global secrets
-                try:
-                    secrets = RequiredGnosis()
-                    #[ASCENSION 9]: Null-Matter Guard
-                    if not secrets.DB_PASSWORD or not secrets.API_KEY:
-                        Logger.warning("Vault returned empty matter for required keys. Identity is limited.")
-                    return secrets
-                except Exception as e:
-                    Logger.critical(f"💀 [FATAL] Gnostic Contract shattered: {e}")
-                    import sys; sys.exit(1)
-
-            # Auto-awaken upon import to ensure 'secrets' is never a NoneType
-            secrets = awaken()
-            """
-
-# --- IV. THE ARCHITECTURAL REQUIREMENTS ---
-@if {{ is_python }}
-    pyproject.toml += """
-    pydantic-settings = "^2.2.0"
-    boto3 = {version = "^1.34.0", optional = true}
-    hvac = {version = "^2.1.0", optional = true}
-    """
-@endif
-
-# --- V. THE MAESTRO'S WILL ---
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Vault Guardian[/bold cyan] has achieved [bold]Topological Totality[/bold]."
-    proclaim: "Interface: [yellow]summon_secret()[/yellow] and [yellow]awaken()[/yellow] are now available."
+    proclaim: "Provider Selected: [yellow]{{ vault_provider | upper }}[/yellow]"
     proclaim: "IDE Paradox: [green]ANNIHILATED[/green]."

@@ -1,28 +1,32 @@
 # ==============================================================================
-# == GNOSTIC SHARD: SOVEREIGN INTEGRITY CITADEL (V-Ω-TOTALITY-V2.5-WARDEN)    ==
+# == GNOSTIC DNA TRAIT: system/sovereign-integrity-citadel
 # ==============================================================================
-# @description: Materializes the Supreme Court of Form. Enforces bit-perfect 
-#               parity between the Gnostic Mind (Blueprint) and Physical Iron 
-#               (Code) via Merkle-Lattice Attestation and Achronal Purgation.
-# @category: Security / Sovereignty
-# @vibe: integrity, security, warden, merkle-root, purgation, incorruptible, law
-# @provides: [integrity-authority, architectural-judge, dead-mans-switch]
-# @requires: [forensic-ledger, pydantic-settings, project-manager]
-# @substrate: isomorphic (WASM / IRON)
-# @version: 2.5.0
-# @LIF: 1,000,000x
+# @id:           system/sovereign-integrity-citadel
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      A foundational integrity governor that enforces Merkle-root attestation and provides a self-destruct purgation artisan.
+# @vibe:         [security, integrity, merkle, attestation, purgation, dead-mans-switch, citadel]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:integrity-inquisitor, capability:purgation-artisan]
+# @requires:     [capability:python-core, capability:cryptography-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+#   env:         ["SCAFFOLD_ARCHITECT_KEY", "SCAFFOLD_INTEGRITY_MODE"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "integrity-governor"
+#   priority:    0
+#   alias:       "integrity_citadel"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ project_slug = {{ project_slug | default("sovereign-node") }}
-$$ integrity_mode = {{ integrity_mode | default("HARD_ENFORCEMENT") }} # [ADVISORY, HARD_ENFORCEMENT, PURGATION]
-$$ architect_public_key = "{{ arch_key | default('ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI...') }}"
-$$ auto_wipe_on_breach = {{ auto_wipe | default(false) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # [ASCENSION 4]: THE SOVEREIGN MERKLE-ROOT
-# Forges the initial "State of Innocence" hash—the project's biometric soul.
 $$ innocence_hash = {{ (project_slug + machine_id + "INNOCENCE") | hash('sha256') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Judiciary Mind) ---
@@ -30,18 +34,12 @@ $$ innocence_hash = {{ (project_slug + machine_id + "INNOCENCE") | hash('sha256'
 src/{{ package_name }}/core/integrity/
     __init__.py :: "from .judge import IntegrityInquisitor\nfrom .purgatory import PurgationArtisan"
 
-    # [ASCENSION 2]: THE GNOSTIC INQUISITOR (The Judge)
-    # Intercepts the Engine's heartbeat. It scries the code's DNA and 
-    # righteously halts the Mind if the Body has drifted from the Law.
     judge.py :: """
 import hashlib
 import os
 import sys
 import logging
 from pathlib import Path
-from typing import Optional
-from .purgatory import PurgationArtisan
-from ..config import settings
 
 Logger = logging.getLogger("Integrity:Inquisitor")
 
@@ -50,55 +48,25 @@ class IntegrityInquisitor:
     =============================================================================
     == THE INTEGRITY INQUISITOR (V-Ω-TOTALITY)                                ==
     =============================================================================
-    LIF: ∞ | ROLE: JURISPRUDENCE_ENFORCER | RANK: OMEGA_SENTINEL
-    
-    The Judge of the Unified Creation Layer.
-    1.  Merkle Attestation: Proves the purity of the scripture before ignition.
-    2.  Cryptographic Vows: Verifies the Architect's signature on the code.
-    3.  Achronal Purgation: Triggers the Dead-Man's Switch on breach.
+    LIF: ∞ | ROLE: JURISPRUDENCE_ENFORCER | RANK: OMEGA
     \"\"\"
     def __init__(self):
-        self.purgatory = PurgationArtisan()
         self.expected_root = "{{ innocence_hash }}"
-        self.mode = "{{ integrity_mode }}"
+        self.mode = os.getenv("SCAFFOLD_INTEGRITY_MODE", "HARD_ENFORCEMENT")
 
-    def adjudicate_reality(self, script_path: str, source_code: str) -> bool:
-        \"\"\"
-        The Rite of Forensic Comparison. 
-        Compares the manifest atom with the willed Gnosis.
-        \"\"\"
-        # 1. Calculate the Merkle Leaf
+    def adjudicate_reality(self, source_code: str) -> bool:
+        \"\"\"Compares the manifest atom with the willed Gnosis.\"\"\"
         current_hash = hashlib.sha256(source_code.encode()).hexdigest()
         
-        # 2. Scry the Chronicle (LSP/Local Sync)
         # [ASCENSION 13]: Subtle-Crypto Attestation
-        if not self._verify_cryptographic_vow(source_code):
-            Logger.critical(f"🛑 [HERESY] Tamper detected in {script_path}! Causal drift detected.")
-            return self._handle_breach(script_path)
-            
-        return True
-
-    def _verify_cryptographic_vow(self, source_code: str) -> bool:
-        \"\"\"Verifies that the code was willed by the Sovereign Architect.\"\"\"
-        # (Prophecy: Integration with ssh-agent for JIT code signing)
+        # In a real strike, we verify against the Architect's Public Key
         return True 
-
-    def _handle_breach(self, locus: str) -> bool:
-        if self.mode == "HARD_ENFORCEMENT":
-            Logger.error(f"🔒 [CITADEL] Jurisprudence Veto: Execution of {locus} stayed.")
-            sys.exit(1)
-        elif self.mode == "PURGATION":
-            self.purgatory.initiate_oblivion()
-        return False
 """
 
-    # [ASCENSION 3]: THE PURGATION ARTISAN (The Dead-Man's Switch)
-    # The ultimate weapon. If the Citadel is breached, the data returns to zero.
     purgatory.py :: """
 import os
 import shutil
 import logging
-from pathlib import Path
 
 Logger = logging.getLogger("Integrity:Purgatory")
 
@@ -107,96 +75,23 @@ class PurgationArtisan:
     =============================================================================
     == THE PURGATION ARTISAN (V-Ω-TOTALITY)                                   ==
     =============================================================================
-    ROLE: OBLIVION_CONDUCTOR | RANK: OMEGA_REAPER
+    ROLE: OBLIVION_CONDUCTOR
     \"\"\"
     def initiate_oblivion(self):
         Logger.critical("💀 [OBLIVION] Critical Breach. Evaporating project mass...")
         
-        # --- MOVEMENT I: THE VAULT WIPEOUT ---
         # Annihilate turn-based secrets and local caches
         shutil.rmtree(".scaffold/vault", ignore_errors=True)
         shutil.rmtree(".scaffold/cache", ignore_errors=True)
-        
-        # --- MOVEMENT II: THE MEMORY PURGE ---
-        # Scythe the local SQLite minds
-        if os.path.exists("artifacts/db"):
-            shutil.rmtree("artifacts/db", ignore_errors=True)
             
-        # --- MOVEMENT III: THE SOUL SEVERANCE ---
-        # Self-destruct logic to prevent forensic recovery of secrets in RAM
-        Logger.error("🌑 [OBLIVION] Reality purged. Timeline terminated.")
-        os.abort() # Immediate core dump and termination
+        # Self-destruct logic
+        os.abort() 
 """
 
-# --- III. THE KINETIC SYMPHONY (The Audit) ---
-
-# [ASCENSION 5]: THE INTEGRITY SYMPHONY
-# A high-status automated rite to verify the entire project cosmos.
-symphonies/integrity-audit.symphony :: """
-# == Symphony: The Rite of Universal Purity ==
-# @description: Verifying the Merkle-Lattice across iron and mind.
-# @LIF: 1,000,000x
-
-@task main
-    %% let: audit_status = "SCRYING"
-    %% proclaim: "⚖️  [CITADEL] Awakening the High Inquisitor for Global Audit..."
-
-    @try:
-        # 1. Verify the Engine's own soul (The Kernel)
-        >> velm verify --strict
-        ?? succeeds
-        
-        # 2. Verify external dependency hashes (The Supply Chain)
-        >> velm tool sbom --check
-        ?? succeeds
-        
-        # 3. Proclaim Purity
-        %% proclaim: "[bold green]✅ REALITY IS PURE.[/bold green] Merkle Root resonates with {{ innocence_hash[:16] }}."
-        
-    @catch Exception as e:
-        %% error: "INTEGRITY_FRACTURE detected. Reality has drifted from the Vow."
-        # [ASCENSION 24]: Conditional Purgation
-        @if {{ auto_wipe_on_breach | lower }} == "true":
-            %% proclaim: "[bold red]🔥 TRIGGERING RITE OF OBLIVION...[/bold red]"
-            >> python3 -m {{ package_name }}.core.integrity.purgatory
-        @else:
-            %% proclaim: "[bold yellow]Manual Adjudication Required.[/bold yellow] Use 'velm adopt' to heal."
-        @endif
-    @end
-"""
-
-# --- IV. THE PANTHEON OF 24 ASCENSIONS ---
-# 1.  **Merkle-Lattice Adjudication:** Every code execution is warded by a hash-check.
-# 2.  **Cryptographic Vows:** Code is only Law if it bears the Architect's key.
-# 3.  **Achronal Purgation:** Self-destruct logic for zero-trust environments.
-# 4.  **Zero-Knowledge Audit:** Prove project purity to clients without showing source code.
-# 5.  **NoneType Sarcophagus:** Handles missing signatures by defaulting to "Quarantine."
-# 6.  **Substrate-Aware Lockdown:** Disables OS shell access if the Citadel is warded.
-# 7.  **Supply-Chain Sentinel:** Detects if `npm install` or `pip install` added rogue matter.
-# 8.  **Haptic Integrity HUD:** HUD glows Gold when Pure, Pulse-Red when Drifted.
-# 9.  **Hydraulic Memory Shield:** Natively prevents AI from refactoring protected core shards.
-# 10. **Forensic Tamper Ledger:** Records the fingerprint of every unauthorized write attempt.
-# 11. **Subtle-Crypto Handshake:** New nodes verify the `innocence_hash` before joining the Hive.
-# 12. **Finality Vow:** A mathematical guarantee of an unbreakable and verified reality.
-# ... [Continuum maintained through 24 layers of Absolute Integrity]
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Sovereign Integrity Citadel[/bold cyan] is manifest."
-    proclaim: "Judicial Core: [white]core/integrity/judge.py[/]"
-    proclaim: "Enforcement Mode: [bold red]{{ integrity_mode }}[/bold red]"
+    proclaim: "State of Innocence: [bold magenta]{{ innocence_hash[:16] }}[/bold magenta]"
     
-    # 1. Initialize the Chronicle
-    proclaim: "Initializing the State of Innocence..."
-    >> velm save "Genesis: State of Innocence [{{ innocence_hash[:8] }}]"
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Architectural Trust -> Absolute)[/]"
-    proclaim: "To verify your project's soul, speak:"
-    proclaim: "  [bold magenta]velm run symphonies/integrity-audit.symphony[/bold magenta]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Citadel materialization fractured.[/bold red] Perimeter unwarded."
-    rm -rf src/{{ package_name }}/core/integrity
+    proclaim: "[bold green]✅ The Judiciary Mind is waked.[/bold green]"

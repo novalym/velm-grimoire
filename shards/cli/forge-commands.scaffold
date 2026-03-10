@@ -1,20 +1,28 @@
 # ==============================================================================
-# == GNOSTIC SHARD: FORGE COMMAND GROUP (V-Ω-TOTALITY-V2.1-CLI)               ==
+# == GNOSTIC DNA SHARD: cli/forge-commands
 # ==============================================================================
-# @description: Materializes the 'forge' command group. Orchestrates 
-#               architectural strikes, entropy scrying, and metabolic 
-#               lustration rites within a unified control plane.
-# @category: CLI / Operations
-# @vibe: cli, typer, command-singularity, forge, operational-mastery, strike, scry
-# @provides: [forge-command-group, strike-rite, scry-rite, luminate-rite]
-# @requires: [cli-runtime, engine-core, pydantic-settings, rich-telemetry]
-# @substrate: python (Typer-Native)
-# @version: 2.1.0-Ω
-# @LIF: 1,000,000x
+# @id:           cli/forge-commands
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Typer-based CLI command group for architectural materialization and project scaffolding.
+# @vibe:         [cli, typer, commands, rich, terminal, tools, generation]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:cli-group, capability:forge-commands]
+# @requires:     [capability:python-core, capability:cli-framework]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["typer[rich]>=0.12.0", "rich>=13.7.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "cli-subapp"
+#   priority:    500
+#   alias:       "forge_cli"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
+$$ project_slug = {{ project_slug | default("omega-cli") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ command_group_name = "forge"
 
@@ -96,31 +104,16 @@ def luminate():
     console.print("✨ [bold green]Metabolism Purified.[/]")
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: Dependency Inception
-@if {{ is_python | lower == "true" }}
-    pyproject.toml += """
-typer = {extras = ["rich"], version = "^0.12.0"}
-"""
-@endif
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Forge Command Group[/bold cyan] is manifest."
     proclaim: "CLI Locus: [white]src/{{ package_name }}/cli/forge.py[/]"
     proclaim: "Command Axis: [bold yellow]velm {{ command_group_name }}[/]"
     
-    # 1. Initialize the CLI Sanctum
-    proclaim: "Forging the Operational Stratum..."
-    >> mkdir -p src/{{ package_name }}/cli
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Operational Friction -> 0)[/]"
     proclaim: "[bold green]The Control Plane is now Sovereign.[/bold green]"
     proclaim: "To scry your reality, speak: [bold magenta]velm {{ command_group_name }} scry[/bold magenta]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
     proclaim: "[bold red]Forge materialization fractured.[/bold red] CLI remains unoptimized."
-    rm -rf src/{{ package_name }}/cli/forge.py
+    >> rm -rf src/{{ package_name }}/cli/forge.py

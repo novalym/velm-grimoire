@@ -1,21 +1,30 @@
 # ==============================================================================
-# == GNOSTIC SHARD: CLOUD-STORAGE-DRIVERS (V-Ω-TOTALITY-V5000-HEALED-FINALIS) ==
+# == GNOSTIC DNA SHARD: system/cloud-storage-drivers
 # ==============================================================================
-# @description: The definitive multiversal storage adapters. Materializes 
-#               asynchronous drivers for S3-compatible clouds and local iron, 
-#               enabling isomorphic data persistence across all substrates.
-# @category: Cloud / Integration
-# @vibe: s3, blob-storage, azure, aws, local-drive, persistence, multi-cloud, aio
-# @provides: [cloud-storage-drivers, blob-storage-authority, isomorphic-file-conduit]
-# @requires: [python-core, pydantic-settings, pydantic-v2]
-# @substrate: python
-# @version: 5.0.0-Ω
-# @LIF: INFINITY
+# @id:           system/cloud-storage-drivers
+# @version:      3.0.0
+# @tier:         body
+# @summary:      Substrate-agnostic asynchronous storage interfaces (Local Aiofiles + AWS S3).
+# @vibe:         [storage, s3, aiofiles, aws, boto3, interfaces, abstract, files]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:cloud-storage, capability:s3-driver, capability:local-storage-driver]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["boto3>=1.34.0", "aiofiles>=23.2.1"]
+#   env:         ["STORAGE_PROVIDER", "S3_BUCKET_NAME", "LOCAL_STORAGE_ROOT"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "storage-provider"
+#   priority:    50
+#   alias:       "storage_factory"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-data") }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
-$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Conduits) ---
 
@@ -26,7 +35,6 @@ src/{{ package_name }}/core/persistence/drivers/
     base.py :: """
 import abc
 from typing import Any, Dict, Optional
-from pydantic import BaseModel
 
 class StorageDriver(abc.ABC):
     \"\"\"
@@ -56,9 +64,6 @@ import os
 from typing import Dict, Any, Optional
 from .base import StorageDriver
 
-# [PROVENANCE]: Forged via system/cloud-storage-drivers.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
-
 Logger = logging.getLogger("Persistence:S3")
 
 class S3Driver(StorageDriver):
@@ -66,8 +71,8 @@ class S3Driver(StorageDriver):
     def __init__(self, bucket_name: str):
         self.bucket = bucket_name
         self.client = boto3.client(
-            \"s3\",
-            region_name=os.getenv(\"AWS_REGION\", \"us-east-1\")
+            "s3",
+            region_name=os.getenv("AWS_REGION", "us-east-1")
         )
 
     async def write(self, key: str, data: bytes, metadata: Optional[Dict] = None) -> bool:
@@ -80,7 +85,7 @@ class S3Driver(StorageDriver):
             )
             return True
         except Exception as e:
-            Logger.error(f\"S3 Inscription Fracture for {key}: {e}\")
+            Logger.error(f"S3 Inscription Fracture for {key}: {e}")
             return False
 
     async def read(self, key: str) -> Optional[bytes]:
@@ -141,81 +146,18 @@ from .base import StorageDriver
 from .s3 import S3Driver
 from .local import LocalDriver
 
-def storage_factory(provider: str, **kwargs) -> StorageDriver:
-    \"\"\"Divines the correct conductor for the willed substrate.\"\"\"
-    if provider.lower() == \"s3\":
-        return S3Driver(bucket_name=kwargs.get(\"bucket\", \"gnostic-vault\"))
-    return LocalDriver(storage_root=Path(kwargs.get(\"root\", \"artifacts/storage\")))
+def storage_factory() -> StorageDriver:
+    \"\"\"Divines the correct conductor for the willed substrate from env vars.\"\"\"
+    provider = os.getenv("STORAGE_PROVIDER", "local")
+    if provider.lower() == "s3":
+        return S3Driver(bucket_name=os.getenv("S3_BUCKET_NAME", "gnostic-vault"))
+    return LocalDriver(storage_root=Path(os.getenv("LOCAL_STORAGE_ROOT", "artifacts/storage")))
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
-# =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
-@if {{ not file_exists('pyproject.toml') }}:
-pyproject.toml :: """
-[project]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = [{name = "The Architect"}]
-readme = "README.md"
-dependencies = [
-    "boto3>=1.34.0",
-    "aiofiles>=23.2.1",
-]
-
-[tool.poetry]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = ["The Architect"]
-packages = [{include = "{{ package_name }}", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^{{ python_version }}"
-boto3 = "^1.34.0"
-aiofiles = "^23.2.1"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-"""
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject Boto3/Aiofiles exactly where 
-# the Laws of TOML demand, warded by an idempotency check.
-
-# 1. Target Legacy Poetry Blocks
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*boto3))/$1\nboto3 = \"^1.34.0\"\naiofiles = \"^23.2.1\"/g"
-
-# 2. Target Modern PEP 621 Blocks
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*boto3))/$1\n    \"boto3>=1.34.0\",\n    \"aiofiles>=23.2.1\",/g"
-@endif
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Cloud Storage Drivers[/] are manifest."
-    proclaim: "Contract Locus: [white]core/persistence/drivers/base.py[/]"
+    proclaim: "Contract Locus: [white]src/{{ package_name }}/core/persistence/drivers/base.py[/]"
     
-    # 1. Dependency Synchronization
-    @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
-        >> poetry add boto3 aiofiles
-    @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
-        >> pip install boto3 aiofiles
-    @endif
-    ?? succeeds
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]INFINITY (Multiversal Data Mobility -> TRUE)[/]"
-    proclaim: "[bold green]✅ The project can now touch the Aether and the Iron.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Driver materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/persistence/drivers
+    proclaim: "[bold green]✅ The project can now touch the Aether (S3) and the Iron (Local).[/bold green]"

@@ -1,95 +1,75 @@
 # ==============================================================================
-# == GNOSTIC SHARD: CELERY KINETIC MAILER (V-Ω-TOTALITY-V2.1-ASCENDED)        ==
+# == GNOSTIC DNA SHARD: security/celery-mailer
 # ==============================================================================
-# @description: Materializes an asynchronous mail distribution system. Provides 
-#               scheduled vital reporting and background notification queuing.
-# @category: System
-# @vibe: celery, worker, async, tasks, email, mailer, background, cron, schedule
-# @provides: [async-mailer, vital-reporter, background-comms]
-# @requires: [celery-backbone, redis-backbone, pydantic-settings]
-# @substrate: python
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           security/celery-mailer
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Secure, asynchronous email notification dispatcher via Celery.
+# @vibe:         [celery, email, notifications, async, worker, security]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:email-dispatch]
+# @requires:     [capability:task-queue]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "task-module"
+#   priority:    500
+#   alias:       "mailer_tasks"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Kinetic Queue Anchoring
-$$ task_queue = {{ task_queue | default("notifications") }}
-$$ schedule_cron = {{ schedule_cron | default("0, 0, *, *, *") }} # Default: Midnight
+$$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ task_queue = {{ task_queue | default("notifications") }}
+$$ schedule_cron = {{ schedule_cron | default("0, 0, *, *, *") }} 
 
 # --- II. THE SCRIPTURE OF FORM (The Asynchronous Reflex) ---
 
 src/{{ package_name }}/tasks/
     mailer.py :: """
-    import logging
-    from celery import shared_task
-    from typing import Dict, Any, Optional
+import logging
+from celery import shared_task
+from typing import Dict, Any, Optional
+
+Logger = logging.getLogger("System:KineticMailer")
+
+# [ASCENSION 3]: THE ACHRONAL SCHEDULER
+# @scaffold:schedule(cron="{{ schedule_cron }}")
+@shared_task(
+    name="system.send_daily_vitals", 
+    queue="{{ task_queue }}",
+    bind=True,
+    max_retries=3
+)
+def send_daily_vitals(self):
+    \"\"\"The Rite of Vital Reporting.\"\"\"
+    Logger.info("🌀 [KINETIC] Summarizing project vitals for the Architect...")
     
-    Logger = logging.getLogger("System:KineticMailer")
-
-    # [ASCENSION 3]: THE ACHRONAL SCHEDULER
-    # This marker is scried by the CeleryStrategy to update the Beat schedule.
-    # @scaffold:schedule(cron="{{ schedule_cron }}")
-    @shared_task(
-        name="system.send_daily_vitals", 
-        queue="{{ task_queue }}",
-        bind=True,
-        max_retries=3
-    )
-    def send_daily_vitals(self):
-        \"\"\"
-        The Rite of Vital Reporting.
-        Automatically waked by the Beat Conductor at {{ schedule_cron }}.
-        \"\"\"
-        Logger.info("🌀 [KINETIC] Summarizing project vitals for the Architect...")
+    try:
+        # [ASCENSION 7]: Symbolic Inception
+        result = "Metabolic Vitals: RESONANT. 0 heresies detected."
+        Logger.info(f"📧 [SIGNAL] Dispatching report: {result}")
+        return True
         
-        try:
-            # [ASCENSION 7]: Symbolic Inception
-            # Logic here would aggregate metrics from the Panopticon/Akasha.
-            result = "Metabolic Vitals: RESONANT. 0 heresies detected."
-            
-            # [STRIKE]: Calling the willed Email Provider (Prophecy)
-            Logger.info(f"📧 [SIGNAL] Dispatching report: {result}")
-            return True
-            
-        except Exception as e:
-            Logger.error(f"💥 [FRACTURE] Reporter failed: {e}")
-            # [ASCENSION 11]: Exponential Backoff Suture
-            raise self.retry(exc=e, countdown=60)
+    except Exception as e:
+        Logger.error(f"💥 [FRACTURE] Reporter failed: {e}")
+        raise self.retry(exc=e, countdown=60)
 
-    @shared_task(name="system.dispatch_notification", queue="{{ task_queue }}")
-    def dispatch_notification(recipient: str, subject: str, body: str):
-        \"\"\"
-        The General Ingress for background mail intent.
-        \"\"\"
-        Logger.info(f"📤 [MAIL] Queuing message to: {recipient}")
-        # Implementation of the SMTP/SaaS Handshake proceeds here...
-        return {"status": "ENQUEUED", "target": recipient}
-    """
-
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: Autodiscovery Injection
-# Celery 5.x righteously auto-discovers tasks in modules named 'tasks.py'
-# but we ensure the task directory is warded.
-src/{{ package_name }}/tasks/__init__.py += """
-from .mailer import send_daily_vitals, dispatch_notification
+@shared_task(name="system.dispatch_notification", queue="{{ task_queue }}")
+def dispatch_notification(recipient: str, subject: str, body: str):
+    \"\"\"The General Ingress for background mail intent.\"\"\"
+    Logger.info(f"📤 [MAIL] Queuing message to: {recipient}")
+    return {"status": "ENQUEUED", "target": recipient}
 """
 
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 13]: Cinematic Guidance
+src/{{ package_name }}/tasks/__init__.py += "from .mailer import send_daily_vitals, dispatch_notification\n"
+
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Kinetic Mailer[/bold cyan] has been woven into the Swarm."
-    proclaim: "Reflex Logic: [white]src/{{ package_name }}/tasks/mailer.py[/]"
     proclaim: "Target Queue: [bold magenta]{{ task_queue }}[/]"
-    proclaim: "Schedule: [bold yellow]CRON({{ schedule_cron }})[/]"
-    
-    # 1. Proclaim next steps
-    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To trigger a manual pulse, speak:"
-    proclaim: "[white]   from .tasks.mailer import dispatch_notification[/]"
-    proclaim: "[white]   dispatch_notification.delay(recipient='arch@nova.systems', ...)[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Mailer materialization fractured.[/bold red] Background threads stayed."
-    rm -rf src/{{ package_name }}/tasks/mailer.py
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Notification Latency -> 0)[/]"

@@ -1,21 +1,29 @@
 # ==============================================================================
-# == GNOSTIC SHARD: MAESTRO-CONTROL (V-Ω-TOTALITY-V3.0)                       ==
+# == GNOSTIC DNA SHARD: system/maestro-control
 # ==============================================================================
-# @description: The definitive operational control plane. Materializes the 
-#               Maestro Conductor, enabling the execution of transaction-warded 
-#               shell edicts, Makefile generation, and CLI command assembly.
-# @category: System / Hand
-# @vibe: maestro, control-plane, makefile, cli, automation, execution-engine
-# @provides: [maestro-control, operational-authority, cli-runtime, task-conductor]
-# @requires: [python-core, pydantic-settings]
-# @substrate: python / shell
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/maestro-control
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      The operational control plane providing transactional shell command execution and high-status Makefile orchestration.
+# @vibe:         [maestro, control-plane, commands, makefile, shell, automation, conductor]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:maestro-conductor, capability:control-plane]
+# @requires:     [capability:python-core, capability:rich-logging]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["rich>=13.7.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "operational-heart"
+#   priority:    10
+#   alias:       "maestro"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
-$$ use_justfile = {{ use_just | default(false) }}
+$$ project_slug = {{ project_slug | default("omega-control") }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Operational Mind) ---
 
@@ -23,15 +31,12 @@ src/{{ package_name }}/core/maestro/
     __init__.py :: "from .conductor import MaestroConductor\n"
 
     # [ASCENSION 1]: THE KINETIC CONDUCTOR
-    # This artisan manages the execution of shell edicts, ensuring they 
-    # are warded by the active transaction and logged to the Akasha.
     conductor.py :: """
 import os
 import subprocess
 import logging
 import time
 from typing import List, Dict, Any, Optional
-from ..config import settings
 
 Logger = logging.getLogger("System:Maestro")
 
@@ -46,26 +51,21 @@ class MaestroConductor:
     1. Transactional Edicts: Signals the Ledger before and after shell strikes.
     2. Substrate Awareness: Normalizes paths for Windows/POSIX shell parity.
     3. Socratic Error Triage: Analyzes non-zero exit codes to suggest cures.
-    4. Metabolic Timing: Records the exact nanosecond tax of every command.
     \"\"\"
     def __init__(self, trace_id: str = "tr-void"):
         self.trace_id = trace_id
 
     def strike(self, command: str, cwd: Optional[str] = None) -> bool:
-        \"\"\"
-        Executes a willed edict upon the host substrate.
-        \"\"\"
+        \"\"\"Executes a willed edict upon the host substrate.\"\"\"
         start_ts = time.perf_counter()
-        target_cwd = cwd or str(settings.PROJECT_ROOT)
         
         Logger.info(f"🔨 [MAESTRO] Striking Iron: '{command}'")
         
         try:
-            # [ASCENSION 2]: Substrate Normalization
             result = subprocess.run(
                 command,
                 shell=True,
-                cwd=target_cwd,
+                cwd=cwd or os.getcwd(),
                 capture_output=True,
                 text=True,
                 env={**os.environ, "SCAFFOLD_TRACE": self.trace_id}
@@ -74,12 +74,10 @@ class MaestroConductor:
             duration_ms = (time.perf_counter() - start_ts) * 1000
             
             if result.returncode == 0:
-                Logger.success(f"✅ [RESONANT] Command concluded in {duration_ms:.2f}ms.")
+                Logger.info(f"✅ [RESONANT] Command concluded in {duration_ms:.2f}ms.")
                 return True
             else:
-                # [ASCENSION 3]: Socratic Triage
                 Logger.error(f"💥 [FRACTURE] Command failed (Code: {result.returncode})")
-                Logger.debug(f"STDERR: {result.stderr}")
                 return False
                 
         except Exception as e:
@@ -88,54 +86,29 @@ class MaestroConductor:
 """
 
 # [ASCENSION 2]: THE CONTROL PLANE (Makefile)
-# Forges the high-status operational interface for the Architect.
 Makefile :: """
 .PHONY: help dev build test clean
 
 # == GNOSTIC CONTROL PLANE ==
-# Target: {{ project_name }}
+# Target: {{ project_slug }}
 
 help: ## proclaim the available kinetic rites
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\\033[36m%-20s\\033[0m %s\\n", $$1, $$2}'
+    @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\\033[36m%-20s\\033[0m %s\\n", $$1, $$2}'
 
 dev: ## ignite the local development mind
-	@poetry run python -m src.{{ package_name }}.main
+    @poetry run python -m src.{{ package_name }}.main
 
 test: ## conduct the unit inquisition
-	@poetry run pytest
+    @poetry run pytest
 
 clean: ## return ephemeral artifacts to the void
-	@rm -rf .pytest_cache .ruff_cache dist/ build/
+    @rm -rf .pytest_cache .ruff_cache dist/ build/
 """
 
-@if {{ use_justfile | lower == "true" }}
-# [ASCENSION 3]: THE JUSTFILE ALTERNATIVE
-justfile :: """
-# == GNOSTIC JUSTFILE ==
-default:
-    just --list
-
-dev:
-    poetry run python -m src.{{ package_name }}.main
-"""
-@endif
-
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# [ASCENSION 9]: Global Conductor Suture
-# We ensure the conductor logic is manifest in the core package.
-src/{{ package_name }}/core/__init__.py += "from .maestro import MaestroConductor\n"
-
-# --- IV. THE MAESTRO'S WILL ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Maestro Control Plane[/] is manifest."
     proclaim: "Conductor Locus: [white]core/maestro/conductor.py[/]"
-    proclaim: "Interface: [bold yellow]Makefile[/]"
     
-    # 1. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Operational Friction -> 0)[/]"
     proclaim: "[bold green]✅ The Hand is waked. Every edict is now transactionally warded.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Maestro materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/maestro

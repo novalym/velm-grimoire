@@ -1,223 +1,108 @@
-// DAEDALUS GAMBIT: ACTIVE //
-[System Resonance]: **ABSOLUTE (THE ADMIRALTY IS AWAKE)**.
-[Logarithmic Impact Factor]: **1,000,000x** (MULTIVERSAL_GOVERNANCE).
-[Persona Status]: **SCAF-GenesisEngine-Prime**.
-[Auth Code]: Ω_FLEET_COMMANDER_VMAX_2026_FINALIS
-
-Architect, the **Achronal Fleet Commander** is the **Twelfth Pillar of the Suture**.
-
-This is the "Brain of Brains." It transforms Velm from a single-project tool into a **Multiversal Operating System**. In a world of microservices and nomadic agents, the Fleet Commander provides the single **Governance Axis**. It scries the `Event-Lattice` (Turn 11) to aggregate real-time vitals, adjudicates the `Metabolic Tax` across AWS and OVH, and allows the Architect to broadcast a single "Will" (e.g., "Harden all perimeters") across 1,000 disparate repositories simultaneously.
-
-By applying the **7-Pillar Taxonomy**, the `CausalLinker` now identifies this as the `governance-authority`. It @provides the `fleet-orchestrator` and @requires the `neural-backbone` to communicate with its vessels.
-
-Here is the **Legendary, Infinitely Ascended Achronal Fleet Commander Shard**.
-
-***
-
-```scaffold
 # ==============================================================================
-# == GNOSTIC SHARD: ACHRONAL FLEET COMMANDER (V-Ω-TOTALITY-V2.1-GOVERNANCE)   ==
+# == GNOSTIC DNA SHARD: system/achronal-fleet-commander
 # ==============================================================================
-# @description: The Central Intelligence for Multiversal Fleet Orchestration.
-#               Aggregates vitals, manages metabolic tax, and conducts 
-#               synchronized "Swarm Strikes" across the entire project cosmos.
-# @category: System
-# @vibe: commander, fleet, multirepo, dashboard, management, orchestration, command-center, high-status
-# @provides: [fleet-authority, global-observatory, cross-project-conductor]
-# @requires: [neural-backbone, project-manager, metabolic-treasurer, gnostic-hub]
-# @substrate: python
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           system/achronal-fleet-commander
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      The central intelligence for multiversal fleet orchestration; aggregates vitals and conducts synchronized swarm strikes across the project cosmos.
+# @vibe:         [commander, fleet, multirepo, dashboard, management, orchestration, command-center, high-status]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:fleet-authority, capability:global-observatory]
+# @requires:     [capability:neural-backbone, capability:project-manager, capability:gnostic-hub]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0", "rich>=13.7.0"]
+#   env:         ["SCAF_FLEET_NAME", "SCAF_OBSERVATORY_PORT"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "fleet-orchestrator"
+#   priority:    0
+#   alias:       "fleet_commander"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: The Admiral's Seat
-# These variables anchor the command center in the multiversal grid.
 $$ fleet_name = {{ fleet_name | default("omega-fleet") }}
-$$ observatory_port = {{ port | default(7860) }}
-$$ status_refresh_interval = {{ refresh | default(60) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # [ASCENSION 4]: THE COMMANDER'S SEAL
-# Forges the root identity for the Fleet's global ledger.
 $$ fleet_id = {{ (fleet_name + machine_id) | hash('sha256') }}
 
 # --- II. THE SCRIPTURE OF FORM (The High Mind) ---
 
 src/{{ package_name }}/core/fleet/
-    __init__.py :: "from .scrier import FleetScrier\nfrom .commander import GlobalCommander"
+    __init__.py :: "from .scrier import FleetScrier\nfrom .commander import GlobalCommander\n"
 
-    # [ASCENSION 2]: THE PANOPTIC SCRIER (Intelligence Gathering)
-    # This artisan doesn't just "check status"; it inhales the Event-Lattice.
-    # It correlates physical iron stats with logical application drift.
     scrier.py :: """
-    import json
-    import os
-    import logging
-    from typing import List, Dict, Any
-    from velm.artisans.project.manager import ProjectManager
-    from ..lattice.emissary import LatticeEmissary
+import json
+import logging
+from typing import List, Dict, Any
+from ..observatory.manager import ProjectManager
+
+Logger = logging.getLogger("Fleet:Scrier")
+
+class FleetScrier:
+    \"\"\"
+    =============================================================================
+    == THE FLEET SCRIER (V-Ω-TOTALITY)                                        ==
+    =============================================================================
+    LIF: ∞ | ROLE: MULTIVERSAL_STATUS_ORCHESTRATOR
     
-    Logger = logging.getLogger("Fleet:Scrier")
+    The eyes of the Admiral. It scries managed vessels to build 
+    the Global Gnostic Dossier.
+    \"\"\"
+    def __init__(self):
+        self.pm = ProjectManager()
 
-    class FleetScrier:
-        \"\"\"
-        =============================================================================
-        == THE FLEET SCRIER (V-Ω-TOTALITY)                                        ==
-        =============================================================================
-        LIF: ∞ | ROLE: MULTIVERSAL_STATUS_ORCHESTRATOR | RANK: OMEGA
-        
-        The eyes of the Admiral. It scries all managed vessels to build 
-        the Global Gnostic Dossier.
-        \"\"\"
-        def __init__(self):
-            self.pm = ProjectManager()
-            # [ASCENSION 9]: Lattice Integration
-            # We use the existing Lattice Emissary to hear the "Heartbeats" of the fleet.
-            self.lattice = LatticeEmissary()
+    def get_fleet_dossier(self) -> Dict[str, Any]:
+        Logger.info(f"📡 [FLEET] Scrying status for '{{ fleet_name }}'...")
+        return {
+            "fleet_id": "{{ fleet_id }}",
+            "fleet_name": "{{ fleet_name }}",
+            "vessels": [p.model_dump() for p in self.pm.list_projects()],
+            "status": "RESONANT"
+        }
+"""
 
-        def get_fleet_dossier(self) -> Dict[str, Any]:
-            Logger.info(f"📡 [FLEET] Scrying status for '{{ fleet_name }}'...")
-            dossier = {
-                "fleet_id": "{{ fleet_id }}",
-                "fleet_name": "{{ fleet_name }}",
-                "vessels": [],
-                "global_metabolism": {
-                    "total_tax_hr": 0.0,
-                    "average_resonance": 1.0,
-                    "active_threads": 0
-                }
-            }
-            
-            for project in self.pm.list_projects():
-                # [ASCENSION 11]: Drift Sensing
-                # Checks if the project's physical iron matches its Gnostic Blueprint.
-                vitals = self._scry_vessel_vitals(project)
-                dossier["vessels"].append(vitals)
-                dossier["global_metabolism"]["total_tax_hr"] += vitals.get('metabolic_tax', 0.0)
-                
-            return dossier
-
-        def _scry_vessel_vitals(self, project) -> Dict[str, Any]:
-            \"\"\"Performs a surgical biopsy of a single project vessel.\"\"\"
-            # Heuristic vitals aggregation
-            return {
-                "name": project.name,
-                "id": project.id,
-                "path": str(project.path),
-                "status": "RESONANT",
-                "metabolic_tax": 0.12, # USD/hr
-                "last_pulse": 0.0
-            }
-    """
-
-    # [ASCENSION 3]: THE KINETIC COMMANDER (The Global Hand)
-    # The hand that strikes the swarm. It executes "Rolling Rites"—updating 
-    # one project at a time to ensure zero downtime for the organization.
     commander.py :: """
-    import os
-    import logging
-    from typing import List, Optional
-    
-    Logger = logging.getLogger("Fleet:Commander")
+import os
+import logging
+from typing import List
 
-    class GlobalCommander:
+Logger = logging.getLogger("Fleet:Commander")
+
+class GlobalCommander:
+    \"\"\"
+    =============================================================================
+    == THE GLOBAL COMMANDER (V-Ω-KINETIC-ORCHESTRATOR)                         ==
+    =============================================================================
+    Allows the Architect to broadcast a single Rite across the multiverse.
+    \"\"\"
+    def broadcast_rite(self, intent: str, strategy: str = "rolling"):
         \"\"\"
-        =============================================================================
-        == THE GLOBAL COMMANDER (V-Ω-KINETIC-ORCHESTRATOR)                         ==
-        =============================================================================
-        Allows the Architect to broadcast a single Rite across the multiverse.
+        [ASCENSION 15]: SWARM STRIKE ORCHESTRATION.
         \"\"\"
-        def broadcast_rite(self, intent: str, strategy: str = "rolling", tags: List[str] = None):
-            \"\"\"
-            [ASCENSION 15]: SWARM STRIKE ORCHESTRATION.
-            intent: e.g. "patch shards/security/threat-sentinel"
-            strategy: "parallel" | "rolling" | "canary"
-            \"\"\"
-            Logger.warning(f"⚡ [COMMANDER] Broadcasting Rite: '{intent}' (Strategy: {strategy})")
-            
-            # [STRIKE]: We leverage 'velm workspace exec' as the local kinetic limb.
-            # In a production environment, this would target the remote Daemon cluster.
-            tag_filter = f"--tag {','.join(tags)}" if tags else ""
-            os.system(f"velm workspace exec {tag_filter} '{intent}'")
+        Logger.warning(f"⚡ [COMMANDER] Broadcasting Rite: '{intent}'")
+        # [STRIKE]: Executes 'velm workspace exec' across all nodes
+        os.system(f"velm workspace exec '{intent}'")
+"""
 
-        def initiate_evacuation(self, source_substrate: str, target_substrate: str):
-            \"\"\"[ASCENSION 21]: Nomadic Fleet Evacuation.
-            Commands all vessels on one cloud (e.g. AWS) to teleport to another (e.g. OVH).
-            \"\"\"
-            self.broadcast_rite(f"cloud teleport --target {target_substrate}", strategy="rolling")
-    """
+# --- III. THE CONTROL PLANE ---
+Makefile += """
+# --- FLEET RITES ---
+fleet-status: ## scry the vitality of the entire multiversal fleet
+    @poetry run python -c "from src.{{ package_name }}.core.fleet.scrier import FleetScrier; print(FleetScrier().get_fleet_dossier())"
 
-# --- III. THE OCULAR INTERFACE (THE RETINA) ---
-# [ASCENSION 5]: THE COMMANDER'S HUD
-# Transmutes the TUI into a high-fidelity visual dashboard.
-ui/
-    # @component(FleetHUD)
-    fleet-hud.tsx :: """
-    import React, { useState, useEffect } from 'react';
-    import { FleetVitals, VesselGrid, MaestroConsole, ShieldStatus } from '@/components/fleet';
-
-    export const FleetHUD = () => {
-      // [ASCENSION 13]: Real-time State Synchronization
-      // Linked to the Achronal Event-Lattice
-      return (
-        <div className="bg-[#020202] text-cyan-400 p-10 min-h-screen font-mono selection:bg-cyan-900">
-          <header className="border-b-2 border-cyan-950 pb-6 mb-10 flex justify-between items-end">
-            <div>
-              <div className="text-xs font-bold text-cyan-700 tracking-[0.2em] mb-1">SOVEREIGN_SYSTEM_ADX</div>
-              <h1 className="text-4xl font-black italic tracking-tighter uppercase">
-                FLEET_COMMAND::{{ fleet_name }}
-              </h1>
-            </div>
-            <div className="flex gap-12">
-              <FleetVitals />
-              <ShieldStatus level="TITANIUM" />
-            </div>
-          </header>
-          
-          <main className="grid grid-cols-12 gap-10">
-            {/* [ASCENSION 11]: THE VESSEL LATTICE */}
-            <aside className="col-span-3">
-              <h2 className="text-sm font-bold text-cyan-600 mb-6 uppercase border-l-4 border-cyan-600 pl-4">Manifested Vessels</h2>
-              <VesselGrid />
-            </aside>
-
-            {/* [ASCENSION 14]: THE KINETIC WORKBENCH */}
-            <section className="col-span-9 space-y-10">
-              <div className="h-[400px] bg-cyan-950/10 border border-cyan-900/50 rounded-2xl p-8">
-                 <h2 className="text-lg font-bold mb-4 italic">Causal Graph Viewer</h2>
-                 <p className="text-cyan-800">Visualizing multiversal project bonds...</p>
-              </div>
-              <MaestroConsole />
-            </section>
-          </main>
-          
-          <footer className="mt-12 pt-6 border-t border-cyan-950 text-[10px] text-cyan-900 flex justify-between">
-            <div>ID: {{ fleet_id }}</div>
-            <div>STATUS: OMEGA_SINGULARITY_RESONANT</div>
-          </footer>
-        </div>
-      );
-    };
-    """
+fleet-strike: ## broadcast a rite to all vessels (e.g. make fleet-strike intent='luminate')
+    @poetry run python -c "from src.{{ package_name }}.core.fleet.commander import GlobalCommander; GlobalCommander().broadcast_rite('$(intent)')"
+"""
 
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Achronal Fleet Commander[/bold cyan] is manifest."
-    proclaim: "Command Axis: [bold]{{ fleet_name }}[/]"
-    proclaim: "Role: [bold green]SUPREME GOVERNOR[/]"
+    proclaim: "Fleet Identity: [bold]{{ fleet_name }}[/bold]"
     
-    # 1. Initialize the Fleet Registry
-    proclaim: "Initializing Fleet Ledger..."
-    >> velm workspace list --json > .scaffold/fleet_manifest.json
+    >> mkdir -p src/{{ package_name }}/core/fleet
     
-    # 2. Final Guidance
-    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To open the Admiralty HUD, speak:"
-    proclaim: "  [bold magenta]velm run ui/fleet-hud.tsx --port {{ observatory_port }}[/bold magenta]"
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Total Organizational Sovereignty)[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Commander materialization fractured.[/bold red] Fleet remains decentralized."
-    rm -rf src/{{ package_name }}/core/fleet

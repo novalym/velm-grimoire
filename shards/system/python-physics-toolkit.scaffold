@@ -1,21 +1,29 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-PHYSICS-TOOLKIT (V-Ω-TOTALITY-V5000-HEALED-FINALIS) ==
+# == GNOSTIC DNA SHARD: system/python-physics-toolkit
 # ==============================================================================
-# @description: The definitive hardware sensing toolkit. Materializes the 
-#               psutil-powered biometric layer, enabling real-time scrying of 
-#               CPU load, memory mass, and I/O wait-states across all iron.
-# @category: System / Physics
-# @vibe: psutil, metabolism, hardware-sensing, vitals, tomography, substrate
-# @provides: [python-physics-toolkit, hardware-scrier, metabolic-oracle]
-# @requires: [python-core, pydantic-v2]
-# @substrate: python
-# @version: 5.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/python-physics-toolkit
+# @version:      3.0.0
+# @tier:         body
+# @summary:      Global hardware scrier utilizing psutil to monitor physical CPU load, IO-Wait, and absolute RAM limits.
+# @vibe:         [hardware, physics, psutil, cpu, ram, io, metrics, telemetry, bare-metal]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:hardware-scrier, capability:physics-engine]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["psutil>=5.9.0", "pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "system-telemetry"
+#   priority:    0
+#   alias:       "hardware_scrier"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default('omega-core') }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
-$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Physics Engine) ---
 
@@ -32,10 +40,7 @@ from typing import Dict, Any, List, Optional
 import psutil
 from pydantic import BaseModel, Field
 
-# [PROVENANCE]: Forged via system/python-physics-toolkit.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
-
-Logger = logging.getLogger(\"Physics:Tomography\")
+Logger = logging.getLogger("Physics:Tomography")
 
 class VitalAura(BaseModel):
     \"\"\"The Gnostic record of physical resonance.\"\"\"
@@ -44,7 +49,7 @@ class VitalAura(BaseModel):
     ram_total_gb: float = 0.0
     ram_used_pct: float = 0.0
     io_wait_pct: float = 0.0
-    status: str = \"RESONANT\"
+    status: str = "RESONANT"
     ts: float = Field(default_factory=time.time)
     substrate: str = Field(default_factory=lambda: platform.system())
 
@@ -55,10 +60,8 @@ class HardwareScrier:
     =============================================================================
     LIF: ∞ | ROLE: METABOLIC_SENSING_ORACLE | RANK: MASTER
     
-    [ASCENSIONS]:
     1. Substrate Tomography: Measures CPU, RAM, and Disk Wait-States.
     2. Cache-Line Profiling: Divines memory latency of the host iron.
-    3. Achronal Signature: Forges the 'Metabolic Passport' for the throttler.
     \"\"\"
     def __init__(self):
         try:
@@ -77,15 +80,15 @@ class HardwareScrier:
             
             # 3. I/O Wait State (Substrate Aware)
             io_wait = 0.0
-            if hasattr(psutil, \"cpu_times_percent\"):
+            if hasattr(psutil, "cpu_times_percent"):
                 io_wait = getattr(psutil.cpu_times_percent(), 'iowait', 0.0)
             
             # [ASCENSION 7]: Thermodynamic Adjudication
-            status = \"RESONANT\"
+            status = "RESONANT"
             if cpu_pct > 85.0 or io_wait > 20.0:
-                status = \"FEVERISH\"
+                status = "FEVERISH"
             elif cpu_pct > 60.0:
-                status = \"HEATED\"
+                status = "HEATED"
 
             return VitalAura(
                 cpu_load_pct=cpu_pct,
@@ -95,61 +98,19 @@ class HardwareScrier:
                 status=status
             )
         except Exception as e:
-            Logger.warn(f\"Hardware Scry faltered: {e}\")
-            return VitalAura(status=\"VOID\")
+            Logger.warning(f"Hardware Scry faltered: {e}")
+            return VitalAura(status="VOID")
 
 # Global Singleton
 hardware_scrier = HardwareScrier()
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
-# =========================================================================
-# [ASCENSION 1]: If the manifest is a void, we forge a perfect foundation.
-# If the manifest exists, we stay our hand to prevent TOML corruption.
-@if {{ not file_exists('pyproject.toml') }}:
-pyproject.toml :: """
-[project]
-name = \"{{ project_slug | default('omega-service') }}\"
-version = \"0.1.0\"
-description = \"Hardware Sensing Substrate forged by VELM\"
-authors = [{name = \"The Architect\"}]
-readme = \"README.md\"
-dependencies = [
-    \"psutil>=5.9.0\",
-]
-
-[tool.poetry]
-name = \"{{ project_slug | default('omega-service') }}\"
-version = \"0.1.0\"
-description = \"Hardware Sensing Substrate forged by VELM\"
-authors = [\"{{ author | default('The Architect') }}\"]
-packages = [{include = \"{{ package_name }}\", from = \"src\"}]
-
-[tool.poetry.dependencies]
-python = \"^{{ python_version }}\"
-psutil = \"^5.9.0\"
-
-[build-system]
-requires = [\"poetry-core\"]
-build-backend = \"poetry.core.masonry.api\"
-"""
-@endif
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: \"The [bold cyan]Python Physics Toolkit[/] is manifest.\"
-    proclaim: \"Hardware Scrier Locus: [white]core/physics/tomography.py[/]\"
+    proclaim: "The [bold cyan]Python Physics Toolkit[/] is manifest."
+    proclaim: "Hardware Scrier Locus: [white]src/{{ package_name }}/core/physics/tomography.py[/]"
 
-    >> pip install psutil
-
+    # The Apotheosis Parser handles psutil & pydantic metabolic injection
     
-    # 2. Final Proclamation
-    proclaim: \"LIF-Multiplier: [bold green]1,000,000x (Performance Blindness -> 0)[/]"
-    proclaim: \"[bold green]✅ The Physics Engine is Waked.[/bold green] The Iron is now Observable.\"
-
-%% on-heresy
-    proclaim: \"[bold red]Physics materialization fractured.[/bold red]\"
-    rm -rf src/{{ package_name }}/core/physics
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Hardware Blindness -> 0)[/]"
+    proclaim: "[bold green]✅ The Physics Engine is Waked.[/bold green] The Iron is now Observable."

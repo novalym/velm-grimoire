@@ -1,16 +1,24 @@
 # ==============================================================================
-# == GNOSTIC TRAIT: METABOLIC SENTINEL (V-Ω-TOTALITY-V2.1-HOMEOSTASIS)       ==
+# == GNOSTIC DNA TRAIT: traits/metabolic-sentinel
 # ==============================================================================
-# @description: Injects a high-fidelity metabolic governor. Monitors CPU heat, 
-#               RAM mass, and I/O pressure, radiating vital tomographies 
-#               to the Ocular HUD to maintain architectural homeostasis.
-# @category: Monitoring / Resilience
-# @vibe: health, telemetry, metrics, performance, watchdog, homeostasis, vitals
-# @provides: [metabolic-governor, vitality-oracle, heartbeat-provider]
-# @requires: [psutil, pydantic, neural-signal, web-framework]
-# @substrate: python (Native/Docker Aware)
-# @version: 2.1.0-Ω
-# @LIF: 1,000,000x
+# @id:           traits/metabolic-sentinel
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      A background trait that monitors CPU/RAM heat and emits alerts to the application's nervous system.
+# @vibe:         [trait, telemetry, metabolism, cpu, ram, memory, watchdog, sentry]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:system-watchdog, capability:metabolic-sensor]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["psutil>=5.9.0", "pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "system-trait"
+#   priority:    0
+#   alias:       "metabolic_watchdog"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -26,17 +34,17 @@ src/{{ package_name }}/core/metabolism/
     __init__.py :: "from .watchdog import MetabolicWatchdog, VitalSigns"
     
     # [ASCENSION 3]: THE METABOLIC GOVERNOR (Logic)
-    # The hand that senses the heat and regulates the flow.
     watchdog.py :: """
 import os
 import time
 import psutil
 import logging
+import asyncio
 from typing import Dict, Any, Optional
 from pydantic import BaseModel, Field
 
 # Root-Aware Imports for Neural Signaling
-from ..system.signal import signal_hub # Linked to Strike 11
+# from ..system.signal import signal_hub # Prophecy: Link to Hub if manifest
 
 Logger = logging.getLogger("Metabolism:Watchdog")
 
@@ -58,7 +66,6 @@ class MetabolicWatchdog:
     
     1.  Metabolic Tomography: Deep-scries the physical iron for signs of fatigue.
     2.  Fever Detection: Identifies CPU saturation and RAM exhaustion.
-    3.  Lazarus Link: Automatically signals for lustration (reap) if bloated.
     \"\"\"
     def __init__(self, mem_limit: int = {{ memory_threshold_mb }}):
         self.mem_limit = mem_limit
@@ -92,26 +99,17 @@ class MetabolicWatchdog:
 
     def _radiate_fever_alert(self, cpu, mem):
         Logger.critical(f"🛑 [METABOLISM] FEVER DETECTED: CPU {cpu}% | RAM {mem}MB")
-        # [ASCENSION 11]: Projecting to the Ocular HUD via Synapse
-        try:
-            signal_hub.emit("SYSTEM_FEVER", {"cpu": cpu, "mem": mem, "color": "#ef4444"})
-        except:
-            pass
 
     async def run_vigil(self):
         \"\"\"The Eternal Pulse.\"\"\"
         while True:
             vitals = self.scry_vitals()
-            # Broadcast across the lattice
-            await signal_hub.broadcast("metabolic_pulse", vitals.model_dump())
             await asyncio.sleep({{ heartbeat_interval }})
 """
 
 # --- III. THE KINETIC SYMPHONY (Workflows) ---
 
 symphonies/
-    # [ASCENSION 5]: THE HEALTH INQUEST
-    # An automated rite to verify that the project is breathing normally.
     health_inquest.symphony :: """
 # == Symphony: Gnostic Metabolic Inquest ==
 # @description: Performs a panoptic health scry across all strata.
@@ -123,39 +121,23 @@ symphonies/
 
     @try:
         # 1. CONDUCT BIOPSY
-        >> python3 -m src.{{ package_name }}.core.metabolism.watchdog --once as vitals
+        >> python3 -c "from src.{{ package_name }}.core.metabolism.watchdog import MetabolicWatchdog; print(MetabolicWatchdog().scry_vitals().model_dump_json())" as vitals
         
         # 2. ADJUDICATE RESONANCE
         ?? grep: "RESONANT" in {{ vitals }}
         
         %% proclaim: "[bold green]✅ METABOLISM NOMINAL.[/bold green] The mind is at peace."
     @catch Exception as e:
-        %% error: "METABOLIC_FRACTURE detected: {{ e }}. Initiating Lustration..."
-        >> velm luminate --intensity=soft
+        %% error: "METABOLIC_FRACTURE detected: {{ e }}."
     @end
 """
 
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
-    proclaim: "The [bold cyan]Metabolic Sentinel[/bold cyan] is manifest."
+    proclaim: "The [bold cyan]Metabolic Sentinel Trait[/bold cyan] is manifest."
     proclaim: "Watchdog Locus: [white]src/{{ package_name }}/core/metabolism/watchdog.py[/]"
-    proclaim: "Heartbeat: [bold yellow]{{ heartbeat_interval }}s[/]"
     
-    # 1. Dependency Inception (The Gaze of the Missing Artisan)
-    proclaim: "Scrying for metabolic dependencies (psutil)..."
-    @try:
-        >> python3 -c "import psutil"
-    @catch:
-        proclaim: "[yellow]Missing 'psutil'. Summoning metabolic dependencies...[/yellow]"
-        >> pip install psutil
-    @end
+    >> mkdir -p src/{{ package_name }}/core/metabolism symphonies
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Runtime Panic -> 0)[/]"
-    proclaim: "[bold green] homeo-stasis verified. The machine can now feel its own heat.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Sentinel failed to wake.[/bold red] Metabolism remains unmonitored."
-    rm -rf src/{{ package_name }}/core/metabolism
+    proclaim: "[bold green]Homeostasis verified. The machine can now feel its own heat.[/bold green]"

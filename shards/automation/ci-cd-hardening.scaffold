@@ -1,16 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: TITANIUM CI/CD SYMPHONY (V-Ω-TOTALITY-V2.5-AUTOMATION)    ==
+# == GNOSTIC DNA SHARD: automation/ci-cd-hardening
 # ==============================================================================
-# @description: Materializes a legendary production-grade GitHub Actions matrix. 
-#               Features Gnostic drift adjudication, OIDC-based ascension, 
-#               and full-spectrum security tomography.
-# @category: Automation / CI-CD
-# @vibe: ci-cd, automation, hardening, security, integrity, github-actions, oidc
-# @provides: [ci-cd-authority, integrity-adjudicator, release-orchestrator]
-# @requires: [git-chronicle, testing-framework, pydantic-models, python-core]
-# @substrate: github-actions
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           automation/ci-cd-hardening
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Titanium-grade GitHub Actions CI/CD pipeline with Trivy, Bandit, and PyPI OIDC.
+# @vibe:         [ci, cd, github-actions, security, trivy, bandit, pipeline, hardening]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:ci-cd, capability:security-pipeline]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pytest>=8.0.0", "pytest-cov>=4.1.0", "ruff>=0.3.0", "mypy>=1.8.0", "bandit>=1.7.7"]
+#   env:         ["CODECOV_TOKEN"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "github-actions-pipeline"
+#   priority:    900
+#   alias:       "ci_cd_pipeline"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -97,7 +106,7 @@ jobs:
         run: poetry run pytest --cov --cov-report=xml
         
       - name: Radiate Coverage to the Akasha
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           token: ${{"{{"}} secrets.CODECOV_TOKEN {{"}}"}}
 
@@ -119,7 +128,7 @@ jobs:
           severity: 'CRITICAL,HIGH'
           
       - name: Upload Trivy results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-results.sarif'
       
@@ -130,7 +139,7 @@ jobs:
           bandit -r src/ -f sarif -o bandit-results.sarif || true
           
       - name: Upload Bandit results to GitHub
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'bandit-results.sarif'
 
@@ -183,6 +192,45 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
 """
 
+# [ASCENSION 5]: THE PURITY SCRIPT (Local Execution)
+scripts/purity-check.sh :: """
+#!/bin/bash
+set -e
+echo "🔍 [SENTINEL] Adjudicating local code purity..."
+
+if [ ! -d ".git" ]; then
+  echo "❌ Error: Must be run from the Project Root."
+  exit 1
+fi
+
+if command -v velm &> /dev/null; then
+    velm analyze --strict
+else
+    echo "⚠️ velm artisan unmanifest. Falling back to standard linting."
+    ruff check .
+fi
+
+echo "✅ [PURE] Form matches Law."
+"""
+%% 755
+
+# [ASCENSION 11]: THE FORENSIC TEST WRAPPER
+scripts/forensic-test.sh :: """
+#!/bin/bash
+export SCAFFOLD_TRACE_ID="tr-ci-$(date +%s)"
+echo "🧪 [INQUISITOR] Initiating Verification Trial (Trace: $SCAFFOLD_TRACE_ID)..."
+
+pytest --cov=src --cov-report=term-missing
+
+if [ $? -eq 0 ]; then
+    echo "✅ [RESONANT] Tests passed."
+else
+    echo "❌ [FRACTURED] Heresy detected in logic."
+    exit 1
+fi
+"""
+%% 755
+
 # --- III. THE MAESTRO'S WILL ---
 # [ASCENSION 12]: Cinematic Guidance
 %% post-run
@@ -204,4 +252,4 @@ jobs:
 %% on-heresy
     # [ASCENSION 24]: Transactional Purgation
     proclaim: "[bold red]Hardening fractured.[/bold red] Gate remains vulnerable."
-    rm -rf .github/workflows/titanium_*.yml
+    >> rm -rf .github/workflows/titanium_*.yml

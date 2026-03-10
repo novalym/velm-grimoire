@@ -1,20 +1,27 @@
 # ==============================================================================
-# == GNOSTIC SHARD: METABOLIC TAX PROCESSOR (V-Ω-TOTALITY-V2.1-TOMOGRAPHY)    ==
+# == GNOSTIC DNA SHARD: monitoring/tax-processor
 # ==============================================================================
-# @description: Injects a high-fidelity telemetry processor that calculates 
-#               the metabolic tax (CPU/Time/Mass) of every kinetic strike. 
-#               Autonomously registers with the global Telemetry Hub.
-# @category: Monitoring / Telemetry
-# @vibe: audit, fiscal-aware, telemetry, metrics, observability, performance, tax
-# @provides: [telemetry-processor, metabolic-auditor, metric-enhancer]
-# @requires: [telemetry-hub, pydantic-settings, python-core]
-# @substrate: python
-# @version: 2.1.0-Ω
-# @LIF: 1,000,000x
+# @id:           monitoring/tax-processor
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Metabolic telemetry processor that tracks CPU time and nanosecond-precision execution latency.
+# @vibe:         [telemetry, metabolism, performance, cpu, metrics, auditing, profiling]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:metabolic-tax-auditor]
+# @requires:     [capability:python-core, capability:ocular-telemetry]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "telemetry-processor"
+#   priority:    10
+#   alias:       "metabolic_tax_processor"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ tax_precision = 6 # Nanosecond precision for high-status auditing
 
@@ -24,12 +31,11 @@ src/{{ package_name }}/monitoring/processors/
     __init__.py :: "from .metabolic_tax import MetabolicTaxProcessor"
     
     # [ASCENSION 3]: THE METABOLIC AUDITOR (Logic)
-    # The hand that measures the cost of existence.
     metabolic_tax.py :: """
 import time
 import os
 import logging
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from pydantic import BaseModel, Field
 
 Logger = logging.getLogger("Telemetry:TaxProcessor")
@@ -42,19 +48,15 @@ class MetabolicTax(BaseModel):
     timestamp: float = Field(default_factory=time.time)
 
 # [ASCENSION 1]: AUTOMATIC DISCOVERY SUTURE
-# The OmniRegistryStrategy scries this marker and righteously appends 
-# this class to the METRIC_PROCESSORS list in the Telemetry Hub.
-# @scaffold:register(METRIC_PROCESSORS, priority=10)
 class MetabolicTaxProcessor:
     \"\"\"
     =============================================================================
-    == THE METABOLIC TAX PROCESSOR (V-Ω-TOTALITY)                             ==
+    == THE METABOLIC TAX PROCESSOR (V-Ω-TOTALITY)                              ==
     =============================================================================
     LIF: ∞ | ROLE: FISCAL_ADJUDICATOR | RANK: MASTER
     
     1.  Metabolic Tomography: Calculates CPU time consumed by the current thread.
     2.  Lattice Integration: Siphons results into the global telemetry stream.
-    3.  Achronal Audit: Stays the hand of entropy by identifying expensive logic.
     \"\"\"
     def __init__(self):
         self._start_cpu = time.process_time()
@@ -68,13 +70,11 @@ class MetabolicTaxProcessor:
         tax_total = round(end_cpu - self._start_cpu, {{ tax_precision }})
         
         # [ASCENSION 7]: FISCAL DNA INJECTION
-        # We wrap the result in a Pydantic vessel for bit-perfect serialization.
         audit_record = MetabolicTax(
             process_time_seconds=tax_total,
             thread_id=time.thread_time_ns()
         )
         
-        # Suture the tax into the primary telemetry payload
         telemetry["metabolic_tax"] = audit_record.model_dump()
         
         if tax_total > 0.5:
@@ -83,31 +83,10 @@ class MetabolicTaxProcessor:
         return telemetry
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: High-Status Automatic Integration
-# We ensure the Telemetry Hub (Strike 15) is waked and ready for the Suture.
-@if {{ is_python }}
-    # Dependency Suture
-    pyproject.toml += """
-pydantic = "^2.6.0"
-"""
-@endif
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Metabolic Tax Processor[/bold cyan] is manifest."
     proclaim: "Auditor Locus: [white]monitoring/processors/metabolic_tax.py[/]"
-    proclaim: "Registry Target: [bold yellow]METRIC_PROCESSORS[/]"
-    
-    # 1. Verification Strike
-    proclaim: "Conducting Integrity check on the Registry Handshake..."
-    # (Prophecy: The OmniRegistryStrategy will have already linked this)
     
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Opaque Costs -> 0)[/]"
     proclaim: "[bold green]The Engine is now self-aware of its metabolic tax.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Processor materialization fractured.[/bold red] System remains cost-blind."
-    rm -rf src/{{ package_name }}/monitoring/processors/metabolic_tax.py

@@ -1,184 +1,96 @@
 # ==============================================================================
-# == GNOSTIC SHARD: TELEMETRY BEACON (V-Ω-TOTALITY-V2.2-METABOLIC-VOICE)      ==
+# == GNOSTIC DNA SHARD: system/gnostic-telemetry-beacon
 # ==============================================================================
-# @description: Materializes an autonomous background vital-scryer. Radiates 
-#               real-time hardware tomography (CPU/RAM/IO) to the Reactive Hub
-#               for visual rendering in the Ocular HUD.
-# @category: System / Monitoring
-# @vibe: telemetry, vitals, heartbeat, metabolism, psutil, monitoring, sensory, health
-# @provides: [metabolic-visibility, vital-pulse-provider, hardware-tomography]
-# @requires: [neural-backbone, pydantic-settings, python-metabolism-toolkit]
-# @substrate: python
-# @version: 2.2.0
-# @LIF: 1,000,000x
+# @id:           system/gnostic-telemetry-beacon
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Autonomic hardware sensor providing periodic CPU, RAM, and IO biopsies radiated across the synaptic lattice.
+# @vibe:         [telemetry, beacon, heartbeat, psutil, monitoring, hardware, vitals]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:hardware-tomography, capability:vital-heartbeat]
+# @requires:     [capability:python-core, capability:synaptic-bus]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["psutil>=5.9.0", "pydantic>=2.6.0"]
+#   env:         ["SCAF_PULSE_INTERVAL"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "telemetry-beacon"
+#   priority:    10
+#   alias:       "gnostic_beacon"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ package_name = {{ package_name | default(project_slug | snake) }}
-$$ pulse_interval_seconds = {{ interval | default(5) }}
-$$ enable_adaptive_pacing = {{ adaptive | default(true) }}
+$$ pulse_interval = {{ interval | default(5) }}
 
 # --- II. THE BEACON CORE (The Mind's Sensory Array) ---
 
 src/{{ package_name }}/core/telemetry/
-    __init__.py :: "from .beacon import TelemetryBeacon, VitalSigns"
+    __init__.py :: "from .beacon import TelemetryBeacon\n"
     
     # [ASCENSION 3]: THE METABOLIC SCRIER (Logic)
-    # The background neuron that senses the heat of the iron.
     beacon.py :: """
 import asyncio
 import time
 import os
 import logging
 import psutil
-from typing import Dict, Any, Optional, Final
 from pydantic import BaseModel, Field
 
 Logger = logging.getLogger("Telemetry:Beacon")
 
 class VitalSigns(BaseModel):
-    \"\"\"The Gnostic Vessel for hardware tomography.\"\"\"
     ts: float = Field(default_factory=time.time)
     cpu_load: float
     ram_usage_pct: float
-    process_mem_mb: float
-    io_wait: float = 0.0
     status: str = "RESONANT"
-    trace_id: Optional[str] = None
 
 class TelemetryBeacon:
     \"\"\"
     =============================================================================
     == THE GNOSTIC BEACON (V-Ω-TOTALITY)                                      ==
     =============================================================================
-    LIF: ∞ | ROLE: SYSTEM_BIOLOGIST | RANK: MASTER
+    ROLE: SYSTEM_BIOLOGIST
     
-    The sensory voice of the application.
-    1.  Substrate Tomography: Deep-scries CPU, RAM, and Disk Wait-States.
-    2.  Thermodynamic Backoff: Slows pulse if system load > 90%.
-    3.  Achronal Broadcasting: Radiates vitals to the Synaptic Hub (Strike 11).
+    1.  Substrate Tomography: Scries CPU and RAM.
+    2.  Achronal Broadcasting: Radiates vitals to the Synaptic Hub.
     \"\"\"
-    def __init__(self, bus: Any, interval: int = {{ pulse_interval_seconds }}):
+    def __init__(self, bus: Any):
         self.bus = bus
-        self.base_interval = interval
-        self.current_interval = interval
-        self._stop_signal = asyncio.Event()
-        self._process = psutil.Process(os.getpid())
-        
-        # [ASCENSION 5]: Substrate Normalization
-        self._cpu_count = os.cpu_count() or 1
+        self.interval = int(os.getenv("SCAF_PULSE_INTERVAL", "{{ pulse_interval }}"))
+        self._stop = asyncio.Event()
 
     async def ignite(self):
-        \"\"\"Wakes the background sensory vigil.\"\"\"
-        Logger.info(f"🛰️  Beacon ignited. Pulse target: {self.base_interval}s")
-        
-        while not self._stop_signal.is_set():
+        Logger.info(f"🛰️ Beacon ignited. Pulse: {self.interval}s")
+        while not self._stop.is_set():
             try:
-                # 1. THE BIOPSY
-                vitals = self._conduct_biopsy()
-                
-                # 2. ADAPTIVE PACING (THE CURE)
-                # [ASCENSION 8]: If the iron is feverish, slow the pulse to save energy.
-                if {{ enable_adaptive_pacing | lower }} and vitals.cpu_load > 90.0:
-                    self.current_interval = self.base_interval * 2
-                    vitals.status = "FEVERISH"
-                else:
-                    self.current_interval = self.base_interval
-
-                # 3. THE PROJECTION
-                # Broadcast across the Achronal Event-Lattice
+                vitals = VitalSigns(
+                    cpu_load=psutil.cpu_percent(),
+                    ram_usage_pct=psutil.virtual_memory().percent
+                )
+                # [STRIKE]: Project to the Synaptic Lattice
                 await self.bus.broadcast(
                     topic="system/vitals", 
                     event_type="METABOLIC_PULSE",
-                    data=vitals.model_dump(),
-                    trace="tr-beacon-pulse"
+                    data=vitals.model_dump()
                 )
-                
             except Exception as e:
-                Logger.error(f"💥 Beacon Pulse Fractured: {e}")
-            
-            await asyncio.sleep(self.current_interval)
-
-    def _conduct_biopsy(self) -> VitalSigns:
-        \"\"\"Performs a high-fidelity scan of the physical substrate.\"\"\"
-        # [ASCENSION 10]: Non-blocking psutil Gaze
-        cpu = psutil.cpu_percent(interval=None)
-        mem = psutil.virtual_memory()
-        
-        # IO Wait detection (Substrate Aware)
-        io_wait = 0.0
-        if hasattr(psutil, "cpu_times_percent"):
-            io_wait = getattr(psutil.cpu_times_percent(), 'iowait', 0.0)
-
-        return VitalSigns(
-            cpu_load=cpu,
-            ram_usage_pct=mem.percent,
-            process_mem_mb=self._process.memory_info().rss / (1024 * 1024),
-            io_wait=io_wait,
-            status="RESONANT" if cpu < 80 else "HEATED"
-        )
+                Logger.error(f"💥 Beacon Fracture: {e}")
+            await asyncio.sleep(self.interval)
 
     def extinguish(self):
-        \"\"\"Returns the beacon to the void.\"\"\"
-        self._stop_signal.set()
-
-# =========================================================================
-# == THE NEURAL SUTURE ENTRYPOINT                                        ==
-# =========================================================================
-# @scaffold:wire
-def wire_telemetry_beacon(app):
-    \"\"\"
-    [AUTONOMIC SUTURE]: Connects the Beacon to the Application Lifespan.
-    The FastAPIStrategy automatically ignites this neuron during bootstrap.
-    \"\"\"
-    from .beacon import TelemetryBeacon
-    
-    # [THE CURE]: Scry the state for the willed Synapse Bus (Strike 11)
-    bus = getattr(app.state, "synapse", None)
-    if not bus:
-        Logger.warning("Telemetry Beacon: Neural Backbone unmanifest. Pulse will be local only.")
-        return
-
-    beacon = TelemetryBeacon(bus=bus)
-    
-    # [ASCENSION 12]: Async Ignition
-    import asyncio
-    asyncio.create_task(beacon.ignite())
-    app.state.beacon = beacon
-    
-    Logger.info("📡 Telemetry Beacon waked and warded.")
+        self._stop.set()
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 13]: Automatic dependency injection for the Alchemist.
-@if {{ project_type in ['python', 'poetry', 'fastapi'] }}
-    pyproject.toml += """
-    psutil = "^5.9.0"
-    """
-@endif
-
-# --- IV. THE CONTROL PLANE (Makefile) ---
-Makefile += """
-# --- TELEMETRY RITES ---
-vitals: ## scry the current metabolic heat of the machine
-    @poetry run python -c "import psutil; print(f'CPU: {psutil.cpu_percent()}% | RAM: {psutil.virtual_memory().percent}%')"
-"""
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Gnostic Telemetry Beacon[/bold cyan] is manifest."
-    proclaim: "Pulse logic established in [white]core/telemetry/beacon.py[/]"
+    proclaim: "Pulse logic waked in [white]core/telemetry/beacon.py[/white]"
     
-    # 1. Install psutil
-    proclaim: "Summoning the Metabolic Senses... (psutil)"
-    >> pip install psutil
+    >> mkdir -p src/{{ package_name }}/core/telemetry
     
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (System Blindness -> 0)[/]"
-    proclaim: "[bold green]The machine can now feel its own heartbeat.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Beacon materialization fractured.[/bold red] Application remains numb."
-    rm -rf src/{{ package_name }}/core/telemetry/beacon.py
+    proclaim: "[bold green]✅ The machine can now feel its own heartbeat.[/bold green]"

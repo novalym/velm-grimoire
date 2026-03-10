@@ -1,26 +1,35 @@
 # ==============================================================================
-# == GNOSTIC SHARD: FASTAPI-FORTRESS (V-Ω-TOTALITY-V3.0)                      ==
+# == GNOSTIC DNA SHARD: API/FASTAPI-FORTRESS
 # ==============================================================================
-# @description: The definitive FastAPI entrypoint. Materializes the high-status 
-#               API Heart, including Lifespan management, global exception 
-#               heresy handlers, and the primary OMNI-DISPATCH router.
-# @category: API / Framework
-# @vibe: fastapi, asgi, uvicorn, rest-api, heart, mind, web-framework
-# @provides: [web-framework, fastapi, api-heart, asgi-substrate]
-# @requires: [python-core, pydantic-settings]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: INFINITY
+# @id:           api/fastapi-fortress
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      The high-performance heart of the API stratum. It materializes a 
+#                production-ready FastAPI instance with autonomic lifecycle 
+#                management, metabolic telemetry, and a warded redemption gate.
+# @vibe:         [fastapi, rest, backend, asynchronous, high-performance, warded]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:api-heart, capability:rest-service, capability:web-server]
+# @requires:     [capability:python-mind, capability:environment-dna]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["fastapi>=0.109.0", "uvicorn[standard]>=0.27.0", "loguru>=0.7.0"]
+#   env:         ["DEBUG", "PORT", "SCAFFOLD_ENV"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        fastapi-heart
+#   priority:    1
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ api_title = {{ api_title | default(project_name + " API") }}
+$$ default_port = {{ port | default(8000) }}
 
 # --- II. THE SCRIPTURE OF FORM (The Heart) ---
 
 src/{{ package_name }}/
-    # [ASCENSION 1]: The Primary Entrypoint
+    # [ASCENSION 1]: THE PRIMARY ENTRYPOINT
+    # This is the "Mind of the Node". It is waked by the Maestro.
     main.py :: """
 import time
 from contextlib import asynccontextmanager
@@ -29,6 +38,7 @@ from fastapi.responses import JSONResponse
 from loguru import logger
 
 # [STRATUM: CONFIG]
+# Link to the Gnostic Conscience (Settings)
 from .core.config import settings
 
 @asynccontextmanager
@@ -40,20 +50,21 @@ async def lifespan(app: FastAPI):
     Orchestrates the Awakening and Dissolution of the application mind.
     \"\"\"
     logger.info("🚀 {{ api_title }} Awakening...")
-    # Suture: Initialize DB Pools / Neural Links here
+    # SUTURE_POINT: Initialize DB Pools / Neural Links
     yield
     logger.info("🌑 {{ api_title }} Dissolving reality...")
-    # Suture: Graceful shutdown of kinetic connections
+    # SUTURE_POINT: Graceful shutdown of kinetic connections
 
 app = FastAPI(
     title="{{ api_title }}",
-    version="1.0.0-Ω",
+    version="3.0.0-Ω",
     lifespan=lifespan,
     docs_url="/docs" if settings.DEBUG else None,
     redoc_url="/redoc" if settings.DEBUG else None
 )
 
 # [ASCENSION 2]: THE METABOLIC TOMOGRAPHY
+# Calculates the exact CPU/IO tax of every incoming plea.
 @app.middleware("http")
 async def metabolic_telemetry_middleware(request: Request, call_next):
     start_time = time.perf_counter()
@@ -69,10 +80,12 @@ async def health_check():
     return {
         "status": "RESONANT",
         "timestamp": time.time(),
-        "version": app.version
+        "version": app.version,
+        "trace": getattr(settings, "trace_id", "tr-void")
     }
 
 # [ASCENSION 4]: THE REDEMPTION GATE (ERROR HANDLING)
+# Transmutes unhandled paradoxes into structured Gnostic Heresies.
 @app.exception_handler(Exception)
 async def universal_heresy_handler(request: Request, exc: Exception):
     logger.error(f"UNHANDLED_PARADOX: {exc}")
@@ -86,41 +99,34 @@ async def universal_heresy_handler(request: Request, exc: Exception):
     )
 
 # [THE MASTER SUTURE]: Direct Dispatch for Shard Wiring
-# Shards will use @scaffold:router to inject their logic here.
-# from .api.v1.router import api_router
-# app.include_router(api_router, prefix="/api/v1")
+# Future shards will be autonomicly grafted here by the FastAPIStrategy.
+# @scaffold:suture_point(hubs)
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
+# --- III. THE OPERATIONAL CONTROL PLANE ---
 
-# [ASCENSION 5]: Dependency Inception
-pyproject.toml += """
-fastapi = "^0.109.0"
-uvicorn = {extras = ["standard"], version = "^0.27.0"}
+# [ASCENSION 9]: Global Conductor Suture
+# We inject the lifecycle into the project's Makefile.
+Makefile += """
+
+# --- KINETIC RITES: API ---
+dev: ## ignite the local development server with auto-reload
+    @poetry run uvicorn src.{{ package_name }}.main:app --reload --port {{ default_port }}
+
+start: ## conduct the production strike on the local Iron
+    @poetry run uvicorn src.{{ package_name }}.main:app --host 0.0.0.0 --port {{ default_port }} --workers 4
 """
 
 # --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
-    proclaim: "The [bold cyan]FastAPI Fortress[/] is manifest."
+    proclaim: "The [bold cyan]FastAPI Fortress[/bold cyan] is manifest."
+    proclaim: "Role: [bold green]FASTAPI-HEART[/bold green]"
     proclaim: "Heart Locus: [white]src/{{ package_name }}/main.py[/]"
     
-    # 1. Add Launch Command to Makefile
-    # [ASCENSION 9]: Global Conductor Suture
-    @if {{ not file_exists('Makefile') }}
-        >> touch Makefile
-    @endif
+    # [THE CURE]: We NO LONGER need to 'poetry add' here! 
+    # The Parser has already aggregated our metabolism into pyproject.toml.
     
-    Makefile += """
-# --- KINETIC RITES ---
-dev: ## ignite the local development server with auto-reload
-	@poetry run uvicorn src.{{ package_name }}.main:app --reload --port {{ default_port | default(8000) }}
-
-start: ## conduct the production strike
-	@poetry run uvicorn src.{{ package_name }}.main:app --host 0.0.0.0 --port {{ default_port | default(8000) }}
-"""
-
-    # 2. Final Proclamation
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (API Boilerplate -> 0)[/]"
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Architectural Debt -> 0)[/]"
     proclaim: "[bold green]✅ The Heart is beating.[/bold green]"
     proclaim: "To ignite the server, speak: [bold cyan]make dev[/bold cyan]"
 

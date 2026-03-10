@@ -1,35 +1,49 @@
 # ==============================================================================
-# == GNOSTIC SHARD: SCHEMA VAULT (V-Ω-TOTALITY-V3.0)                          ==
+# == GNOSTIC DNA SHARD: API/SCHEMA-VAULT
 # ==============================================================================
-# @description: A Semantic Validation Vault for cross-platform schema parity. 
-#               Acts as a dynamic, centralized registry where fragmented data models 
-#               (DTOs) register their JSON-Schema souls for API documentation and UI sync.
-# @category: API / Data
-# @vibe: validation, pydantic, json-schema, omni-registry, openapi, reflection
-# @provides: [central-schema-registry, dynamic-openapi-sync]
-# @requires: [pydantic, python-core]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           api/schema-vault
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      A Semantic Validation Vault for cross-platform schema parity. 
+#                Materializes a dynamic, centralized registry where fragmented 
+#                data models (DTOs) register their JSON-Schema souls for 
+#                API documentation, UI synchronization, and AI reasoning.
+# @vibe:         [json-schema, validation, pydantic, reflection, metadata, hub]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:schema-authority, capability:central-registry, capability:metadata-hub]
+# @requires:     [capability:pydantic-v2, capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+#   env:         ["STRICT_SCHEMA_VALIDATION"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        schema-authority
+#   priority:    10
+#   alias:       "vault"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default("core") }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
 
-# --- II. THE SCRIPTURE OF FORM ---
+# --- II. THE SCRIPTURE OF FORM (The Metadata Hub) ---
+
 src/{{ package_name }}/api/schema/
-    __init__.py += "from .vault import schema_registry\n"
-    
+    # [ASCENSION 1]: The Interface Registry
+    __init__.py :: "from .vault import schema_registry\n"
+
     vault.py :: """
 import logging
-from typing import Dict, Any, Type
+from typing import Dict, Any, Type, Optional
 from pydantic import BaseModel
 
 Logger = logging.getLogger("API:SchemaVault")
 
-# [OMNI_REGISTRY]: The Repository for all willed DTO Schemas.
-# DTO shards use @scaffold:register(SCHEMA_VAULT, key="model_name") 
-# to register their Pydantic souls dynamically.
+# =============================================================================
+# == THE OMNI-REGISTRY (V-Ω-TOTALITY)                                        ==
+# =============================================================================
+# [NEURAL_LINK]: This repository holds the willed DTO Schemas of the multiverse.
+# Shards use @scaffold:register(SCHEMA_VAULT) to register their souls here.
 SCHEMA_VAULT: Dict[str, Type[BaseModel]] = {}
 
 class GnosticSchemaRegistry:
@@ -37,43 +51,58 @@ class GnosticSchemaRegistry:
     =============================================================================
     == THE GNOSTIC SCHEMA REGISTRY (V-Ω-TOTALITY)                              ==
     =============================================================================
-    LIF: ∞ | ROLE: METADATA_TRANSMUTER | RANK: OMEGA
+    LIF: ∞ | ROLE: METADATA_TRANSMUTER | RANK: OMEGA_SCRIBE
     
-    [ASCENSIONS]:
-    1. Universal Suture: Transmutes disparate Pydantic models into a unified JSON-Schema.
-    2. Ocular Synchronization: The resulting schema is passed directly to the React 
-       frontend for dynamic form generation (react-hook-form + zod).
-    3. Collision Warding: Prevents two shards from registering the same schema name.
+    The Sovereign Axis of project data types.
+    1.  Recursive Inception: Transmutes Pydantic models into JSON-Schema.
+    2.  Ocular Sync: Directly feeds the React Ocular HUD's form-generators.
+    3.  Collision Warding: Prevents identity shadow-drifting.
     \"\"\"
     
-    def get_all_schemas(self) -> Dict[str, Any]:
+    def register(self, name: str, model: Type[BaseModel]):
+        \"\"\"Consecrates a new data soul in the vault.\"\"\"
+        if name in SCHEMA_VAULT:
+            Logger.warning(f"⚠️ [SCHEMA] Collision: Model '{name}' already manifest. Overwriting.")
+        
+        SCHEMA_VAULT[name] = model
+        Logger.debug(f"📜 [SCHEMA] Enshrined soul: {name}")
+
+    def get_manifest(self) -> Dict[str, Any]:
         \"\"\"
-        Compiles the entire registered architectural vocabulary into a single manifest.
+        Compiles the entire registered architectural vocabulary into a 
+        single bit-perfect manifest for the Ocular HUB.
         \"\"\"
         compiled_schemas = {}
         for name, model in SCHEMA_VAULT.items():
             try:
-                # Extracts the high-fidelity JSON schema representation
+                # [ASCENSION 2]: Pydantic V2 JSON-Schema Strike
+                # Extracts constraints, descriptions, and types.
                 compiled_schemas[name] = model.model_json_schema()
+                # Clear metadata clutter to minimize token mass
+                compiled_schemas[name].pop("title", None)
             except Exception as e:
-                Logger.warning(f"⚠️ [SCHEMA] Fracture compiling soul of '{name}': {e}")
+                Logger.error(f"💥 [SCHEMA] Fracture compiling soul of '{name}': {e}")
                 
-        Logger.info(f"📜 [SCHEMA] Exported {len(compiled_schemas)} sacred definitions.")
         return compiled_schemas
 
-    def get_schema(self, name: str) -> Dict[str, Any]:
-        \"\"\"Retrieves a single, specific structural soul.\"\"\"
-        model = SCHEMA_VAULT.get(name)
-        if not model:
-            raise KeyError(f"Schema '{name}' is unmanifest in the Vault.")
-        return model.model_json_schema()
+    def summon_soul(self, name: str) -> Optional[Type[BaseModel]]:
+        \"\"\"Recalls a living Pydantic class from the vault.\"\"\"
+        return SCHEMA_VAULT.get(name)
 
 # Global Singleton for the Mind
 schema_registry = GnosticSchemaRegistry()
 """
 
-# --- III. THE MAESTRO'S WILL ---
+# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
-    proclaim: "The [bold cyan]Schema Vault[/] is manifest."
-    proclaim: "To register a DTO, use: [bold yellow]# @scaffold:register(SCHEMA_VAULT, key=\"ModelName\")[/]"
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Frontend-Backend Parity Guaranteed)[/]"
+    proclaim: "The [bold cyan]Gnostic Schema Vault[/bold cyan] is manifest."
+    proclaim: "Role: [bold green]SCHEMA-AUTHORITY[/bold green]"
+    proclaim: "Interface: [white]schema_registry.get_manifest()[/]"
+    
+    # [THE CURE]: Metadata is now managed autonomicly by the Parser.
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Interface Mismatch -> 0)[/]"
+    proclaim: "[bold green]✅ The Axis of Truth is established.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Vault materialization fractured.[/bold red]"

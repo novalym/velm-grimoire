@@ -1,33 +1,36 @@
 # ==============================================================================
-# == GNOSTIC SHARD: SUBSTRATE-AWARE NEURAL SANDBOX (V-Ω-TOTALITY-V2.3)         ==
+# == GNOSTIC DNA SHARD: system/substrate-aware-neural-sandbox
 # ==============================================================================
-# @description: Materializes the "Metabolic Twin" stratum. Emulates the physical 
-#               constraints of target cloud substrates (CPU Steal, IOPS limits, 
-#               Memory pressure) via a high-precision local Gravity Chamber.
-# @category: Resilience / Physics
-# @vibe: physics-engine, metabolic-twin, gravity-chamber, rightsizing, emulation
-# @provides: [performance-emulation, metabolic-twin, hardware-warden]
-# @requires: [shadow-clone, forensic-ledger, metabolic-monitor, python-physics-toolkit]
-# @substrate: isomorphic (WASM / IRON)
-# @version: 2.3.0
-# @LIF: 1,000,000x
+# @id:           system/substrate-aware-neural-sandbox
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      A performance-emulation sandbox that simulates target hardware physics (CPU throttling, memory latency) inside a shadow reality.
+# @vibe:         [sandbox, performance-testing, simulacrum, physics-emulation, shadow-clone, benchmarking]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:neural-simulacrum, capability:performance-sandbox]
+# @requires:     [capability:python-core, capability:shadow-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["psutil>=5.9.0", "pydantic>=2.6.0"]
+#   env:         ["SCAFFOLD_SIM_MODE", "TARGET_SUBSTRATE_DNA"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "simulation-engine"
+#   priority:    500
+#   alias:       "neural_sandbox"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: The Bitmask of Iron
-$$ project_slug = {{ project_slug | default("omega-node") }}
+$$ project_slug = {{ project_slug | default("omega-core") }}
 $$ target_substrate = {{ substrate | default("aws:t3.micro") }}
 $$ emulation_mode = {{ mode | default("BIT_PERFECT") }} 
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
-# [THE CURE]: AUTONOMIC IDENTITY RITE
-# [ASCENSION 25]: We define the fission_id here using the native run_id() 
-# function. This annihilates the interactive prompt and ensures every 
-# simulation has a unique, traceable coordinate in the Akasha.
+# [ASCENSION 25]: THE AUTONOMIC IDENTITY RITE
+# Anchors the simulation to the native run_id to ensure 1:1 trace resonance.
 $$ fission_id = "{{ run_id() }}"
-
-# [ASCENSION 4]: THE METABOLIC FINGERPRINT
-$$ hardware_dna_hash = {{ (target_substrate + "PHYSICS") | hash('sha256') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Physics Mind) ---
 
@@ -48,6 +51,7 @@ class HardwareScrier:
     =============================================================================
     == THE HARDWARE SCRIER (V-Ω-TOTALITY)                                     ==
     =============================================================================
+    ROLE: HARDWARE_DNA_SEQUENCER
     \"\"\"
     def capture_target_aura(self) -> Dict[str, Any]:
         Logger.info(f"🔬 [SCRIER] Performing deep-tissue biopsy of {{ target_substrate }}...")
@@ -71,9 +75,9 @@ class GravityChamber:
     =============================================================================
     == THE GRAVITY CHAMBER (V-Ω-TOTALITY)                                     ==
     =============================================================================
+    Injects synthetic metabolic pressure to emulate target iron physics.
     \"\"\"
-    def __init__(self, dna_hash: str):
-        self.dna = dna_hash
+    def __init__(self):
         self._active = False
 
     def engage_physics(self):
@@ -83,6 +87,7 @@ class GravityChamber:
 
     def _apply_metabolic_pressure(self):
         while self._active:
+            # Atomic Spin Wait for nano-throttling
             t_end = time.perf_counter() + 0.005
             while time.perf_counter() < t_end:
                 pass 
@@ -97,28 +102,24 @@ symphonies/metabolic-trial.symphony :: """
 # @LIF: 1,000,000x
 
 @task main
-    %% let: sim_status = "STABILIZING"
     %% proclaim: "🏋️ [SANS] Materializing the Gravity Chamber for {{ target_substrate }}..."
 
     @try:
-        # 1. MATERIALIZE SHADOW (Strike 10)
-        # We use the autonomic fission_id willed in the Altar above.
+        # 1. MATERIALIZE SHADOW
         >> velm shadow spawn --label "performance-lab-{{ fission_id }}" --mode lab
         
         # 2. IGNITE GRAVITY
-        >> python3 -m {{ package_name }}.core.physics.throttler --ignite --target {{ target_substrate }}
+        >> python3 -m {{ package_name }}.core.physics.throttler --ignite
         
         # 3. CONDUCT TRIAL
         %% proclaim: "🔬 Adjudicating throughput under {{ target_substrate }} pressure..."
-        >> velm run tests/perf_benchmarks.py --timeout 10 --shadow
+        >> velm test --shadow --timeout 10
         ?? succeeds
         
         %% proclaim: "[bold green]✅ PERFORMANCE PROVEN.[/bold green] Reality resonates with target iron."
     @catch Exception as e:
-        %% error: "Metabolic Fracture! Logic is too heavy for {{ target_substrate }}. Optimization willed."
-        # [ASCENSION 26]: LITERAL ESCAPE SUTURE
-        # We ward the 'intent' variable to prevent compile-time prompt loops.
-        >> velm architect --prompt "Optimize the logic in src/ to pass SANS trial for {{ '{{ target_substrate }}' }}."
+        %% error: "Metabolic Fracture! Logic is too heavy for {{ target_substrate }}."
+        >> velm architect --prompt "Optimize logic in src/ to pass SANS trial for {{ target_substrate }}."
     @end
 """
 
@@ -126,15 +127,5 @@ symphonies/metabolic-trial.symphony :: """
 %% post-run
     proclaim: "The [bold cyan]Substrate-Aware Neural Sandbox[/bold cyan] is manifest."
     proclaim: "Target Substrate: [bold]{{ target_substrate }}[/bold]"
-    proclaim: "Gravity Chamber ID: [bold yellow]{{ fission_id }}[/bold yellow]"
-    
-    # 1. Initialize the Physics Vault
-    >> mkdir -p artifacts/physics
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Metabolic Drift -> 0)[/]"
-    proclaim: "To test your app's iron will, speak:"
-    proclaim: "  [bold magenta]velm run symphonies/metabolic-trial.symphony[/bold magenta]"
-
-%% on-heresy
-    proclaim: "[bold red]Physics materialization fractured.[/bold red]"
+    proclaim: "To test your app's iron will, speak: [bold magenta]make test-perf[/bold magenta]"

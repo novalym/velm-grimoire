@@ -1,21 +1,33 @@
-# =================================================================================
-# == GNOSTIC SHARD: AWS AURORALESS FORTRESS (V-Ω-TOTALITY-V4-FINALIS)            ==
-# =================================================================================
-# @description: The definitive Serverless Data Stratum. Wires a warded 
-#               Aurora v2 cluster with RDS Proxy and Achronal Encryption.
-# @category: Infrastructure / Database
-# @vibe: aws, aurora, serverless, rds-proxy, terraform, postgres, titan
-# @provides: [serverless-database, rds-proxy, vpc-network, kms-encryption]
-# @requires: [aws-cli, terraform-binary]
-# @substrate: terraform
-# @version: 4.0.0-Ω
-# @LIF: INFINITY
-# =================================================================================
+# ==============================================================================
+# == GNOSTIC DNA SHARD: cloud/auroraless-fortress
+# ==============================================================================
+# @id:           cloud/auroraless-fortress
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      AWS Aurora Serverless v2 PostgreSQL database provisioned via Terraform with strict KMS encryption.
+# @vibe:         [aws, aurora, serverless, postgresql, terraform, rds, kms]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:aws-aurora, capability:cloud-database]
+# @requires:     [capability:terraform-core, capability:aws-credentials]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+#   env:         ["AWS_REGION", "DATABASE_URL"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   terraform:   ["resource 'aws_rds_cluster' 'aurora_v2'", "resource 'aws_kms_key' 'db_key'"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-terraform"
+#   priority:    900
+#   alias:       "aurora_fortress"
+# ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ db_name       = {{ project_name | default("aurora_citadel") | snake }}
+$$ db_name       = {{ project_slug | default("aurora-citadel") | snake }}
 $$ aws_region    = {{ aws_region | default("us-east-1") }}
 $$ environment   = {{ env | default("staging") }}
+$$ package_name  = {{ package_name | default(project_slug | snake) }}
 
 # [THE FIX]: Using 'vault_secrets' to prevent collision with Request.secrets
 $$ vault_secrets = "@crypto/password(32)"
@@ -200,120 +212,3 @@ variable "db_pass" { type = string }
 
 %% on-heresy
     proclaim: "[bold red]Data Stratum weaving failed.[/bold red]"
-```
-
-***
-
-### 2. // `shards/integrations/api-gateway-monad.scaffold`
-**The Sovereign Ingress Orchestrator.**
-
-```scaffold
-# ==============================================================================
-# == GNOSTIC SHARD: API GATEWAY MONAD (V-Ω-TOTALITY-V2.5-INGRESS)             ==
-# ==============================================================================
-# @description: Injects a sovereign unified ingress orchestrator using Caddy. 
-#               Manages automatic SSL and a-chronal trace-id injection.
-# @category: Integrations / Networking
-# @vibe: gateway, ingress, caddy, ssl-auto, proxy, mesh, microservices, warded
-# @provides: [ingress-authority, ssl-manager, api-gateway, reverse-proxy]
-# @requires: [docker-orchestration, network-access]
-# @substrate: cross-platform (Iron / Cloud)
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
-# ==============================================================================
-
-# --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ public_domain = {{ domain | default("citadel.local") }}
-$$ api_vessel    = {{ api_host | default("api-service") }}
-$$ ui_vessel     = {{ ui_host | default("web-service") }}
-$$ api_port       = {{ api_port | default(8000) }}
-$$ ui_port        = {{ ui_port | default(3000) }}
-
-# --- II. THE SCRIPTURE OF FORM ---
-
-infra/gateway/
-    # [ASCENSION 2]: THE GNOSTIC INGRESS POLICY
-    Caddyfile :: """
-{
-    admin 0.0.0.0:2019
-    debug
-    storage file_system /data
-}
-
-{{ public_domain }} {
-    log {
-        output file /var/log/caddy/access.log
-        format json
-    }
-
-    header {
-        X-Frame-Options DENY
-        X-Content-Type-Options nosniff
-        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-        Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';"
-        -Server
-    }
-
-    encode zstd gzip
-
-    # STRATUM I: THE INTELLIGENCE LAYER
-    handle_path /api/* {
-        reverse_proxy {{ api_vessel }}:{{ api_port }} {
-            header_up X-Real-IP {remote_host}
-            header_up X-Forwarded-Proto {scheme}
-            header_up X-Gnostic-Trace {uuid}
-        }
-    }
-
-    # STRATUM II: THE OCULAR LAYER
-    handle {
-        reverse_proxy {{ ui_vessel }}:{{ ui_port }}
-    }
-}
-"""
-
-    # [ASCENSION 6]: THE CELESTIAL MESH
-    docker-compose.gateway.yml :: """
-version: '3.8'
-services:
-  gateway:
-    image: caddy:2.7-alpine
-    container_name: gnostic-gateway
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - gateway_data:/data
-      - gateway_config:/config
-    networks:
-      - gnostic_mesh
-    environment:
-      - DOMAIN={{ public_domain }}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:2019/metrics"]
-      interval: 30s
-      timeout: 5s
-
-networks:
-  gnostic_mesh:
-    external: true
-
-volumes:
-  gateway_data:
-  gateway_config:
-"""
-
-# --- III. THE MAESTRO'S WILL ---
-%% post-run
-    proclaim: "The [bold cyan]API Gateway Monad[/bold cyan] has been sutured into the Ingress Stratum."
-    
-    # [ASCENSION 12]: Create the Gateway directory if it was willed void
-    >> mkdir -p infra/gateway
-    
-    proclaim: "Aperture Domain: [bold yellow]http://{{ public_domain }}[/]"
-    proclaim: "To ignite the Aperture: [bold cyan]docker-compose -f infra/gateway/docker-compose.gateway.yml up -d[/bold cyan]"
-
-%% on-heresy
-    proclaim: "[bold red]Ingress materialization fractured.[/bold red]"

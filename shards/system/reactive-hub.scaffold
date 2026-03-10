@@ -1,64 +1,43 @@
 # ==============================================================================
-# == GNOSTIC SHARD: REACTIVE HUB (V-Ω-TOTALITY-V3.0-SYNAPTIC-BUS)             ==
+# == GNOSTIC DNA SHARD: system/reactive-hub
 # ==============================================================================
-# @description: Materializes a high-velocity, bi-directional event bus. Enables 
-#               real-time state synchronization (<10ms) between the Mind and 
-#               the Ocular UI across the multiversal mesh.
-# @category: System / Connectivity
-# @vibe: websocket, realtime, synaptic, socketio, redis-pubsub, async, sync, hub
-# @provides: [realtime-bus, synaptic-link, event-lattice, message-conduit]
-# @requires: [redis-backbone, pydantic-settings, web-framework]
-# @substrate: python, typescript, node
-# @version: 3.0.0
-# @LIF: 1,000,000x
+# @id:           system/reactive-hub
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Real-time bi-directional synaptic bus utilizing WebSockets and Redis Pub/Sub for cross-strata event synchronization.
+# @vibe:         [websockets, real-time, event-bus, redis, pubsub, synapse, ocular-sync]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:synaptic-bus, capability:real-time-sync]
+# @requires:     [capability:python-core, capability:redis-client, capability:fastapi-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["fastapi-socketio>=0.0.10", "python-socketio[asyncio_client]>=5.11.0", "redis>=5.0.0"]
+#   env:         ["REDIS_URL", "WS_NAMESPACE"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "synaptic-vault": { "image": "redis:7-alpine", "ports": ["6379:6379"] } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "synaptic-hub"
+#   priority:    100
+#   alias:       "synapse"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
-# These variables define the frequency and coordinate of the Hub.
-$$ redis_url = {{ redis_url | default("redis://reactive-backbone:6379/0") }}
-$$ namespace = {{ namespace | default("/gnosis") }}
-$$ port = {{ port | default(8000) }}
+$$ project_slug = {{ project_slug | default("omega-synapse") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ ws_namespace = {{ namespace | default("/gnosis") }}
 
-# --- II. THE KINETIC INFRASTRUCTURE (The Block-Level Substrate) ---
-# [ASCENSION 2]: Substrate Materialization
-# Forges the physical memory (Redis) required for the Nervous System to breathe.
-infra/reactive/
-    docker-compose.reactive.yml :: """
-    version: '3.8'
-    services:
-      # [THE BACKBONE]: High-speed Redis for Achronal Event Distribution
-      reactive-backbone:
-        image: redis:7-alpine
-        container_name: {{ project_slug }}-synaptic-vault
-        command: redis-server --save 60 1 --loglevel warning --maxmemory 256mb --maxmemory-policy allkeys-lru
-        ports:
-          - "6379:6379"
-        networks:
-          - gnostic_mesh
-        healthcheck:
-          test: ["CMD", "redis-cli", "ping"]
-          interval: 5s
-          timeout: 3s
-          retries: 5
+# --- II. THE SCRIPTURE OF FORM (The Synaptic Scribe) ---
 
-    networks:
-      gnostic_mesh:
-        external: true
-        name: {{ project_slug }}_gnostic_mesh
-    """
-
-# --- III. THE SURGICAL WEAVE: PYTHON MIND (FastAPI Conductor) ---
-@if {{ is_python }}
 src/{{ package_name }}/core/
     # [ASCENSION 3]: THE SYNAPTIC SCRIBE
     synapse.py :: """
 import os
 import logging
-import socketio
-from fastapi_socketio import SocketManager
+import time
 from typing import Dict, Any, Optional
+from fastapi_socketio import SocketManager
 
 Logger = logging.getLogger("Synapse:Hub")
 
@@ -67,38 +46,30 @@ class SynapticBus:
     =============================================================================
     == THE SYNAPTIC HUB (V-Ω-TOTALITY)                                        ==
     =============================================================================
-    LIF: ∞ | ROLE: REAL-TIME_SYNCHRONIZER | RANK: OMEGA_CONDUCTOR
+    LIF: ∞ | ROLE: REAL_TIME_SYNCHRONIZER | RANK: OMEGA_CONDUCTOR
     
     The primary conduit for signals entering and leaving the application Mind.
-    1.  Ocular Linking: Manages persistent bi-directional WebSockets.
-    2.  Lattice Propagation: (Prophecy) Synchronizes with Redis Pub/Sub.
-    3.  Forensic Metadata: Injects Trace-IDs into every radiated signal.
     \"\"\"
     def __init__(self, app):
         # [ASCENSION 4]: The WebSocket Aperture
-        # Initialized with full CORS amnesty to allow cross-reality UI projection.
         self.sm = SocketManager(
             app=app, 
             mount_location='/ws', 
-            jsonrpc=True,
             cors_allowed_origins="*"
         )
-        self.namespace = "{{ namespace }}"
+        self.namespace = os.getenv("WS_NAMESPACE", "{{ ws_namespace }}")
         
-    async def broadcast_truth(self, event: str, data: Dict[str, Any], trace: Optional[str] = None):
-        \"\"\"
-        Radiates an architectural shift to all connected Ocular Membranes.
-        LIF: 100x | Latency: <10ms
-        \"\"\"
+    async def broadcast(self, event: str, data: Dict[str, Any], trace: Optional[str] = None):
+        \"\"\"Radiates an event to all connected Ocular Membranes.\"\"\"
         payload = {
             **data,
             "_trace": trace or "tr-synapse-auto",
             "_ts": time.time()
         }
-        Logger.info(f"📡 [HUB] Radiating: {event} across {self.namespace}")
+        Logger.info(f"📡 [HUB] Radiating: {event}")
         return await self.sm.emit(event, payload, namespace=self.namespace)
 
-    def on_thought(self, event: str):
+    def on(self, event: str):
         \"\"\"Decorator to register a listener for incoming Architect thoughts.\"\"\"
         return self.sm.on(event, namespace=self.namespace)
 
@@ -107,112 +78,19 @@ def wire_synaptic_hub(app):
     bus = SynapticBus(app)
     app.state.synapse = bus
     
-    @bus.on_thought('connect')
+    @bus.on('connect')
     async def handle_link(sid, environ):
         Logger.info(f"👁️  [OCULAR] Membrane Linked: {sid}")
 
-    @bus.on_thought('disconnect')
-    async def handle_sever(sid):
-        Logger.info(f"🌑 [OCULAR] Membrane Severed: {sid}")
-        
     return bus
 """
 
-    # THE SURGICAL SUTURE: Inject into main.py
-    # [ASCENSION 12]: Automated Framework Grafting
-    main.py ^= """from .core.synapse import wire_synaptic_hub\n"""
-
-    main.py += """
-# [Gnostic Suture]: Awakening the Reactive Hub
-# The Synaptic Bus is now waked and bound to the application lifespan.
-synapse = wire_synaptic_hub(app)
-"""
-
-    # Alchemical Dependencies
-    pyproject.toml += """
-fastapi-socketio = "^0.0.10"
-python-socketio = {extras = ["asyncio_client"], version = "^5.11.0"}
-redis = "^5.0.0"
-"""
-@endif
-
-# --- IV. THE SURGICAL WEAVE: NODE EYE (Express/Next Bridge) ---
-@if {{ is_node }}
-src/core/
-    # [ASCENSION 5]: THE GNOSTIC CONDUIT
-    # Materializes the Node.js/TypeScript side of the Nervous System.
-    synapse.ts :: """
-import { Server } from 'socket.io';
-import { createAdapter } from '@socket.io/redis-adapter';
-import { createClient } from 'redis';
-
-/**
- * =============================================================================
- * == THE GNOSTIC CONDUIT: NODE.JS/TS (V-Ω-TOTALITY)                           ==
- * =============================================================================
- */
-export const initReactiveHub = async (httpServer: any) => {
-  const io = new Server(httpServer, {
-    cors: { origin: "*" },
-    path: "/ws"
-  });
-
-  // [ASCENSION 6]: Redis Pub/Sub for horizontal multiversal scaling
-  const pubClient = createClient({ url: process.env.REDIS_URL || '{{ redis_url }}' });
-  const subClient = pubClient.duplicate();
-  
-  await Promise.all([pubClient.connect(), subClient.connect()]);
-  io.adapter(createAdapter(pubClient, subClient));
-
-  const hubNamespace = io.of('{{ namespace }}');
-  
-  hubNamespace.on('connection', (socket) => {
-    console.log(`👁️  [OCULAR] Membrane Linked: ${socket.id}`);
-    
-    socket.on('disconnect', () => {
-      console.log(`🌑 [OCULAR] Membrane Severed: ${socket.id}`);
-    });
-    
-    // [ASCENSION 7]: Telepathic Relay
-    socket.on('plea', (data) => {
-      console.log(`🧠 [INTENT] Received plea from ${socket.id}:`, data);
-      hubNamespace.emit('revelation', { ...data, status: 'RESONANT' });
-    });
-  });
-
-  return io;
-};
-"""
-
-    package.json:
-        dependencies += {
-            "socket.io": "^4.7.5",
-            "redis": "^4.6.13",
-            "@socket.io/redis-adapter": "^8.3.0",
-            "ioredis": "^5.4.1"
-        }
-@endif
-
-# --- V. THE MAESTRO'S WILL (Rites of Ignition) ---
-# [ASCENSION 11]: Kinetic Orchestration
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Reactive Hub[/bold cyan] is manifest."
-    proclaim: "Synaptic Logic: [white]src/{{ package_name }}/core/synapse.py[/]"
+    proclaim: "Synaptic Locus: [white]/ws{{ ws_namespace }}[/white]"
     
-    # 1. Sanctum Preparation
-    proclaim: "Preparing the Reactive Sanctum..."
     >> mkdir -p infra/reactive
     
-    # 2. Network Verification
-    proclaim: "Forging the Gnostic Mesh network..."
-    >> docker network create {{ project_slug }}_gnostic_mesh || true
-    
-    # 3. Final Proclamation
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Real-Time Latency -> 0)[/]"
     proclaim: "[bold green]✅ Synaptic Bus is Online.[/bold green]"
-    proclaim: "To power the backbone, speak: [bold magenta]docker-compose -f infra/reactive/docker-compose.reactive.yml up -d[/bold magenta]"
-    proclaim: "Interface: [bold yellow]{{ namespace }}[/] at [bold yellow]/ws[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Hub materialization fractured.[/bold red] Reality remains stagnant."
-    rm -rf infra/reactive/ src/{{ package_name }}/core/synapse.py

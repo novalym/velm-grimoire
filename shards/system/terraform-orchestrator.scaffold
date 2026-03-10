@@ -1,35 +1,42 @@
 # ==============================================================================
-# == GNOSTIC SHARD: TERRAFORM-ORCHESTRATOR (V-Ω-TOTALITY-V1.0)                ==
+# == GNOSTIC DNA SHARD: system/terraform-orchestrator
 # ==============================================================================
-# @description: The definitive Infrastructure-as-Code orchestrator. Materializes 
-#               the TerraformConductor, enabling Python-driven HCL management, 
-#               stateful plan adjudication, and automated cloud genesis.
-# @category: System / Substrate
-# @vibe: terraform, hcl, iac, orchestration, cloud-genesis, state-management
-# @provides: [terraform-binary, terraform-orchestrator, hcl-authority]
-# @requires: [python-core, pydantic-settings, maestro-control]
-# @substrate: python / shell
-# @version: 1.0.0-Ω
-# @LIF: INFINITY
+# @id:           system/terraform-orchestrator
+# @version:      3.0.0
+# @tier:         body
+# @summary:      Substrate-aware Terraform lifecycle conductor for executing cloud provisioning, planning, and state management.
+# @vibe:         [terraform, iac, orchestration, cloud, infrastructure, provisioning, devops]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:iac-governor, capability:cloud-genesis]
+# @requires:     [capability:python-core, capability:maestro-conductor]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["sh>=2.0.0"]
+#   env:         ["TERRAFORM_BINARY_PATH"]
+# ------------------------------------------------------------------------------
+# @substrate:    { "terraform": ["backend 's3'"] }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-governor"
+#   priority:    900
+#   alias:       "terraform_orchestrator"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ project_slug = {{ project_slug | default("omega-infra") }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Conductor) ---
 
 src/{{ package_name }}/core/infra/
     __init__.py :: "from .terraform import TerraformConductor\n"
 
-    # [ASCENSION 1]: THE TERRAFORM CONDUCTOR
-    # This artisan manages the kinetic link between Gnosis and Cloud-Iron.
     terraform.py :: """
 import os
 import logging
-import subprocess
+import shutil
 from pathlib import Path
-from typing import Dict, Any, Optional, List
-from ..config import settings
+from typing import Dict, Any, Optional
 from ..maestro.conductor import MaestroConductor
 
 Logger = logging.getLogger("Infra:Terraform")
@@ -44,8 +51,7 @@ class TerraformConductor:
     [ASCENSIONS]:
     1. Apophatic Binary Verification: Scries the OS for the 'terraform' artisan.
     2. Transactional Planning: Forces a '-out=plan.tfplan' to ensure parity.
-    3. Variable Injection: Transmutes Pydantic settings into HCL variables.
-    4. Substrate Isolation: Manages '.terraform' directories per-environment.
+    3. Substrate Isolation: Manages '.terraform' directories per-environment.
     \"\"\"
     def __init__(self, working_dir: Path, trace_id: str = "tr-void"):
         self.working_dir = working_dir
@@ -59,58 +65,29 @@ class TerraformConductor:
             raise FileNotFoundError("The 'terraform' executable is missing from the PATH.")
 
     def init(self) -> bool:
-        \"\"\"Conducts the Rite of Initialization.\"\"\"
         return self.maestro.strike("terraform init", cwd=str(self.working_dir))
 
     def plan(self, variables: Dict[str, Any]) -> bool:
-        \"\"\"Forges a prophecy of the coming architectural shift.\"\"\"
         var_args = " ".join([f'-var="{k}={v}"' for k, v in variables.items()])
         cmd = f"terraform plan {var_args} -out=reality.tfplan"
         return self.maestro.strike(cmd, cwd=str(self.working_dir))
 
     def apply(self) -> bool:
-        \"\"\"Strikes the Iron and makes the prophecy real.\"\"\"
         return self.maestro.strike("terraform apply -auto-approve reality.tfplan", cwd=str(self.working_dir))
-
-    def destroy(self) -> bool:
-        \"\"\"Returns the infrastructure matter to the void.\"\"\"
-        return self.maestro.strike("terraform destroy -auto-approve", cwd=str(self.working_dir))
-
-import shutil # Necessary for which scry
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# [ASCENSION 12]: Operational Blueprint Suture
-# We ensure the .gitignore protects the Terraform state soul.
-.gitignore += """
-
-# --- Terraform Reality State ---
-**/.terraform/*
-*.tfstate
-*.tfstate.*
-crash.log
-*.tfplan
-"""
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Terraform Orchestrator[/] is manifest."
     proclaim: "Conductor Locus: [white]core/infra/terraform.py[/]"
     
-    # 1. Binary Verification Strike
+    # [ASCENSION 1]: Binary Verification Strike
     proclaim: "Phase I: Verifying Terraform binary resonance..."
     @if {{ not shell('terraform version > /dev/null 2>&1 && echo "yes"') == 'yes' }}
-        proclaim: "[bold red]HERESY:[/bold red] 'terraform' binary is unmanifested in your PATH."
-        proclaim: "Suggestion: [bold yellow]brew install terraform[/bold yellow] or equivalent."
+        proclaim: "[bold red]HERESY:[/bold red] 'terraform' binary is unmanifested."
     @else
         proclaim: "✅ [bold green]Terraform Artisan confirmed.[/bold green]"
     @endif
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Infrastructure Drift -> 0)[/]"
     proclaim: "[bold green]✅ The God-Engine can now strike the Celestial Iron.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Terraform materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/infra/terraform.py

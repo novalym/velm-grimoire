@@ -1,29 +1,42 @@
 # ==============================================================================
-# == GNOSTIC SHARD: JURISPRUDENCE GATE (V-Ω-TOTALITY-V3.0)                    ==
+# == GNOSTIC DNA SHARD: API/JURISPRUDENCE-GATE
 # ==============================================================================
-# @description: A Jurisprudence Gate for universal runtime contract validation. 
-#               Intercepts payloads, checks Content-Types, and ensures JSON 
-#               conforms to the Gnostic schemas before reaching the application core.
-# @category: API / Security
-# @vibe: security, validation, contract-law, neural-mesh, pydantic, strict
-# @provides: [runtime-contract-validation, universal-schema-enforcement]
-# @requires: [fastapi, pydantic]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: INFINITY
+# @id:           api/jurisprudence-gate
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      A Jurisprudence Gate for universal runtime contract validation. 
+#                Intercepts all mutation pleas, adjudicates Content-Types, and 
+#                ensures JSON matter conforms to Gnostic laws before 
+#                materializing in the application core.
+# @vibe:         [security, validation, contract-law, pydantic, gatekeeper, strict]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:runtime-contract-validation, capability:universal-schema-enforcement]
+# @requires:     [capability:api-heart, capability:pydantic-v2]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["fastapi>=0.109.0", "pydantic>=2.6.0"]
+#   env:         ["ENFORCE_STRICT_MIME", "MAX_PAYLOAD_SIZE_MB"]
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        middleware-shield
+#   priority:    10
+#   alias:       "jurisprudence"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ package_name = {{ package_name | default("core") }}
-$$ enforce_strict_content_type = {{ strict_mime | default(true) }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ strict_mime   = {{ enforce_strict_content_type | default(true) }}
 
-# --- II. THE SCRIPTURE OF FORM ---
+# --- II. THE SCRIPTURE OF FORM (The Legislative Gate) ---
+
 src/{{ package_name }}/middleware/
+    # [ASCENSION 1]: The Interface Registry
     __init__.py += "from .law import JurisprudenceGateMiddleware\n"
 
     law.py :: """
 import json
 import logging
+import os
 from typing import Callable, Optional
 from fastapi import Request, Response, HTTPException, status
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -31,75 +44,99 @@ from starlette.responses import JSONResponse
 
 Logger = logging.getLogger("API:JurisprudenceGate")
 
-# @scaffold:middleware(priority=10) # THE LAW: Adjudicates before logic
 class JurisprudenceGateMiddleware(BaseHTTPMiddleware):
     \"\"\"
     =============================================================================
     == THE JURISPRUDENCE GATE (V-Ω-TOTALITY)                                   ==
     =============================================================================
-    LIF: ∞ | ROLE: UNIVERSAL_CONTRACT_ENFORCER | RANK: OMEGA
+    LIF: ∞ | ROLE: UNIVERSAL_CONTRACT_ENFORCER | RANK: OMEGA_SCRIBE
     
-    [ASCENSIONS]:
-    1. Strict MIME-Type Guard: Rejects non-JSON payloads on mutating endpoints.
-    2. Body Size Limiter: Prevents memory exhaustion attacks (Billion Laughs).
-    3. Structural Sanity: Traps JSONDecodeErrors before the Framework panics.
-    4. Bypass Oracle: Allows Webhooks and File Uploads to bypass the gate.
+    The Sovereign Auditor of Ingress.
+    1.  Strict MIME Guard: Rejects profane media types.
+    2.  Geometric Mass Limiter: Defends against Heap Gluttony.
+    3.  Pre-Flight Sanity: Traps malformed JSON before the Mind is reached.
+    4.  Bypass Oracle: Identifies and exempts specific Gnostic conduits (Webhooks).
     \"\"\"
     
-    MAX_PAYLOAD_BYTES = 5 * 1024 * 1024  # 5MB Limit
+    def __init__(self, app):
+        super().__init__(app)
+        self.strict_mime = os.getenv("ENFORCE_STRICT_MIME", "{{ strict_mime }}").lower() == "true"
+        # [ASCENSION 3]: Geometric mass limit (Default 5MB)
+        self.max_bytes = int(os.getenv("MAX_PAYLOAD_SIZE_MB", "5")) * 1024 * 1024
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
-        # Only enforce on mutations
+        # 1. THE ACTION FILTER
+        # Only enforce the Law on intents that mutate reality.
         if request.method not in ("POST", "PUT", "PATCH"):
             return await call_next(request)
 
-        # --- MOVEMENT I: THE BYPASS ORACLE ---
-        # Allow webhooks and file uploads to pass unhindered
+        # 2. THE BYPASS ORACLE
+        # Allow willed exceptions (e.g. large file uploads or external webhooks)
         path = request.url.path
-        if path.startswith("/webhooks/") or path.startswith("/upload/"):
+        if path.startswith(("/webhooks/", "/upload/")):
             return await call_next(request)
 
-        # --- MOVEMENT II: MIME-TYPE ADJUDICATION ---
+        # 3. MIME-TYPE ADJUDICATION
         content_type = request.headers.get("Content-Type", "")
-        if {{ enforce_strict_content_type | lower }} and "application/json" not in content_type:
-            Logger.warning(f"Jurisprudence Heresy: Invalid Content-Type '{content_type}' at {path}")
+        if self.strict_mime and "application/json" not in content_type:
+            Logger.warning(f"⚖️ [LAW] Heresy: Invalid Content-Type '{content_type}' at {path}")
             return JSONResponse(
                 status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-                content={"error": "The Law requires 'application/json'."}
+                content={
+                    "error": "UNSUPPORTED_MEDIA_TYPE",
+                    "detail": "The Gnostic Law requires 'application/json' for this aperture.",
+                    "trace": request.state.trace_id
+                }
             )
 
-        # --- MOVEMENT III: MASS AND SANITY ADJUDICATION ---
+        # 4. MASS & SANITY ADJUDICATION
+        # [ASCENSION 2]: BICAMERAL STREAM RESURRECTION
         body_bytes = await request.body()
         
-        if len(body_bytes) > self.MAX_PAYLOAD_BYTES:
+        # A. Check Mass
+        if len(body_bytes) > self.max_bytes:
+            Logger.critical(f"🛑 [LAW] Breach: Payload mass {len(body_bytes)} exceeds limit.")
             return JSONResponse(
                 status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-                content={"error": "Payload exceeds the maximum Gnostic mass (5MB)."}
+                content={"error": "MASS_EXCEEDED", "detail": "The plea is too heavy for the heap."}
             )
 
+        # B. Check Sanity (JSON Validity)
         if body_bytes:
             try:
-                # We attempt to parse the JSON. If it shatters, it is a heresy.
+                # [STRIKE]: Pre-flight JSON Inquest
                 json.loads(body_bytes)
-            except json.JSONDecodeError as e:
-                Logger.warning(f"Jurisprudence Heresy: Malformed JSON at {path}. {e}")
+            except json.JSONDecodeError as paradox:
+                Logger.warning(f"⚖️ [LAW] Heresy: Malformed JSON at {path}. {paradox}")
                 return JSONResponse(
                     status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                    content={"error": "Profane Structure. The JSON payload is malformed.", "details": str(e)}
+                    content={
+                        "error": "MALFORMED_GNOSIS", 
+                        "detail": "Profane Structure: The JSON payload is corrupted or invalid.",
+                        "reason": str(paradox)
+                    }
                 )
 
-        # Resurrect the stream for the Framework
+        # [THE CURE]: Resurrect the stream for the Framework's internal Mind (Pydantic)
         async def resurrected_receive():
             return {"type": "http.request", "body": body_bytes}
         request._receive = resurrected_receive
 
-        # --- MOVEMENT IV: KINETIC EXECUTION ---
-        # (The Framework will now perform the deep Pydantic validation)
+        # 5. KINETIC EXECUTION
+        # Reality is structurally resonant. Handing over to the primary validators.
         return await call_next(request)
 """
 
-# --- III. THE MAESTRO'S WILL ---
+# --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
 %% post-run
-    proclaim: "The [bold cyan]Jurisprudence Gate[/] is manifest."
-    proclaim: "Strict MIME Enforcement: [bold]{{ enforce_strict_content_type }}[/]"
-    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Malformed Payloads -> 0)[/]"
+    proclaim: "The [bold cyan]Jurisprudence Gate[/bold cyan] is manifest."
+    proclaim: "Role: [bold green]MIDDLEWARE-SHIELD[/bold green]"
+    proclaim: "Strict MIME: [bold yellow]{{ strict_mime }}[/bold yellow] | Max Payload: [bold yellow]5MB[/bold yellow]"
+    
+    # [THE CURE]: No 'poetry add' needed; Parser handled the DNA.
+    
+    proclaim: "LIF-Multiplier: [bold green]1,000,000x (Malformed Plea Vulnerability -> 0)[/]"
+    proclaim: "[bold green]✅ The Law is Sovereign at the Perimeter.[/bold green]"
+
+%% on-heresy
+    proclaim: "[bold red]Jurisprudence materialization fractured.[/bold red]"

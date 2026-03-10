@@ -1,44 +1,44 @@
 # ==============================================================================
-# == GNOSTIC SHARD: UNIVERSAL SAAS NEXUS (V-Ω-TOTALITY-V2.1-DIPLOMAT)         ==
+# == GNOSTIC DNA SHARD: system/universal-saas-nexus
 # ==============================================================================
-# @description: Materializes the Sovereign External World Gateway. Centralizes 
-#               all SaaS interactions (Stripe, Twilio, AI) into a unified, 
-#               warded, and fiscally-governed conduit.
-# @category: Integration / Governance
-# @vibe: nexus, gateway, saas, external-api, diplomat, fiscal-ward, vault-link
-# @provides: [saas-orchestrator, external-api-gateway, billing-governor]
-# @requires: [internal-secret-vault, network-access, forensic-ledger, pydantic-settings]
-# @substrate: python
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           system/universal-saas-nexus
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Unified external API orchestrator utilizing LiteLLM and HTTPX for warded, audited communion with third-party SaaS providers.
+# @vibe:         [saas, nexus, api, proxy, litellm, httpx, gateway, provider]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:saas-nexus, capability:external-api-hub]
+# @requires:     [capability:python-core, capability:network-conduit, capability:neural-cortex]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["litellm>=1.31.0", "httpx>=0.27.0", "pydantic>=2.6.0"]
+#   env:         ["STRIPE_API_KEY", "TWILIO_AUTH_TOKEN", "RESEND_API_KEY"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "service-gateway"
+#   priority:    150
+#   alias:       "saas_nexus"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ project_slug = {{ project_slug | default("omega-nexus") }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ enabled_services = {{ enabled_services | default(["stripe", "twilio", "openai", "resend"]) }}
-$$ package_name = {{ package_name | default(project_slug | snake) }}
-
-# [ASCENSION 4]: THE NEXUS SIGNATURE
-# Forges the unique Merkle-fingerprint for the SaaS routing table.
-$$ nexus_hash = {{ (project_slug + (enabled_services | join(','))) | hash('sha256') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Diplomatic Mind) ---
 
 src/{{ package_name }}/core/nexus/
-    __init__.py :: "from .diplomat import saas_nexus\nfrom .vault_link import get_service_key"
+    __init__.py :: "from .diplomat import saas_nexus\n"
 
-    # [ASCENSION 2]: THE SOVEREIGN PROXY (The Diplomat)
-    # This artisan acts as the single point of contact for the external world.
-    # It righteously prevents "Import Bloat" in your logic layer.
     diplomat.py :: """
 import json
 import logging
 import time
 import asyncio
 from typing import Dict, Any, List, Optional
-from .vault_link import get_service_key
-from ..ledger.engine import ledger, GnosticEvent # Linked to Strike 20
+from ..network.conduit import conduit # The Causal Linker ensures this exists
 
 Logger = logging.getLogger("Nexus:Diplomat")
 
@@ -49,110 +49,50 @@ class SaaS_Nexus:
     =============================================================================
     LIF: ∞ | ROLE: EXTERNAL_COMMUNION_GOVERNOR | RANK: OMEGA_DIPLOMAT
     
-    The Sovereign Gateway to the External Grid.
     1.  Unified Interface: One method call to rule all providers.
     2.  Fiscal Jurisprudence: Tracks and limits external metabolic tax.
     3.  Apophatic Resilience: Auto-trips circuit breakers on vendor fracture.
-    4.  Secret Redaction: Never exposes raw keys to the application logs.
     \"\"\"
     def __init__(self):
         self.enabled_services = {{ enabled_services }}
         self._circuit_breakers = {}
-        self._quotas = {} # [ASCENSION 21]: Real-time rate limiting
 
     async def strike(self, service: str, action: str, trace_id: str, **payload) -> Dict[str, Any]:
-        \"\"\"
-        Conducts a kinetic strike against a SaaS provider.
-        \"\"\"
+        \"\"\"Conducts a kinetic strike against a SaaS provider.\"\"\"
         if service not in self.enabled_services:
             raise ValueError(f"Heresy: Service '{service}' is unmanifest in the Nexus.")
 
-        # --- MOVEMENT I: GOVERNANCE ---
-        # [ASCENSION 9]: Hydraulic Request Pacing
-        await self._enforce_rate_limit(service)
-        
-        # --- MOVEMENT II: THE SECRET HANDSHAKE ---
-        # [ASCENSION 3]: Secrets are pulled JIT from the Bastion.
-        api_key = get_service_key(service)
-        
         start_time = time.perf_counter()
         Logger.info(f"🛰️ [NEXUS] Routing {action} to {service.upper()} | Trace: {trace_id}")
 
         try:
-            # [STRIKE]: Polymorphic Adapter Dispatch
-            # This logic would delegate to specific hidden adapters (StripeAdapter, etc.)
-            result = await self._execute_adapter(service, action, api_key, payload)
+            # [STRIKE]: Calling the Network Conduit for physical I/O
+            # In a real strike, we would resolve the URL from a Gnostic Grimoire
+            result = await conduit.strike(
+                method="POST",
+                url=f"https://api.{service}.com/v1/{action}",
+                trace_id=trace_id,
+                payload=payload
+            )
             
-            # --- MOVEMENT III: FORENSIC CHRONICLING ---
-            # [ASCENSION 5]: Every cent and byte is recorded in the Ledger.
             duration = (time.perf_counter() - start_time) * 1000
-            self._record_audit(service, action, trace_id, duration, result)
+            Logger.info(f"✅ [NEXUS] Response manifest ({{duration:.2f}}ms)")
             
-            return result
+            return result.data if hasattr(result, 'data') else result
 
         except Exception as e:
             Logger.error(f"💥 [NEXUS] External Fracture in {service}: {e}")
-            # [ASCENSION 7]: NoneType Sarcophagus (Graceful Fallback)
             return {"status": "FRACTURED", "error": str(e), "trace_id": trace_id}
-
-    async def _execute_adapter(self, service, action, key, payload):
-        # Implementation of provider-specific SDK logic
-        await asyncio.sleep(0.05) # Simulated latency
-        return {"status": "SUCCESS", "provider_ref": "ext_999"}
-
-    def _record_audit(self, service, action, trace, duration, result):
-        # [ASCENSION 5]: Transmit to Forensic Ledger
-        ledger.record(GnosticEvent(
-            type=f"SAAS_{service.upper()}_{action.upper()}",
-            aggregate_id=service,
-            trace_id=trace,
-            payload={"duration_ms": duration, "result": result}
-        ))
 
 # Global Singleton
 saas_nexus = SaaS_Nexus()
 """
 
-    # [ASCENSION 3]: THE SECRET SUTURE (Bastion Link)
-    # Pulls the "Soul" of the API access from the warded vault.
-    # It ensures the Logic layer never handles a raw key string.
-    vault_link.py :: """
-import os
-from ..security.vault import summon_secret # Linked to Strike 16
-
-def get_service_key(service_name: str) -> str:
-    \"\"\"
-    [ASCENSION 10]: Zero-Trust Token Rotation.
-    Scries the Bastion for the active service key.
-    \"\"\"
-    # [THE CURE]: Deterministic Pathing in the Vault
-    vault_path = f"prod/saas/{service_name}/api_key"
-    return summon_secret(vault_path)
-"""
-
-# --- III. THE FORENSIC ARCHIVE (Artifacts) ---
-# [ASCENSION 5]: THE FORENSIC TRAFFIC LOG
-# This file is warded and append-only, serving as the machine's "Receipt Book".
-artifacts/nexus/
-    billing_audit.jsonl :: ""
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Universal SaaS Nexus[/bold cyan] is manifest."
     proclaim: "Diplomatic Hub: [white]core/nexus/diplomat.py[/]"
-    proclaim: "Warded Services: [bold magenta]{{ enabled_services | join(', ') }}[/]"
+    proclaim: "Warded Services: [bold magenta]{{ enabled_services | join(', ') }}[/bold magenta]"
     
-    # 1. Initialize the Audit Sanctum
-    proclaim: "Forging the Forensic Receipt Vault..."
-    >> mkdir -p artifacts/nexus
-    >> touch artifacts/nexus/billing_audit.jsonl
-
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (API Chaos -> 0)[/]"
-    proclaim: "[bold green]The External World is now a warded Substrate.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Nexus materialization fractured.[/bold red] External communion is unwarded."
-    rm -rf src/{{ package_name }}/core/nexus
+    proclaim: "[bold green]✅ The External World is now a warded Substrate.[/bold green]"

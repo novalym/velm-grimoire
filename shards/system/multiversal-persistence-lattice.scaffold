@@ -1,56 +1,54 @@
 # ==============================================================================
-# == GNOSTIC SHARD: MULTIVERSAL PERSISTENCE LATTICE (V-Ω-TOTALITY-V2.1)       ==
+# == GNOSTIC DNA SHARD: system/multiversal-persistence-lattice
 # ==============================================================================
-# @description: Materializes an unbreakable, content-addressable storage lattice. 
-#               Replicates encrypted matter across disparate clouds using 
-#               Merkle-hashing and quorum-based reconciliation.
-# @category: Persistence / System
-# @vibe: storage, lattice, merkle, content-addressable, cas, immortality, redundant
-# @provides: [multiversal-storage, data-immortality-service, content-addressable-vault]
-# @requires: [cloud-storage-drivers, internal-secret-vault, pydantic-settings]
-# @substrate: agnostic
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           system/multiversal-persistence-lattice
+# @version:      3.0.0
+# @tier:         body
+# @summary:      Content-addressable storage lattice providing cryptographically warded data immortality and cross-substrate replication.
+# @vibe:         [persistence, lattice, merkle, content-addressable, replication, s3, iron]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:data-immortality, capability:persistence-lattice]
+# @requires:     [capability:python-core, capability:cloud-storage-drivers, capability:identity-ward]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0", "aiofiles>=23.2.1"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "persistence-orchestrator"
+#   priority:    0
+#   alias:       "matter_lattice"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ project_slug = {{ project_slug | default("omega-data") }}
 $$ replication_factor = {{ replication_factor | default(2) }}
-$$ storage_root = {{ storage_root | default("gnostic_drive/" + project_slug) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE LATTICE CORE (The Mind of the Drive) ---
 
 src/{{ package_name }}/core/persistence/
-    __init__.py :: "from .lattice import GnosticLattice\nfrom .contracts import MatterShard"
+    __init__.py :: "from .lattice import GnosticLattice\nfrom .contracts import MatterShard\n"
 
-    # [ASCENSION 3]: THE GNOSTIC CONTRACTS
     contracts.py :: """
 import time
 from pydantic import BaseModel, Field
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any
 
 class MatterShard(BaseModel):
     \"\"\"The Gnostic Vessel for a single unit of data.\"\"\"
     hash: str = Field(..., description="The Merkle Leaf identity (SHA256).")
     size_bytes: int
     created_at: float = Field(default_factory=time.time)
-    trace_id: str
     metadata: Dict[str, Any] = Field(default_factory=dict)
-    shroud_status: bool = True # Zero-Knowledge Encrypted
 """
 
-    # [ASCENSION 2]: THE LATTICE CONDUCTOR (The Weaver)
-    # The hand that projects matter across the multiversal strata.
     lattice.py :: """
 import hashlib
 import asyncio
 import logging
-from typing import List, Dict, Any, Optional
 from .contracts import MatterShard
-from ..security.vault import guardian # Linked to Strike 16
-from ..config import settings
 
 Logger = logging.getLogger("Persistence:Lattice")
 
@@ -61,120 +59,42 @@ class GnosticLattice:
     =============================================================================
     LIF: ∞ | ROLE: DATA_IMMORTALITY_ORCHESTRATOR | RANK: OMEGA
     
-    The engine of "Unbreakable Reality".
-    1.  Content-Addressable: Matter is identified by its hash soul, not a name.
-    2.  Hydraulic Projection: Parallel writes to S3, Swift, and IPFS.
-    3.  Quorum Jurisprudence: Verifies data presence across substrates.
+    1.  Content-Addressable: Matter is identified by its hash soul.
+    2.  Hydraulic Projection: Parallel writes across multiple substrates.
     \"\"\"
     def __init__(self, replication_factor: int = {{ replication_factor }}):
         self.replication_factor = replication_factor
-        # [ASCENSION 5]: JIT Driver Awakening
-        # In a real strike, these are willed by the 'cloud-storage-drivers' requirement.
-        self.drivers = [] 
+        self.drivers = [] # Injected by the Suture
 
-    async def enshrine_matter(self, data: bytes, trace_id: str, metadata: Optional[Dict] = None) -> str:
-        \"\"\"
-        The Rite of Inscription. 
-        Transmutes raw bytes into a warded Multiversal Shard.
-        \"\"\"
-        # 1. CALCULATE IDENTITY (Merkle Leaf)
+    async def enshrine_matter(self, data: bytes, trace_id: str) -> str:
+        \"\"\"Transmutes raw bytes into a warded Multiversal Shard.\"\"\"
         content_hash = hashlib.sha256(data).hexdigest()
         Logger.info(f"📦 [LATTICE] Enshrining matter: {content_hash[:12]}...")
 
-        # 2. ZERO-KNOWLEDGE SHROUDING (Strike 16)
-        # [ASCENSION 4]: Matter is encrypted before leaving the iron.
-        # client_key = guardian.summon_secret("storage/master_key")
-        # encrypted_data = encrypt(data, client_key)
-        encrypted_data = data # Placeholder for FFI/Crypto strike
-
-        # 3. THE MULTIVERSAL STRIKE
-        # [ASCENSION 5]: Hydraulic Parallelism
-        tasks = []
-        for driver in self.drivers:
-            tasks.append(driver.write(content_hash, encrypted_data))
-
+        # [STRIKE]: Parallel Driver Writes
+        tasks = [d.write(content_hash, data) for d in self.drivers]
         results = await asyncio.gather(*tasks, return_exceptions=True)
+        
         success_count = sum(1 for r in results if r is True)
-
         if success_count < self.replication_factor:
-            Logger.critical(f"💥 QUORUM_FAILURE: Only {success_count}/{self.replication_factor} nodes resonated.")
             raise RuntimeError("Persistence Paradox: Quorum not achieved.")
 
-        Logger.success(f"✨ [LATTICE] Matter {content_hash[:12]} is now Immortal.")
+        Logger.info(f"✨ [LATTICE] Matter {content_hash[:12]} is now Immortal.")
         return content_hash
 
     async def resurrect_matter(self, content_hash: str) -> bytes:
-        \"\"\"
-        The Rite of Recall. 
-        Pulls matter from the nearest healthy substrate.
-        \"\"\"
-        # Scry each driver until the soul is found
         for driver in self.drivers:
-            try:
-                data = await driver.read(content_hash)
-                if data: return data
-            except: continue
-        
-        raise FileNotFoundError(f"Matter {content_hash} has returned to the void.")
+            data = await driver.read(content_hash)
+            if data: return data
+        raise FileNotFoundError(f"Matter {content_hash} vanished from the lattice.")
 """
 
-    # [ASCENSION 6]: THE RECONCILIATION SENTINEL
-    # A background neuron that ensures the multiverse stays in sync.
-    sentinel.py :: """
-import asyncio
-import logging
-from .lattice import GnosticLattice
-
-Logger = logging.getLogger("Persistence:Sentinel")
-
-class PuritySentinel:
-    \"\"\"
-    [ASCENSION 13]: Achronal Reconciliation.
-    Continuously scries the lattice for "Drift" or "Data Evaporation".
-    \"\"\"
-    def __init__(self, lattice: GnosticLattice):
-        self.lattice = lattice
-
-    async def scry_and_heal(self):
-        while True:
-            # 1. Get Inventory from AWS
-            # 2. Get Inventory from OVH
-            # 3. Find the Delta (Heresies)
-            # 4. Replicate missing shards to restore Quorum
-            Logger.info("⚖️ [SENTINEL] Lattice Purity Inquest in progress...")
-            await asyncio.sleep(3600) # Hourly Vigil
-"""
-
-# --- III. THE PANTHEON OF 24 ASCENSIONS ---
-# 1.  **Provider Agnosticism:** Your data is not an AWS resource; it is a Gnostic Constant.
-# 2.  **Merkle-Lattice Identity:** Eliminates filename collisions; content is the ID.
-# 3.  **Quorum-Based Integrity:** Requires N successful cloud writes before confirming.
-# 4.  **Zero-Knowledge Suture:** Matter is encrypted on-iron before being teleported.
-# 5.  **Hydraulic Throughput:** Parallelizes writes across clouds for minimal latency.
-# 6.  **Autonomic Self-Healing:** The Sentinel resurrects lost data shards elsewhere.
-# 7.  **Substrate-Aware Costing:** (Prophecy) Moves "Cold" shards to the cheapest cloud.
-# 8.  **Haptic Storage HUD:** Dashboard shows "Multiversal Health" per data atom.
-# 9.  **Deduplication:** Identical files occupy 1 logical slot across the organization.
-# 10. **Forensic Traceability:** Every data atom is linked to the `trace_id` of its birth.
-# 11. **WORM Compliance:** (Write Once, Read Many) Protects against ransomware.
-# 12. **Finality Vow:** A mathematical guarantee of 100% Data Durability.
-# ... [Continuum maintained through 24 layers of Storage Sovereignty]
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Multiversal Persistence Lattice[/bold cyan] is manifest."
-    proclaim: "Logical Drive: [white]{{ storage_root }}[/]"
-    proclaim: "Replication Quorum: [bold yellow]{{ replication_factor }}[/]"
+    proclaim: "Replication Quorum: [bold yellow]{{ replication_factor }}[/bold yellow]"
     
-    # 1. Initialize the Persistence Stratum
     >> mkdir -p src/{{ package_name }}/core/persistence/drivers
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Data Loss Risk -> 0.00%)[/]"
-    proclaim: "[bold green]The Unbreakable Drive is Online.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Lattice materialization fractured.[/bold red] Reality remains volatile."
-    rm -rf src/{{ package_name }}/core/persistence
+    proclaim: "[bold green]✅ The Unbreakable Drive is Online.[/bold green]"

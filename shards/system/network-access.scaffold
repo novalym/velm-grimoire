@@ -1,44 +1,46 @@
 # ==============================================================================
-# == GNOSTIC SHARD: NETWORK-ACCESS (V-Ω-TOTALITY-V1.0)                        ==
+# == GNOSTIC DNA SHARD: system/network-access
 # ==============================================================================
-# @description: The definitive celestial conduit. Materializes an asynchronous 
-#               HTTP/network layer using httpx, warded with trace-id 
-#               propagation, automatic retries, and metabolic tax tracking.
-# @category: System / Network
-# @vibe: networking, http-client, httpx, async-io, telemetry, trace-id, bridge
-# @provides: [network-access, http-client, celestial-communion]
-# @requires: [python-core, pydantic-settings]
-# @substrate: python
-# @version: 1.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/network-access
+# @version:      3.0.0
+# @tier:         body
+# @summary:      High-performance asynchronous HTTP conduit utilizing httpx for multiversal API communication with built-in trace propagation.
+# @vibe:         [http, async, httpx, network, conduit, api, connection, restless]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:network-conduit, capability:http-client]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["httpx>=0.27.0"]
+#   env:         ["DEFAULT_HTTP_TIMEOUT"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "network-conduit"
+#   priority:    10
+#   alias:       "network_conduit"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [THE MASTER CURE]: Ensuring absolute existence of mandatory Poetry fields.
-$$ project_name = {{ project_name | default("omega_reality") }}
-$$ project_slug = {{ project_slug | default("omega-reality") }}
-$$ package_name = {{ package_name | default(project_slug | snake) }}
-$$ project_version = {{ version | default("0.1.0") }}
+$$ project_slug = {{ project_slug | default("omega-network") }}
+$$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ default_timeout_sec = {{ timeout | default(10.0) }}
-$$ user_agent = "Velm-God-Engine/{{ version | default('2.5.0') }} (Sovereign Node)"
+$$ user_agent = "Velm-God-Engine/3.0.0 (Sovereign Node)"
 
 # --- II. THE SCRIPTURE OF FORM (The Celestial Bridge) ---
 
 src/{{ package_name }}/core/network/
-    __init__.py :: "from .conduit import NetworkConduit, ResponseVessel\n"
+    __init__.py :: "from .conduit import NetworkConduit, ResponseVessel, conduit\n"
 
     # [ASCENSION 1]: THE NETWORK CONDUIT
-    # This artisan manages the lifecycle of asynchronous connections, 
-    # ensuring the "Silver Cord" (Trace ID) is never severed.
     conduit.py :: """
 import time
 import httpx
 import logging
+import os
 from typing import Dict, Any, Optional, Union, List
 from pydantic import BaseModel, Field
-
-# [PROVENANCE]: Forged via system/network-access.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
 
 Logger = logging.getLogger("Network:Conduit")
 
@@ -58,11 +60,10 @@ class NetworkConduit:
     LIF: ∞ | ROLE: CELESTIAL_MESSENGER | RANK: OMEGA
     \"\"\"
     def __init__(self, timeout: float = {{ default_timeout_sec }}):
-        self.timeout = timeout
+        self.timeout = float(os.getenv("DEFAULT_HTTP_TIMEOUT", str(timeout)))
         self.headers = {
             "User-Agent": "{{ user_agent }}",
             "Accept": "application/json, text/plain, */*",
-            "X-Gnostic-Trace": "{{ trace_id | default('tr-unbound') }}"
         }
 
     async def strike(
@@ -74,9 +75,9 @@ class NetworkConduit:
         headers: Optional[Dict] = None,
         **kwargs
     ) -> ResponseVessel:
+        \"\"\"Conducts a kinetic HTTP strike against a remote coordinate.\"\"\"
         start_ts = time.perf_counter()
         
-        # [ASCENSION 9]: Suture the Silver Cord into every packet
         merged_headers = {
             **self.headers,
             **(headers or {}),
@@ -85,7 +86,6 @@ class NetworkConduit:
 
         try:
             async with httpx.AsyncClient(timeout=self.timeout, follow_redirects=True) as client:
-                # [ASCENSION 18]: Clones the intent for distributed scrying
                 response = await client.request(
                     method=method.upper(),
                     url=url,
@@ -109,89 +109,22 @@ class NetworkConduit:
                     trace_id=trace_id
                 )
 
-        except httpx.TimeoutException:
-            Logger.error(f"⌛ [NETWORK] Timeout fractured at {url}")
-            return self._forge_failure(url, 504, "Celestial Timeout", start_ts, trace_id)
         except Exception as e:
-            # [ASCENSION 15]: Apophatic Error Unwrapping
             Logger.error(f"💥 [NETWORK] Substrate Fracture: {e}")
-            return self._forge_failure(url, 500, str(e), start_ts, trace_id)
+            return ResponseVessel(
+                status_code=500,
+                data={"error": str(e)},
+                headers={},
+                latency_ms=(time.perf_counter() - start_ts) * 1000,
+                trace_id=trace_id
+            )
 
-    def _forge_failure(self, url, code, msg, start_ts, trace) -> ResponseVessel:
-        return ResponseVessel(
-            status_code=code,
-            data={"error": msg, "target": url},
-            headers={},
-            latency_ms=(time.perf_counter() - start_ts) * 1000,
-            trace_id=trace
-        )
-
-# Global Singleton
 conduit = NetworkConduit()
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-# =========================================================================
-# == [THE CURE]: CONSTITUTIONAL pyproject.toml INCEPTION                 ==
-# =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
-@if {{ not file_exists('pyproject.toml') }}:
-pyproject.toml :: """
-[project]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = [{name = "The Architect"}]
-readme = "README.md"
-dependencies = [
-    "httpx>=0.27.0",
-]
-
-[tool.poetry]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = ["The Architect"]
-packages = [{include = "{{ package_name | default('core') }}", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^{{ python_version | default('3.11') }}"
-httpx = "^0.27.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-"""
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject 'httpx' right after it, 
-# warded by an idempotency check to prevent duplicate inscriptions.
-
-# 1. Target Legacy Poetry Blocks
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*httpx))/$1\nhttpx = \"^0.27.0\"/g"
-
-# 2. Target Modern PEP 621 Blocks
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*httpx))/$1\n    \"httpx>=0.27.0\",/g"
-@endif
-
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "The [bold cyan]Network Access Shard[/] (Celestial Conduit) is manifest."
+    proclaim: "The [bold cyan]Network Access Shard[/] is manifest."
     proclaim: "Conduit Locus: [white]core/network/conduit.py[/]"
-    
-    # 1. Resilient Dependency Synchronization
-    @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
-        # [THE CURE]: We only lock if we are certain the TOML is resonant.
-        >> poetry lock --no-update
-    @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
-        >> pip install httpx
-    @endif
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (I/O Impedance -> 0)[/]"
-    proclaim: "[bold green]✅ The Celestial Bridge is Open.[/bold green]"
+    proclaim: "[bold green]✅ The Multiversal Aperture is open.[/bold green]"

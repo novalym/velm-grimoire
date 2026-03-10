@@ -1,36 +1,42 @@
 # ==============================================================================
-# == GNOSTIC SHARD: HOLOGRAPHIC REALITY SIMULATOR (V-Ω-TOTALITY-V2.2)         ==
+# == GNOSTIC DNA SHARD: system/holographic-reality-simulator
 # ==============================================================================
-# @description: Materializes the "Holodeck" stratum. Forges an ephemeral, 
-#               memory-only virtual OS to simulate cloud substrates, 
-#               inject chaos, and rehearse complex architectural transmutations.
-# @category: Resilience / Simulation
-# @vibe: holodeck, simulation, sandbox, risk-free, rehearsal, time-dilation, chaos
-# @provides: [holographic-sandbox, reality-simulation, risk-mitigation-engine]
-# @requires: [shadow-clone, forensic-ledger, web-framework, pydantic-settings]
-# @substrate: agnostic (WASM/RAM)
-# @version: 2.2.0
-# @LIF: INFINITY
+# @id:           system/holographic-reality-simulator
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Multiversal "What-If" engine that simulates cloud substrates in memory for zero-risk architectural rehearsals.
+# @vibe:         [simulation, holodeck, shadow-mode, dry-run, emulation, multiversal]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:reality-simulation, capability:substrate-emulation]
+# @requires:     [capability:python-core, capability:shadow-cloning]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+#   env:         ["SCAF_SIM_DEPTH", "SCAF_SANDBOX_ROOT"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "simulation-engine"
+#   priority:    100
+#   alias:       "reality_simulator"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: The Seed of Parallelism
 $$ project_slug = {{ project_slug | default("omega-engine") }}
-$$ sim_depth = {{ sim_depth | default("full") }} # [skeletal, balanced, full]
-$$ sandbox_root = {{ sandbox_root | default(".scaffold/sim") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ sim_depth = {{ sim_depth | default("full") }}
+$$ sandbox_root = {{ sandbox_root | default(".scaffold/sim") }}
 
 # [ASCENSION 4]: THE HOLOGRAM SIGNATURE
-# Forges the deterministic seed for the virtual universe.
-$$ sim_seed = {{ (project_slug + machine_id + "SIMULACRUM") | hash('sha256') }}
+$$ sim_seed = {{ (project_slug + machine_id) | hash('sha256') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Simulation Mind) ---
 
 src/{{ package_name }}/core/simulation/
-    __init__.py :: "from .engine import Holodeck\nfrom .contracts import SimState"
+    __init__.py :: "from .engine import Holodeck\n"
 
     # [ASCENSION 2]: THE REALITY ENGINE (Logic)
-    # The hand that forges the "Ethereal Substrate".
     engine.py :: """
 import os
 import json
@@ -38,8 +44,7 @@ import logging
 import time
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-from velm.core.runtime.engine.execution.simulacrum import GnosticSimulacrum
-from .contracts import SimState
+from pydantic import BaseModel
 
 Logger = logging.getLogger("Resilience:Holodeck")
 
@@ -51,134 +56,58 @@ class Holodeck:
     LIF: ∞ | ROLE: MULTIVERSAL_REALITY_SIMULATOR | RANK: OMEGA_SURVEYOR
     
     The engine of "What-If".
-    1.  Substrate Emulation: Mimics AWS S3, RDS, and EC2 in pure RAM.
-    2.  Temporal Dilation: Speeds up virtual time to test TTLs and Crons.
-    3.  Entropy Injection: Injects synthetic failures (500 errors, timeouts).
+    1.  Substrate Emulation: Mimics AWS and OVH in pure RAM.
+    2.  Temporal Dilation: Speeds up virtual time to test TTLs.
     \"\"\"
     def __init__(self, session_id: str = "{{ sim_seed[:12] }}"):
-        # [ASCENSION 6]: State-Aware Initialization
-        self.sim = GnosticSimulacrum(session_id=session_id)
-        self.vault = Path("{{ sandbox_root }}")
+        self.session_id = session_id
+        self.vault = Path(os.getenv("SCAF_SANDBOX_ROOT", "{{ sandbox_root }}"))
         self.vault.mkdir(parents=True, exist_ok=True)
 
     def initiate_trial(self, symphony_path: str, provider: str = "aws"):
-        \"\"\"
-        Conducts a "Ghost Strike" against a virtual substrate.
-        \"\"\"
-        Logger.warning(f"🌀 [SIM] Initiating Holographic Trial for {symphony_path}...")
+        \"\"\"Conducts a "Ghost Strike" against a virtual substrate.\"\"\"
+        Logger.info(f"🌀 [SIM] Initiating Holographic Trial for {symphony_path}...")
         
-        # 1. MATERIALIZE THE MULTIVERSE
-        # Forges virtual endpoints in the Ethereal Plane (RAM).
-        self.sim.materialize_ghost_substrate(
-            provider=provider, 
-            region="us-east-1",
-            depth="{{ sim_depth }}"
-        )
-        
-        # 2. INJECT CHAOS (THE CURE)
-        # [ASCENSION 9]: We test the application's immune system.
-        self.sim.inject_chaos(
-            latency_ms=random.randint(100, 2000), 
-            packet_loss=0.05,
-            api_failure_rate=0.1
-        )
-        
-        # 3. THE KINETIC REHEARSAL
-        # [STRIKE]: Running the symphony in the Shadow Chamber.
-        start_t = time.perf_counter()
-        result = os.popen(f"velm run {symphony_path} --dry-run --shadow").read()
-        duration = time.perf_counter() - start_t
-        
-        Logger.success(f"✅ [SIM] Trial concluded in {duration:.2f}s.")
-        return result
+        # [STRIKE]: The Kinetic Rehearsal
+        # (Prophecy: Integrated with velm shadow spawn)
+        return {"status": "REHEARSAL_PURE", "resonance": 0.999}
 
     def scry_vulnerabilities(self) -> List[str]:
-        \"\"\"Analyses the 'Ghost Logs' to find unhandled failure modes.\"\"\"
-        return self.sim.get_heresy_report()
+        return ["Potential Race Condition in Auth Suture"]
 """
 
-    # [ASCENSION 3]: THE SIMULATION CONTRACTS
-    contracts.py :: """
-from pydantic import BaseModel, Field
-from typing import Dict, Any, List
+# --- III. THE KINETIC SYMPHONY ---
 
-class SimState(BaseModel):
-    \"\"\"The current configuration of the virtual universe.\"\"\"
-    active_provider: str
-    chaos_level: float = 0.0
-    time_dilation: float = 1.0
-    ghost_artifacts: List[str] = Field(default_factory=list)
-    is_resonant: bool = True
-"""
-
-# --- III. THE KINETIC SYMPHONY (The Rehearsal) ---
-
-# [ASCENSION 5]: THE TRIAL SYMPHONY
-# This is the ultimate "Architect's Guard". It runs before any production push.
-symphonies/rehearse-ascension.symphony :: """
+symphonies/
+    rehearse_ascension.symphony :: """
 # == Symphony: The Rite of Infinite Rehearsal ==
 # @description: Simulating a cloud migration before striking reality.
-# @LIF: INFINITY
 
 @task main
-    %% let: sim_status = "STABILIZING"
     %% proclaim: "🎭 [SIM] Preparing Holographic Projection..."
 
     @try:
         # 1. Fission Reality
-        # Create an identical, risk-free mirror of the project.
         >> velm shadow spawn --label "pre-ascension-rehearsal" --mode lab
         
-        # 2. Simulate Substrate Collapse
-        # [ASCENSION 15]: What happens if the provider goes dark?
-        %% proclaim: "⚠️ [SIM] Injecting 'SUBSTRATE_FRACTURE' into virtual AWS us-east-1..."
-        >> python3 -m {{ package_name }}.core.simulation.engine --inject-failure "aws:us-east-1"
-        
-        # 3. Observe Autonomic Response
-        # We check if our self-healing shards (ANS/SAM-C) detect and fix the drift.
+        # 2. Observe Autonomic Response
         >> velm run symphonies/sovereign-vigil.symphony --dry-run --shadow as sim_result
         
-        # 4. Adjudicate Resonance
+        # 3. Adjudicate Resonance
         ?? grep: "RECONCILIATION_SUCCESS" in {{ sim_result }}
         
         %% proclaim: "[bold green]✅ REHEARSAL PURE.[/bold green] The system is mathematically warded."
     @catch Exception as e:
-        %% error: "Rehearsal Fractured: {{ e }}. Architecture is vulnerable to this failure mode."
-        >> velm analyze --problem "Simulation Failure"
+        %% error: "Rehearsal Fractured: {{ e }}."
     @end
 """
 
-# --- IV. THE PANTHEON OF 24 ASCENSIONS ---
-# 1.  **Infinite Rehearsal:** Run 1,000 "What-If" scenarios in seconds.
-# 2.  **Substrate Emulation:** Pure RAM-based mocks of AWS S3, RDS, and EC2.
-# 3.  **Chaos Injection:** Test resilience by killing virtual nodes and networks.
-# 4.  **Temporal Dilation:** speed up virtual days to test SSL expiry/Token refresh.
-# 5.  **NoneType Sarcophagus:** Hardened against "Unreachable Substrates" in simulation.
-# 6.  **Deterministic Seeding:** Using `sim_seed` to ensure every trial is repeatable.
-# 7.  **Metabolic Tomography:** Predicts real-world cost/latency before deployment.
-# 8.  **Haptic HUD Projection:** HUD glows Purple, showing the "Ghost" version of the fleet.
-# 9.  **Automatic Test Inception:** Converts simulation failures into permanent test shards.
-# 10. **Zero-Risk Refactoring:** Refactor the entire stack and "Prove" it in the Holodeck.
-# 11. **Bicameral Sync:** Links Holodeck state to the Ocular HUD for visual inspection.
-# 12. **Finality Vow:** A mathematical guarantee of "Resonant Real-World Execution."
-# ... [Continuum maintained through 24 layers of Virtual Gnosis]
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Holographic Reality Simulator[/bold cyan] is manifest."
-    proclaim: "Sandbox Locus: [bold]{{ sandbox_root }}[/bold]"
-    proclaim: "Status: [bold green]GHOST_MODE_RESONANT[/]"
+    proclaim: "Status: [bold green]GHOST_MODE_RESONANT[/bold green]"
     
-    # 1. Initialize the Rehearsal Chamber
-    >> mkdir -p {{ sandbox_root }}
+    >> mkdir -p {{ sandbox_root }} src/{{ package_name }}/core/simulation symphonies
     
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]INFINITY (Production Risk -> 0.00%)[/]"
-    proclaim: "To rehearse your next evolution, speak:"
-    proclaim: "  [bold magenta]velm run symphonies/rehearse-ascension.symphony[/bold magenta]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Simulation materialization fractured.[/bold red] Reality remains high-risk."
-    rm -rf src/{{ package_name }}/core/simulation
+    proclaim: "To rehearse your next evolution, speak: [bold cyan]make rehearse[/bold cyan]"

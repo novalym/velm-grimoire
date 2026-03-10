@@ -1,20 +1,27 @@
 # ==============================================================================
-# == GNOSTIC SHARD: LOGIC TRACE ALCHEMIST (V-Ω-TOTALITY-V2.1-DEBUGGER)        ==
+# == GNOSTIC DNA SHARD: velm-core/logic-trace-alchemist
 # ==============================================================================
-# @description: Materializes the "Provenance Stratum". Injects forensic trace 
-#               headers into all forged scriptures, chronicling the logic gates 
-#               and variables used in their alchemical creation.
-# @category: Velm-Core / Forensics
-# @vibe: debugging, transparency, logic-trace, provenance, audit, forensics
-# @provides: [forensic-trace-service, provenance-authority, debug-scribe]
-# @requires: [alchemical-reactor, achronal-clock, python-core]
-# @substrate: cross-platform (Isomorphic Comments)
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           velm-core/logic-trace-alchemist
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Intercepts physical write intents to inject Trace IDs and Merkle data as comments into generated files.
+# @vibe:         [tracing, provenance, comments, metadata, debugging, alchemist]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:trace-decorator, capability:file-provenance]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      []
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "trace-decorator"
+#   priority:    0
+#   alias:       "trace_alchemist"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Achronal Variable Anchoring
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ enable_trace_in_prod = {{ prod_trace | default(false) }}
 $$ trace_sigil = "Ω_GNOSTIC_TRACE"
@@ -24,29 +31,21 @@ $$ trace_sigil = "Ω_GNOSTIC_TRACE"
 src/{{ package_name }}/core/alchemist/
     __init__.py :: "from .trace_decorator import trace_materialization"
 
-    # [ASCENSION 2]: THE TRACE DECORATOR (Logic)
-    # Intercepts the physical write intent and sutures the metadata soul.
     trace_decorator.py :: """
 import os
 import time
 import platform
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 
 class TraceAlchemist:
     \"\"\"
     =============================================================================
-    == THE TRACE DECORATOR (V-Ω-TOTALITY)                                     ==
+    == THE TRACE DECORATOR (V-Ω-TOTALITY)                                      ==
     =============================================================================
     LIF: ∞ | ROLE: PROVENANCE_RECORDER | RANK: OMEGA
-    
-    The hand that inscripts the 'Why' into the 'Matter'.
-    1.  Substrate Detection: Maps comment sigils to file dialects.
-    2.  Entropy Sieve: Redacts high-entropy secrets from the trace.
-    3.  Achronal Stamping: Injects the Trace-ID and Blueprint Locus.
     \"\"\"
     
-    # [ASCENSION 5]: THE SIGIL MATRIX
     SIGIL_MAP = {
         '.py': '#', '.sh': '#', '.rb': '#', '.yaml': '#', '.yml': '#', '.toml': '#',
         '.js': '//', '.ts': '//', '.tsx': '//', '.jsx': '//', '.go': '//', 
@@ -56,7 +55,6 @@ class TraceAlchemist:
 
     @classmethod
     def apply_trace(cls, content: str, path: Path, context: Dict[str, Any]) -> str:
-        # [THE CURE]: Skip if in Production unless explicitly willed
         is_dev = os.getenv("SCAFFOLD_ENV") == "development"
         if not is_dev and not {{ enable_trace_in_prod | lower }}:
             return content
@@ -65,24 +63,21 @@ class TraceAlchemist:
         sigil = cls.SIGIL_MAP.get(ext, '#')
         
         # [ASCENSION 23]: THE ENTROPY SIEVE
-        # We surgically remove variables that smell like secrets before tracing.
         safe_ctx = {
             k: v for k, v in context.items() 
             if not any(s in k.lower() for s in ['key', 'secret', 'token', 'pass', 'auth'])
-            and not str(k).startswith('_') # Hide internal engine vars
+            and not str(k).startswith('_')
         }
 
         timestamp = time.strftime("%Y-%m-%d %H:%M:%S %Z")
         trace_id = context.get('trace_id', 'tr-local-void')
         
-        # --- THE SCRIPTURE OF PROVENANCE ---
         header = [
             f"{sigil} =============================================================",
             f"{sigil} == {{ trace_sigil }}: {path.name} ",
             f"{sigil} == TRACE_ID: {trace_id}",
             f"{sigil} == FORGED_AT: {timestamp}",
-            f"{sigil} == SUBSTRATE: {platform.node()} ({platform.system()})",
-            f"{sigil} == ",
+            f"{sigil} == SUBSTRATE: {platform.node()}",
             f"{sigil} == [ALCHEMICAL CONTEXT]:",
         ]
         
@@ -91,7 +86,6 @@ class TraceAlchemist:
             
         header.append(f"{sigil} =============================================================\\n")
         
-        # Handle specific multi-line comment terminators
         if sigil == '<!--':
             header = [line.replace('<!--', '  ') for line in header]
             header[0] = '<!--'
@@ -101,43 +95,21 @@ class TraceAlchemist:
             header[0] = '/**'
             header[-1] = ' */\\n'
 
-        return \"\\n\".join(header) + content
+        return "\\n".join(header) + content
 
 def trace_materialization(content: str, path: Path, context: Dict[str, Any]) -> str:
     return TraceAlchemist.apply_trace(content, path, context)
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: Direct Integration into the Alchemist's Heart
-@if {{ is_python }}
-    # We suture the decorator into the GnosticWriter's pipeline
-    # (Prophecy: This assumes the engine looks for 'trace_materialization')
-@endif
-
-# --- IV. THE CONTROL PLANE ---
-# [ASCENSION 9]: Global Conductor Integration
+# --- III. THE CONTROL PLANE ---
 Makefile += """
 # --- ALCHEMICAL RITES ---
 scry-origin: ## scry the gnostic trace of a specific file
     @grep -A 20 "{{ trace_sigil }}" $(file) || echo "❌ No Gnostic Trace manifest in $(file)."
 """
 
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Logic Trace Alchemist[/bold cyan] is manifest."
-    proclaim: "Trace Engine: [white]src/{{ package_name }}/core/alchemist/trace_decorator.py[/]"
-    proclaim: "Sigil: [bold magenta]{{ trace_sigil }}[/]"
-    
-    # 1. Initialize the Alchemical Sanctum
-    proclaim: "Initializing Provenance Layer..."
     >> mkdir -p src/{{ package_name }}/core/alchemist
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Debugging Confusion -> 0)[/]"
-    proclaim: "[bold green]Every forged scripture now remembers its own birth.[/bold green]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Trace Alchemist materialization fractured.[/bold red] Provenance is lost."
-    rm -rf src/{{ package_name }}/core/alchemist

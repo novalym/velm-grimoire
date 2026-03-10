@@ -1,16 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: DOCKER-BASIC (V-Ω-TOTALITY-V2.1)                          ==
+# == GNOSTIC DNA SHARD: cloud/docker-basic
 # ==============================================================================
-# @description: A foundational, high-performance containerization shard. Forges 
-#               a PID-1 warded Dockerfile and a local-mesh docker-compose.yml 
-#               with a Redis caching spine.
-# @category: Cloud / Substrate
-# @vibe: docker, compose, container, local-dev, redis, basic
-# @provides: [containerized-substrate, local-cache-mesh]
-# @requires: [docker-engine]
-# @substrate: docker
-# @version: 2.1.0-Ω
-# @LIF: 1,000x
+# @id:           cloud/docker-basic
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Lightweight, Tini-warded Docker containerization for immediate local development.
+# @vibe:         [docker, local-dev, tini, containers, fast, basic]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:docker-basic, capability:container-orchestration]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["API_PORT", "PYTHON_VERSION"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "app": {"build": "."}, "cache": {"image": "redis:7-alpine"} } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-compose"
+#   priority:    950
+#   alias:       "docker_basic"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -94,6 +103,8 @@ networks:
 .coverage
 .scaffold/
 scaffold.lock
+*.scaffold
+*.symphony
 .env
 venv/
 node_modules/

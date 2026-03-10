@@ -1,16 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: NEURAL MESH TUNNEL (V-Ω-TOTALITY-VMAX)                    ==
+# == GNOSTIC DNA SHARD: cloud/neural-mesh-tunnel
 # ==============================================================================
-# @description: A Zero-Trust WireGuard wormhole powered by Tailscale. Isolates 
-#               internal infrastructure from the public internet, requiring 
-#               cryptographic identity to access databases and internal APIs.
-# @category: Cloud / Security
-# @vibe: tailscale, wireguard, vpn, zero-trust, dark-ingress, security
-# @provides: [zero-trust-network, wireguard-tunnel, private-mesh]
-# @requires: [docker-engine]
-# @substrate: docker-compose
-# @version: 3.1.0-Ω
-# @LIF: INFINITY
+# @id:           cloud/neural-mesh-tunnel
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Zero-trust overlay VPN using Tailscale for dark ingress and secure inter-node communication.
+# @vibe:         [tailscale, vpn, zero-trust, wireguard, mesh, dark-ingress, security]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:mesh-vpn, capability:dark-ingress]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   env:         ["TS_AUTHKEY"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "mesh_gateway": { "image": "tailscale/tailscale:latest" } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-compose"
+#   priority:    800
+#   alias:       "tailscale_mesh"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -31,7 +40,7 @@ services:
     container_name: {{ node_hostname }}-gateway
     hostname: {{ node_hostname }}
     environment:
-      - TS_AUTHKEY={{ mesh_auth_key }}
+      - TS_AUTHKEY=${TS_AUTHKEY:-{{ mesh_auth_key }}}
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
       # [ASCENSION 2]: Subnet Routing
@@ -53,13 +62,14 @@ networks:
 
 volumes:
   mesh_state:
-    """
+"""
 
     # [ASCENSION 3]: THE JURISPRUDENCE POLICY (ACLs)
+    # This is a template for the Tailscale Admin Console.
     access-policy.json :: """
 {
   "groups": {
-    "group:architects": ["{{ author_email | default('admin@novalym.systems') }}"]
+    "group:architects": ["admin@novalym.systems"]
   },
   "tagOwners": {
     "tag:prod-iron": ["group:architects"]
@@ -78,7 +88,7 @@ volumes:
     }
   ]
 }
-    """
+"""
 
 # --- III. THE SURGICAL WEAVE ---
 Makefile += """
@@ -93,6 +103,9 @@ mesh-down: ## seal the wormhole
 
 # --- IV. THE MAESTRO'S WILL ---
 %% post-run
+    # Inject the key into the local vault
+    >> echo "TS_AUTHKEY={{ mesh_auth_key }}" >> .env
+    
     proclaim: "The [bold cyan]Neural Mesh Tunnel[/] is manifest."
     proclaim: "Security Status: [bold green]ZERO-TRUST (Dark Ingress)[/]"
     proclaim: "Private Coordinate: [bold]{{ node_hostname }}.tailnet[/]"

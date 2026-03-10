@@ -1,20 +1,27 @@
 # ==============================================================================
-# == GNOSTIC SHARD: COGNITIVE CRUCIBLE (V-Ω-TOTALITY-V2.1-EVALS)              ==
+# == GNOSTIC DNA SHARD: intelligence/cognitive-crucible
 # ==============================================================================
-# @description: Materializes an advanced AI evaluation framework. Uses 
-#               'LLM-as-a-Judge' to adjudicate relevance, tone, and accuracy, 
-#               enforcing a cognitive quality-gate in the CI/CD pipeline.
-# @category: Intelligence / Quality
-# @vibe: intelligence, eval, quality-gate, llm-judge, forensics, regression, test
-# @provides: [cognitive-adjudicator, ai-eval-framework, wisdom-oracle]
-# @requires: [neural-cortex, testing-framework, pydantic-models, openai-client]
-# @substrate: python (Pytest-Native)
-# @version: 2.1.0-Ω
-# @LIF: 1,000,000x
+# @id:           intelligence/cognitive-crucible
+# @version:      3.0.0
+# @tier:         test
+# @summary:      LLM-as-a-Judge evaluation framework for validating AI logic and preventing regressions.
+# @vibe:         [evals, testing, llm-as-judge, cognitive, crucible, ai-testing, pytest]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:ai-evaluation, capability:cognitive-testing]
+# @requires:     [capability:neural-cortex, capability:testing-framework]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pytest>=8.0.0", "openai>=1.12.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "cognitive-evaluator"
+#   priority:    800
+#   alias:       "cognitive_crucible"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
 $$ judge_model = {{ judge_model | default("gpt-4o") }}
 $$ quality_threshold = {{ min_score | default(0.85) }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
@@ -44,9 +51,10 @@ class WisdomVerdict(BaseModel):
     # This artisan summons the high-mass model to judge the lower-mass model.
     judge.py :: """
 import json
+import asyncio
 import logging
 from .contracts import WisdomVerdict
-from src.{{ package_name }}.core.ai.gateway import neural_gateway # Linked to Strike 11
+from src.{{ package_name }}.core.ai.gateway import neural_gateway 
 
 Logger = logging.getLogger("Crucible:Judge")
 
@@ -65,7 +73,7 @@ class CognitiveInquisitor:
     def __init__(self, model: str = "{{ judge_model }}"):
         self.model = model
 
-    def adjudicate(self, prompt: str, output: str, criteria: str) -> WisdomVerdict:
+    async def adjudicate(self, prompt: str, output: str, criteria: str) -> WisdomVerdict:
         \"\"\"Conducts the Rite of Judgment.\"\"\"
         
         system_instruction = \"\"\"
@@ -87,14 +95,12 @@ class CognitiveInquisitor:
         [EXPECTED_CRITERIA]: {criteria}
         \"\"\"
 
-        # [STRIKE]: Calling the Neural Gateway (Strike 11)
-        response = neural_gateway.invoke(
-            messages=[
-                {"role": "system", "content": system_instruction},
-                {"role": "user", "content": user_plea}
-            ],
-            model=self.model,
-            json_mode=True
+        # [STRIKE]: Calling the Neural Gateway
+        # Using structured JSON mode
+        response = await neural_gateway.think(
+            system=system_instruction,
+            prompt=user_plea,
+            model=self.model
         )
 
         return WisdomVerdict.model_validate_json(response.content)
@@ -122,29 +128,27 @@ import json
 from pathlib import Path
 from .judge import CognitiveInquisitor
 
-# [THE CURE]: Import the Mind being tested
-# from src.{{ package_name }}.core.ai.agent import agent_mind
-
 def load_golden_set():
     path = Path(__file__).parent / "golden_dataset.json"
     return json.loads(path.read_text())
 
+@pytest.mark.asyncio
 @pytest.mark.eval
 @pytest.mark.parametrize("case", load_golden_set())
-def test_cognitive_resonance(case):
+async def test_cognitive_resonance(case):
     \"\"\"
     =============================================================================
-    == THE TRIAL OF RESONANCE                                                 ==
+    == THE TRIAL OF RESONANCE                                                  ==
     =============================================================================
     \"\"\"
     inquisitor = CognitiveInquisitor()
     
     # 1. GENERATION (The Strike)
-    # actual_output = agent_mind.think(case['input'])
+    # actual_output = await agent_mind.think(case['input'])
     actual_output = "Mock revelation: use 'velm weave' for shards."
     
     # 2. ADJUDICATION (The Verdict)
-    verdict = inquisitor.adjudicate(
+    verdict = await inquisitor.adjudicate(
         prompt=case['input'], 
         output=actual_output, 
         criteria=case['criteria']
@@ -157,39 +161,23 @@ def test_cognitive_resonance(case):
 """
 
 # --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: High-Status Automatic Integration
-@if {{ is_python }}
-    # Update Pytest config to handle slow eval markers
-    pytest.ini += """
+# Update Pytest config to handle slow eval markers
+pytest.ini += """
 [pytest]
 markers =
     eval: marks tests as heavy cognitive evaluations (requires API credits)
 """
 
-    # Dependency Inception
-    pyproject.toml += """
-pytest = "^8.0.0"
-openai = "^1.12.0"
-"""
-@endif
-
 # --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Cognitive Crucible[/bold cyan] is manifest in 'tests/evals/'."
     proclaim: "Adjudicator Locus: [white]tests/evals/judge.py[/]"
     proclaim: "Quality Floor: [bold yellow]{{ quality_threshold }}[/]"
     
-    # 1. Initialize the Intelligence Lab
-    proclaim: "Materializing the Inquisition Lab..."
-    >> mkdir -p tests/evals
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Hallucination Risk -> 0)[/]"
     proclaim: "[bold green]The Mind is now self-adjudicating. Quality is Law.[/bold green]"
-    proclaim: "To conduct the Inquisition: [bold magenta]pytest tests/evals -m eval[/bold magenta]"
+    proclaim: "To conduct the Inquisition: [bold magenta]poetry run pytest tests/evals -m eval[/bold magenta]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
     proclaim: "[bold red]Crucible inception fractured.[/bold red] Quality remains probabilistic."
-    rm -rf tests/evals
+    >> rm -rf tests/evals

@@ -1,21 +1,29 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ALCHEMICAL-REACTOR (V-Ω-TOTALITY-V5000-HEALED-FINALIS)    ==
+# == GNOSTIC DNA SHARD: system/alchemical-reactor
 # ==============================================================================
-# @description: The definitive string transmutation engine. Materializes the 
-#               Jinja2-powered Alchemical Reactor, enabling runtime template 
-#               evaluation, variable substitution, and meta-programming.
-# @category: System / Logic
-# @vibe: jinja2, alchemist, transmutation, dynamic-code, templates, logic-forge, meta-programming
-# @provides: [alchemical-reactor, gnostic-templater, transmutation-authority]
-# @requires: [python-core, pydantic-v2]
-# @substrate: python
-# @version: 5.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/alchemical-reactor
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      The core Jinja2-powered alchemical engine that transmutates Gnostic Scripture into Physical Matter.
+# @vibe:         [alchemy, jinja2, transmutation, templates, core, engine]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:matter-transmuter, capability:alchemical-hub]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["jinja2>=3.1.3", "pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "core-engine-component"
+#   priority:    0
+#   alias:       "alchemical_reactor"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-core") }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
-$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Transmutation Mind) ---
 
@@ -23,17 +31,13 @@ src/{{ package_name }}/core/alchemy/
     __init__.py :: "from .reactor import DivineAlchemist, transmutation_hub, TransmutationResult\n"
 
     # [ASCENSION 1]: THE DIVINE ALCHEMIST
-    # This artisan forges the link between Template (Will) and String (Matter).
     reactor.py :: """
 import logging
 import re
 import time
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 from jinja2 import Environment, BaseLoader, select_autoescape, TemplateSyntaxError, StrictUndefined
-from pydantic import BaseModel, Field
-
-# [PROVENANCE]: Forged via system/alchemical-reactor.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
+from pydantic import BaseModel
 
 Logger = logging.getLogger("Alchemy:Reactor")
 
@@ -51,11 +55,9 @@ class DivineAlchemist:
     =============================================================================
     LIF: ∞ | ROLE: MATTER_TRANSMUTER | RANK: OMEGA
     
-    [ASCENSIONS]:
     1. Achronal Evaluation: Transmutes strings in memory with 0ms disk tax.
     2. Strict Variable Ward: Fails closed if undefined variables are perceived.
     3. Custom Filter Suture: Supports 'snake', 'pascal', and 'slug' filters.
-    4. NoneType Sarcophagus: Gracefully handles void inputs.
     \"\"\"
     def __init__(self, strict: bool = True):
         self.env = Environment(
@@ -89,80 +91,18 @@ class DivineAlchemist:
 
     def _register_standard_filters(self):
         \"\"\"[ASCENSION 3]: Injects the UCL standard filters.\"\"\"
-        self.env.filters[\"snake\"] = lambda s: str(s).lower().replace(\"-\", \"_\").replace(\" \", \"_\")
-        self.env.filters[\"slug\"] = lambda s: str(s).lower().replace(\"_\", \"-\").replace(\" \", \"-\")
-        self.env.filters[\"pascal\"] = lambda s: \"\".join(x.title() for x in re.split(r'[^a-zA-Z0-9]', str(s)))
+        self.env.filters["snake"] = lambda s: str(s).lower().replace("-", "_").replace(" ", "_")
+        self.env.filters["slug"] = lambda s: str(s).lower().replace("_", "-").replace(" ", "-")
+        self.env.filters["pascal"] = lambda s: "".join(x.title() for x in re.split(r'[^a-zA-Z0-9]', str(s)))
 
 # Global Singleton
 transmutation_hub = DivineAlchemist()
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
-# =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
-@if {{ not file_exists('pyproject.toml') }}:
-pyproject.toml :: """
-[project]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = [{name = "The Architect"}]
-readme = "README.md"
-dependencies = [
-    "jinja2>=3.1.3",
-]
-
-[tool.poetry]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = ["The Architect"]
-packages = [{include = "{{ package_name }}", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^{{ python_version }}"
-jinja2 = "^3.1.3"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-"""
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject jinja2 exactly where 
-# the Laws of TOML demand, warded by an idempotency check.
-
-# 1. Target Legacy Poetry Blocks
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*jinja2))/$1\njinja2 = \"^3.1.3\"/g"
-
-# 2. Target Modern PEP 621 Blocks
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*jinja2))/$1\n    \"jinja2>=3.1.3\",/g"
-@endif
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Alchemical Reactor[/] is manifest."
-    proclaim: "Reactor Locus: [white]core/alchemy/reactor.py[/]"
+    proclaim: "Reactor Locus: [white]src/{{ package_name }}/core/alchemy/reactor.py[/]"
     
-    # 1. Dependency Synchronization
-    @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
-        >> poetry add jinja2
-    @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
-        >> pip install jinja2
-    @endif
-    ?? succeeds
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Static Code -> Fluid Gnosis)[/]"
     proclaim: "[bold green]✅ The Reactor is Waked.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Reactor materialization fractured.[/bold red]"
-    rm -rf src/{{ package_name }}/core/alchemy

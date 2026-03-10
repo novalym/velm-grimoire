@@ -1,28 +1,38 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ANSIBLE CITADEL (V-Ω-TOTALITY-V2.5-AUTOMATION)            ==
+# == GNOSTIC DNA SHARD: automation/ansible-citadel
 # ==============================================================================
-# @description: Materializes a production-grade Ansible fortress for declarative 
-#               server orchestration. Features role-based architecture, 
-#               dynamic inventories, and secure Gnostic Vault management.
-# @category: Automation / DevOps
-# @vibe: ansible, devops, iac, orchestration, playbooks, hardening, configuration
-# @provides: [server-configuration-authority, ansible-orchestration, infra-gov]
-# @requires: [python-core, ssh-access, pydantic-settings, maestro-control]
-# @substrate: iron (Linux / POSIX)
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           automation/ansible-citadel
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Declarative fleet orchestration and configuration management via Ansible.
+# @vibe:         [ansible, fleet, orchestration, configuration, iron, citadel]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:fleet-orchestration]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["ansible>=8.0.0"]
+#   apt:         ["curl", "git", "ufw", "htop"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "automation-script"
+#   priority:    800
+#   alias:       "ansible_citadel"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: Causal Variable Anchoring
 $$ project_name = {{ project_name | default("ansible-citadel") }}
+$$ project_slug = {{ project_name | slug }}
 $$ author = {{ author | default("The Architect") }}
 $$ default_user = {{ remote_user | default("ansible") }}
 $$ vault_pass = "{{ crypto.random(32) }}"
 
 # --- II. THE SCRIPTURE OF FORM (The Fortress Structure) ---
 
-{{ project_name }}/
+{{ project_slug }}/
     # [ASCENSION 2]: THE KERNEL CONFIGURATION
     # Wards the local environment and defines the laws of communion.
     .gitignore :: """
@@ -99,7 +109,7 @@ all:
     group_vars/all/
         main.yml :: """
 # --- Global Gnosis ---
-project_name: "{{ project_name }}"
+project_name: "{{ project_slug }}"
 architect: "{{ author }}"
 firewall_allowed_ports: [22, 80, 443]
 """
@@ -146,7 +156,7 @@ api_key: "REPLACE_ME_IN_VAULT"
 
     # [ASCENSION 11]: THE ARCHITECT'S MANIFESTO
     README.md :: """
-# 🏰 {{ project_name | title }} - Ansible Citadel
+# 🏰 {{ project_title | default(project_slug) }} - Ansible Citadel
 
 > "Iron follows Intent. Configuration is Law."
 
@@ -160,33 +170,33 @@ This fortress orchestrates your server fleet with declarative precision.
 ### 🛡️ Security Stratum
 - Secrets warded via **Ansible Vault**.
 - Foundational hardening waked via the `hardening` role.
-- All rites warded by the **Lazarus Lifecycle Guardian** (Turn 26).
+- All rites warded by the **Lazarus Lifecycle Guardian**.
 """
 
 # --- III. THE MAESTRO'S WILL (Rites of Ignition) ---
 # [ASCENSION 12]: Cinematic Guidance
 %% post-run
     proclaim: "The [bold cyan]Ansible Citadel[/bold cyan] is manifest."
-    proclaim: "Fortress Locus: [white]{{ project_name }}/[/]"
+    proclaim: "Fortress Locus: [white]{{ project_slug }}/[/]"
     
     # 1. Initialize the Chronicle
-    @if {{ use_git | lower == "true" }} -> git init
+    @if {{ use_git | lower == "true" }} -> >> git init
     
     # 2. Forge the Vault Secret
     proclaim: "Phase I: Forging the Gnostic Vault Password..."
-    >> echo "{{ vault_pass }}" > {{ project_name }}/vault.password
+    >> echo "{{ vault_pass }}" > {{ project_slug }}/vault.password
     
-    # 3. Encrypt the initial vault
+    # 3. Encrypt the initial vault (Ansible is now autonomicly installed by the Metabolic Aggregator)
     proclaim: "Phase II: Sealing the initial Gnosis..."
-    >> pip install ansible --user
-    >> ansible-vault encrypt {{ project_name }}/group_vars/all/vault.yml --vault-password-file {{ project_name }}/vault.password
+    >> ansible-vault encrypt {{ project_slug }}/group_vars/all/vault.yml --vault-password-file {{ project_slug }}/vault.password
+    ?? succeeds
     
     # 4. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Configuration Drift -> 0)[/]"
     proclaim: "[bold green]✅ The Fortress is Waked.[/bold green]"
-    proclaim: "To begin orchestration: [bold cyan]cd {{ project_name }} && make help[/bold cyan]"
+    proclaim: "To begin orchestration: [bold cyan]cd {{ project_slug }} && make help[/bold cyan]"
 
 %% on-heresy
     # [ASCENSION 24]: Transactional Purgation
     proclaim: "[bold red]Citadel materialization fractured.[/bold red] Reality remains unmanaged."
-    rm -rf {{ project_name }}/
+    >> rm -rf {{ project_slug }}/

@@ -1,20 +1,27 @@
 # ==============================================================================
-# == GNOSTIC SHARD: SECURITY ANALYST AGENT (V-Ω-TOTALITY-V2.5-INQUISITOR)     ==
+# == GNOSTIC DNA SHARD: intelligence/security-analyst
 # ==============================================================================
-# @description: Materializes the "Inquisitor"—a PydanticAI-powered autonomous 
-#               security agent. Performs deep-tissue logic auditing, heresy 
-#               detection, and generates structured forensic reports.
-# @category: Intelligence / Security
-# @vibe: agent, auditor, pydantic-ai, forensics, heresy, inquisitor, logic-scan
-# @provides: [security-agent, code-inquisitor, forensic-analyst-service]
-# @requires: [pydantic-ai, neural-nexus, forensic-ledger, project-mri]
-# @substrate: python (Neuromorphic)
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           intelligence/security-analyst
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      Pydantic-AI agent acting as a forensic inquisitor for deep code vulnerability scanning.
+# @vibe:         [agent, security, forensic, pydantic-ai, llm, vulnerability-scanner, analysis]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:security-agent, capability:forensic-analysis]
+# @requires:     [capability:neural-cortex, capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic-ai>=0.0.18", "logfire>=0.42.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "agent-registration"
+#   priority:    500
+#   alias:       "security_analyst"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Agency Configuration DNA
 $$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ agent_model = {{ model | default("gpt-4o") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
@@ -25,10 +32,9 @@ src/{{ package_name }}/intelligence/agents/
     __init__.py :: "from .forensic_analyst import security_analyst\nfrom .contracts import ForensicReport"
 
     # [ASCENSION 3]: THE GNOSTIC CONTRACTS
-    # Defines the structure of a discovered architectural sin.
     contracts.py :: """
 from pydantic import BaseModel, Field
-from typing import List, Optional, Literal
+from typing import Optional, Literal
 
 class ForensicReport(BaseModel):
     \"\"\"The structured soul of a discovered logic fracture.\"\"\"
@@ -41,17 +47,14 @@ class ForensicReport(BaseModel):
 """
 
     # [ASCENSION 2]: THE NEUROMORPHIC AGENT (The Mind)
-    # The hand that scries the iron for logic-gaps.
     forensic_analyst.py :: """
 import logging
 from pydantic_ai import Agent, RunContext
 from .contracts import ForensicReport
-from ...core.ai.gateway import mind_bridge # Linked to Strike 11
 
 Logger = logging.getLogger("Intelligence:Inquisitor")
 
 # [ASCENSION 4]: THE SOVEREIGN AGENT INCEPTION
-# This agent is waked and warded by the PydanticAI strategy.
 # @scaffold:agent(model="{{ agent_model }}", group="security_swarm")
 security_analyst = Agent(
     "openai:{{ agent_model }}",
@@ -86,39 +89,18 @@ def scry_causality(ctx: RunContext[None], symbol: str) -> str:
     [ASCENSION 20]: Topological Perception.
     Allows the Inquisitor to scry the Causal Web (Dependency Graph).
     \"\"\"
-    # [STRIKE]: Cross-shard communion with the Architectural MRI
     return f"Oracle: Symbol '{symbol}' is a central node warded by 12 dependents."
 """
 
-# --- III. THE SURGICAL WEAVE ---
-# [ASCENSION 12]: Dependency Inception
-@if {{ is_python }}
-    pyproject.toml += """
-pydantic-ai = "^0.0.18"
-logfire = {version = "^0.42.0", optional = true}
-"""
-@endif
-
-# --- IV. THE MAESTRO'S WILL ---
-# [ASCENSION 12]: Cinematic Guidance
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Security Analyst Agent[/bold cyan] is manifest."
     proclaim: "Inquisitor Locus: [white]src/{{ package_name }}/intelligence/agents/forensic_analyst.py[/]"
     proclaim: "Model Stratum: [bold yellow]{{ agent_model }}[/]"
     
-    # 1. Initialize the Intelligence Sanctum
-    proclaim: "Materializing Agentic Substrate..."
-    >> mkdir -p src/{{ package_name }}/intelligence/agents
-    
-    # 2. Dependency Suture
-    proclaim: "Summoning Neuromorphic Artisans... (pydantic-ai)"
-    >> poetry add pydantic-ai
-    ?? succeeds
-
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Security Blindspots -> 0)[/]"
     proclaim: "[bold green]The Inquisitor is waked. Your logic is now warded by an active Mind.[/bold green]"
 
 %% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
     proclaim: "[bold red]Agent materialization fractured.[/bold red] Perimeter remains blind."
-    rm -rf src/{{ package_name }}/intelligence/agents
+    >> rm -rf src/{{ package_name }}/intelligence/agents

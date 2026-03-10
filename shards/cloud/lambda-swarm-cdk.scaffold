@@ -1,28 +1,38 @@
 # ==============================================================================
-# == GNOSTIC SHARD: LAMBDA SWARM (V-Ω-CDK-TOTALITY)                           ==
+# == GNOSTIC DNA SHARD: cloud/lambda-swarm-cdk
 # ==============================================================================
-# @description: A scalable Serverless Compute Fortress. Defines a multi-function 
-#               environment, S3 event triggers, and API Gateway using 
-#               TypeScript-native Infrastructure-as-Code (AWS CDK).
-# @category: Cloud / Serverless
-# @vibe: aws, lambda, serverless, cdk, typescript, s3, api-gateway, event-driven
-# @provides: [lambda-compute-swarm, event-bridge-bus, api-gateway-ingress]
-# @requires: [node-environment, aws-cdk-cli]
-# @substrate: aws-cdk / typescript
-# @version: 3.5.0-Ω
-# @LIF: INFINITY
+# @id:           cloud/lambda-swarm-cdk
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      AWS CDK TypeScript stack deploying a scalable API Gateway + Lambda swarm with S3 event triggers.
+# @vibe:         [aws, cdk, serverless, lambda, api-gateway, typescript, events, swarm]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:serverless-compute, capability:aws-cdk]
+# @requires:     [capability:aws-credentials]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   node:        ["aws-cdk-lib>=2.127.0", "constructs>=10.3.0", "typescript>=5.3.3", "ts-node>=10.9.2"]
+#   env:         ["AWS_REGION"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-cdk"
+#   priority:    920
+#   alias:       "lambda_swarm"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-$$ swarm_name = {{ swarm_name | default("lambda-swarm") }}
+$$ project_slug = {{ project_slug | default("lambda-swarm") }}
 $$ aws_region = {{ aws_region | default("us-east-1") }}
 $$ runtime_node = "NODEJS_20_X"
-$$ swarm_slug = {{ swarm_name | slug }}
+$$ package_name = {{ package_name | default(project_slug | snake) }}
 
 # --- II. THE SCRIPTURE OF FORM ---
 
 # [ASCENSION 1]: The Abyssal Filter
 .gitignore += """
+# --- CDK Abyss ---
 infra/serverless/node_modules/
 infra/serverless/cdk.out/
 infra/serverless/dist/
@@ -31,47 +41,47 @@ infra/serverless/dist/
 infra/serverless/
     # [ASCENSION 2]: ISOLATED CDK ENVIRONMENT
     package.json :: """
-    {
-      "name": "{{ swarm_slug }}-cdk",
-      "version": "1.0.0",
-      "private": true,
-      "scripts": {
-        "build": "tsc",
-        "synth": "npm run build && cdk synth",
-        "deploy": "npm run build && cdk deploy",
-        "destroy": "npm run build && cdk destroy"
-      },
-      "dependencies": {
-        "aws-cdk-lib": "2.127.0",
-        "constructs": "10.3.0",
-        "source-map-support": "^0.5.21"
-      },
-      "devDependencies": {
-        "@types/node": "^20.11.24",
-        "typescript": "^5.3.3",
-        "ts-node": "^10.9.2",
-        "aws-cdk": "2.127.0"
-      }
-    }
+{
+  "name": "{{ project_slug }}-cdk",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "synth": "npm run build && cdk synth",
+    "deploy": "npm run build && cdk deploy",
+    "destroy": "npm run build && cdk destroy"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "2.127.0",
+    "constructs": "10.3.0",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "aws-cdk": "2.127.0"
+  }
+}
     """
 
     tsconfig.json :: """
-    {
-      "compilerOptions": {
-        "target": "ES2020", "module": "commonjs", "lib": ["es2020"],
-        "strict": true, "esModuleInterop": true, "skipLibCheck": true,
-        "outDir": "dist", "rootDir": "."
-      },
-      "include": ["lib", "bin", "src"], "exclude": ["node_modules"]
-    }
+{
+  "compilerOptions": {
+    "target": "ES2020", "module": "commonjs", "lib": ["es2020"],
+    "strict": true, "esModuleInterop": true, "skipLibCheck": true,
+    "outDir": "dist", "rootDir": "."
+  },
+  "include": ["lib", "bin", "src"], "exclude": ["node_modules"]
+}
     """
         
     cdk.json :: """
-    {
-      "app": "npx ts-node --prefer-ts-exts bin/swarm-stack.ts",
-      "watch": { "include": ["**/*.ts"], "exclude": ["node_modules"] },
-      "context": { "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true }
-    }
+{
+  "app": "npx ts-node --prefer-ts-exts bin/swarm-stack.ts",
+  "watch": { "include": ["**/*.ts"], "exclude": ["node_modules"] },
+  "context": { "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true }
+}
     """
 
     # [ASCENSION 3]: THE INFRASTRUCTURE AS CODE (CDK)
@@ -84,13 +94,13 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import { Construct } from 'constructs';
 
-export class {{ swarm_slug | pascal }}Stack extends cdk.Stack {
+export class {{ project_slug | pascal }}Stack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     // 1. Gnostic S3 Archive (Event Source)
     const archiveBucket = new s3.Bucket(this, 'ArchiveBucket', {
-        bucketName: `{{ swarm_slug }}-archive-${this.region}-${this.account}`,
+        bucketName: `{{ project_slug }}-archive-${this.region}-${this.account}`,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
         autoDeleteObjects: true,
     });
@@ -99,7 +109,7 @@ export class {{ swarm_slug | pascal }}Stack extends cdk.Stack {
     const sharedProps = {
         runtime: lambda.Runtime.{{ runtime_node }},
         timeout: cdk.Duration.seconds(10),
-        tracing: lambda.Tracing.ACTIVE,
+        tracing: lambda.Tracing.ACTIVE, // X-Ray Trace Integration
         environment: {
             NODE_ENV: 'production',
             BUCKET_NAME: archiveBucket.bucketName,
@@ -121,8 +131,15 @@ export class {{ swarm_slug | pascal }}Stack extends cdk.Stack {
     // 3. The Event Bridge (S3 -> Lambda)
     archiveBucket.addEventNotification(s3.EventType.OBJECT_CREATED, new s3n.LambdaDestination(eventFn));
 
-    // 4. The API Gateway
-    const api = new apigw.LambdaRestApi(this, 'ApiGateway', { handler: apiFn, proxy: false });
+    // 4. The API Gateway (The Aperture)
+    const api = new apigw.LambdaRestApi(this, 'ApiGateway', { 
+        handler: apiFn, 
+        proxy: true,
+        deployOptions: {
+            tracingEnabled: true
+        }
+    });
+    
     new cdk.CfnOutput(this, 'ApiUrl', { value: api.url });
   }
 }
@@ -134,14 +151,14 @@ export class {{ swarm_slug | pascal }}Stack extends cdk.Stack {
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { {{ swarm_slug | pascal }}Stack } from '../lib/swarm-stack';
+import { {{ project_slug | pascal }}Stack } from '../lib/swarm-stack';
 
 const app = new cdk.App();
 const env = app.node.tryGetContext('env') || 'staging';
 
-new {{ swarm_slug | pascal }}Stack(app, `${env}-{{ swarm_slug | pascal }}Stack`, {
+new {{ project_slug | pascal }}Stack(app, `${env}-{{ project_slug | pascal }}Stack`, {
   env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION || '{{ aws_region }}' },
-  tags: { Project: '{{ swarm_name }}', Environment: env }
+  tags: { Project: '{{ project_slug }}', Environment: env }
 });
         """
         
@@ -152,7 +169,12 @@ new {{ swarm_slug | pascal }}Stack(app, `${env}-{{ swarm_slug | pascal }}Stack`,
 export const handler = async (event: any) => {
     return {
         statusCode: 200,
-        body: JSON.stringify({ revelation: `Gnosis is truth. Lambda Resonant.`, source: 'ApiHandler' }),
+        body: JSON.stringify({ 
+            revelation: `Gnosis is truth. Lambda Resonant.`, 
+            path: event.path,
+            source: 'ApiHandler' 
+        }),
+        headers: { "Content-Type": "application/json" }
     };
 };
             """
@@ -169,17 +191,18 @@ export const handler = async (event: any) => {
 Makefile += """
 # --- SERVERLESS RITES ---
 swarm-synth: ## prophesy the CloudFormation template
-    @cd infra/serverless && npm run synth
+    @cd infra/serverless && npm install && npm run synth
 
 swarm-deploy: ## ascend the lambda swarm to AWS
-    @cd infra/serverless && npm run deploy -- --context env=staging
+    @cd infra/serverless && npm install && npm run deploy -- --context env=staging
 """
 
 # --- IV. THE MAESTRO'S WILL ---
 %% post-run
-    proclaim: "Summoning the CDK toolchain for the Serverless Shard..."
-    >> cd infra/serverless && npm install
-
-    proclaim: "The [bold cyan]AWS Lambda Swarm[/bold cyan] is manifest in 'infra/serverless/'."
+    # We do NOT run `npm install` here directly to keep the post-run pure and un-stalled. 
+    # The `make` targets handle it contextually.
+    
+    proclaim: "The [bold cyan]AWS Lambda Swarm (CDK)[/bold cyan] is manifest in 'infra/serverless/'."
     proclaim: "LIF-Multiplier: [bold green]100,000x (Event-Driven Scaling)[/]"
+    proclaim: "To synthesize and view the prophecy: [bold magenta]make swarm-synth[/bold magenta]"
     proclaim: "To ascend to the cloud: [bold magenta]make swarm-deploy[/bold magenta]"

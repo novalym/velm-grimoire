@@ -1,16 +1,26 @@
 # ==============================================================================
-# == GNOSTIC SHARD: ACHRONAL HOT-STANDBY (V-Ω-TOTALITY-V2.5)                  ==
+# == GNOSTIC DNA SHARD: cloud/achronal-hot-standby
 # ==============================================================================
-# @description: Materializes an achronal hot-standby infrastructure for absolute 
-#               disaster resilience. Enables zero-downtime multi-cloud failover 
-#               via continuous data replication and automatic sentinel adjudication.
-# @category: Cloud / Resilience
-# @vibe: failover, multi-cloud, high-availability, litefs, hot-standby, achronal, dr, replication
-# @provides: [multi-cloud-failover, achronal-data-sync, high-availability-substrate]
-# @requires: [docker-swarm-substrate, global-anycast-citadel, python-core]
-# @substrate: python / docker-compose
-# @version: 2.5.0-Ω
-# @LIF: 1,000,000x
+# @id:           cloud/achronal-hot-standby
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Multi-cloud hot-standby failover engine using Achronal data synchronization.
+# @vibe:         [failover, multi-cloud, high-availability, standby, disaster-recovery, routing]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:failover-engine, capability:hot-standby]
+# @requires:     [capability:python-core, capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["requests>=2.31.0"]
+#   env:         ["SYNC_SECRET"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "failover-sentinel": { "build": "infra/failover", "restart": "always" } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-failover"
+#   priority:    950
+#   alias:       "hot_standby"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -162,8 +172,14 @@ symphonies/
 """
 
 # --- III. THE SURGICAL WEAVE (Maestro Control) ---
-# @scaffold:edict(name="test-failover", cmd="velm run symphonies/failover-ascension.symphony --dry-run")
-# @scaffold:edict(name="standby-up", cmd="docker-compose -f infra/failover/docker-compose.standby.yml up -d")
+Makefile += """
+# --- FAILOVER RITES ---
+test-failover: ## Test the achronal hot-standby protocol in shadow mode
+    @velm run symphonies/failover-ascension.symphony --dry-run
+
+standby-up: ## Ignite the failover sentinel
+    @docker-compose -f infra/failover/docker-compose.standby.yml up -d
+"""
 
 # --- IV. THE MAESTRO'S WILL ---
 %% post-run

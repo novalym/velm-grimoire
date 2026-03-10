@@ -1,19 +1,29 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PROJECT-MANAGER (V-Ω-TOTALITY-V3.0)                       ==
+# == GNOSTIC DNA SHARD: system/project-manager
 # ==============================================================================
-# @description: The definitive multiversal hypervisor. Materializes the 
-#               Observatory Registry, enabling the tracking, switching, and 
-#               governance of all disparate projects within the Velm Cosmos.
-# @category: System / Governance
-# @vibe: project-manager, observatory, registry, multirepo, context-switcher
-# @provides: [project-manager, observatory-authority, multiversal-registry]
-# @requires: [python-core, pydantic-settings]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/project-manager
+# @version:      3.0.0
+# @tier:         mind
+# @summary:      The Multiversal Hypervisor for tracking project metadata, physical anchors, and architectural resonance across the Registry.
+# @vibe:         [project-manager, hypervisor, registry, metadata, multirepo, spatial-anchor]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:project-registry, capability:multirepo-manager]
+# @requires:     [capability:python-core, capability:environment-management]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["pydantic>=2.6.0"]
+#   env:         ["SCAFFOLD_PROJECT_REGISTRY_PATH"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "system-manager"
+#   priority:    10
+#   alias:       "project_manager"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-hypervisor") }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
 $$ registry_path = "~/.scaffold/projects.json"
 
@@ -58,9 +68,11 @@ class ProjectManager:
     =============================================================================
     == THE PROJECT MANAGER (V-Ω-TOTALITY)                                      ==
     =============================================================================
+    LIF: ∞ | ROLE: PROJECT_HYPERVISOR | RANK: OMEGA
     \"\"\"
     def __init__(self):
-        self.registry_file = Path("{{ registry_path }}").expanduser()
+        env_path = os.getenv("SCAFFOLD_PROJECT_REGISTRY_PATH")
+        self.registry_file = Path(env_path).expanduser() if env_path else Path("{{ registry_path }}").expanduser()
         self.registry_file.parent.mkdir(parents=True, exist_ok=True)
         self._projects: Dict[str, ProjectMetadata] = self._load()
 
@@ -92,62 +104,9 @@ class ProjectManager:
         return list(self._projects.values())
 """
 
-# --- III. THE SURGICAL WEAVE (Maestro Control) ---
-
-Makefile += """
-# --- OBSERVATORY RITES ---
-projects: ## proclaim the census of all managed projects
-    @velm workspace list
-"""
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Project Manager[/] is manifest."
-    
-    # [THE MASTER CURE]: THE RITE OF FAULT-ISOLATED REGISTRATION
-    # We apply the Triple-Suture to ensure the process never fractures the transaction.
-    py:
-        import sys
-        import os
-        import time
-        from pathlib import Path
-        
-        # 1. ENCODING SUTURE (Windows Fix)
-        if hasattr(sys.stdout, 'reconfigure'):
-            sys.stdout.reconfigure(encoding='utf-8')
-        
-        # 2. GEOMETRIC RESURRECTION (Path Fix)
-        cwd = os.getcwd()
-        sys.path.extend([cwd, os.path.join(cwd, 'src')])
-        
-        # 3. FAULT-ISOLATED CONSECRATION
-        try:
-            # Identity Suture: Try both relative and absolute imports
-            try:
-                from src.{{ package_name }}.core.observatory.manager import ProjectManager, ProjectMetadata
-            except ImportError:
-                from {{ package_name }}.core.observatory.manager import ProjectManager, ProjectMetadata
-            
-            manager = ProjectManager()
-            project_id = os.getenv("SCAFFOLD_PROJECT_SLUG", "{{ project_slug | default('omega-app') }}")
-            
-            meta = ProjectMetadata(
-                id=project_id,
-                name="{{ project_name | default('Unnamed Reality') }}",
-                path=Path(cwd)
-            )
-            manager.register_project(meta)
-            print(f"\u2705 Reality registered in Observatory: {project_id}")
-            
-        except Exception as e:
-            # [THE AMNESTY CURE]: We log the warning but exit(0) to save the transaction.
-            print(f"\u26A0\uFE0F  Observatory Registration Deferred: {e}")
-            # We do not raise, we do not sys.exit(1). We ensure the timeline continues.
-            sys.exit(0)
-
-    # 2. Final Proclamation
+    proclaim: "Registry Coordinate: [white]{{ registry_path }}[/]"
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Multirepo Friction -> 0)[/]"
-    proclaim: "[bold green]✅ The Observatory is waked.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Project Manager materialization fractured.[/bold red]"
+    proclaim: "[bold green]✅ The Gnostic Hypervisor is active.[/bold green]"

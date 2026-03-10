@@ -1,16 +1,26 @@
 # ==============================================================================
-# == GNOSTIC SHARD: EPHEMERAL REALITY FORGE (V-Ω-TOTALITY-VMAX)               ==
+# == GNOSTIC DNA SHARD: cloud/ephemeral-reality-forge
 # ==============================================================================
-# @description: A Traefik-powered dynamic routing engine. Automatically detects
-#               new branch containers and wires them to unique subdomains,
-#               creating infinite parallel preview environments.
-# @category: Cloud / CI-CD
-# @vibe: traefik, preview, branch-environment, ephemeral, dynamic-routing
-# @provides: [ephemeral-environments, dynamic-proxy, branch-deployments]
-# @requires: [docker-engine]
-# @substrate: docker-compose / python
-# @version: 3.1.0-Ω
-# @LIF: INFINITY
+# @id:           cloud/ephemeral-reality-forge
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Dynamic Traefik-based routing engine for spawning isolated ephemeral preview environments per Git branch.
+# @vibe:         [preview-environments, traefik, ephemeral, ci-cd, routing, docker, branch-deploy]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:preview-environments, capability:dynamic-routing]
+# @requires:     [capability:docker-engine]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["docker>=7.0.0"]
+#   env:         ["BASE_DOMAIN", "ADMIN_EMAIL"]
+# ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "edge_proxy": { "image": "traefik:v3.0" } } }
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "infrastructure-routing"
+#   priority:    900
+#   alias:       "ephemeral_forge"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---

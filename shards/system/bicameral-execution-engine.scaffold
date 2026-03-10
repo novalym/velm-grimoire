@@ -1,29 +1,34 @@
 # ==============================================================================
-# == GNOSTIC SHARD: BICAMERAL EVOLUTION ENGINE (V-Ω-TOTALITY-V2.1-ALEMBIC)    ==
+# == GNOSTIC DNA SHARD: system/bicameral-execution-engine
 # ==============================================================================
-# @description: Materializes a bidirectional schema governor. Synchronizes 
-#               Pythonic Models (Mind) with SQL persistence (Iron) via Alembic.
-# @category: Persistence
-# @vibe: database, migration, alembic, schema, evolution, sql, sqlalchemy, persistence, autonomic-schema
-# @provides: [database-migration-engine, schema-governor, persistence-evolution]
-# @requires: [database-orm, pydantic-settings, postgres-driver]
-# @substrate: python
-# @version: 2.1.0
-# @LIF: 1,000,000x
+# @id:           system/bicameral-execution-engine
+# @version:      3.0.0
+# @tier:         body
+# @summary:      A schema evolution engine utilizing Alembic to bridge the Gnostic Mind (Models) with the Iron (Database Substrate).
+# @vibe:         [migration, alembic, evolution, database, schema, postgres, sql]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:schema-evolution, capability:database-migration]
+# @requires:     [capability:python-core, capability:persistence-layer]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["alembic>=1.13.0", "asyncpg>=0.29.0"]
+#   env:         ["DATABASE_URL"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "migration-engine"
+#   priority:    200
+#   alias:       "bicameral_engine"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1]: Causal Variable Anchoring
-# These variables define the evolutionary path of the project's memory.
 $$ project_slug = {{ project_slug | default("omega-core") }}
-$$ db_url = {{ db_url | default("postgresql://gnostic:manifest@localhost:5432/reality") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
+$$ db_url = {{ db_url | default("postgresql+asyncpg://gnostic:manifest@localhost:5432/reality") }}
 
 # --- II. THE SCRIPTURE OF FORM (The Migration Core) ---
 
-# [ASCENSION 2]: THE EVOLUTIONARY ANCHOR (ALEMBIC)
-# Forges the configuration for the migration engine, anchored to the 
-# project's physical coordinate system.
 alembic.ini :: """
 [alembic]
 script_location = migrations
@@ -32,22 +37,11 @@ version_locations = %(here)s/migrations/versions
 sqlalchemy.url = {{ db_url }}
 
 [logging]
-# Standard Gnostic Logging for the Evolution phase
 default_level = INFO
-
-[post_write_hooks]
-# [ASCENSION 11]: Autonomic Formatting
-# Ensures every new migration script is warded with Ruff/Black.
-hooks = ruff
-ruff.type = console_script
-ruff.entrypoint = ruff
-ruff.options = check --fix REVISION_SCRIPT
 """
 
 migrations/
-    # [ASCENSION 3]: THE BICAMERAL BRIDGE (env.py)
-    # This is the heart of the engine. It righteously sutures your 
-    # Mind (SQLAlchemy Models) to the Iron (Database context).
+    # [ASCENSION 3]: THE BICAMERAL BRIDGE
     env.py :: """
 import os
 import sys
@@ -55,12 +49,9 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
-# [ASCENSION 4]: SPATIAL RE-ANCHORING
-# Ensures the engine can perceive your local models regardless of CWD.
+# Spatial Re-anchoring
 sys.path.insert(0, os.getcwd())
-
-# Inhaling the Soul of the Mind (The Models)
-from src.{{ package_name }}.core.database import Base 
+from src.{{ package_name }}.core.database import Base # The Linker ensures this exists
 
 config = context.config
 if config.config_file_name is not None:
@@ -69,9 +60,6 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 def run_migrations_online():
-    \"\"\"
-    Conducts the strike against the physical database iron.
-    \"\"\"
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
@@ -79,100 +67,31 @@ def run_migrations_online():
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, 
-            target_metadata=target_metadata,
-            # [ASCENSION 5]: TRANSACTIONAL ISOLATION
-            # Ensures type changes and enum mutations are detected.
-            compare_type=True,
-            render_as_batch=True
-        )
-
+        context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
         with context.begin_transaction():
             context.run_migrations()
 
-if context.is_offline_mode():
-    # [ASCENSION 6]: THE HOLOGRAPHIC STRIKE (SQL Export)
-    # Generates a pure SQL script without touching a live database.
-    context.configure(url="{{ db_url }}", target_metadata=target_metadata, literal_binds=True)
-    with context.begin_transaction():
-        context.run_migrations()
-else:
-    run_migrations_online()
+run_migrations_online()
 """
 
-    # [ASCENSION 7]: THE SCRIBE'S TEMPLATE
-    script.py.mako :: """
-\"\"\"${message}
-Revision ID: ${up_revision}
-Revises: ${down_revision | comma,n}
-Create Date: ${create_date}
-\"\"\"
-from alembic import op
-import sqlalchemy as sa
-${imports if imports else ""}
-
-# revision identifiers, used by Alembic.
-revision = ${repr(up_revision)}
-down_revision = ${repr(down_revision)}
-branch_labels = ${repr(branch_labels)}
-depends_on = ${repr(depends_on)}
-
-def upgrade():
-    # [ASCENSION 12]: THE KINETIC SHIFT
-    ${upgrades if upgrades else "pass"}
-
-def downgrade():
-    # [ASCENSION 12]: THE TEMPORAL REVERSAL
-    ${downgrades if downgrades else "pass"}
-"""
-
-    versions/
-        .gitkeep :: ""
-
-# --- III. THE KINETIC LIMBS (Utilities) ---
+# --- III. THE KINETIC LIMBS ---
 scripts/
-    # [ASCENSION 8]: THE EVOLUTION CONDUCTOR
-    evolve-reality.sh :: """
+    evolve_reality.sh :: """
 #!/bin/bash
 set -e
-echo "🌀 [TITAN] Initiating Bicameral Evolution for: {{ project_slug }}..."
-
-# 1. THE DRIFT INQUEST
-# Scries the models and forges a migration script if reality has drifted.
-read -p "Proclaim the reason for this evolution (e.g. add_user_roles): " REASON
+echo "🌀 [TITAN] Initiating Bicameral Evolution..."
+read -p "Proclaim migration reason: " REASON
 alembic revision --autogenerate -m "$REASON"
-
-# 2. THE KINETIC STRIKE
-echo "🔥 Striking the database iron..."
 alembic upgrade head
-
-echo "✅ [RESONANT] Physical schema is now in parity with the Gnostic Mind."
+echo "✅ [RESONANT] Physical schema in parity with the Gnostic Mind."
 """
-%% 755
+    %% 755
 
-# --- IV. THE SURGICAL WEAVE ---
-# [ASCENSION 9]: Automatic dependency injection for the Alchemist.
-@if {{ project_type in ['python', 'poetry', 'fastapi'] }}
-    pyproject.toml += """
-    alembic = "^1.13.0"
-    asyncpg = "^0.29.0"
-    """
-@endif
-
-# --- V. THE MAESTRO'S WILL ---
-# [ASCENSION 13]: Cinematic Guidance
+# --- IV. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Bicameral Evolution Engine[/bold cyan] is manifest."
     proclaim: "Migration Locus: [white]migrations/[/]"
-    proclaim: "Database Anchor: [bold magenta]{{ db_url }}[/]"
     
-    # Final Guidance
-    proclaim: "[bold yellow]GUIDANCE:[/bold yellow] To evolve your persistent reality, speak:"
-    proclaim: "  [bold magenta]./scripts/evolve-reality.sh[/bold magenta]"
+    >> mkdir -p migrations/versions
+    
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Schema Drift -> 0)[/]"
-
-%% on-heresy
-    # [ASCENSION 24]: Transactional Purgation
-    proclaim: "[bold red]Evolution Engine materialization fractured.[/bold red] Schema remains static."
-    rm -rf alembic.ini migrations/ scripts/evolve-reality.sh

@@ -1,16 +1,25 @@
 # ==============================================================================
-# == GNOSTIC SHARD: EDGE-PULSE-CITADEL (V-Ω-TOTALITY-V4.0)                    ==
+# == GNOSTIC DNA SHARD: cloud/edge-pulse-citadel
 # ==============================================================================
-# @description: A legendary Cloudflare Worker for edge-first Gnosis. Features
-#               HMAC request signing, structured logging, KV bindings, and a 
-#               surgical Python Backend Suture to enforce the zero-trust perimeter.
-# @category: Cloud / Edge
-# @vibe: cloudflare, worker, edge, serverless, hmac, zero-trust, cache
-# @provides: [edge-compute, zero-trust-proxy, distributed-caching]
-# @requires: [node-environment, python-backend]
-# @substrate: isomorphic (typescript / python)
-# @version: 4.0.0-Ω
-# @LIF: INFINITY
+# @id:           cloud/edge-pulse-citadel
+# @version:      3.0.0
+# @tier:         iron
+# @summary:      Cloudflare Workers edge deployment with HMAC signed origin-routing and caching.
+# @vibe:         [cloudflare, edge, worker, serverless, cdn, hmac, security, proxy]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:edge-compute, capability:cloudflare-worker]
+# @requires:     [capability:node-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   node:        ["wrangler>=3.0.0", "typescript>=5.0.0", "@cloudflare/workers-types>=4.0.0"]
+#   env:         ["BACKEND_URL", "EDGE_SIGNING_SECRET"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "middleware-shield"
+#   priority:    100
+#   alias:       "edge_pulse_warden"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
@@ -127,38 +136,38 @@ import hashlib
 import time
 from fastapi import Request, HTTPException, status
 import os
-
-async def verify_edge_signature(request: Request):
-    \"\"\"[ASCENSION 5]: An unbreakable cryptographic ward against origin-bypass.\"\"\"
-    secret = os.getenv("EDGE_SIGNING_SECRET", "{{ edge_secret }}")
-    
-    timestamp_str = request.headers.get("X-Gnostic-Timestamp")
-    signature = request.headers.get("X-Gnostic-Signature")
-
-    if not timestamp_str or not signature:
-        raise HTTPException(status_code=403, detail="Missing Edge Signature")
-
-    if abs(time.time() * 1000 - int(timestamp_str)) > 30000:
-        raise HTTPException(status_code=403, detail="Temporal Paradox Detected")
-
-    data = f"{timestamp_str}.{request.method}.{request.url.hostname}{request.url.path}"
-    expected = hmac.new(secret.encode(), data.encode(), hashlib.sha256).hexdigest()
-
-    if not hmac.compare_digest(expected, signature):
-        raise HTTPException(status_code=403, detail="Profane Signature")
-"""
-    
-    # [ASCENSION 6]: AST Injection via FastAPI Strategy
-    # @scaffold:middleware(priority=2)
-    middleware.py += """
-from .edge_warden import verify_edge_signature
 from starlette.middleware.base import BaseHTTPMiddleware
 
 class EdgePulseMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request, call_next):
+    \"\"\"
+    =============================================================================
+    == THE EDGE PULSE WARDEN (V-Ω-TOTALITY)                                    ==
+    =============================================================================
+    LIF: ∞ | ROLE: PERIMETER_SHIELD
+    \"\"\"
+    async def dispatch(self, request: Request, call_next):
         if request.url.path.startswith("/api"):
-            await verify_edge_signature(request)
+            await self.verify_edge_signature(request)
         return await call_next(request)
+
+    async def verify_edge_signature(self, request: Request):
+        \"\"\"[ASCENSION 5]: An unbreakable cryptographic ward against origin-bypass.\"\"\"
+        secret = os.getenv("EDGE_SIGNING_SECRET", "{{ edge_secret }}")
+        
+        timestamp_str = request.headers.get("X-Gnostic-Timestamp")
+        signature = request.headers.get("X-Gnostic-Signature")
+
+        if not timestamp_str or not signature:
+            raise HTTPException(status_code=403, detail="Missing Edge Signature")
+
+        if abs(time.time() * 1000 - int(timestamp_str)) > 30000:
+            raise HTTPException(status_code=403, detail="Temporal Paradox Detected")
+
+        data = f"{timestamp_str}.{request.method}.{request.url.hostname}{request.url.path}"
+        expected = hmac.new(secret.encode(), data.encode(), hashlib.sha256).hexdigest()
+
+        if not hmac.compare_digest(expected, signature):
+            raise HTTPException(status_code=403, detail="Profane Signature")
 """
 @endif
 

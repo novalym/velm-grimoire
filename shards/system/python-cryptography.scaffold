@@ -1,22 +1,29 @@
 # ==============================================================================
-# == GNOSTIC SHARD: PYTHON-CRYPTOGRAPHY (V-Ω-TOTALITY-V3.0)                   ==
+# == GNOSTIC DNA SHARD: system/python-cryptography
 # ==============================================================================
-# @description: The definitive cryptographic engine. Materializes the 
-#               industrial-grade pyca/cryptography substrate, providing 
-#               Fernet symmetric encryption, high-entropy key generation, 
-#               and blind indexing for searchable encrypted matter.
-# @category: System / Security
-# @vibe: cryptography, encryption, fernet, security-warden, hmac, entropy
-# @provides: [python-cryptography, cryptographic-authority, secure-entropy, vault-warden]
-# @requires: [python-core]
-# @substrate: python
-# @version: 3.0.0-Ω
-# @LIF: 1,000,000x
+# @id:           system/python-cryptography
+# @version:      3.0.0
+# @tier:         soul
+# @summary:      Industrial-grade cryptographic warden providing Fernet rotation, blind indexing, and high-entropy key generation.
+# @vibe:         [cryptography, security, encryption, fernet, keys, privacy, vault]
+# ------------------------------------------------------------------------------
+# @provides:     [capability:cryptography-engine, capability:shroud-protocol]
+# @requires:     [capability:python-core]
+# ------------------------------------------------------------------------------
+# @metabolism:
+#   python:      ["cryptography>=42.0.0", "pydantic>=2.6.0"]
+# ------------------------------------------------------------------------------
+# @substrate:    {}
+# ------------------------------------------------------------------------------
+# @suture:
+#   role:        "crypto-module"
+#   priority:    5
+#   alias:       "vault_warden"
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
+$$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ package_name = {{ package_name | default(project_slug | snake) | default('core') }}
-$$ python_version = {{ python_version | default('3.11') }}
 
 # --- II. THE SCRIPTURE OF FORM (The Cipher Mind) ---
 
@@ -31,13 +38,10 @@ import base64
 import hashlib
 import hmac
 import logging
-from typing import Union, Optional
+from typing import Union, Optional, List
 from cryptography.fernet import Fernet, MultiFernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-
-# [PROVENANCE]: Forged via security/python-cryptography.scaffold
-# [TRACE]: {{ trace_id | default('tr-void') }}
 
 Logger = logging.getLogger("Security:Warden")
 
@@ -69,7 +73,7 @@ class VaultWarden:
         return f.encrypt(payload).decode()
 
     @staticmethod
-    def resurrect(token: str, keys: Union[str, list[str]]) -> str:
+    def resurrect(token: str, keys: Union[str, List[str]]) -> str:
         \"\"\"Restores the cleartext soul from a cipher-husk.\"\"\"
         if not token: return ""
         
@@ -97,71 +101,9 @@ class VaultWarden:
 warden = VaultWarden()
 """
 
-# --- III. THE SURGICAL WEAVE (Metadata Suture) ---
-
-# =========================================================================
-# == [THE CURE]: BICAMERAL CONSTITUTIONAL INCEPTION                      ==
-# =========================================================================
-# [ASCENSION 1]: We righteously enforce BOTH [project] and [tool.poetry] 
-# to satisfy the validation engine across all multiversal substrates.
-
-@if {{ not file_exists('pyproject.toml') }}:
-pyproject.toml :: """
-[project]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = [{name = "The Architect"}]
-readme = "README.md"
-dependencies = [
-    "cryptography>=42.0.0",
-]
-
-[tool.poetry]
-name = "{{ project_slug | default('omega-service') }}"
-version = "{{ project_version | default('0.1.0') }}"
-description = "Manifested by the VELM God-Engine"
-authors = ["The Architect"]
-packages = [{include = "{{ package_name }}", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^{{ python_version }}"
-cryptography = "^42.0.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-"""
-@else:
-# [THE MASTER CURE]: SURGICAL SECTION INJECTION
-# We find the dependencies header and inject cryptography exactly where 
-# the Laws of TOML demand, warded by an idempotency check.
-
-# 1. Target Legacy Poetry Blocks
-pyproject.toml ~= "s/(\[tool.poetry.dependencies\](?!.*cryptography))/$1\ncryptography = \"^42.0.0\"/g"
-
-# 2. Target Modern PEP 621 Blocks
-pyproject.toml ~= "s/(\[project.dependencies\](?!.*cryptography))/$1\n    \"cryptography>=42.0.0\",/g"
-@endif
-
-# --- IV. THE MAESTRO'S WILL (Rites of Ignition) ---
+# --- III. THE MAESTRO'S WILL ---
 %% post-run
     proclaim: "The [bold cyan]Python Cryptography Shard[/] is manifest."
     proclaim: "Warden Locus: [white]core/security/warden.py[/]"
-    
-    # 1. Dependency Synchronization
-    @if {{ has_poetry }}:
-        proclaim: "Phase I: Synchronizing manifest with Poetry..."
-        >> poetry add cryptography
-    @else:
-        proclaim: "Phase I: Standardizing substrate via pip..."
-        >> pip install cryptography
-    @endif
-    ?? succeeds
-    
-    # 2. Final Proclamation
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Cryptographic Entropy -> 0)[/]"
     proclaim: "[bold green]✅ The Vault is waked.[/bold green]"
-
-%% on-heresy
-    proclaim: "[bold red]Cryptography materialization fractured.[/bold red]"
