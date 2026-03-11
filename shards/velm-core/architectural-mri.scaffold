@@ -7,13 +7,13 @@
 # @summary:      Deep-tissue topological linter that enforces directional import flows across application strata.
 # @vibe:         [mri, architecture, linter, topology, layers, hex-arch, forensics]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:architecture-linter, capability:topological-inquisitor,capability:architectural-reflection]
+# @provides:     [capability:architecture-linter, capability:topological-inquisitor,capability:architecture-reflection]
 # @requires:     [capability:python-core]
 # ------------------------------------------------------------------------------
 # @metabolism:
 #   python:      ["rich>=13.7.0"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "architecture-linter"
