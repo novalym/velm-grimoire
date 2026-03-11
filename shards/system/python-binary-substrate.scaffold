@@ -7,7 +7,7 @@
 # @summary:      The foundational environment anchor that enforces specific Python versions and substrate-aware DNA across the project cosmos.
 # @vibe:         [python, binary, environment, substrate, anchor, dna, versioning]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:python-binary-anchor, capability:environment-dna]
+# @provides:     [capability:python-binary-anchor, capability:environment-dna,capability:python-binary]
 # @requires:     []
 # ------------------------------------------------------------------------------
 # @metabolism:
