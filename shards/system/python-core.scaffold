@@ -9,7 +9,7 @@
 #                logic-vessels for all Python-based micro-realities.
 # @vibe:         [python, poetry, pep621, src-layout, foundation, core, substrate]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:python-core, capability:logic-substrate, capability:pydantic-base]
+# @provides:     [capability:python-core, capability:logic-substrate, capability:pydantic-base, capability:python-mind]
 # @requires:     [capability:python-binary]
 # ------------------------------------------------------------------------------
 # @metabolism:
