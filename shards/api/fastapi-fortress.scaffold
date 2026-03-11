@@ -9,7 +9,7 @@
 #                management, metabolic telemetry, and a warded redemption gate.
 # @vibe:         [fastapi, rest, backend, asynchronous, high-performance, warded]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:api-heart, capability:rest-service, capability:web-server]
+# @provides:     [capability:api-heart, capability:rest-service, capability:web-server, capability:fastapi-core]
 # @requires:     [capability:python-mind, capability:environment-dna]
 # ------------------------------------------------------------------------------
 # @metabolism:

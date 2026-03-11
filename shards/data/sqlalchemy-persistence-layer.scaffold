@@ -7,7 +7,7 @@
 # @summary:      SQLAlchemy 2.0 Declarative Base and foundational User model for async Postgres interactions.
 # @vibe:         [database, orm, sqlalchemy, models, persistence, postgres, async]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:persistence-layer, capability:sqlalchemy-models]
+# @provides:     [capability:persistence-layer, capability:sqlalchemy-models,capability:database-orm]
 # @requires:     [capability:python-core]
 # ------------------------------------------------------------------------------
 # @metabolism:

@@ -7,7 +7,7 @@
 # @summary:      Production-grade multi-stage Docker build system and Docker Compose orchestration for microservices.
 # @vibe:         [docker, compose, multi-stage, container, orchestration, iron, asgi]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:containerization, capability:infrastructure-vessel]
+# @provides:     [capability:containerization, capability:infrastructure-vessel, capability:docker-engine]
 # @requires:     [capability:python-core]
 # ------------------------------------------------------------------------------
 # @metabolism:

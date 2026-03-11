@@ -7,7 +7,7 @@
 # @summary:      The command-line bridge utilizing Typer and Rich to transmute human terminal intent into Engine dispatches.
 # @vibe:         [cli, typer, commands, bridge, dispatch, terminal, ui]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:cli-bridge, capability:command-orchestrator]
+# @provides:     [capability:cli-bridge, capability:command-orchestrator, capability:cli-framework]
 # @requires:     [capability:python-core, capability:rich-logging]
 # ------------------------------------------------------------------------------
 # @metabolism:

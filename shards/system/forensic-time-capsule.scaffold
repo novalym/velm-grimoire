@@ -7,7 +7,7 @@
 # @summary:      Achronal execution recorder and replayer providing high-fidelity "Black Box" snapshots for deterministic failure reconstruction.
 # @vibe:         [forensics, time-capsule, replay, black-box, chronomancy, debugging]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:execution-recording, capability:time-machine]
+# @provides:     [capability:execution-recording, capability:time-machine, capability:forensic-recorder]
 # @requires:     [capability:python-core, capability:persistence-lattice]
 # ------------------------------------------------------------------------------
 # @metabolism:

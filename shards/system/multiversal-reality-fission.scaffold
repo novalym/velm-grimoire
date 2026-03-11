@@ -7,7 +7,7 @@
 # @summary:      Geometric state shifter utilizing Copy-on-Write (CoW) substrates to spawn instant, isolated reality clones for parallel validation.
 # @vibe:         [fission, shadow-reality, cloning, cow, snapshots, multiversal, branching]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:reality-fission, capability:shadow-cloning]
+# @provides:     [capability:reality-fission, capability:shadow-cloning,capability:shadow-engine]
 # @requires:     [capability:python-core, capability:persistence-lattice]
 # ------------------------------------------------------------------------------
 # @metabolism:
