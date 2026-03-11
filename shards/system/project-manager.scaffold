@@ -14,7 +14,7 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["SCAFFOLD_PROJECT_REGISTRY_PATH"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "system-manager"

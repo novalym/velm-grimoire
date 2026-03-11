@@ -14,7 +14,7 @@
 #   python:      ["textual>=0.50.0", "python-socketio[asyncio_client]>=5.11.0"]
 #   env:         ["SCAF_WS_URL", "SCAF_COCKPIT_THEME"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "ocular-interface"

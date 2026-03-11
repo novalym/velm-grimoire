@@ -14,7 +14,7 @@
 #   python:      ["watchdog>=3.0.0", "requests>=2.31.0"]
 #   env:         ["SCAF_HERESY_THRESHOLD", "SCAF_AUTO_HEAL"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "immune-governor"

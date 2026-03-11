@@ -15,7 +15,7 @@
 #   node:        ["@wasm-tool/wasm-pack-plugin"]
 #   env:         ["WASM_LOG_LEVEL"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "logic-transmuter"

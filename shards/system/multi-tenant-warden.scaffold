@@ -14,7 +14,7 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["TENANT_HEADER", "USE_SCHEMA_ISOLATION"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "middleware-warden"

@@ -14,7 +14,7 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["SCAF_HUB_URI", "SCAF_SYNC_COOLDOWN"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "multiversal-synchronizer"

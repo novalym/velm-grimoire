@@ -7,14 +7,14 @@
 # @summary:      High-performance asynchronous HTTP conduit utilizing httpx for multiversal API communication with built-in trace propagation.
 # @vibe:         [http, async, httpx, network, conduit, api, connection, restless]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:network-conduit, capability:http-client]
+# @provides:     [capability:network-conduit, capability:http-client,capability:network-access]
 # @requires:     [capability:python-core]
 # ------------------------------------------------------------------------------
 # @metabolism:
 #   python:      ["httpx>=0.27.0"]
 #   env:         ["DEFAULT_HTTP_TIMEOUT"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "network-conduit"

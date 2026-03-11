@@ -14,7 +14,7 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["SCAF_FISSION_DRIVER", "SCAF_FISSION_ROOT"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "reality-governor"

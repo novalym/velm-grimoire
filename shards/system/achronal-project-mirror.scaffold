@@ -14,7 +14,7 @@
 #   node:        ["framer-motion", "lucide-react", "clsx"]
 #   env:         ["SCAF_PORTAL_DOMAIN", "SCAF_AURA_COLOR"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "ocular-radiator"

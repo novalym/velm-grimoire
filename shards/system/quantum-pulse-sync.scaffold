@@ -14,7 +14,7 @@
 #   python:      ["redis>=5.0.0", "pydantic>=2.6.0"]
 #   env:         ["CONSENSUS_LEASE_MS", "CONSENSUS_CHECK_INTERVAL"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "consensus-engine"

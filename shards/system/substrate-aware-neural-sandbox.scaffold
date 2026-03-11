@@ -14,7 +14,7 @@
 #   python:      ["psutil>=5.9.0", "pydantic>=2.6.0"]
 #   env:         ["SCAFFOLD_SIM_MODE", "TARGET_SUBSTRATE_DNA"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "simulation-engine"

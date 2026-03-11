@@ -14,7 +14,7 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["SCAF_SIM_DEPTH", "SCAF_SANDBOX_ROOT"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "simulation-engine"

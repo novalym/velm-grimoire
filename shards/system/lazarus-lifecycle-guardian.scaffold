@@ -14,7 +14,7 @@
 #   python:      [] # Stdlib only
 #   env:         ["SHUTDOWN_TIMEOUT_SECONDS"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "lifecycle-governor"

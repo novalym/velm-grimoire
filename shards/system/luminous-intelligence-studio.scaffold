@@ -14,7 +14,7 @@
 #   python:      ["pydantic>=2.6.0", "fastapi>=0.110.0"]
 #   env:         ["SCAF_STUDIO_PORT", "SCAF_THEME_ACCENT"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "studio-workbench"

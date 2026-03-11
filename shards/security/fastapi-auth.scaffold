@@ -24,7 +24,7 @@
 #   priority:    100
 #   alias:       "auth"
 # ==============================================================================
-#
+
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 # [ASCENSION 1]: Causal Parameter Inception
 $$ package_name = {{ package_name | default(project_slug | snake) }}

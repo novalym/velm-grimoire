@@ -14,7 +14,7 @@
 #   python:      ["pydantic-settings>=2.2.0", "python-dotenv>=1.0.1"]
 #   env:         ["ENVIRONMENT", "DEBUG", "SECRET_KEY"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "config-module"

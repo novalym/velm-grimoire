@@ -14,7 +14,7 @@
 #   python:      ["pydantic>=2.6.0"]
 #   env:         ["SCAF_METABOLIC_BUDGET_HR", "PRIMARY_SUBSTRATE", "SECONDARY_SUBSTRATE"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "cloud-governor"

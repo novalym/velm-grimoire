@@ -14,7 +14,7 @@
 #   python:      ["velm-cli>=2.5.0", "pydantic>=2.6.0"]
 #   env:         ["SCAF_ADMIN_VOW", "SCAF_GOVERNANCE_MODE"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "autonomic-governor"

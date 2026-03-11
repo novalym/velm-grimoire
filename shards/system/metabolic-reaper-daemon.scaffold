@@ -14,7 +14,7 @@
 #   python:      ["docker>=7.0.0", "psutil>=5.9.0", "pydantic>=2.6.0"]
 #   env:         ["REAP_INTERVAL_SECONDS", "STAGNATION_THRESHOLD_DAYS"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "maintenance-daemon"

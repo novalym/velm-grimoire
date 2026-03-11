@@ -14,7 +14,7 @@
 #   python:      ["eclipse-zenoh>=0.10.1", "pydantic>=2.6.0"]
 #   env:         ["SCAF_LATTICE_PORT", "SCAF_MESH_ID"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "network-backbone"

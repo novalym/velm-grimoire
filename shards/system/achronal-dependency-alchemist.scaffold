@@ -14,7 +14,7 @@
 #   python:      ["packaging>=23.0", "requests>=2.31.0"]
 #   env:         ["SCAF_AUTO_HEAL_MODE", "SCAF_PACKAGE_MANAGER"]
 # ------------------------------------------------------------------------------
-# @substrate:    {}
+# @substrate:    { "agnostic": true }
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "evolution-governor"
