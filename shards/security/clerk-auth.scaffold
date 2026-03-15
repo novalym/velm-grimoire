@@ -5,24 +5,23 @@
 # @version:      3.0.0
 # @tier:         mind
 # @summary:      Full-stack Clerk identity integration for FastAPI and React/Next.js.
-# @vibe:         [auth, clerk, identity, jwt, security, react, nextjs, sso]
+# @vibe:         [auth, clerk, identity, jwt, security, react, nextjs, sso, python, node]
 # ------------------------------------------------------------------------------
 # @provides:     [capability:auth-provider, capability:identity-management]
-# @requires:     [capability:fastapi-core]
+# @requires:     [capability:fastapi] 
 # ------------------------------------------------------------------------------
 # @metabolism:
 #   python:      ["clerk-backend-api>=1.0.0"]
 #   node:        ["@clerk/nextjs", "@clerk/themes"]
 #   env:         ["CLERK_SECRET_KEY", "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"]
 # ------------------------------------------------------------------------------
-# @substrate:    { "agnostic": true }
+# @substrate:    [python, node] 
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "auth-gate"
 #   priority:    50
 #   alias:       "clerk_identity"
 # ==============================================================================
-
 # --- I. THE ALTAR OF GNOSTIC WILL ---
 $$ project_slug       = {{ project_slug | default("omega-citadel") }}
 $$ vault_package_name = {{ package_name | default(project_slug | snake) }}
