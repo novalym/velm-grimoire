@@ -6,9 +6,9 @@
 # @tier:         mind
 # @summary:      The Absolute Ingress Gate. Injects Trace IDs, measures metabolic 
 #                tax, and enforces Jurisprudence upon all incoming intent.
-# @vibe:         [shield, trace, perimeter, middleware, observability, security]
+# @vibe:[shield, trace, perimeter, middleware, observability, security]
 # ------------------------------------------------------------------------------
-# @provides:     [capability:perimeter-shield, capability:trace-injection]
+# @provides:[capability:perimeter-shield, capability:trace-injection]
 # @requires:     [capability:fastapi-core]
 # ------------------------------------------------------------------------------
 # @ocular-ui:
@@ -17,8 +17,8 @@
 #   - color(key="aura_color", label="Telemetry Aura", default="#64ffda")
 # ------------------------------------------------------------------------------
 # @metabolism:
-#   python:      ["fastapi", "starlette", "loguru", "cryptography"]
-#   env:         ["SCAFFOLD_ENV", "X_NOV_TRACE", "NODE_SECRET"]
+#   python:["fastapi", "starlette", "loguru", "cryptography"]
+#   env:["SCAFFOLD_ENV", "X_NOV_TRACE", "NODE_SECRET"]
 # ------------------------------------------------------------------------------
 # @substrate:    { "agnostic": false, "framework": "fastapi" }
 # ------------------------------------------------------------------------------
@@ -29,12 +29,12 @@
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1-4]: ALCHEMICAL TYPE ALIGNMENT
+# [ASCENSION 1-4]: Alchemical Type Casting for strict logical adjudication.
 $$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ strict_trace = {{ strict_trace | cast('bool') | default(false) }}
 $$ aura_color   = {{ aura_color | default("#64ffda") }}
-$$ use_hmac      = {{ use_hmac | default(true) }}
+$$ use_hmac     = {{ use_hmac | default(true) }}
 
 # --- II. THE SCRIPTURE OF FORM (The Nervous System) ---
 src/{{ package_name }}/middleware/
@@ -49,7 +49,7 @@ from fastapi import Request, HTTPException, status
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
-# [STRATUM: SENSORY]
+#[STRATUM: SENSORY]
 Logger = logging.getLogger("Security:Perimeter")
 
 class ActiveDefenseMiddleware(BaseHTTPMiddleware):
@@ -58,9 +58,7 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
     == THE PERIMETER SHIELD (V-Ω-TOTALITY-VMAX-24-ASCENSIONS)                  ==
     =============================================================================
     LIF: 1,000,000x | ROLE: FORENSIC_GATEKEEPER | RANK: OMEGA_SOVEREIGN
-    AUTH: Ω_SHIELD_VMAX_SGF_PURIFIED_2026_FINALIS
-
-    [THE MANIFESTO]
+    AUTH: Ω_SHIELD_VMAX_SGF_PURIFIED_2026_FINALIS[THE MANIFESTO]
     The supreme definitive authority for ingress adjudication. 
     It righteously implements the **Bicameral Branching Suture**, 
     mathematically annihilating the 'Unreachable Ghost' and 'Laminar Residue'.
@@ -100,7 +98,7 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
         # --- MOVEMENT II: THE RITE OF EXECUTION ---
         try:
             # [ASCENSION 20]: Fault-Isolated Middleware
-            # [STRIKE]: Execute the subsequent layers of the Mind
+            #[STRIKE]: Execute the subsequent layers of the Mind
             response = await call_next(request)
         except Exception as e:
             # [ASCENSION 5]: Substrate-Aware Exception Unwrapping
@@ -117,7 +115,7 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
         response.headers["X-Gnostic-Trace"] = trace_id
         response.headers["X-Metabolic-Tax-MS"] = f"{duration_ms:.3f}"
         
-        # [ASCENSION 4]: Geometric Aura Mapping
+        #[ASCENSION 4]: Geometric Aura Mapping
         response.headers["X-Aura-Resonance"] = "{{ aura_color }}"
         
         # [ASCENSION 19]: Subtle-Crypto Intent Branding
@@ -153,7 +151,7 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
 
     # [ASCENSION 11]: Merkle-State Fingerprinting
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Total Forensic Visibility)[/]"
-    proclaim: "Aura Resonance: [bold {{ aura_color }}]{{ aura_color }}[/]"
+    proclaim: "Aura Resonance:[bold {{ aura_color }}]{{ aura_color }}[/]"
 
 # --- IV. THE REDEMPTION VOW ---
 %% on-heresy
