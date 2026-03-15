@@ -89,7 +89,6 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
                 # [ASCENSION 8]: Achronal Trace ID Generation
                 # Generate a high-entropy 16-character trace for the session.
                 trace_id = f"tr-{uuid.uuid4().hex[:12].upper()}"
-            @endif
 
         # [ASCENSION 7]: Hydraulic Context Binding
         # Suture the Trace into the Gnostic State and Request scope
@@ -130,7 +129,6 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
                 hashlib.sha256
             ).hexdigest()[:16]
             response.headers["X-Gnostic-Seal"] = f"0x{signature.upper()}"
-        @endif
 
         # [ASCENSION 10]: Thermodynamic Backpressure Monitoring
         if duration_ms > 500:
