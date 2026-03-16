@@ -22,6 +22,8 @@
 #   python:      ["fastapi", "starlette", "loguru", "cryptography"]
 #   env:         ["SCAFFOLD_ENV", "X_NOV_TRACE", "NODE_SECRET", "SCAFFOLD_METABOLIC_HALT"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": false, "framework": "fastapi" }
+# ------------------------------------------------------------------------------
 # @suture:
 #   role:        "middleware-spine"
 #   priority:    {{ shield_priority }}

@@ -19,6 +19,8 @@
 #   python:      ["pydantic-settings>=2.2.1", "pydantic[email]>=2.6.0"]
 #   env:         ["ENVIRONMENT", "DEBUG", "SECRET_KEY", "DATABASE_URL"]
 # ------------------------------------------------------------------------------
+# @substrate:    { "agnostic": true }
+# ------------------------------------------------------------------------------
 # @ocular-ui:
 #   - choice(key="ENVIRONMENT", label="Reality Phase", options=["development", "staging", "production"])
 #   - toggle(key="DEBUG", label="Luminous Gaze (Debug)", default=true)

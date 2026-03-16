@@ -17,6 +17,8 @@
 #   node:        ["@clerk/nextjs", "@clerk/themes", "framer-motion"]
 #   env:         ["CLERK_SECRET_KEY", "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"]
 # ------------------------------------------------------------------------------
+# @substrate:    [python, node] 
+# ------------------------------------------------------------------------------
 # @ocular-ui:
 #   - toggle(key="strict_identity_hardening", label="Aegis Hardening", default=True)
 #   - slider(key="session_dilatation_hours", label="Temporal Persistence", min=1, max=168, default=24)

@@ -21,6 +21,9 @@
 #   - toggle(key="enable_auto_healing", label="Autonomic Reconstruction", default=true)
 #   - choice(key="scaling_policy", label="Metabolic Policy", options=["performance", "balanced", "efficiency"])
 # ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "governor": { "build": "infra/monitoring/governor" }, "traefik": { "image": "traefik:v3.0" } } }
+# ------------------------------------------------------------------------------
 # @metabolism:
 #   python:      ["docker", "requests", "rich", "pydantic"]
 #   env:         ["SERVICE_TARGET", "MAX_REPLICAS", "LATENCY_THRESHOLD", "PROMETHEUS_URL"]

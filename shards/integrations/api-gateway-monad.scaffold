@@ -19,6 +19,9 @@
 #   python:      ["httpx", "rich"]
 #   env:         ["PUBLIC_DOMAIN", "API_VESSEL", "UI_VESSEL", "API_PORT", "UI_PORT", "ACME_EMAIL"]
 # ------------------------------------------------------------------------------
+# @substrate:
+#   docker:      { "services": { "gateway": { "image": "caddy:2.7-alpine" } } }
+# ------------------------------------------------------------------------------
 # @ocular-ui:
 #   - toggle(key="enable_http3", label="Enable QUIC/HTTP3", default=true)
 #   - toggle(key="strict_security_headers", label="Hardened Perimeter", default=true)
