@@ -11,7 +11,7 @@
 #                Docker Iron, and Lifespan Metabolic Rites.
 # @vibe:         [postgres, docker, infrastructure, async, persistence, iron]
 # -----------------------------------------------------------------------------
-# @provides:     [capability:postgres-iron, capability:async-db-engine, capability:persistence-engine]
+# @provides:[capability:postgres-iron, capability:async-db-engine, capability:persistence-engine]
 # @requires:     [data/sqlalchemy-persistence-layer]
 # -----------------------------------------------------------------------------
 # @metabolism:

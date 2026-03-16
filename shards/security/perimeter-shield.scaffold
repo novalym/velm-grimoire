@@ -1,26 +1,26 @@
 # ==============================================================================
-# == GNOSTIC DNA SHARD: security/perimeter-shield
+# == GNOSTIC DNA SHARD: security/perimeter-shield (Ω-V4-GUILLOTINE)
 # ==============================================================================
 # @id:           security/perimeter-shield
-# @version:      3.5.0-Ω
+# @version:      4.0.0-Ω
 # @tier:         mind
-# @summary:      The Absolute Ingress Gate. Injects Trace IDs, measures metabolic 
-#                tax, and enforces Jurisprudence upon all incoming intent.
-# @vibe:[shield, trace, perimeter, middleware, observability, security]
+# @summary:      The Absolute Ingress Gate. Enforces the Metabolic Guillotine, 
+#                injects Trace IDs, and signs telemetry with Subtle-Crypto.
+# @vibe:         [shield, gatekeeper, metabolism, governor, forensic, high-status]
 # ------------------------------------------------------------------------------
-# @provides:[capability:perimeter-shield, capability:trace-injection]
-# @requires:     [capability:fastapi-core]
+# @provides:     [capability:perimeter-shield, capability:ingress-adjudicator]
+# @requires:     [capability:fastapi-core, capability:metabolic-governance]
 # ------------------------------------------------------------------------------
 # @ocular-ui:
 #   - toggle(key="strict_trace", label="Enforce Strict Tracing", default=false)
+#   - toggle(key="enable_guillotine", label="Metabolic Guillotine", default=true)
 #   - range(key="shield_priority", label="Middleware Priority", min=1, max=100, step=1, default=10)
 #   - color(key="aura_color", label="Telemetry Aura", default="#64ffda")
+#   - choice(key="log_depth", label="Forensic Depth", options=["minimal", "balanced", "forensic"])
 # ------------------------------------------------------------------------------
 # @metabolism:
-#   python:["fastapi", "starlette", "loguru", "cryptography"]
-#   env:["SCAFFOLD_ENV", "X_NOV_TRACE", "NODE_SECRET"]
-# ------------------------------------------------------------------------------
-# @substrate:    { "agnostic": false, "framework": "fastapi" }
+#   python:      ["fastapi", "starlette", "loguru", "cryptography"]
+#   env:         ["SCAFFOLD_ENV", "X_NOV_TRACE", "NODE_SECRET", "SCAFFOLD_METABOLIC_HALT"]
 # ------------------------------------------------------------------------------
 # @suture:
 #   role:        "middleware-spine"
@@ -29,10 +29,10 @@
 # ==============================================================================
 
 # --- I. THE ALTAR OF GNOSTIC WILL ---
-# [ASCENSION 1-4]: Alchemical Type Casting for strict logical adjudication.
 $$ project_slug = {{ project_slug | default("omega-citadel") }}
 $$ package_name = {{ package_name | default(project_slug | snake) }}
 $$ strict_trace = {{ strict_trace | cast('bool') | default(false) }}
+$$ use_guillotine = {{ enable_guillotine | cast('bool') | default(true) }}
 $$ aura_color   = {{ aura_color | default("#64ffda") }}
 $$ use_hmac     = {{ use_hmac | default(true) }}
 
@@ -46,6 +46,7 @@ import hmac
 import hashlib
 import os
 from fastapi import Request, HTTPException, status
+from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
@@ -55,19 +56,37 @@ Logger = logging.getLogger("Security:Perimeter")
 class ActiveDefenseMiddleware(BaseHTTPMiddleware):
     \"\"\"
     =============================================================================
-    == THE PERIMETER SHIELD (V-Ω-TOTALITY-VMAX-24-ASCENSIONS)                  ==
+    == THE PERIMETER SHIELD (V-Ω-TOTALITY-VMAX-48-ASCENSIONS)                  ==
     =============================================================================
     LIF: 1,000,000x | ROLE: FORENSIC_GATEKEEPER | RANK: OMEGA_SOVEREIGN
     AUTH: Ω_SHIELD_VMAX_SGF_PURIFIED_2026_FINALIS[THE MANIFESTO]
+    
     The supreme definitive authority for ingress adjudication. 
-    It righteously implements the **Bicameral Branching Suture**, 
-    mathematically annihilating the 'Unreachable Ghost' and 'Laminar Residue'.
+    It righteously implements the **Metabolic Guillotine**, 
+    mathematically annihilating the "Bankruptcy Drift" anomaly.
     \"\"\"
 
     async def dispatch(self, request: Request, call_next):
         # [ASCENSION 5]: Forensic Timing Start (Nanosecond Precision)
         start_ns = time.perf_counter_ns()
         
+        # --- MOVEMENT 0: THE METABOLIC GUILLOTINE ---
+        # [ASCENSION 25]: THE MASTER CURE (PHYSICAL HALT)
+        # We scry the environment DNA for the halt signal before any processing.
+        if "{{ use_guillotine | lower }}" == "true":
+            if os.getenv("SCAFFOLD_METABOLIC_HALT") == "1":
+                Logger.critical("🛑 [GUILLOTINE] Ingress Denied: Metabolic Exhaustion Threshold Breached.")
+                return JSONResponse(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    headers={"X-Aura-Resonance": "#ef4444", "X-Gnostic-Warning": "METABOLIC_EXHAUSTION"},
+                    content={
+                        "success": False,
+                        "error": "METABOLIC_EXHAUSTION",
+                        "message": "The Citadel has suspended reality due to metabolic bankruptcy.",
+                        "trace_id": "tr-halted"
+                    }
+                )
+
         # --- MOVEMENT I: THE SILVER CORD (TRACE INJECTION) ---
         # [ASCENSION 6]: Isomorphic Header Scrying
         trace_id = request.headers.get("X-Gnostic-Trace") or request.headers.get("X-Request-ID")
@@ -85,20 +104,17 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
                 )
             @else:
                 # [ASCENSION 8]: Achronal Trace ID Generation
-                # Generate a high-entropy 16-character trace for the session.
                 trace_id = f"tr-{uuid.uuid4().hex[:12].upper()}"
 
         # [ASCENSION 7]: Hydraulic Context Binding
-        # Suture the Trace into the Gnostic State and Request scope
         request.state.trace_id = trace_id
         
-        # [ASCENSION 13]: Subversion Ward (Prevent Trace Spoofing in internal logs)
+        # [ASCENSION 13]: Subversion Ward
         Logger.info(f"[{trace_id}] Ingress perceived: {request.method} {request.url.path}")
 
         # --- MOVEMENT II: THE RITE OF EXECUTION ---
         try:
             # [ASCENSION 20]: Fault-Isolated Middleware
-            #[STRIKE]: Execute the subsequent layers of the Mind
             response = await call_next(request)
         except Exception as e:
             # [ASCENSION 5]: Substrate-Aware Exception Unwrapping
@@ -107,7 +123,6 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
             raise e
         
         # --- MOVEMENT III: METABOLIC FINALITY ---
-        # [ASCENSION 3]: Forensic Tomography (Nanoseconds to Milliseconds)
         duration_ms = (time.perf_counter_ns() - start_ns) / 1_000_000
         
         # --- MOVEMENT IV: THE VEIL OF TRUTH (TELEMETRY) ---
@@ -115,8 +130,13 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
         response.headers["X-Gnostic-Trace"] = trace_id
         response.headers["X-Metabolic-Tax-MS"] = f"{duration_ms:.3f}"
         
-        #[ASCENSION 4]: Geometric Aura Mapping
-        response.headers["X-Aura-Resonance"] = "{{ aura_color }}"
+        # [ASCENSION 32]: Dynamic Aura Shifting
+        # aura shifts from willed color to amber if latency > 500ms
+        final_aura = "{{ aura_color }}"
+        if duration_ms > 500:
+            final_aura = "#f59e0b"
+        
+        response.headers["X-Aura-Resonance"] = final_aura
         
         # [ASCENSION 19]: Subtle-Crypto Intent Branding
         @if use_hmac:
@@ -138,23 +158,25 @@ class ActiveDefenseMiddleware(BaseHTTPMiddleware):
 """
 
 # --- III. THE MAESTRO'S WILL ---
-# [ASCENSION 24]: THE FINALITY VOW (MAESTRO NOTIFICATION)
+# [ASCENSION 24]: THE FINALITY VOW
 %% post-run
-    proclaim: "The [bold cyan]Perimeter Shield[/bold cyan] has achieved Convergence."
+    proclaim: "The [bold cyan]Perimeter Shield[/bold cyan] has achieved convergence."
+    proclaim: "Status: [bold green]ARMED[/bold green] with Metabolic Guillotine."
     proclaim: "Locus: [white]src/{{ package_name }}/middleware/shield.py[/]"
     
-    # [ASCENSION 6]: Socratic Trace Prophecy
+    # [ASCENSION 48]: HUD Radiation of Ingress Law
     @if strict_trace:
         proclaim: "Jurisprudence: [bold red]STRICT[/bold red] (Anonymous Intent Banned)"
     @else:
         proclaim: "Jurisprudence: [bold green]PERMISSIVE[/bold green] (Auto-ID Generation Active)"
 
-    # [ASCENSION 11]: Merkle-State Fingerprinting
+    @if use_guillotine:
+        proclaim: "Gov-Policy: [bold red]GUILLOTINE_ACTIVE[/bold red] (Auto-Halt on Budget Breach)"
+
     proclaim: "LIF-Multiplier: [bold green]1,000,000x (Total Forensic Visibility)[/]"
     proclaim: "Aura Resonance:[bold {{ aura_color }}]{{ aura_color }}[/]"
 
 # --- IV. THE REDEMPTION VOW ---
 %% on-heresy
     proclaim: "[bold red]Perimeter materialization fractured.[/bold red] Ingress remains unwarded."
-    # [ASCENSION 18]: Socratic Remediation
-    >> echo "DIAGNOSTIC: Ensure 'fastapi' and 'starlette' are manifest in your environment DNA."
+    >> echo "DIAGNOSTIC: Ensure 'fastapi', 'starlette', and 'cryptography' are manifest in your environment DNA."

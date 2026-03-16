@@ -40,7 +40,7 @@ from ..interfaces.base import ScaffoldResult
 
 Logger = logging.getLogger("Kernel:Engine")
 
-class ScaffoldEngine:
+class VelmEngine:
     \"\"\"
     =============================================================================
     == THE SCAFFOLD ENGINE (V-Ω-TOTALITY)                                      ==
@@ -95,7 +95,7 @@ class ScaffoldEngine:
             )
 
 # Global Singleton for the Mind
-engine = ScaffoldEngine()
+engine = VelmEngine()
 """
 
     # [ASCENSION 2]: THE ARTISAN CONTRACT
@@ -103,11 +103,11 @@ engine = ScaffoldEngine()
 from abc import ABC, abstractmethod
 from typing import Any, TYPE_CHECKING
 if TYPE_CHECKING:
-    from .engine import ScaffoldEngine
+    from .engine import VelmEngine
 
 class BaseArtisan(ABC):
     \"\"\"The Abstract Soul of an Artisan.\"\"\"
-    def __init__(self, engine: 'ScaffoldEngine'):
+    def __init__(self, engine: 'VelmEngine'):
         self.engine = engine
 
     @abstractmethod
